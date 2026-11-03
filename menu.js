@@ -40,12 +40,9 @@
   document.querySelectorAll('[data-menu]').forEach(button => button.addEventListener('click', () => {
     armed = true; lastBtn = button; sndOk(); show(button.dataset.menu);
   }));
-  // passar o mouse seleciona o item, igual ao teclado
-  buttons.forEach(b => b.addEventListener('mouseenter', () => {
-    if (document.activeElement !== b) { b.focus({preventScroll: true}); sndMove(); }
-  }));
+  buttons.forEach(b => b.addEventListener('mouseenter', sndMove));
   $('menuBack').addEventListener('click', () => { armed = true; sndMove(); home(); });
-  $('authScreen').addEventListener('menu-open', home);
+  $('authScreen').addEventListener('menu-open', () => { $('menuHome').hidden = false; $('menuPanel').hidden = true; });
   $('menuTheme').addEventListener('click', () => { $('themeToggle').click(); updateTheme(); });
   document.addEventListener('pointerdown', () => { armed = true; }, {once: true});
 
@@ -60,6 +57,4 @@
     buttons[n].focus({preventScroll: true}); sndMove();
   });
 
-  // seleção inicial quando a tela do menu já está aberta
-  if (!$('authScreen').hidden && buttons[0]) buttons[0].focus({preventScroll: true});
 })();
