@@ -382,6 +382,7 @@
       }
       $('savedProfiles').hidden=profiles.length===0;
       $('authScreen').hidden=false;
+      $('authScreen').dispatchEvent(new Event('menu-open'));
       $('newProfileName').value='';
     }
     createProfile(name, preloaded = null) {
