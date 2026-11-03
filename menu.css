@@ -82,3 +82,27 @@
   color:#fff0d6;outline:0;box-shadow:none;filter:none;
 }
 @media(max-width:700px){.hw-menu .hw-btn{min-height:54px;font-size:15px;padding:8px 30px}}
+
+.hw-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hw-scene svg{position:absolute;display:block;max-width:none}
+.hw-fire-glow{animation:hw-fire-flicker 1.8s ease-in-out infinite alternate;mix-blend-mode:screen}
+@keyframes hw-fire-flicker{0%,100%{opacity:.4}22%{opacity:.8}45%{opacity:.5}68%{opacity:1}}
+.hw-scene.is-paused .hw-fire-glow{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.hw-scene g,.hw-fire-glow{display:none}}
+
+/* Duas artes completas: cinza em repouso e vermelha na seleção. */
+.hw-menu .hw-btn,.hw-menu .hw-start,.hw-menu .hw-btn:hover,.hw-menu .hw-btn:focus-visible {
+  position:relative;isolation:isolate;background:none;filter:none;
+}
+.hw-menu .hw-btn::before,.hw-menu .hw-btn::after {
+  content:"";display:block;position:absolute;inset:0;z-index:-1;pointer-events:none;
+  width:auto;height:auto;border:0;transform:none;clip-path:none;
+  background:transparent url('assets/menu/botoes/botao-cinza.svg') center/100% 100% no-repeat;
+}
+.hw-menu .hw-btn::before{opacity:1}
+.hw-menu .hw-btn::after {
+  background-image:url('assets/menu/botoes/botao-vermelho.svg');
+  opacity:0;transition:opacity .22s ease-in-out;
+}
+.hw-menu .hw-btn:hover::after,.hw-menu .hw-btn:focus-visible::after{opacity:1}
+@media(prefers-reduced-motion:reduce){.hw-menu .hw-btn::after{transition:none}}
