@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="ui.css?v=9.0">
   <link rel="stylesheet" href="hud-hellward.css?v=1.0">
   <link rel="stylesheet" href="hud-grim.css?v=1.0">
+  <link rel="stylesheet" href="menu.css?v=1">
+  <script src="menu.js?v=1" defer></script>
   <script src="item-catalog.js?v=7.0" defer></script>
   <script src="game.js?v=9.2" defer></script>
   <script src="parallax.js?v=8.1" defer></script>
@@ -103,7 +105,32 @@
     <footer class="site-footer"><span>✧ HELLWARD · EDIÇÃO ETERNA</span><span>JOGO LOCAL · SEM SERVIDOR · SALVO NO SEU NAVEGADOR</span><div class="footer-buttons"><button type="button" id="exportSave">↓ EXPORTAR JSON</button><button type="button" id="importSave">↑ IMPORTAR JSON</button></div></footer>
   </div>
 
-  <div class="auth-screen" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="auth-glow"></div><div class="auth-card"><div class="auth-sigil">✥</div><div class="auth-overline">UM MUNDO ESQUECIDO AGUARDA</div><h1 id="authTitle"><em>Hellward</em></h1><p>Forje sua lenda. Desafie a escuridão. Renasça além da morte.</p><div class="auth-divider"><span>✧</span></div><form id="createProfileForm"><label for="newProfileName">NOME DO AVENTUREIRO</label><div class="auth-create-row"><input id="newProfileName" name="name" maxlength="18" autocomplete="off" placeholder="Como será chamada sua lenda?" required><button type="submit" class="primary-button">INICIAR JORNADA ↗</button></div></form><div class="auth-saved" id="savedProfiles" hidden><div class="saved-heading">OU CONTINUE SUA JORNADA</div><div id="profileList" class="profile-list"></div></div><div class="auth-bottom"><span>Os seus dados permanecem neste dispositivo.</span><button type="button" id="importFromAuth">IMPORTAR UM SAVE ↥</button></div></div><div class="auth-footnote">✦ &nbsp; NENHUMA CONTA ONLINE OU SENHA NECESSÁRIA &nbsp; ✦</div></div>
+  <div class="auth-screen hw-menu" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="hw-shell">
+      <img class="hw-logo" src="assets/menu/logo/hellward_logo.png" alt="Hellward">
+      <h1 id="authTitle" class="sr-only">Menu principal do Hellward</h1>
+      <img class="hw-subtitle" src="assets/menu/logo/subtitulo.png" alt="Um mundo esquecido aguarda">
+      <nav id="menuHome" class="hw-buttons" aria-label="Menu principal">
+        <button data-menu="new" class="hw-btn hw-start">Iniciar jornada</button>
+        <button data-menu="continue" class="hw-btn">Continuar</button>
+        <button data-menu="load" class="hw-btn">Carregar jogo</button>
+        <button data-menu="settings" class="hw-btn">Configurações</button>
+        <button data-menu="credits" class="hw-btn">Créditos</button>
+        <button data-menu="exit" class="hw-btn">Sair</button>
+      </nav>
+      <section id="menuPanel" class="hw-panel" hidden aria-live="polite">
+        <h2 id="menuPanelTitle"></h2>
+        <div id="menuNew" hidden><form id="createProfileForm"><label for="newProfileName">Nome do aventureiro</label><input id="newProfileName" name="name" maxlength="18" minlength="2" autocomplete="off" required placeholder="Como será chamada sua lenda?"><button type="submit" class="hw-action">Começar jornada</button></form></div>
+        <div id="menuContinue" hidden><p>Escolha uma jornada salva neste navegador.</p><div id="savedProfiles" hidden><div id="profileList" class="profile-list"></div></div><p id="noProfiles">Nenhuma jornada salva neste navegador.</p></div>
+        <div id="menuLoad" hidden><p>Importe um backup JSON do Hellward V7 para criar um perfil neste navegador.</p><button type="button" id="importFromAuth" class="hw-action">Importar save</button></div>
+        <div id="menuSettings" hidden><p>Escolha a aparência da interface durante o jogo.</p><button type="button" id="menuTheme" class="hw-action"></button><p>As preferências são salvas neste navegador.</p></div>
+        <div id="menuCredits" hidden><p>HELLWARD · Idle RPG de fantasia sombria</p><p>Um mundo esquecido aguarda.</p></div>
+        <div id="menuExit" hidden><p>Para sair do jogo, feche esta aba do navegador. Seu progresso é salvo automaticamente.</p></div>
+        <button type="button" id="menuBack" class="hw-back">← Voltar ao menu</button>
+      </section>
+      <small class="hw-note">O progresso é salvo neste navegador.</small>
+    </div>
+  </div>
   <div class="modal-backdrop" id="dialogBackdrop" hidden><section class="dialog panel" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><div class="dialog-icon" id="dialogIcon">✦</div><div class="eyebrow" id="dialogEyebrow">CRÔNICA</div><h2 id="dialogTitle">A jornada continua</h2><p id="dialogText"></p><div class="dialog-actions" id="dialogActions"></div></section></div>
   <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
   <input type="file" id="saveFileInput" accept=".json,application/json" hidden>
