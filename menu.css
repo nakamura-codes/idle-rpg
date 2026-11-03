@@ -75,3 +75,25 @@
 /* O cenário não possui mais painel desenhado. */
 .hw-menu .hw-shell { background: transparent; }
 .hw-menu .hw-shell::before, .hw-menu .hw-shell::after { display: none; }
+
+/* Botões sem artefatos dos recortes originais. */
+.hw-menu .hw-btn, .hw-menu .hw-start {
+  isolation:isolate; position:relative; overflow:visible;
+  background:linear-gradient(180deg,#bda06b 0%,#533d28 22%,#a88b5c 48%,#3d3025 80%,#ba9b67 100%);
+  clip-path:polygon(8% 0,92% 0,96% 24%,100% 50%,96% 76%,92% 100%,8% 100%,4% 76%,0 50%,4% 24%);
+  border:0; outline:0; box-shadow:none; color:#dfd0b4;
+  text-shadow:0 2px 3px #000; transition:filter .18s,color .18s;
+}
+.hw-menu .hw-btn::before {
+  display:block; content:""; position:absolute; z-index:-1; inset:2px;
+  clip-path:polygon(8% 0,92% 0,96% 24%,100% 50%,96% 76%,92% 100%,8% 100%,4% 76%,0 50%,4% 24%);
+  background:linear-gradient(180deg,#45413d,#252322 35%,#141312 60%,#35312d);
+  opacity:1; transition:background .18s;
+}
+.hw-menu .hw-btn::after{display:none}
+.hw-menu .hw-btn:hover, .hw-menu .hw-btn:focus-visible {
+  outline:0; filter:brightness(1.18) drop-shadow(0 0 6px #9a321c); color:#fff0d6;
+}
+.hw-menu .hw-btn:hover::before, .hw-menu .hw-btn:focus-visible::before {
+  background:linear-gradient(180deg,#8d281c,#57110d 38%,#2c0908 65%,#71180f);
+}
