@@ -64,3 +64,10 @@
   .hw-menu::before,.hw-shell{animation:none}
   .hw-btn,.hw-btn::before,.hw-btn::after{transition:none}
 }
+
+/* Molduras da HUD original, com seleção visível também pelo teclado. */
+.hw-menu .hw-shell{background:radial-gradient(ellipse at center,rgba(12,8,8,.9) 42%,rgba(12,8,8,.66) 72%,transparent 100%)}
+.hw-menu .hw-btn{background:transparent url('assets/menu/botoes/continuar_sem_texto.png') center/100% 100% no-repeat;border:0;box-shadow:none;min-height:53px;color:#d7c4a2;letter-spacing:.06em;text-transform:uppercase;outline:none}
+.hw-menu .hw-start{background-image:url('assets/menu/botoes/iniciar_jornada_sem_texto.png')}
+.hw-menu .hw-btn::before,.hw-menu .hw-btn::after{display:none}
+.hw-menu .hw-btn:hover,.hw-menu .hw-btn:focus-visible{color:#fff0cf;filter:brightness(1.35) drop-shadow(0 0 8px #b65c25);outline:2px solid #d5a65f;outline-offset:2px}
