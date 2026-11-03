@@ -109,3 +109,14 @@
 @keyframes hw-in{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @media(max-width:700px){.hw-menu{background-position:65% center}.hw-menu .hw-logo{width:min(100%,380px)}}
 @media(prefers-reduced-motion:reduce){.hw-menu::before,.hw-menu .hw-shell{animation:none}}
+
+/* Sombra suave sobre cenário e HUD, sem capturar cliques. */
+.hw-menu::after{z-index:3;background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),radial-gradient(ellipse at 35% 50%,transparent 30%,rgba(0,0,0,.78) 100%)}
+/* A escala é calculada apenas quando o tamanho ou conteúdo muda. */
+.hw-menu{height:100vh;height:100dvh;overflow:hidden;padding:12px 7%;box-sizing:border-box}
+.hw-menu .hw-shell{flex:none;box-sizing:border-box;padding:12px 24px;transform:scale(var(--hw-fit,1));transform-origin:right center;animation:hw-menu-fade 1s ease-out both}
+.hw-menu .hw-note{margin-top:10px}
+@keyframes hw-menu-fade{from{opacity:0}to{opacity:1}}
+html.hw-menu-open,html.hw-menu-open body{overflow:hidden}
+@media(max-width:700px){.hw-menu{padding:10px 12px}.hw-menu .hw-shell{padding:10px 16px;transform-origin:center center}}
+@media(prefers-reduced-motion:reduce){.hw-menu .hw-shell{animation:none}}
