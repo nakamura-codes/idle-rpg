@@ -42,7 +42,7 @@
   }));
   buttons.forEach(b => b.addEventListener('mouseenter', sndMove));
   $('menuBack').addEventListener('click', () => { armed = true; sndMove(); home(); });
-  $('authScreen').addEventListener('menu-open', home);
+  $('authScreen').addEventListener('menu-open', () => { $('menuHome').hidden = false; $('menuPanel').hidden = true; });
   $('menuTheme').addEventListener('click', () => { $('themeToggle').click(); updateTheme(); });
   document.addEventListener('pointerdown', () => { armed = true; }, {once: true});
 
