@@ -1,6 +1,6 @@
 /* ===== Tela do menu ===== */
 .hw-menu[hidden], .hw-menu [hidden]{display:none!important}
-.hw-menu{position:fixed;inset:0;z-index:1000;overflow:auto;display:flex;align-items:center;justify-content:flex-end;padding:24px 7%;background:#100e0d url('assets/menu/cenario/fundo-livre.jpg') center/cover no-repeat;color:#e8d6b4}
+.hw-menu{position:fixed;inset:0;z-index:1000;overflow:auto;display:flex;align-items:center;justify-content:flex-end;padding:24px 7%;background:#100e0d url('assets/menu/cenario/cenario-cavaleiro.jpg') center/cover no-repeat;color:#e8d6b4}
 
 /* brasas subindo (só CSS) */
 .hw-menu::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.6;
@@ -100,20 +100,12 @@
 .hw-menu .hw-btn:hover::after,.hw-menu .hw-btn:focus-visible::after{opacity:1}
 @media(prefers-reduced-motion:reduce){.hw-menu .hw-btn::after{transition:none}}
 
-/* Cached patches move on compositor layers; no per-frame SVG noise filters. */
-.hw-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;contain:strict}
-.hw-scene-stage{position:absolute;width:1672px;height:941px;transform-origin:0 0}
-.hw-scene-patch{position:absolute;background-image:url('assets/menu/cenario/fundo-livre.jpg');background-size:1672px 941px;background-repeat:no-repeat;will-change:transform}
-.hw-scene-clouds{mask-image:radial-gradient(ellipse,black 45%,transparent 72%);animation:hw-cloud-slide 48s ease-in-out infinite alternate}
-.hw-scene-banner{transform-origin:30px 20px;clip-path:polygon(17% 5%,92% 10%,77% 48%,64% 65%,52% 81%,39% 94%,32% 96%,35% 81%,22% 88%,29% 72%,17% 76%,22% 61%,8% 65%,15% 50%,6% 54%,14% 39%,7% 37%);animation:hw-cloth-sway 5s ease-in-out infinite alternate}
-.hw-scene-flames{mask-image:radial-gradient(ellipse,black 35%,transparent 70%);transform-origin:50% 90%;animation:hw-flame-sway 1.4s ease-in-out infinite alternate}
-.hw-scene-glow{position:absolute;left:371px;top:609px;width:350px;height:270px;background:radial-gradient(ellipse,rgba(255,148,30,.18),transparent 70%);animation:hw-light-pulse 1.8s ease-in-out infinite alternate;will-change:opacity}
-@keyframes hw-cloud-slide{from{transform:translate3d(-3px,0,0)}to{transform:translate3d(6px,1px,0)}}
-@keyframes hw-cloth-sway{from{transform:skewX(-.25deg)}to{transform:skewX(.3deg)}}
-@keyframes hw-flame-sway{from{transform:scale3d(.99,.99,1)}to{transform:scale3d(1.01,1.015,1)}}
-@keyframes hw-light-pulse{0%,100%{opacity:.4}22%{opacity:.8}45%{opacity:.5}68%{opacity:1}}
+
+/* Menu à direita, voltado para a abertura do novo cenário. */
+.hw-menu{background-position:center center}
+.hw-menu .hw-logo{display:block;width:min(100%,460px);height:auto;opacity:1}
 .hw-menu::before{inset:-60px 0;animation:hw-embers-composite 22s linear infinite;will-change:transform}
 @keyframes hw-embers-composite{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-60px,0)}}
 @keyframes hw-in{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-.hw-scene.is-paused .hw-scene-patch,.hw-scene.is-paused .hw-scene-glow,.hw-motion-paused::before{animation-play-state:paused}
-@media(prefers-reduced-motion:reduce){.hw-scene{display:none}.hw-menu::before,.hw-menu .hw-shell{animation:none}}
+@media(max-width:700px){.hw-menu{background-position:65% center}.hw-menu .hw-logo{width:min(100%,380px)}}
+@media(prefers-reduced-motion:reduce){.hw-menu::before,.hw-menu .hw-shell{animation:none}}
