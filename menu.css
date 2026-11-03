@@ -70,7 +70,7 @@
 .hw-menu .hw-shell{background:transparent}
 .hw-menu .hw-shell::before,.hw-menu .hw-shell::after{display:none}
 .hw-menu .hw-btn,.hw-menu .hw-start{
-  background:transparent url('assets/menu/botoes/botao-cinza.svg') center/100% 100% no-repeat;
+  background:transparent url('assets/menu/botoes/botao-cinza.png') center/100% 100% no-repeat;
   border:0;box-shadow:none;outline:0;clip-path:none;
   min-height:60px;padding:10px 40px;color:#dfd0b4;letter-spacing:.06em;
   text-transform:uppercase;text-shadow:0 2px 3px #000;
@@ -78,17 +78,10 @@
 }
 .hw-menu .hw-btn::before,.hw-menu .hw-btn::after{display:none}
 .hw-menu .hw-btn:hover,.hw-menu .hw-btn:focus-visible{
-  background-image:url('assets/menu/botoes/botao-vermelho.svg');
+  background-image:url('assets/menu/botoes/botao-vermelho.png');
   color:#fff0d6;outline:0;box-shadow:none;filter:none;
 }
 @media(max-width:700px){.hw-menu .hw-btn{min-height:54px;font-size:15px;padding:8px 30px}}
-
-.hw-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.hw-scene svg{position:absolute;display:block;max-width:none}
-.hw-fire-glow{animation:hw-fire-flicker 1.8s ease-in-out infinite alternate;mix-blend-mode:screen}
-@keyframes hw-fire-flicker{0%,100%{opacity:.4}22%{opacity:.8}45%{opacity:.5}68%{opacity:1}}
-.hw-scene.is-paused .hw-fire-glow{animation-play-state:paused}
-@media(prefers-reduced-motion:reduce){.hw-scene g,.hw-fire-glow{display:none}}
 
 /* Duas artes completas: cinza em repouso e vermelha na seleção. */
 .hw-menu .hw-btn,.hw-menu .hw-start,.hw-menu .hw-btn:hover,.hw-menu .hw-btn:focus-visible {
@@ -97,12 +90,30 @@
 .hw-menu .hw-btn::before,.hw-menu .hw-btn::after {
   content:"";display:block;position:absolute;inset:0;z-index:-1;pointer-events:none;
   width:auto;height:auto;border:0;transform:none;clip-path:none;
-  background:transparent url('assets/menu/botoes/botao-cinza.svg') center/100% 100% no-repeat;
+  background:transparent url('assets/menu/botoes/botao-cinza.png') center/100% 100% no-repeat;
 }
 .hw-menu .hw-btn::before{opacity:1}
 .hw-menu .hw-btn::after {
-  background-image:url('assets/menu/botoes/botao-vermelho.svg');
+  background-image:url('assets/menu/botoes/botao-vermelho.png');
   opacity:0;transition:opacity .22s ease-in-out;
 }
 .hw-menu .hw-btn:hover::after,.hw-menu .hw-btn:focus-visible::after{opacity:1}
 @media(prefers-reduced-motion:reduce){.hw-menu .hw-btn::after{transition:none}}
+
+/* Cached patches move on compositor layers; no per-frame SVG noise filters. */
+.hw-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;contain:strict}
+.hw-scene-stage{position:absolute;width:1672px;height:941px;transform-origin:0 0}
+.hw-scene-patch{position:absolute;background-image:url('assets/menu/cenario/fundo-livre.jpg');background-size:1672px 941px;background-repeat:no-repeat;will-change:transform}
+.hw-scene-clouds{mask-image:radial-gradient(ellipse,black 45%,transparent 72%);animation:hw-cloud-slide 48s ease-in-out infinite alternate}
+.hw-scene-banner{transform-origin:30px 20px;clip-path:polygon(17% 5%,92% 10%,77% 48%,64% 65%,52% 81%,39% 94%,32% 96%,35% 81%,22% 88%,29% 72%,17% 76%,22% 61%,8% 65%,15% 50%,6% 54%,14% 39%,7% 37%);animation:hw-cloth-sway 5s ease-in-out infinite alternate}
+.hw-scene-flames{mask-image:radial-gradient(ellipse,black 35%,transparent 70%);transform-origin:50% 90%;animation:hw-flame-sway 1.4s ease-in-out infinite alternate}
+.hw-scene-glow{position:absolute;left:371px;top:609px;width:350px;height:270px;background:radial-gradient(ellipse,rgba(255,148,30,.18),transparent 70%);animation:hw-light-pulse 1.8s ease-in-out infinite alternate;will-change:opacity}
+@keyframes hw-cloud-slide{from{transform:translate3d(-3px,0,0)}to{transform:translate3d(6px,1px,0)}}
+@keyframes hw-cloth-sway{from{transform:skewX(-.25deg)}to{transform:skewX(.3deg)}}
+@keyframes hw-flame-sway{from{transform:scale3d(.99,.99,1)}to{transform:scale3d(1.01,1.015,1)}}
+@keyframes hw-light-pulse{0%,100%{opacity:.4}22%{opacity:.8}45%{opacity:.5}68%{opacity:1}}
+.hw-menu::before{inset:-60px 0;animation:hw-embers-composite 22s linear infinite;will-change:transform}
+@keyframes hw-embers-composite{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-60px,0)}}
+@keyframes hw-in{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+.hw-scene.is-paused .hw-scene-patch,.hw-scene.is-paused .hw-scene-glow,.hw-motion-paused::before{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.hw-scene{display:none}.hw-menu::before,.hw-menu .hw-shell{animation:none}}
