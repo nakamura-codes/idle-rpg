@@ -85,7 +85,7 @@
     {id: 'focus', icon: '✧', title: 'Olhar do Predador', desc: 'Aprimora a precisão dos seus ataques críticos.', base: 110, growth: 1.23, effect: '+0,7% de crítico por nível'},
     {id: 'vitality', icon: '♥', title: 'Vigor do Errante', desc: 'Aumenta a vida máxima do herói.', base: 24, growth: 1.16, effect: '+35 pontos de vida por nível'},
     {id: 'guard', icon: '⛨', title: 'Postura Defensiva', desc: 'Reduz o dano sofrido de criaturas e chefões.', base: 35, growth: 1.19, effect: '+2,5 de defesa por nível'},
-    {id: 'recovery', icon: '✚', title: 'Sangue Renovado', desc: 'Restaura vida a cada segundo em combate.', base: 55, growth: 1.21, effect: '+0,65 de vida/segundo por nível'}
+    {id: 'recovery', icon: '✚', title: 'Sangue Renovado', desc: 'Fortalece a recuperação natural. A presença de elites limita a cura passiva; poções mantêm sua força.', base: 55, growth: 1.21, effect: '+0,65 de regeneração natural/s por nível'}
   ];
   const SKILL_PATHS = [
     {id: 'warrior', name: 'Caminho do Guerreiro', subtitle: 'FORÇA • PRECISÃO • PODER', icon: '⚔'},
@@ -209,7 +209,7 @@
     return Math.max(1,Math.floor(multiply(base,kind==='boss'?18:kind==='miniboss'?9:1)));
   };
   // Real-time attacks use absolute timestamps. Background/offline combat stays safe.
-  const enemyAttackInterval = (mob) => mob.kind==='boss' ? 3600 : mob.kind==='miniboss' ? 3050 : 2750;
+  const enemyAttackInterval = (mob) => mob.kind==='boss' ? 2000 : mob.kind==='miniboss' ? 2200 : 2400;
   const enemyBaseDamage = (s) => {
     const kind=s.mob.kind;
     const elite=kind==='boss'||kind==='miniboss';
@@ -221,6 +221,13 @@
     // Defense remains useful, but cannot erase an elite's attack indefinitely.
     const minimum=kind==='boss'?.25:kind==='miniboss'?.15:0;
     return Math.max(1,Math.round(enemyBaseDamage(s)*Math.max(minimum,armorScale/(armorScale+Math.max(0,defense)))));
+  };
+  const combatRegeneration = (s,natural) => {
+    if(s.mob.kind!=='boss' && s.mob.kind!=='miniboss')return natural;
+    // Elite pressure has a fixed regional budget, independent of the player's gear.
+    // Soft saturation keeps each recovery upgrade useful without passive immortality.
+    const budget=enemyBaseDamage(s)*.075/(enemyAttackInterval(s.mob)/1000);
+    return natural/(1+natural/budget);
   };
   const freshMob = (s,previousName='') => {
     const zone=ZONES[s.zone],progress=progressAt(s);
@@ -277,7 +284,7 @@
     s.rebirths = integer(raw.rebirths,0,0,1e8);
     s.heroHp=number(raw.heroHp,110,0,1e12);
     s.deadUntil=integer(raw.deadUntil,0,0,now()+8000);
-    s.nextEnemyAttackAt=now()+2750;
+    s.nextEnemyAttackAt=now()+2400;
     for (const x of UPGRADES) s.upgrades[x.id] = integer(raw.upgrades?.[x.id],0,0,MAX_RANK);
     for (const x of SKILLS) s.skills[x.id] = integer(raw.skills?.[x.id],0,0,x.max);
     if (Array.isArray(raw.zoneKills)) s.zoneKills = ZONES.map((_,i)=>integer(raw.zoneKills[i],0,0,1e10));
@@ -348,6 +355,7 @@
     // Apply trusted max health after rebuilding inventory and equipped stats.
     s.heroHp=Math.min(s.heroHp,heroMaxHp(s));
     if (s.heroHp<=0 && !s.deadUntil) s.deadUntil=now()+8000;
+    s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
     s.lastEventAt = integer(raw.lastEventAt,0,0,now());
     s.nextEventAt = integer(raw.nextEventAt,now()+randEventDelay(),0,now()+120000);
     if (raw.event && ['goblin','chest'].includes(raw.event.type) && number(raw.event.expiresAt)>now()) {
@@ -616,8 +624,9 @@
       const drop=Math.min(.05,.02+Math.max(0,luck)*.012);
       const maxHp=heroMaxHp(s);
       const defense=Math.max(0,3+(s.level-1)*.28+s.upgrades.guard*2.5+s.attributes.guard+eq.defense);
-      const regen=Math.max(.2,.55+maxHp*.0025+s.upgrades.recovery*.65);
-      return {click,dps,crit,critDamage,luck,gold,drop,maxHp,defense,regen,offline:.6*(1+s.skills.s2*.12),eventDamage:1+s.skills.w4*.35};
+      const regenNatural=Math.max(.2,.55+maxHp*.0025+s.upgrades.recovery*.65);
+      const regen=combatRegeneration(s,regenNatural);
+      return {click,dps,crit,critDamage,luck,gold,drop,maxHp,defense,regen,regenNatural,offline:.6*(1+s.skills.s2*.12),eventDamage:1+s.skills.w4*.35};
     }
     awardGold(amount) {
       const value=number(amount);
@@ -1275,7 +1284,11 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       attr('heroHealthProgress','aria-valuetext',`${fmt(Math.ceil(hp))} de ${fmt(b.maxHp)} pontos de vida`);
       const potionKey=`${s.inventory.length}|${s.inventory.filter(x=>x.kind==='potion').map(x=>x.id+':'+x.qty).join(',')}|${deadForPotion(s,b)}`;
       if(this.potionRenderKey!==potionKey){this.potionRenderKey=potionKey;this.renderQuickPotion();}
-      text('heroRegeneration',`+${fmt(b.regen,1)}/s`);
+      const regenText=`+${fmt(b.regen,1)}/s`,naturalRegenText=`+${fmt(b.regenNatural,1)}/s`;
+      text('heroRegeneration',regenText);
+      attr('heroRegeneration','title',`Recuperação atual: ${regenText}. Natural: ${naturalRegenText}.${s.mob.kind==='normal'?'':' A presença de elites limita a cura passiva.'}`);
+      text('combatRegen',regenText);
+      text('naturalRegen',naturalRegenText);
       text('defenseStat',fmt(b.defense,1));
       text('hpStat',fmt(b.maxHp));
       const dead=Boolean(s.deadUntil);

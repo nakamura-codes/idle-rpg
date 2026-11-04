@@ -3,10 +3,11 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),asse
 const root=path.resolve(__dirname,'..');let seed=123456;
 const math=Object.create(Math);math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
 const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{textContent:'',hidden:true,style:{},classList:{add(){},remove(){}},setAttribute(){}});return nodes.get(id);};
-const context={window:{},Math:math,Date,crypto:require('node:crypto').webcrypto,document:{addEventListener(){},getElementById:node}};
+let clock=Date.now();class ClockDate extends Date{static now(){return clock;}}
+const context={window:{},Math:math,Date:ClockDate,crypto:require('node:crypto').webcrypto,document:{visibilityState:'visible',addEventListener(){},getElementById:node}};
 vm.createContext(context);
 for(const file of ['item-catalog.js','game-art.js'])vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),context);
-vm.runInContext(fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  globalThis.api={Game,newState,normalizeSave,freshMob,enemyBaseDamage,enemyHitDamage,unlockedZone,RARE_DROP_LIMIT};'),context);
+vm.runInContext(fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  globalThis.api={Game,newState,normalizeSave,freshMob,enemyBaseDamage,enemyHitDamage,enemyAttackInterval,combatRegeneration,unlockedZone,RARE_DROP_LIMIT};'),context);
 const api=context.api;
 function game(){const g=Object.create(api.Game.prototype);g.state=api.newState('Balance');g.tab='upgrades';for(const key of ['renderCore','renderPanel','renderEverything','renderEvent','save','toast','addLog','floatHeroNumber'])g[key]=()=>{};g.state.lastEventAt=Date.now()+1e10;return g;}
 const originalRandom=math.random;
@@ -22,6 +23,42 @@ for(let z=0;z<6;z++){
 }
 assert.ok(damage[5].defense600>damage[0].defense600*5);
 console.log('PASS boss armor floor, useful defense, increasing late-region damage, and no damage scaling with player health');
+// Recovery keeps its normal value on common foes and has smooth, gear-independent
+// saturation against elites. More recovery always helps; armor never lowers healing.
+for(let zone=0;zone<6;zone++){
+ const g=game(),s=g.state;s.zone=zone;s.zoneProgress[zone].stage=10;
+ for(const kind of ['normal','miniboss','boss']){
+  s.mob={...s.mob,kind};
+  assert.equal(api.enemyAttackInterval(s.mob),kind==='boss'?2000:kind==='miniboss'?2200:2400);
+  let last=0;
+  for(const natural of [.8,5,30,200,1000000]){
+   const recovery=api.combatRegeneration(s,natural);assert.ok(recovery>last&&recovery<=natural);last=recovery;
+   if(kind==='normal')assert.equal(recovery,natural);
+   else{
+    for(const defense of [0,100,600,100000000]){
+     const incoming=api.enemyHitDamage(s,defense)/(api.enemyAttackInterval(s.mob)/1000);
+     assert.ok(recovery<incoming*(kind==='boss'?.33:.56),'Elite regeneration must not cancel sustained damage');
+    }
+   }
+  }
+ }
+}
+// Exercise the actual 100 ms simulation and attack scheduler, not just formulas.
+{const g=game(),s=g.state;s.zone=3;s.zoneProgress[3].stage=10;s.zoneProgress[3].kills=10;s.mob=api.freshMob(s);s.level=60;s.upgrades.vitality=100;s.upgrades.recovery=30;
+ s.inventory=[{id:'armor',kind:'equipment',slot:'armor',stats:{click:0,dps:0,crit:0,gold:0,luck:0,health:0,defense:600}}];s.equipment.armor='armor';
+ const b=g.bonuses();assert.ok(b.regenNatural>30&&b.regen<8);
+ s.upgrades.recovery++;assert.ok(g.bonuses().regen>b.regen);s.upgrades.recovery--;
+ const natural=api.combatRegeneration(s,30);s.inventory[0].stats.defense=1200;assert.equal(api.combatRegeneration(s,30),natural);s.inventory[0].stats.defense=600;
+ s.heroHp=b.maxHp*.7;const start=s.heroHp;s.nextEnemyAttackAt=clock+2000;s.nextEventAt=clock+1e10;g.lastFrameAt=clock;
+ let hits=0;const strike=g.enemyStrike;g.enemyStrike=function(){hits++;strike.call(this);};
+ for(let i=0;i<600;i++){clock+=100;g.stepClock();}
+ assert.equal(hits,30);assert.ok(s.heroHp<start-1000&&s.heroHp>0,'Boss pressure must deplete HP despite high natural regeneration');
+ const expected=start+b.regen*60-api.enemyHitDamage(s,b.defense)*30;assert.ok(Math.abs(s.heroHp-expected)<.001);
+ const oldHp=s.heroHp,potion=context.window.HELLWARD_ITEMS.find(d=>d.tipo==='poção'&&d.regiao==='Fortaleza de Ferro');assert.ok(potion);
+ s.inventory.push({id:'heal',catalogId:potion.id,name:potion.nome,kind:'potion',qty:1,createdAt:clock});g.usePotion('heal');assert.ok(s.heroHp>oldHp+1000,'Potions retain full healing');
+ g.setHuntMode(3);assert.equal(g.bonuses().regen,g.bonuses().regenNatural);
+ console.log('PASS 60-second boss simulation: 30 attacks, sustained HP loss, useful recovery upgrades, unchanged potions and full recovery on common foes');
+}
 // Ordinary foes retain the old formula, keeping a safe place to train.
 {const g=game();for(const d of [0,30,300,3000])assert.equal(api.enemyHitDamage(g.state,d),Math.max(1,Math.round(api.enemyBaseDamage(g.state)*100/(100+d*4))));}
 // A guaranteed good item must arrive even with the worst possible random rolls.
