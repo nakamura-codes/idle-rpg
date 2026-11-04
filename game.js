@@ -51,6 +51,14 @@
     {name: 'Fendas Infernais', subtitle: 'Onde os pactos são escritos em brasas.', names: ['Arauto das Chamas', 'Demônio Carmesim', 'Flagelo Abissal', 'Súcubo das Cinzas', 'Sombra Incandescente'], miniboss:'Devorador Mórbido', boss:'Dragão das Fendas', level: 38, kills: 300, rune: 'V', art: 'demon'},
     {name: 'Trono do Crepúsculo', subtitle: 'O fim de toda luz. O início de outra era.', names: ['Lich Imortal', 'Rei das Sombras', 'Devorador de Estrelas', 'Sacerdote do Vazio', 'Arauto do Eclipse'], miniboss:'Medusa do Eclipse', boss:'Imperador do Crepúsculo', level: 60, kills: 600, rune: 'VI', art: 'lich'}
   ];
+  const ATTRIBUTES = [
+    {id:'strength',name:'Força',effect:'+2 de dano por clique'},
+    {id:'will',name:'Vontade',effect:'+1 de dano por segundo'},
+    {id:'vitality',name:'Vitalidade',effect:'+15 de vida máxima'},
+    {id:'guard',name:'Resistência',effect:'+1 de defesa'}
+  ];
+  const attributeBudget = s => Math.max(0, (s.level - 1) * 2);
+  const attributePoints = s => Math.max(0, attributeBudget(s) - ATTRIBUTES.reduce((sum,a) => sum + (s.attributes?.[a.id] || 0), 0));
   const UPGRADES = [
     {id: 'strike', icon: '⚔', title: 'Lâmina Afiada', desc: 'Reforce os golpes para causar mais dano a cada clique.', base: 12, growth: 1.16, effect: '+2,4 dano por nível'},
     {id: 'ritual', icon: '✥', title: 'Ritual Arcano', desc: 'Invoca energia ancestral que fere inimigos automaticamente.', base: 22, growth: 1.175, effect: '+1,8 DPS por nível'},
@@ -159,7 +167,7 @@
     }
     return total;
   };
-  const heroMaxHp = (s) => Math.max(30,Math.floor(110+(s.level-1)*13+s.upgrades.vitality*35+heroEquipmentStats(s).health));
+  const heroMaxHp = (s) => Math.max(30,Math.floor(110+(s.level-1)*13+s.upgrades.vitality*35+(s.attributes?.vitality||0)*15+heroEquipmentStats(s).health));
   const freshProgress = () => ({stage:1,kills:0,minibossDefeated:false,bossDefeated:false,cleared:false});
   const progressAt = (s) => s.zoneProgress[s.zone];
   // Bosses remain mandatory: no amount of farming, XP or offline DPS skips them.
@@ -190,7 +198,7 @@
     return {name,kind,hp:maxHp,maxHp,level:1+s.zone*12+(progress.stage-1)*2+(kind==='normal'?0:kind==='boss'?4:2)};
   };
   const newState = (name) => {
-    const s = {version:SAVE_VERSION,name:safeName(name,18) || 'Errante',heroHp:110,deadUntil:0,nextEnemyAttackAt:0,createdAt:now(),lastSeen:now(),level:1,xp:0,gold:0,souls:0,shards:0,zone:0,zoneKills:Array(ZONES.length).fill(0),zoneProgress:ZONES.map(freshProgress),upgrades:emptyRanks(UPGRADES),skills:emptyRanks(SKILLS),inventory:[],equipment:Object.fromEntries(SLOTS.map(x=>[x,null])),mob:null,event:null,nextEventAt:now()+randEventDelay(),lastEventAt:0,runKills:0,runGold:0,lifetimeKills:0,rebirths:0,potionBuffUntil:0,potionBonus:0};
+    const s = {version:SAVE_VERSION,name:safeName(name,18) || 'Errante',heroHp:110,deadUntil:0,nextEnemyAttackAt:0,createdAt:now(),lastSeen:now(),level:1,xp:0,gold:0,souls:0,shards:0,zone:0,zoneKills:Array(ZONES.length).fill(0),zoneProgress:ZONES.map(freshProgress),attributes:emptyRanks(ATTRIBUTES),upgrades:emptyRanks(UPGRADES),skills:emptyRanks(SKILLS),inventory:[],equipment:Object.fromEntries(SLOTS.map(x=>[x,null])),mob:null,event:null,nextEventAt:now()+randEventDelay(),lastEventAt:0,runKills:0,runGold:0,lifetimeKills:0,rebirths:0,potionBuffUntil:0,potionBonus:0};
     s.mob = freshMob(s);
     s.nextEnemyAttackAt = now()+enemyAttackInterval(s.mob);
     return s;
@@ -218,6 +226,13 @@
     s.createdAt = integer(raw.createdAt,now(),0,now());
     s.lastSeen = integer(raw.lastSeen,now(),0,now());
     s.level = integer(raw.level,1,1,MAX_LEVEL);
+    // Existing V7 saves gain the same two points per attained level. Bound imported
+    // allocations to the earned budget, without trusting an imported points counter.
+    let remainingAttributes = attributeBudget(s);
+    for (const a of ATTRIBUTES) {
+      s.attributes[a.id] = integer(raw.attributes?.[a.id],0,0,remainingAttributes);
+      remainingAttributes -= s.attributes[a.id];
+    }
     s.xp = number(raw.xp,0);
     s.gold = number(raw.gold);
     s.souls = integer(raw.souls);
@@ -452,7 +467,7 @@
       document.addEventListener('keydown',(e)=>{
         if (!this.state || !$('dialogBackdrop').hidden || !$('authScreen').hidden) return;
         const interactive=['INPUT','BUTTON','SELECT','TEXTAREA'].includes(document.activeElement?.tagName);
-        if(e.code==='Space' && !interactive){e.preventDefault();this.attack();}
+        if(e.code==='Space' && !interactive && $('hudBackdrop').hidden){e.preventDefault();this.attack();}
       });
     }
     pickImport() {$('saveFileInput').click();}
@@ -530,15 +545,15 @@
     equippedStats() { return heroEquipmentStats(this.state); }
     bonuses() {
       const s=this.state,eq=this.equippedStats();
-      const click=multiply(2+s.level*.5+s.upgrades.strike*2.4+eq.click,(1+s.skills.w1*.2));
-      const dps=multiply(s.upgrades.ritual*1.8+eq.dps,(1+s.skills.s1*.25+s.skills.s4*.3));
+      const click=multiply(2+s.level*.5+s.upgrades.strike*2.4+s.attributes.strength*2+eq.click,(1+s.skills.w1*.2));
+      const dps=multiply(s.upgrades.ritual*1.8+s.attributes.will+eq.dps,(1+s.skills.s1*.25+s.skills.s4*.3));
       const crit=Math.min(.75,.08+s.upgrades.focus*.007+s.skills.w2*.02+eq.crit);
       const critDamage=1.7+s.skills.w3*.22;
       const luck=s.skills.r1*.06+eq.luck;
       const gold=1+s.upgrades.banner*.07+s.skills.s3*.10+eq.gold;
       const drop=Math.min(.35,.08+luck*.06);
       const maxHp=heroMaxHp(s);
-      const defense=Math.max(0,3+(s.level-1)*.28+s.upgrades.guard*2.5+eq.defense);
+      const defense=Math.max(0,3+(s.level-1)*.28+s.upgrades.guard*2.5+s.attributes.guard+eq.defense);
       const regen=Math.max(.2,.55+maxHp*.0025+s.upgrades.recovery*.65);
       return {click,dps,crit,critDamage,luck,gold,drop,maxHp,defense,regen,offline:.6*(1+s.skills.s2*.12),eventDamage:1+s.skills.w4*.35};
     }
@@ -564,7 +579,7 @@
       if(s.level>before){
         s.heroHp=Math.min(heroMaxHp(s),s.heroHp+(s.level-before)*13);
         this.addLog(`Você alcançou o nível ${s.level}!`,'✦','good');
-        this.toast(`NÍVEL ${s.level} — seu poder aumentou!`,'good');
+        this.toast(`NÍVEL ${s.level} — +${(s.level-before)*2} pontos no Livro Negro!`,'good');
         this.renderPanel();
       }
     }
@@ -672,7 +687,7 @@
         const t=now();
         if(t-this.lastCoreRender>90){this.renderCore();this.lastCoreRender=t;}
         if(t-this.lastPanelRender>1750){
-          if(this.tab==='upgrades' || this.tab==='ascension')this.renderPanel();
+          if(!$('hudBackdrop').hidden && (this.tab==='upgrades' || this.tab==='ascension'))this.renderPanel();
           this.lastPanelRender=t;
         }
       }
@@ -680,7 +695,7 @@
     }
     attack() {
       if(this.state?.deadUntil)return;
-      if(!this.state || !$('dialogBackdrop').hidden)return;
+      if(!this.state || !$('dialogBackdrop').hidden || !$('hudBackdrop').hidden)return;
       const b=this.bonuses(),critical=Math.random()<b.crit;
       const hit=multiply(b.click,critical?b.critDamage:1);
       this.damageMob(hit,true,critical);
@@ -1005,7 +1020,7 @@
     requestAscension() {
       const gain=this.previewPrestige();
       if(!gain){this.toast('Requer nível 15 e pelo menos 100 abates nesta jornada.');return;}
-      this.dialog('Renascer das Cinzas?',`Você receberá ${fmt(gain)} alma(s) permanente(s). Nível, XP, ouro, upgrades e regiões serão reiniciados.\n\nEquipamentos, inventário, fragmentos, almas e toda a árvore de habilidades serão preservados.`,[
+      this.dialog('Renascer das Cinzas?',`Você receberá ${fmt(gain)} alma(s) permanente(s). Nível, XP, ouro, atributos, melhorias da jornada e regiões serão reiniciados.\n\nEquipamentos, inventário, fragmentos, almas e toda a árvore de habilidades serão preservados.`,[
         {text:'AINDA NÃO'},
         {text:'RENASCER',primary:true,action:()=>this.performAscension(gain)}
       ],'◆');
@@ -1014,7 +1029,7 @@
       const s=this.state;
       s.souls=add(s.souls,gain);
       s.level=1;s.xp=0;s.gold=0;s.zone=0;s.zoneKills=Array(ZONES.length).fill(0);s.zoneProgress=ZONES.map(freshProgress);
-      s.upgrades=emptyRanks(UPGRADES);s.runKills=0;s.runGold=0;
+      s.attributes=emptyRanks(ATTRIBUTES);s.upgrades=emptyRanks(UPGRADES);s.runKills=0;s.runGold=0;
       s.deadUntil=0;s.heroHp=heroMaxHp(s);
       s.rebirths++;s.event=null;s.mob=freshMob(s);s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);s.nextEventAt=now()+this.nextEventDelay();
       this.lastZoneRendered=-1;this.lastEventRendered='';
@@ -1065,6 +1080,10 @@
       this.renderScene();
       $('goldValue').textContent=fmt(s.gold);
       $('prestigeValue').textContent=fmt(s.souls);
+      const points = attributePoints(s);
+      $('attributeBadge').textContent = fmt(points);
+      $('attributeBadge').hidden = points === 0;
+      $('attributeBadge').parentElement.setAttribute('aria-label', `Livro Negro: status e pontos (C). ${fmt(points)} pontos disponíveis`);
       $('fragmentValue').textContent=`${s.shards} / 10`;
       $('profileName').textContent=s.name;
       $('levelValue').textContent=fmt(s.level);
@@ -1194,12 +1213,30 @@
       }
       const body=$('tabBody');
       const top=body.scrollTop;
+      const focused = body.contains(document.activeElement) ? document.activeElement : null;
+      const focusId = focused?.id;
+      const focusData = focused ? Object.entries(focused.dataset) : [];
       body.innerHTML=html;
       body.scrollTop=top;
+      const restored = focusId ? document.getElementById(focusId) : focusData.length ? [...body.querySelectorAll('button')].find(b => focusData.every(([k,v]) => b.dataset[k] === v)) : null;
+      if (restored && !restored.disabled) restored.focus({preventScroll:true});
+      else if (focused) $('hudClose').focus({preventScroll:true});
       this.lastPanelRender=now();
     }
+    spendAttribute(id) {
+      const a = ATTRIBUTES.find(a => a.id === id);
+      if (!a || !this.state || attributePoints(this.state) < 1) return;
+      this.state.attributes[id]++;
+      if (id === 'vitality' && !this.state.deadUntil) this.state.heroHp = Math.min(heroMaxHp(this.state), this.state.heroHp + 15);
+      this.renderCore(); this.renderPanel(); this.save();
+    }
+    renderAttributes() {
+      const s = this.state, points = attributePoints(s);
+      return `<section class="attribute-section" aria-label="Distribuição de atributos"><div class="attribute-heading"><div><h2>Escreva seu destino</h2><p>Você recebe 2 pontos por nível. Atributos reiniciam na ascensão.</p></div><strong class="attribute-total">${fmt(points)} <small>PONTOS DISPONÍVEIS</small></strong></div>
+        <div class="attribute-grid">${ATTRIBUTES.map(a=>`<article class="attribute-row"><div><strong>${a.name}</strong><small>${a.effect}</small></div><b>${fmt(s.attributes[a.id])}</b><button type="button" data-attribute="${a.id}" aria-label="Adicionar um ponto em ${a.name}" ${points<1?'disabled':''}>+</button></article>`).join('')}</div></section>`;
+    }
     renderUpgrades() {
-      return `<div class="section-headline"><div><h2>Forja &amp; Rituais</h2><p>Invista o ouro conquistado para fortalecer esta jornada. Melhorias básicas reiniciam na ascensão.</p></div><div class="quantity-control"><small>COMPRAR</small>${[1,10,'max'].map(n=>`<button class="mini-button ${this.buyQuantity===n?'selected':''}" data-qty="${n}" type="button">${n==='max'?'MÁX':`x${n}`}</button>`).join('')}</div></div>
+      return this.renderAttributes() + `<div class="section-headline"><div><h2>Forja &amp; Rituais</h2><p>Invista o ouro conquistado para fortalecer esta jornada. Melhorias básicas reiniciam na ascensão.</p></div><div class="quantity-control"><small>COMPRAR</small>${[1,10,'max'].map(n=>`<button class="mini-button ${this.buyQuantity===n?'selected':''}" data-qty="${n}" type="button">${n==='max'?'MÁX':`x${n}`}</button>`).join('')}</div></div>
       <div class="upgrade-grid">${UPGRADES.map(up=>{
         const rank=this.state.upgrades[up.id],quote=this.upgradeQuote(up,this.buyQuantity);
         const maxed=rank>=MAX_RANK;
@@ -1294,6 +1331,7 @@
       if(!this.state)return;
       const b=e.target.closest('button');if(!b||b.disabled)return;
       if(b.dataset.inspectZone!==undefined){this.inspectMonster(Number(b.dataset.inspectZone),Number(b.dataset.inspectCreature));return;}
+      if(b.dataset.attribute){this.spendAttribute(b.dataset.attribute);return;}
       if(b.dataset.qty){this.buyQuantity=b.dataset.qty==='max'?'max':integer(b.dataset.qty,1,1,10);this.renderPanel();return;}
       if(b.dataset.buy){this.buyUpgrade(b.dataset.buy);return;}
       if(b.dataset.equip){this.equipItem(b.dataset.equip);return;}
