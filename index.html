@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="ui.css?v=9.0">
   <link rel="stylesheet" href="hud-hellward.css?v=1.0">
   <link rel="stylesheet" href="hud-grim.css?v=1.0">
-  <link rel="stylesheet" href="menu.css?v=9">
+  <link rel="stylesheet" href="menu.css?v=10">
   <script src="menu-fit.js?v=1" defer></script>
   <link rel="stylesheet" href="soundtrack.css?v=1">
   <script src="soundtrack.js?v=1" defer></script>
@@ -110,7 +110,13 @@
 
   <div class="auth-screen hw-menu" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
     <div class="hw-shell">
-      <img class="hw-logo" src="assets/menu/logo/hellward-titulo-restaurado.webp" width="1774" height="887" alt="Hellward — Um mundo esquecido aguarda" decoding="async">
+      <div class="hw-title-art">
+        <img class="hw-logo" src="assets/menu/logo/hellward-titulo-restaurado.webp" width="1774" height="887" alt="Hellward — Um mundo esquecido aguarda" decoding="async">
+        <span class="hw-title-heat" aria-hidden="true"></span>
+        <img class="hw-title-flame hw-title-flame-base" src="assets/menu/efeitos/titulo-fogo-base.svg" width="1774" height="887" alt="" aria-hidden="true" decoding="async">
+        <img class="hw-title-flame hw-title-flame-left" src="assets/menu/efeitos/titulo-fogo-esquerda.svg" width="1774" height="887" alt="" aria-hidden="true" decoding="async">
+        <img class="hw-title-flame hw-title-flame-right" src="assets/menu/efeitos/titulo-fogo-direita.svg" width="1774" height="887" alt="" aria-hidden="true" decoding="async">
+      </div>
       <h1 id="authTitle" class="sr-only">Menu principal do Hellward</h1>
       <nav id="menuHome" class="hw-buttons" aria-label="Menu principal">
         <button data-menu="new" class="hw-btn hw-start">Iniciar jornada</button>
