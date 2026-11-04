@@ -150,6 +150,11 @@ const server = http.createServer((req,res) => {
         await p.click(`[data-open-panel="${name}"]`);
         await p.locator('#hudPanel img').evaluateAll(imgs=>Promise.all(imgs.map(img=>img.decode().catch(()=>{}))));
         await p.waitForTimeout(80);
+        if(name==='chronicle'){
+          assert.equal(await p.locator('#combatRegen').textContent(),await p.locator('#heroRegeneration').textContent());
+          assert.notEqual(await p.locator('#combatRegen').textContent(),await p.locator('#naturalRegen').textContent());
+          assert.ok((await p.locator('#heroRegeneration').getAttribute('title')).includes('Natural:'));
+        }
         assert.equal(await p.locator('#hudPanelScroll').evaluate(el=>el.scrollTop),0,`${name} opens scrolled down`);
         const ui=await p.locator('#hudPanel').evaluate(el=>({box:el.getBoundingClientRect().toJSON(),width:el.scrollWidth,client:el.clientWidth,scroll:document.getElementById('hudPanelScroll').scrollWidth,scrollClient:document.getElementById('hudPanelScroll').clientWidth}));
         assert.ok(ui.box.x>=0&&ui.box.y>=0&&ui.box.right<=w&&ui.box.bottom<=h, `${name} ${w} clipped panel`);
