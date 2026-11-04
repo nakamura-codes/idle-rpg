@@ -53,7 +53,7 @@ const server = http.createServer((req,res) => {
       assert.ok(layout.dock.bottom <= h, `${w}x${h} dock clipped`);
       assert.ok(layout.relics.every(b=>b.x>=0 && b.right<=w && b.bottom<=h), `${w}x${h} clipped relic: ${JSON.stringify(layout.relics)}`);
       assert.deepEqual(layout.broken, []);
-      assert.ok(await p.locator('#xpLabel').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=6 && el.getBoundingClientRect().width>=25), `${w}x${h} XP text too small`);
+      assert.ok(await p.locator('#xpLabel').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=6 && el.clientWidth>0 && el.scrollWidth<=el.clientWidth+1), `${w}x${h} XP text too small`);
       const captions=await p.locator('.relic-caption').evaluateAll(nodes=>nodes.map(el=>{
         const box=n=>n.getBoundingClientRect().toJSON(),title=el.querySelector('span'),detail=el.querySelector('small');
         return {plaque:box(el),button:box(el.parentElement),title:box(title),detail:box(detail),titleSize:parseFloat(getComputedStyle(title).fontSize),detailSize:parseFloat(getComputedStyle(detail).fontSize)};
