@@ -19,23 +19,7 @@
   });updateTheme();
   focusButton.addEventListener('click',()=>{
    const focused=root.dataset.focus!=='battle';root.dataset.focus=focused?'battle':'normal';
-   focusButton.setAttribute('aria-pressed',String(focused));focusButton.textContent=focused?'Sair do foco':'Focar batalha';
+   focusButton.setAttribute('aria-pressed',String(focused));focusButton.textContent=focused?'Restaurar':'Ampliar';
   });
-  const values=[...document.querySelectorAll('.stat-tile strong,.resource-pill strong,.intel-chance strong,#heroHPText,#heroRegeneration,#xpLabel')];
-  const base=new WeakMap();let frame=0;
-  const measure=document.createElement('canvas').getContext('2d');
-  function fit(){frame=0;for(const el of values){
-   if(!el.clientWidth)continue;
-   const style=getComputedStyle(el);
-   const max=base.get(el)||parseFloat(style.fontSize);base.set(el,max);
-   measure.font=`${style.fontWeight} ${max}px ${style.fontFamily}`;
-   const width=measure.measureText(el.textContent).width;
-   const size=width?Math.min(max,(el.clientWidth-2)/width*max):max;
-   el.style.fontSize=`${Math.max(1,Math.floor(size*10)/10)}px`;
-  }}
-  function schedule(){if(!frame)frame=requestAnimationFrame(fit)}
-  const resize=new ResizeObserver(schedule);values.forEach(el=>resize.observe(el));
-  const mutations=new MutationObserver(fit);values.forEach(el=>mutations.observe(el,{childList:true,characterData:true,subtree:true}));
-  document.fonts?.ready.then(schedule);schedule();
  });
 })();

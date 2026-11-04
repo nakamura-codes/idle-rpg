@@ -125,6 +125,12 @@
   };
 
   const $ = (id) => document.getElementById(id);
+  // DOM writes are applied only when the displayed value actually changes.
+  const text = (id,value) => {const el=$(id),v=String(value);if(el.textContent!==v)el.textContent=v;};
+  const prop = (id,key,value) => {const el=$(id);if(el[key]!==value)el[key]=value;};
+  const attr = (id,key,value) => {const el=$(id),v=String(value);if(el.getAttribute(key)!==v)el.setAttribute(key,v);};
+  const fill = (id,percent,axis='X') => {const el=$(id),v=`scale${axis}(${Math.max(0,Math.min(100,percent))/100})`;if(el.style.transform!==v)el.style.transform=v;};
+  const deadForPotion=(s,b)=>`${Boolean(s.deadUntil)}:${Math.ceil(b.maxHp-s.heroHp)}`;
   const now = () => Date.now();
   const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -334,6 +340,9 @@
       this.lastZoneRendered = -1;
       this.lastEventRendered = '';
       this.startedLoop = false;
+      this.loopTimer = 0;
+      this.arenaSize = {width:800,height:400};
+      new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width && r.height)this.arenaSize={width:r.width,height:r.height};}).observe($('battlefield'));
       this.sessionStorage = new Map();
       this.storageAvailable = this.testStorage();
       this.resetLegacyProgress();
@@ -342,7 +351,7 @@
       window.addEventListener('pagehide',()=>this.save());
       window.addEventListener('beforeunload',()=>this.save());
       document.addEventListener('visibilitychange',()=>{
-        if (this.state) {this.stepClock();this.save();this.renderCore();}
+        if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
       });
       setInterval(()=>this.save(),SAVE_INTERVAL);
     }
@@ -386,6 +395,7 @@
       if (profile) {profile.name=this.state.name;profile.lastPlayed=now();this.storeProfiles(profiles);}
     }
     showAuth() {
+      this.stopLoop();
       const profiles=this.getProfiles().sort((a,b)=>b.lastPlayed-a.lastPlayed);
       const list=$('profileList');
       list.replaceChildren();
@@ -395,8 +405,8 @@
         const detail=document.createElement('small');detail.textContent='CONTINUAR  ❯';
         btn.append(name,detail);btn.addEventListener('click',()=>this.openProfile(profile));list.append(btn);
       }
-      $('savedProfiles').hidden=profiles.length===0;
-      $('authScreen').hidden=false;
+      prop('savedProfiles','hidden',profiles.length===0);
+      prop('authScreen','hidden',false);
       $('authScreen').dispatchEvent(new Event('menu-open'));
       document.dispatchEvent(new CustomEvent('hellward:scenechange',{detail:{scene:'menu'}}));
       $('newProfileName').value='';
@@ -429,7 +439,7 @@
       this.lastZoneRendered=-1;
       this.lastEventRendered='';
       this.lastFrameAt=now();
-      $('authScreen').hidden=true;
+      prop('authScreen','hidden',true);
       document.dispatchEvent(new CustomEvent('hellward:scenechange',{detail:{scene:'battle'}}));
       const seconds=Math.min(MAX_OFFLINE_SECONDS,Math.max(0,(now()-state.lastSeen)/1000));
       const offline=this.grantOffline(seconds);
@@ -447,7 +457,7 @@
         this.dialog('O mundo seguiu em frente',`Enquanto você esteve ausente por ${this.formatDuration(seconds)}, suas forças arcanas derrotaram ${fmt(offline.kills)} inimigos.\n\n+${fmt(offline.gold)} ouro  ·  +${fmt(offline.xp)} XP\n\nAté 12 horas de progresso offline.`,[{text:'RETOMAR A CAÇADA',primary:true}],'☽');
       }
       this.save();
-      if (!this.startedLoop) {this.startedLoop=true;requestAnimationFrame((t)=>this.loop(t));}
+      this.startLoop();
     }
     bindEvents() {
       $('createProfileForm').addEventListener('submit',(e)=>{e.preventDefault();this.createProfile($('newProfileName').value);});
@@ -479,7 +489,7 @@
       this.state.lastSeen=now();
       const success=this.write(SAVE_PREFIX+this.profileId,JSON.stringify(this.state));
       $('saveIndicator').classList.toggle('warning',!success);
-      $('saveIndicator').title=success?'Progresso salvo localmente':'Exportar JSON recomendado';
+      prop('saveIndicator','title',success?'Progresso salvo localmente':'Exportar JSON recomendado');
     }
     exportSave() {
       if (!this.state) {this.toast('Abra um perfil para exportar o progresso.');return;}
@@ -508,15 +518,15 @@
       } catch(error){this.toast(`Falha na importação: ${safeName(error?.message,100)||'JSON inválido'}`);}
     }
     dialog(title,body,actions=[{text:'CONTINUAR',primary:true}],glyph='✦') {
-      $('dialogIcon').textContent=glyph;
-      $('dialogTitle').textContent=title;
-      $('dialogText').textContent=body;
+      text('dialogIcon',glyph);
+      text('dialogTitle',title);
+      text('dialogText',body);
       const container=$('dialogActions');container.replaceChildren();
       for (const act of actions) {
         const btn=document.createElement('button');btn.type='button';btn.className=act.primary?'primary-button':'subtle-button';btn.textContent=act.text;
         btn.addEventListener('click',()=>{$('dialogBackdrop').hidden=true;if(act.action)act.action();});container.append(btn);
       }
-      $('dialogBackdrop').hidden=false;
+      prop('dialogBackdrop','hidden',false);
       container.querySelector('button:last-child')?.focus();
     }
     toast(text,kind='') {
@@ -659,8 +669,7 @@
       const area=$('heroDamageLayer');
       const node=document.createElement('span');node.className=`hero-damage-number ${heal?'healing':''}`;
       node.textContent=label;area.append(node);
-      const safeWidth=area.clientWidth*.9;
-      if(node.offsetWidth>safeWidth)node.style.fontSize=`${parseFloat(getComputedStyle(node).fontSize)*safeWidth/node.offsetWidth}px`;
+      node.style.fontSize=`${Math.min(22,Math.min(this.arenaSize.width,innerWidth)*.28/(label.length*.75))}px`;
       while(area.children.length>5)area.firstElementChild.remove();
       setTimeout(()=>node.remove(),1050);
     }
@@ -685,17 +694,19 @@
       this.addLog('Você retornou ao combate com vida restaurada.','✚','good');
       this.renderCore();
     }
+    startLoop() {
+      this.stopLoop();
+      if(!this.state || document.hidden)return;
+      this.startedLoop=true;this.loop();
+    }
+    stopLoop() {clearTimeout(this.loopTimer);this.loopTimer=0;this.startedLoop=false;}
     loop() {
-      if(this.state){
-        this.stepClock();
-        const t=now();
-        if(t-this.lastCoreRender>90){this.renderCore();this.lastCoreRender=t;}
-        if(t-this.lastPanelRender>1750){
-          if(!$('hudBackdrop').hidden && (this.tab==='upgrades' || this.tab==='ascension'))this.renderPanel();
-          this.lastPanelRender=t;
-        }
-      }
-      requestAnimationFrame(()=>this.loop());
+      if(!this.state || document.hidden){this.stopLoop();return;}
+      this.stepClock();
+      const t=now();
+      if(t-this.lastCoreRender>=180){this.renderCore();this.lastCoreRender=t;}
+      if(t-this.lastPanelRender>=1500 && !$('hudBackdrop').hidden && $('hudPanel').dataset.view===this.tab && (this.tab==='upgrades' || this.tab==='ascension'))this.renderPanel();
+      this.loopTimer=setTimeout(()=>this.loop(),100);
     }
     attack() {
       if(this.state?.deadUntil)return;
@@ -703,34 +714,23 @@
       const b=this.bonuses(),critical=Math.random()<b.crit;
       const hit=multiply(b.click,critical?b.critDamage:1);
       this.damageMob(hit,true,critical);
-      const hero=$('combatHero');
-      hero.classList.remove('striking');
-      void hero.offsetWidth;
-      hero.classList.add('striking');
-      const slash=$('duelSlash');
-      slash.classList.remove('active');
-      void slash.offsetWidth;
-      slash.classList.add('active');
-      const target=$('attackTarget');
-      target.classList.remove('damaged');void target.offsetWidth;target.classList.add('damaged');
-      setTimeout(()=>{target.classList.remove('damaged');hero.classList.remove('striking');slash.classList.remove('active');},360);
+      this.renderCore();
+      if(!document.documentElement.classList.contains('hw-lite')) {
+        this.hitAnimation?.cancel();
+        this.hitAnimation=$('combatHero').querySelector('img').animate([{transform:'translateX(0)'},{transform:'translateX(7px)',offset:.35},{transform:'translateX(0)'}],{duration:190});
+      }
     }
-    floatNumber(text,style='') {
-      const layer=$('damageLayer');
-      const node=document.createElement('span');node.className=`float-damage ${style}`;
-      node.textContent=text;
-      layer.append(node);
-      const width=layer.clientWidth, safeWidth=Math.max(20,width-20)/1.1;
-      if(node.offsetWidth>safeWidth)node.style.fontSize=`${parseFloat(getComputedStyle(node).fontSize)*safeWidth/node.offsetWidth}px`;
-      const anchor=style==='event-hit'?$('eventTarget'):$('attackTarget');
-      const bounds=anchor.getBoundingClientRect(), parent=layer.getBoundingClientRect();
-      const center=style==='reward'?width/2:bounds.left-parent.left+bounds.width/2+rand(-12,12);
-      const half=node.offsetWidth*.55+8;
-      node.style.left=`${Math.max(half,Math.min(width-half,center))}px`;
-      node.style.top=`${Math.max(74,Math.min(layer.clientHeight-30,layer.clientHeight*.5))}px`;
-      node.style.marginLeft='0';
-      while(layer.children.length>24)layer.firstElementChild.remove();
-      setTimeout(()=>node.remove(),900);
+    floatNumber(label,style='') {
+      const layer=$('damageLayer'),node=document.createElement('span');
+      node.className=`float-damage ${style}`;node.textContent=label;
+      const width=Math.min(this.arenaSize.width,innerWidth);
+      const size=Math.min(style==='crit'?26:21,(width-28)/(label.length*.75));
+      const half=Math.min(width/2-8,label.length*size*.38);
+      const center=style==='reward'?50:style==='event-hit'?13:75;
+      node.style.fontSize=`${size}px`;node.style.left=`clamp(${half+8}px,${center}%,calc(100% - ${half+8}px))`;
+      node.style.top='clamp(72px,50%,calc(100% - 32px))';layer.append(node);
+      while(layer.children.length>8)layer.firstElementChild.remove();
+      setTimeout(()=>node.remove(),750);
     }
     damageMob(amount,fromClick,critical) {
       const s=this.state;
@@ -928,7 +928,7 @@
         this.addLog(`${item.rarity==='lendario'?'LENDÁRIO':'ÉPICO'} encontrado: ${item.name}!`,'◆',item.rarity==='lendario'?'rare':'epic');
         this.toast(`✦ ${item.name} encontrado!`,'epic');
       }else if(s.inventory.length<6)this.addLog(`Obtido: ${item.name}.`,'♢');
-      $('inventoryCount').textContent=s.inventory.length;
+      text('inventoryCount',s.inventory.length);
       if(this.tab==='inventory')this.renderPanel();
       return item;
     }
@@ -968,7 +968,7 @@
     renderQuickPotion() {
       const s=this.state, item=this.quickPotionChoice(), button=$('quickPotion');
       const count=s.inventory.filter(x=>x.kind==='potion').reduce((sum,x)=>sum+x.qty,0);
-      $('quickPotionCount').textContent=fmt(count);
+      text('quickPotionCount',fmt(count));
       button.disabled=!item || Boolean(s.deadUntil) || s.heroHp>=this.bonuses().maxHp-.01;
       const label=!count?'Nenhuma poção de vida. Encontre poções durante sua jornada.':s.deadUntil?'Você está derrotado. Aguarde para usar poções.':button.disabled?'Vida cheia. Poções disponíveis: '+fmt(count):'Usar '+item.name+' (Q). Poções disponíveis: '+fmt(count);
       button.setAttribute('aria-label',label);button.title=label;
@@ -1104,9 +1104,9 @@
       if(s.zone===this.lastZoneRendered)return;
       const z=ZONES[s.zone];
       $('battlefield').className=`battlefield zone-${s.zone}`;
-      $('zoneName').textContent=z.name;
-      $('zoneSubtitle').textContent=z.subtitle;
-      $('zoneCrest').textContent=z.rune;
+      text('zoneName',z.name);
+      text('zoneSubtitle',z.subtitle);
+      text('zoneCrest',z.rune);
       // Battlefield background changes per zone; sprite changes per individual monster.
       this.lastZoneRendered=s.zone;
     }
@@ -1115,57 +1115,59 @@
       if(!s)return;
       const b=this.bonuses();
       this.renderScene();
-      $('goldValue').textContent=fmt(s.gold);
-      $('prestigeValue').textContent=fmt(s.souls);
+      text('goldValue',fmt(s.gold));
+      text('prestigeValue',fmt(s.souls));
       const points = attributePoints(s);
       $('attributeBadge').textContent = fmt(points);
       $('attributeBadge').hidden = points === 0;
       $('attributeBadge').parentElement.setAttribute('aria-label', `Livro Negro: status e pontos (C). ${fmt(points)} pontos disponíveis`);
-      $('fragmentValue').textContent=`${s.shards} / 10`;
-      $('profileName').textContent=s.name;
-      $('levelValue').textContent=fmt(s.level);
+      text('fragmentValue',`${s.shards} / 10`);
+      text('profileName',s.name);
+      text('levelValue',fmt(s.level));
       const required=xpNeeded(s.level);
-      $('xpLabel').textContent=s.level===MAX_LEVEL?'NÍVEL MÁXIMO':`${fmt(s.xp)} / ${fmt(required)} XP`;
+      text('xpLabel',s.level===MAX_LEVEL?'NÍVEL MÁXIMO':`${fmt(s.xp)} / ${fmt(required)} XP`);
       const pct=s.level>=MAX_LEVEL?100:Math.max(0,Math.min(100,s.xp/required*100));
-      $('xpFill').style.width=`${pct}%`;
-      $('xpProgress').setAttribute('aria-valuenow',String(Math.round(pct)));
-      $('clickStat').textContent=fmt(b.click,1);
-      $('dpsStat').textContent=fmt(b.dps,1);
-      $('critStat').textContent=fmtPercent(b.crit);
-      $('luckStat').textContent=fmtPercent(b.luck);
+      fill('xpFill',pct);
+      attr('xpProgress','aria-valuenow',String(Math.round(pct)));
+      text('clickStat',fmt(b.click,1));
+      text('dpsStat',fmt(b.dps,1));
+      text('critStat',fmtPercent(b.crit));
+      text('luckStat',fmtPercent(b.luck));
       const hp=Math.min(s.heroHp,b.maxHp);
-      $('heroHPText').textContent=`${fmt(Math.ceil(hp))} / ${fmt(b.maxHp)} HP`;
-      $('heroHPFill').style.width=`${Math.max(0,Math.min(100,hp/b.maxHp*100))}%`;
-      $('arenaHPFill').style.width=`${Math.max(0,Math.min(100,hp/b.maxHp*100))}%`;
+      text('heroHPText',`${fmt(Math.ceil(hp))} / ${fmt(b.maxHp)} HP`);
+      fill('heroHPFill',Math.max(0,Math.min(100,hp/b.maxHp*100)));
+      fill('lifeOrbFill',hp/b.maxHp*100,'Y');
+      fill('arenaHPFill',Math.max(0,Math.min(100,hp/b.maxHp*100)));
       $('heroHPFill').classList.toggle('critical',hp/b.maxHp<.26);
       $('errantVitals').classList.toggle('low-health',hp/b.maxHp<.26 && !s.deadUntil);
-      $('heroHealthProgress').setAttribute('aria-valuenow',String(Math.round(100*hp/b.maxHp)));
-      $('heroHealthProgress').setAttribute('aria-valuetext',`${fmt(Math.ceil(hp))} de ${fmt(b.maxHp)} pontos de vida`);
-      this.renderQuickPotion();
-      $('heroRegeneration').textContent=`+${fmt(b.regen,1)}/s`;
-      $('defenseStat').textContent=fmt(b.defense,1);
-      $('hpStat').textContent=fmt(b.maxHp);
+      attr('heroHealthProgress','aria-valuenow',String(Math.round(100*hp/b.maxHp)));
+      attr('heroHealthProgress','aria-valuetext',`${fmt(Math.ceil(hp))} de ${fmt(b.maxHp)} pontos de vida`);
+      const potionKey=`${s.inventory.length}|${s.inventory.filter(x=>x.kind==='potion').map(x=>x.id+':'+x.qty).join(',')}|${deadForPotion(s,b)}`;
+      if(this.potionRenderKey!==potionKey){this.potionRenderKey=potionKey;this.renderQuickPotion();}
+      text('heroRegeneration',`+${fmt(b.regen,1)}/s`);
+      text('defenseStat',fmt(b.defense,1));
+      text('hpStat',fmt(b.maxHp));
       const dead=Boolean(s.deadUntil);
-      $('attackTarget').disabled=dead;
-      $('heroRespawn').hidden=!dead;
-      $('heroRespawnTime').textContent=dead?`${Math.ceil(Math.max(0,s.deadUntil-now())/1000)}s`:'';
+      prop('attackTarget','disabled',dead);
+      prop('heroRespawn','hidden',!dead);
+      text('heroRespawnTime',dead?`${Math.ceil(Math.max(0,s.deadUntil-now())/1000)}s`:'');
       $('combatHero').classList.toggle('defeated',dead);
-      $('enemyDamage').textContent=fmt(Math.max(1,Math.round(enemyBaseDamage(s)*100/(100+b.defense*4))));
-      $('enemyAttackCountdown').textContent=dead?'PAUSADO':`${(Math.max(0,s.nextEnemyAttackAt-now())/1000).toFixed(1)}s`;
-      $('runKills').textContent=fmt(s.runKills);
-      $('runGold').textContent=fmt(s.runGold);
-      $('rebirths').textContent=fmt(s.rebirths);
-      $('runStatus').textContent=`JORNADA ${this.roman(Math.min(30,s.rebirths+1))}`;
-      $('currentZoneShort').textContent=ZONES[s.zone].rune;
+      text('enemyDamage',fmt(Math.max(1,Math.round(enemyBaseDamage(s)*100/(100+b.defense*4)))));
+      text('enemyAttackCountdown',dead?'PAUSADO':`${(Math.max(0,s.nextEnemyAttackAt-now())/1000).toFixed(1)}s`);
+      text('runKills',fmt(s.runKills));
+      text('runGold',fmt(s.runGold));
+      text('rebirths',fmt(s.rebirths));
+      text('runStatus',`JORNADA ${this.roman(Math.min(30,s.rebirths+1))}`);
+      text('currentZoneShort',ZONES[s.zone].rune);
       const phase=progressAt(s),bossKind=s.mob.kind;
-      $('mobName').textContent=s.mob.name;
-      $('mobName').title=s.mob.name;
+      text('mobName',s.mob.name);
+      prop('mobName','title',s.mob.name);
       // A save cannot inject an arbitrary src: choose only from our bundled roster.
       const visualIndex = bossKind === 'boss' ? 6 : bossKind === 'miniboss' ? 5
         : Math.max(0, ZONES[s.zone].names.indexOf(s.mob.name));
       const sprite = monsterSrc(s.zone,visualIndex);
       const artNode = $('monsterArt');
-      artNode.dataset.family = MONSTER_FAMILIES[s.zone][visualIndex];
+      if(artNode.dataset.family!==MONSTER_FAMILIES[s.zone][visualIndex])artNode.dataset.family=MONSTER_FAMILIES[s.zone][visualIndex];
       if (artNode.dataset.sprite !== sprite) {
         artNode.dataset.sprite = sprite;
         const portrait = document.createElement('img');
@@ -1177,7 +1179,7 @@
         portrait.decoding = 'async';
         artNode.replaceChildren(portrait);
       }
-      $('mobLevel').textContent=bossKind==='boss'?'☠ CHEFÃO':bossKind==='miniboss'?'✦ MINIBOSS':`Nv. ${fmt(s.mob.level)}`;
+      text('mobLevel',bossKind==='boss'?'☠ CHEFÃO':bossKind==='miniboss'?'✦ MINIBOSS':`Nv. ${fmt(s.mob.level)}`);
       const arena = $('battlefield');
       arena.classList.toggle('boss-fight',bossKind==='boss');
       arena.classList.toggle('miniboss-fight',bossKind==='miniboss');
@@ -1185,25 +1187,25 @@
       const frame = $('cameraState');
       frame.textContent = bossKind === 'boss' ? (s.zone===ZONES.length-1 ? 'CONFRONTO FINAL' : 'ARENA DE CHEFÃO') :
         bossKind === 'miniboss' ? 'ARENA DE MINIBOSS' : 'COMBATE • 2D';
-      $('stageNumber').textContent=`FASE ${phase.stage} / 10`;
-      $('stageKills').textContent=phase.cleared?'REGIÃO CONQUISTADA':bossKind==='boss'?'CHEFÃO FINAL':bossKind==='miniboss'?'MINIBOSS':`${phase.kills} / 10 INIMIGOS`;
-      $('stageProgressFill').style.width=`${phase.cleared?100:phase.kills*10}%`;
-      $('stageProgressTrack').setAttribute('aria-valuenow',String(phase.cleared?100:phase.kills*10));
+      text('stageNumber',`FASE ${phase.stage} / 10`);
+      text('stageKills',phase.cleared?'REGIÃO CONQUISTADA':bossKind==='boss'?'CHEFÃO FINAL':bossKind==='miniboss'?'MINIBOSS':`${phase.kills} / 10 INIMIGOS`);
+      fill('stageProgressFill',phase.cleared?100:phase.kills*10);
+      attr('stageProgressTrack','aria-valuenow',String(phase.cleared?100:phase.kills*10));
       for(const bar of $('stagePips').children){
         const n=Number(bar.dataset.stage);
         bar.classList.toggle('completed',phase.cleared||n<phase.stage);
         bar.classList.toggle('active',!phase.cleared&&n===phase.stage);
       }
-      $('intelMob').textContent=s.mob.name;
-      $('mobHPText').textContent=`${fmt(Math.ceil(s.mob.hp))} / ${fmt(s.mob.maxHp)}`;
-      $('mobHPFill').style.width=`${Math.max(0,Math.min(100,100*s.mob.hp/Math.max(1,s.mob.maxHp)))}%`;
-      $('zoneKillsLabel').textContent=`${fmt(s.zoneKills[s.zone])} ABATES · FASE ${phase.stage}/10`;
+      text('intelMob',s.mob.name);
+      text('mobHPText',`${fmt(Math.ceil(s.mob.hp))} / ${fmt(s.mob.maxHp)}`);
+      fill('mobHPFill',Math.max(0,Math.min(100,100*s.mob.hp/Math.max(1,s.mob.maxHp))));
+      text('zoneKillsLabel',`${fmt(s.zoneKills[s.zone])} ABATES · FASE ${phase.stage}/10`);
       const rewardScale=bossKind==='boss'?18:bossKind==='miniboss'?7:1;
-      $('intelReward').textContent=`+${fmt(Math.floor(multiply(rewardGold(s),rewardScale)*b.gold))} ouro · +${fmt(Math.floor(rewardXp(s)*(bossKind==='boss'?14:bossKind==='miniboss'?6:1)))} XP`;
-      $('dropChance').textContent=fmtPercent(b.drop);
-      $('goldBonus').textContent=`+${fmtPercent(b.gold-1)}`;
-      $('prestigePreview').textContent=fmt(this.previewPrestige());
-      $('inventoryCount').textContent=s.inventory.length;
+      text('intelReward',`+${fmt(Math.floor(multiply(rewardGold(s),rewardScale)*b.gold))} ouro · +${fmt(Math.floor(rewardXp(s)*(bossKind==='boss'?14:bossKind==='miniboss'?6:1)))} XP`);
+      text('dropChance',fmtPercent(b.drop));
+      text('goldBonus',`+${fmtPercent(b.gold-1)}`);
+      text('prestigePreview',fmt(this.previewPrestige()));
+      text('inventoryCount',s.inventory.length);
       this.renderMilestone();
       this.renderEvent();
     }
@@ -1215,34 +1217,34 @@
     renderMilestone() {
       const s=this.state,p=progressAt(s),z=ZONES[s.zone];
       if(p.cleared){
-        $('milestoneTitle').textContent='Região conquistada!';
-        $('milestoneDescription').textContent=s.zone===ZONES.length-1?'O Imperador caiu. Todas as seis regiões foram conquistadas!':'Você venceu o chefão! A próxima região foi liberada. Volte às regiões anteriores quando quiser.';
+        text('milestoneTitle','Região conquistada!');
+        text('milestoneDescription',s.zone===ZONES.length-1?'O Imperador caiu. Todas as seis regiões foram conquistadas!':'Você venceu o chefão! A próxima região foi liberada. Volte às regiões anteriores quando quiser.');
       }else if(s.mob.kind==='miniboss'){
-        $('milestoneTitle').textContent=`✦ MINIBOSS: ${z.miniboss}`;
-        $('milestoneDescription').textContent='Derrote o guardião da fase 5 para avançar à fase 6. É obrigatório vencê-lo.';
+        text('milestoneTitle',`✦ MINIBOSS: ${z.miniboss}`);
+        text('milestoneDescription','Derrote o guardião da fase 5 para avançar à fase 6. É obrigatório vencê-lo.');
       }else if(s.mob.kind==='boss'){
-        $('milestoneTitle').textContent=`☠ CHEFÃO: ${z.boss}`;
-        $('milestoneDescription').textContent='A vitória abre a próxima região automaticamente. Não é possível ignorar o chefão.';
+        text('milestoneTitle',`☠ CHEFÃO: ${z.boss}`);
+        text('milestoneDescription','A vitória abre a próxima região automaticamente. Não é possível ignorar o chefão.');
       }else{
         const remaining=ENEMIES_PER_PHASE-p.kills;
-        $('milestoneTitle').textContent=`Fase ${p.stage} · ${z.name}`;
-        $('milestoneDescription').textContent=`Faltam ${remaining} inimigo${remaining===1?'':'s'} para ${p.stage===5?'desafiar o miniboss':p.stage===10?'desafiar o chefão':`chegar à fase ${p.stage+1}`}.`;
+        text('milestoneTitle',`Fase ${p.stage} · ${z.name}`);
+        text('milestoneDescription',`Faltam ${remaining} inimigo${remaining===1?'':'s'} para ${p.stage===5?'desafiar o miniboss':p.stage===10?'desafiar o chefão':`chegar à fase ${p.stage+1}`}.`);
       }
     }
     renderEvent() {
       const e=this.state?.event,overlay=$('eventOverlay');
-      if(!e){overlay.hidden=true;this.lastEventRendered='';return;}
+      if(!e){if(!overlay.hidden)overlay.hidden=true;this.lastEventRendered='';return;}
       if(e.expiresAt<=now()){this.expireEvent();return;}
-      overlay.hidden=false;
+      if(overlay.hidden)overlay.hidden=false;
       const key=`${e.type}-${e.expiresAt}`;
       if(this.lastEventRendered!==key){
-        $('eventTitle').textContent=e.type==='goblin'?'Goblin do Tesouro':'Baú Raro';
+        text('eventTitle',e.type==='goblin'?'Goblin do Tesouro':'Baú Raro');
         $('eventArt').innerHTML=EVENT_ART[e.type]; // trusted built-in illustrations
-        $('eventTarget').setAttribute('aria-label',`Atacar ${e.type==='goblin'?'goblin':'baú'} do evento`);
+        attr('eventTarget','aria-label',`Atacar ${e.type==='goblin'?'goblin':'baú'} do evento`);
         this.lastEventRendered=key;
       }
-      $('eventHPFill').style.width=`${Math.max(0,Math.min(100,e.hp/e.maxHp*100))}%`;
-      $('eventTime').textContent=`${Math.max(0,(e.expiresAt-now())/1000).toFixed(1)}s`;
+      fill('eventHPFill',Math.max(0,Math.min(100,e.hp/e.maxHp*100)));
+      text('eventTime',`${Math.max(0,(e.expiresAt-now())/1000).toFixed(1)}s`);
     }
     renderPanel() {
       if(!this.state)return;
@@ -1258,6 +1260,8 @@
       const focused = body.contains(document.activeElement) ? document.activeElement : null;
       const focusId = focused?.id;
       const focusData = focused ? Object.entries(focused.dataset) : [];
+      if(this.lastPanelHTML===html){this.lastPanelRender=now();return;}
+      this.lastPanelHTML=html;
       body.innerHTML=html;
       body.scrollTop=top;
       const restored = focusId ? document.getElementById(focusId) : focusData.length ? [...body.querySelectorAll('button')].find(b => focusData.every(([k,v]) => b.dataset[k] === v)) : null;
