@@ -1,8 +1,8 @@
 # Cenários HD — Hellward
 
-Seis artes novas geradas com a ferramenta integrada imagegen. Resolução nativa efetivamente entregue: **1672 × 941 pixels**, acima de HD 720p; não são Full HD/4K e não foram ampliadas artificialmente. Os arquivos WebP em `assets/backgrounds/hd/` preservam as dimensões e usam qualidade 94.
+Registro da direção de arte das seis regiões, geradas com a ferramenta integrada imagegen. Resolução nativa entregue na geração: **1672 × 941 pixels**. A versão ativa utiliza as texturas otimizadas em `assets/backgrounds/fast/`, com variantes para desktop e celular. Os arquivos anteriores em HD foram retirados da árvore atual; suas versões permanecem no histórico Git.
 
-A implementação usa uma pintura coerente por região em dois planos alinhados: horizonte completo e piso revelado por máscara suave apenas abaixo da arquitetura. A atmosfera é um gradiente CSS discreto. Não são cinco recortes independentes nem geometria 3D. O deslocamento é exclusivamente horizontal, no máximo 15,6 pixels no piso, com margem de segurança de 5%. Os personagens permanecem acima de todos os planos. A oscilação automática tem período de 18 segundos e funciona também em telas de toque; o mouse acrescenta um deslocamento suave. Movimento reduzido desativa os deslocamentos. A animação pausa com a aba oculta ou a arena fora da tela.
+A implementação ativa usa uma pintura estática por região. As camadas antigas, suas texturas e os scripts de parallax de batalha foram removidos após a revisão de desempenho. Os personagens permanecem separados do cenário. Abaixo estão os briefs e prompts que originaram as pinturas, para referência de direção artística.
 
 ## Direção e prompts de geração
 

@@ -4,13 +4,13 @@
    Cropping/normalization are build-time only. The browser uses seven cached WebPs. */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 const sharp=createRequire(import.meta.url)('sharp');
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const context={window:{}};vm.runInNewContext(await fs.readFile(path.join(root,'item-catalog.js'),'utf8'),context);
-const items=context.window.HELLWARD_ITEMS,regions=[...new Set(items.map(i=>i.regiao))];
+const catalog=JSON.parse(await fs.readFile(path.join(root,'CATALOGO_ITENS.json'),'utf8'));
+const items=catalog.itens,regions=[...new Set(items.map(i=>i.regiao))];
+await fs.writeFile(path.join(root,'item-catalog.js'),'/* Generated from CATALOGO_ITENS.json; edit that source and run tools/build-item-atlases.mjs. */\nwindow.HELLWARD_ITEMS = '+JSON.stringify(items)+';\n');
 const groups=regions.map(region=>items.filter(i=>i.regiao===region).map(i=>i.id));
 const statusKeys=['click','dps','crit','luck','health','defense','strength','will','recovery','gold','compass','souls'];
 const sources=process.argv[2]?JSON.parse(await fs.readFile(process.argv[2],'utf8')):null;

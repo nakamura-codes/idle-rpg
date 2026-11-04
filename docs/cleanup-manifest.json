@@ -1,0 +1,926 @@
+{
+  "removed_files": 184,
+  "removed_bytes": 11328388,
+  "files": [
+    {
+      "path": "arena-hd.css",
+      "bytes": 2405,
+      "reason": "Código/estilo não importado pelo index atual"
+    },
+    {
+      "path": "arena.css",
+      "bytes": 3212,
+      "reason": "Código/estilo não importado pelo index atual"
+    },
+    {
+      "path": "assets/backgrounds/bosque-profanado/atmosphere.png",
+      "bytes": 60171,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/bosque-profanado/background_far.png",
+      "bytes": 161010,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/bosque-profanado/background_mid.png",
+      "bytes": 154034,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/bosque-profanado/battle_ground.png",
+      "bytes": 119626,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/bosque-profanado/foreground.png",
+      "bytes": 132622,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/campos-de-cinza/atmosphere.png",
+      "bytes": 51598,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/campos-de-cinza/background_far.png",
+      "bytes": 153851,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/campos-de-cinza/background_mid.png",
+      "bytes": 123648,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/campos-de-cinza/battle_ground.png",
+      "bytes": 101109,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/campos-de-cinza/foreground.png",
+      "bytes": 110990,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/criptas-afogadas/atmosphere.png",
+      "bytes": 65495,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/criptas-afogadas/background_far.png",
+      "bytes": 159572,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/criptas-afogadas/background_mid.png",
+      "bytes": 150236,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/criptas-afogadas/battle_ground.png",
+      "bytes": 113460,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/criptas-afogadas/foreground.png",
+      "bytes": 121212,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fendas-infernais/atmosphere.png",
+      "bytes": 53683,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fendas-infernais/background_far.png",
+      "bytes": 169469,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fendas-infernais/background_mid.png",
+      "bytes": 152901,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fendas-infernais/battle_ground.png",
+      "bytes": 123003,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fendas-infernais/foreground.png",
+      "bytes": 134157,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fortaleza-de-ferro/atmosphere.png",
+      "bytes": 54549,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fortaleza-de-ferro/background_far.png",
+      "bytes": 163191,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fortaleza-de-ferro/background_mid.png",
+      "bytes": 164829,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fortaleza-de-ferro/battle_ground.png",
+      "bytes": 125685,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/fortaleza-de-ferro/foreground.png",
+      "bytes": 131761,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/hd/bosque-profanado.webp",
+      "bytes": 629860,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/hd/campos-de-cinza.webp",
+      "bytes": 464322,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/hd/criptas-afogadas.webp",
+      "bytes": 530918,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/hd/fendas-infernais.webp",
+      "bytes": 484542,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/hd/fortaleza-de-ferro.webp",
+      "bytes": 489822,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/hd/trono-do-crepusculo.webp",
+      "bytes": 433776,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/trono-do-crepusculo/atmosphere.png",
+      "bytes": 77403,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/trono-do-crepusculo/background_far.png",
+      "bytes": 183535,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/trono-do-crepusculo/background_mid.png",
+      "bytes": 181098,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/trono-do-crepusculo/battle_ground.png",
+      "bytes": 122022,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/backgrounds/trono-do-crepusculo/foreground.png",
+      "bytes": 154981,
+      "reason": "Cenário anterior substituído pelas texturas fast"
+    },
+    {
+      "path": "assets/hero/cavaleiro-hellward.png",
+      "bytes": 1243217,
+      "reason": "PNG anterior substituído pelo WebP ativo"
+    },
+    {
+      "path": "assets/hud/relic-niche.svg",
+      "bytes": 1880,
+      "reason": "Nicho anterior substituído pelo altar ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-01-osso-quebradico.png",
+      "bytes": 641,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-02-fivela-retorcida.png",
+      "bytes": 737,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-03-placa-de-armadura-partida.png",
+      "bytes": 751,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-04-medalha-sem-inscricao.png",
+      "bytes": 795,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-05-espada-enferrujada.png",
+      "bytes": 876,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-06-elmo-amassado.png",
+      "bytes": 703,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-07-couraca-rachada.png",
+      "bytes": 1095,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-08-anel-de-cobre.png",
+      "bytes": 862,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-09-pocao-de-vida-pequena.png",
+      "bytes": 842,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-10-lamina-do-guarda-caido.png",
+      "bytes": 876,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-11-couraca-dos-caidos.png",
+      "bytes": 1095,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-12-sinete-das-cinzas.png",
+      "bytes": 935,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-13-espada-dos-condenados.png",
+      "bytes": 949,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-14-medalhao-do-cavaleiro-decapitado.png",
+      "bytes": 842,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-15-espada-do-espadachim-corrompido.png",
+      "bytes": 1120,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-01-16-lamina-do-cavaleiro-decapitado.png",
+      "bytes": 1119,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-01-tufo-de-pelo-sarnento.png",
+      "bytes": 1033,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-02-presa-quebrada.png",
+      "bytes": 640,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-03-glandula-apodrecida.png",
+      "bytes": 748,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-04-raiz-retorcida.png",
+      "bytes": 624,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-05-faca-de-caca-cega.png",
+      "bytes": 787,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-06-capuz-rasgado.png",
+      "bytes": 892,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-07-colete-de-couro-podre.png",
+      "bytes": 1081,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-08-aro-de-madeira.png",
+      "bytes": 857,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-09-balsamo-de-folhas.png",
+      "bytes": 842,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-10-adaga-da-matilha.png",
+      "bytes": 787,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-11-armadura-da-floresta-profanada.png",
+      "bytes": 927,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-12-colar-de-presas.png",
+      "bytes": 829,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-13-anel-da-pestilencia.png",
+      "bytes": 935,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-14-mascara-do-musgo-vivo.png",
+      "bytes": 1009,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-15-coroa-do-rei-das-ratazanas.png",
+      "bytes": 1193,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-02-16-olho-da-hidra.png",
+      "bytes": 843,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-01-dente-do-afogado.png",
+      "bytes": 635,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-02-elo-de-corrente-salgada.png",
+      "bytes": 732,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-03-lasca-de-sarcofago.png",
+      "bytes": 747,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-04-espada-corroida.png",
+      "bytes": 870,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-05-elmo-funerario-quebrado.png",
+      "bytes": 695,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-06-vestes-mofadas.png",
+      "bytes": 923,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-07-anel-oxidado.png",
+      "bytes": 855,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-08-pocao-de-vida-media.png",
+      "bytes": 860,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-09-veu-do-lamento.png",
+      "bytes": 840,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-10-anel-do-afogado.png",
+      "bytes": 940,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-11-medalhao-submerso.png",
+      "bytes": 844,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-12-lamina-do-sacerdote-esquecido.png",
+      "bytes": 870,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-13-manto-dos-esquecidos.png",
+      "bytes": 1007,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-14-orbe-dos-lamentos.png",
+      "bytes": 1210,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-15-grimorio-da-bruxa-das-criptas.png",
+      "bytes": 847,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-03-16-gadanha-do-rei-lich.png",
+      "bytes": 832,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-01-engrenagem-lascada.png",
+      "bytes": 739,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-02-elo-de-algema.png",
+      "bytes": 739,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-03-po-de-ferrugem.png",
+      "bytes": 1090,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-04-machado-sem-fio.png",
+      "bytes": 788,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-05-capacete-de-ferro-torto.png",
+      "bytes": 698,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-06-peitoral-de-sucata.png",
+      "bytes": 1070,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-07-anel-de-ferro-bruto.png",
+      "bytes": 854,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-08-tonico-do-ferreiro.png",
+      "bytes": 842,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-09-lamina-dos-guardas.png",
+      "bytes": 880,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-10-armadura-rebitada.png",
+      "bytes": 1070,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-11-sinete-do-carcereiro.png",
+      "bytes": 937,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-12-martelo-de-basalto.png",
+      "bytes": 766,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-13-coracao-de-ferro.png",
+      "bytes": 853,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-14-elmo-do-carcereiro-runico.png",
+      "bytes": 788,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-15-couraca-do-ogro.png",
+      "bytes": 1230,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-04-16-lamina-do-abismo.png",
+      "bytes": 1144,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-01-escama-carbonizada.png",
+      "bytes": 639,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-02-pedra-vulcanica-porosa.png",
+      "bytes": 1105,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-03-vidro-infernal-rachado.png",
+      "bytes": 737,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-04-lamina-carbonizada.png",
+      "bytes": 868,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-05-elmo-chamuscado.png",
+      "bytes": 700,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-06-couraca-queimada.png",
+      "bytes": 1090,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-07-anel-de-obsidiana-trincado.png",
+      "bytes": 854,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-08-pocao-de-vida-grande.png",
+      "bytes": 813,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-09-colar-de-carvao-vivo.png",
+      "bytes": 843,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-10-cortadora-de-brasas.png",
+      "bytes": 868,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-11-armadura-de-cinza.png",
+      "bytes": 1090,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-12-mascara-de-fumaca.png",
+      "bytes": 842,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-13-couraca-carmesim.png",
+      "bytes": 1128,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-14-anel-das-chamas-eternas.png",
+      "bytes": 962,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-15-garra-do-flagelo.png",
+      "bytes": 823,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-16-coracao-do-devorador.png",
+      "bytes": 858,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-17-manto-da-sucubo-das-cinzas.png",
+      "bytes": 1100,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-05-18-presa-do-dragao-infernal.png",
+      "bytes": 1120,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-01-obsidiana-estilhacada.png",
+      "bytes": 741,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-02-selo-imperial-apagado.png",
+      "bytes": 784,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-03-po-do-eclipse.png",
+      "bytes": 1058,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-04-espada-imperial-partida.png",
+      "bytes": 853,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-05-coroa-danificada.png",
+      "bytes": 989,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-06-peitoral-real-amassado.png",
+      "bytes": 1080,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-07-tonico-lunar.png",
+      "bytes": 815,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-08-lamina-do-arauto.png",
+      "bytes": 853,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-09-veu-do-eclipse.png",
+      "bytes": 838,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-10-pingente-da-noite.png",
+      "bytes": 827,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-11-couraca-do-trono.png",
+      "bytes": 1080,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-12-anel-do-vazio.png",
+      "bytes": 935,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-13-coroa-das-almas-perdidas.png",
+      "bytes": 1030,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-14-foice-do-lich-imortal.png",
+      "bytes": 645,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-15-esfera-do-devorador-de-estrelas.png",
+      "bytes": 1199,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-16-manto-da-medusa-do-eclipse.png",
+      "bytes": 1118,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-17-armadura-do-imperador.png",
+      "bytes": 1240,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/items/area-06-18-espada-do-ultimo-eclipse.png",
+      "bytes": 1097,
+      "reason": "Ícone anterior substituído pelo atlas ilustrado"
+    },
+    {
+      "path": "assets/menu/botoes/botao-cinza.svg",
+      "bytes": 101770,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/botoes/botao-vermelho.svg",
+      "bytes": 101622,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/botoes/continuar_sem_texto.png",
+      "bytes": 55518,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/botoes/iniciar_jornada_sem_texto.png",
+      "bytes": 75277,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/cenario/cenario-cavaleiro.jpg",
+      "bytes": 252326,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/efeitos/titulo-fogo-base.svg",
+      "bytes": 4614,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/efeitos/titulo-fogo-direita.svg",
+      "bytes": 1030,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/efeitos/titulo-fogo-esquerda.svg",
+      "bytes": 1027,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/logo/hellward-titulo-hd.webp",
+      "bytes": 786444,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/logo/hellward-titulo-restaurado.webp",
+      "bytes": 1058306,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/logo/hellward_logo.png",
+      "bytes": 349652,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/menu/logo/subtitulo.png",
+      "bytes": 81335,
+      "reason": "Arte de menu anterior/duplicada"
+    },
+    {
+      "path": "assets/monsters/afogado-sem-rosto.svg",
+      "bytes": 3829,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/alma-enregelada.svg",
+      "bytes": 3064,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/arauto-das-chamas.svg",
+      "bytes": 3883,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/arauto-do-eclipse.svg",
+      "bytes": 4327,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/arqueiro-macabro.svg",
+      "bytes": 4419,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/carcereiro-runico.svg",
+      "bytes": 3896,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/condenado-errante.svg",
+      "bytes": 3905,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/construto-enferrujado.svg",
+      "bytes": 3250,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/demonio-carmesim.svg",
+      "bytes": 4332,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/devorador-de-estrelas.svg",
+      "bytes": 3196,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/entorpecido-de-musgo.svg",
+      "bytes": 3660,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/espectro-da-cripta.png",
+      "bytes": 40382,
+      "reason": "Retrato anterior substituído pela versão atual"
+    },
+    {
+      "path": "assets/monsters/flagelo-abissal.svg",
+      "bytes": 3494,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/golem-ferrugem.svg",
+      "bytes": 2917,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/guardiao-de-basalto.svg",
+      "bytes": 3080,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/imperador-do-crepusculo-original-1024.png",
+      "bytes": 88098,
+      "reason": "Retrato anterior substituído pela versão atual"
+    },
+    {
+      "path": "assets/monsters/imperador-do-crepusculo.png",
+      "bytes": 79285,
+      "reason": "Retrato anterior substituído pela versão atual"
+    },
+    {
+      "path": "assets/monsters/imperador-do-crepusculo.svg",
+      "bytes": 5032,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/lamento-submerso.svg",
+      "bytes": 3192,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/lich-imortal.svg",
+      "bytes": 4216,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/lobo-da-praga.svg",
+      "bytes": 3498,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/rei-das-sombras.svg",
+      "bytes": 4220,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/sacerdote-do-vazio.svg",
+      "bytes": 3578,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/sacerdote-esquecido.svg",
+      "bytes": 3389,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/sentinela-caida.svg",
+      "bytes": 4139,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/sombra-incandescente.svg",
+      "bytes": 3352,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "assets/monsters/sucubo-das-cinzas.svg",
+      "bytes": 4199,
+      "reason": "Sprite SVG anterior substituído pelo PNG ativo"
+    },
+    {
+      "path": "hud-grim.css",
+      "bytes": 3002,
+      "reason": "Código/estilo não importado pelo index atual"
+    },
+    {
+      "path": "hud-hellward.css",
+      "bytes": 4889,
+      "reason": "Código/estilo não importado pelo index atual"
+    },
+    {
+      "path": "menu-scene.js",
+      "bytes": 1914,
+      "reason": "Código/estilo não importado pelo index atual"
+    },
+    {
+      "path": "parallax.js",
+      "bytes": 75,
+      "reason": "Código/estilo não importado pelo index atual"
+    },
+    {
+      "path": "ui.css",
+      "bytes": 6818,
+      "reason": "Código/estilo não importado pelo index atual"
+    }
+  ]
+}
