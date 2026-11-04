@@ -148,11 +148,8 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.locator('#hudChronicle').isVisible(),true);
     await capture('hud-chronicle');
     await p.keyboard.press('Escape');
-    // Focus mode should enlarge the arena and preserve access to the three relics.
-    const arenaBefore=await p.locator('#battlefield').evaluate(el=>el.clientHeight);
-    await p.click('#focusBattle');
-    assert.ok(await p.locator('#battlefield').evaluate(el=>el.clientHeight)>arenaBefore);
-    await capture('hud-focused');await p.click('#focusBattle');
+    assert.equal(await p.locator('#focusBattle').count(),0);
+    assert.notEqual(await p.locator('html').getAttribute('data-focus'),'battle');
     // Existing buy/equip/potion/sell actions remain attached to the moved tabBody.
     await p.evaluate(()=>{const {game:g}=window.__hudTest;g.state.gold=100;g.renderCore();g.renderPanel();});
     await p.keyboard.press('c');

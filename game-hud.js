@@ -59,7 +59,7 @@
     if (active === name && !backdrop.hidden) { close(); return; }
     opener = button || document.querySelector(`[data-open-panel="${name}"]`);
     if (name !== 'chronicle' && name !== 'settings') panel.querySelector(`[data-tab="${name}"]`).click();
-    display(name); backdrop.hidden = false; frame.inert = true;
+    backdrop.hidden = false; display(name); frame.inert = true;
     $('hudClose').focus({preventScroll:true});
   }
   document.querySelectorAll('[data-open-panel]').forEach(button => button.addEventListener('click', () => open(button.dataset.openPanel, button)));

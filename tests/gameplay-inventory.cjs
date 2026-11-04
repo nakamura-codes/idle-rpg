@@ -127,6 +127,22 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.evaluate(()=>window.__hudTest.game.state.equipment.weapon),chosenWeapon);
     assert.equal(await p.locator('#playerHeroName').textContent(),'Big');
     console.log('PASS saved equipment and actual offline-return layout with the player name');
+    // Repeat a reached phase without consuming the pending miniboss checkpoint.
+    await p.evaluate(()=>{const g=window.__hudTest.game;g.state.zoneProgress[0]={stage:5,kills:10,minibossDefeated:false,bossDefeated:false,cleared:false};g.state.lastEventAt=Date.now()+1e8;g.setHuntMode(null);});
+    await p.click('[data-open-panel="zones"]');await p.selectOption('#farmStageSelect','3');await p.click('[data-start-hunt]');
+    assert.equal(await p.evaluate(()=>window.__hudTest.game.state.farmStage),3);
+    await p.selectOption('#farmStageSelect','2');await p.evaluate(()=>window.__hudTest.game.killMob());
+    assert.equal(await p.locator('#farmStageSelect').inputValue(),'2');await p.selectOption('#farmStageSelect','3');
+    const checkpoint=await p.evaluate(()=>JSON.stringify(window.__hudTest.game.state.zoneProgress[0]));
+    await p.evaluate(()=>{const g=window.__hudTest.game;for(let i=0;i<11;i++)g.killMob();g.save();});
+    assert.equal(await p.evaluate(()=>JSON.stringify(window.__hudTest.game.state.zoneProgress[0])),checkpoint);
+    assert.equal(await p.evaluate(()=>window.__hudTest.game.state.mob.kind),'normal');
+    const huntSave=await p.evaluate(()=>{const profile=JSON.parse(localStorage.getItem('hellward_profiles_v7'))[0];return JSON.parse(localStorage.getItem('hellward_save_v7_'+profile.id));});
+    assert.equal(huntSave.farmStage,3);assert.equal(huntSave.farmKills,2);assert.ok(Array.isArray(huntSave.lootDryStreak));
+    await p.locator('#hudPanelScroll').evaluate(el=>el.scrollTop=0);await capture('hunt-mobile');await p.click('[data-resume-journey]');
+    assert.equal(await p.evaluate(()=>window.__hudTest.game.state.mob.kind),'miniboss');
+    assert.equal(await p.evaluate(()=>window.__hudTest.game.state.farmStage),null);await p.keyboard.press('Escape');
+    console.log('PASS hunt controls, repeated kills, saved hunt/loot fields and pending-miniboss restoration');
     // Capture all gameplay panels at desktop and narrow mobile sizes.
     for(const [w,h] of [[1366,768],[390,844],[320,568],[844,390]]){
       await p.setViewportSize({width:w,height:h});
@@ -134,6 +150,7 @@ const server = http.createServer((req,res) => {
         await p.click(`[data-open-panel="${name}"]`);
         await p.locator('#hudPanel img').evaluateAll(imgs=>Promise.all(imgs.map(img=>img.decode().catch(()=>{}))));
         await p.waitForTimeout(80);
+        assert.equal(await p.locator('#hudPanelScroll').evaluate(el=>el.scrollTop),0,`${name} opens scrolled down`);
         const ui=await p.locator('#hudPanel').evaluate(el=>({box:el.getBoundingClientRect().toJSON(),width:el.scrollWidth,client:el.clientWidth,scroll:document.getElementById('hudPanelScroll').scrollWidth,scrollClient:document.getElementById('hudPanelScroll').clientWidth}));
         assert.ok(ui.box.x>=0&&ui.box.y>=0&&ui.box.right<=w&&ui.box.bottom<=h, `${name} ${w} clipped panel`);
         assert.ok(ui.width<=ui.client+1&&ui.scroll<=ui.scrollClient+1,`${name} ${w} horizontal overflow ${JSON.stringify(ui)}`);

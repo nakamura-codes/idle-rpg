@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#15120f">
   <meta name="description" content="Hellward — RPG idle de fantasia sombria. Evolua, conquiste tesouros e renasça mais forte.">
-  <script src="ui.js?v=10"></script>
+  <script src="ui.js?v=11"></script>
   <title>Hellward · Idle RPG</title>
   <link rel="stylesheet" href="styles.css?v=7.3">
   <link rel="stylesheet" href="menu.css?v=11">
@@ -15,13 +15,14 @@
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.0" defer></script>
   <script src="game-art.js?v=1" defer></script>
-  <script src="game.js?v=13" defer></script>
+  <script src="game.js?v=14" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=3">
-  <script src="game-hud.js?v=5" defer></script>
+  <script src="game-hud.js?v=6" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="gameplay.css?v=2">
   <link rel="stylesheet" href="hud-legibility.css?v=1">
   <link rel="stylesheet" href="content-art.css?v=1">
+  <link rel="stylesheet" href="hunt.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -36,7 +37,7 @@
         <div class="resource-pill"><div class="resource-icon soul">◆</div><div><small>ALMAS</small><strong id="prestigeValue">0</strong></div></div>
         <div class="resource-pill fragment-pill"><div class="resource-icon shard">✧</div><div><small>FRAGMENTOS</small><strong id="fragmentValue">0 / 10</strong></div></div>
       </div>
-      <div class="ui-tools"><button id="focusBattle" type="button" aria-pressed="false" aria-label="Ampliar campo de batalha">Ampliar</button><button id="settingsButton" class="settings-button" type="button" data-open-panel="settings" aria-label="Configurações do jogo" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2-2 .9-1.9-.5-2 3.4L4 10.3v3.4l-1.5 1.5 2 3.4 1.9-.5 2 .9.6 2h4l.6-2 2-.9 1.9.5 2-3.4-1.5-1.5v-3.4l1.5-1.5-2-3.4-1.9.5-2-.9L13 3Z"/><circle cx="11" cy="12" r="3"/></svg></button></div>
+      <div class="ui-tools"><button id="settingsButton" class="settings-button" type="button" data-open-panel="settings" aria-label="Configurações do jogo" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2-2 .9-1.9-.5-2 3.4L4 10.3v3.4l-1.5 1.5 2 3.4 1.9-.5 2 .9.6 2h4l.6-2 2-.9 1.9.5 2-3.4-1.5-1.5v-3.4l1.5-1.5-2-3.4-1.9.5-2-.9L13 3Z"/><circle cx="11" cy="12" r="3"/></svg></button></div>
       <button class="profile-button" id="switchProfile" type="button" title="Trocar perfil"><span class="profile-avatar" aria-hidden="true">♜</span><span class="profile-copy"><small>AVENTUREIRO</small><strong id="profileName">—</strong></span><span class="profile-chevron">⌄</span></button>
     </header>
 
@@ -125,7 +126,7 @@
         <section class="settings-card"><h3>Atalhos do aventureiro</h3><dl class="shortcut-list"><div><dt>Livro Negro</dt><dd>C</dd></div><div><dt>Mochila</dt><dd>I</dd></div><div><dt>Ascensão</dt><dd>A</dd></div><div><dt>Regiões</dt><dd>M</dd></div><div><dt>Crônicas</dt><dd>J</dd></div><div><dt>Poção de vida</dt><dd>Q</dd></div><div><dt>Atacar</dt><dd>Espaço</dd></div><div><dt>Fechar painel</dt><dd>Esc</dd></div></dl></section>
       </section>
       <section id="hudChronicle" hidden>      <div class="chronicle-content">
-        <section class="panel intel-panel"><div class="panel-heading"><div><div class="eyebrow">O CÓDICE SOMBRIO</div><h2>Visão da Batalha</h2></div><span class="heading-glyph">☽</span></div><div class="intel-block"><div class="intel-symbol">♢</div><div><small>INIMIGO ATUAL</small><strong id="intelMob">Condenado</strong><span id="intelReward">+12 ouro · +9 XP</span></div></div><div class="ornate-divider">✧</div><div class="intel-chance"><span>Chance de equipamento</span><strong id="dropChance">18%</strong></div><div class="intel-chance"><span>Próximo ataque inimigo</span><strong id="enemyAttackCountdown">2.8s</strong></div><div class="intel-chance"><span>Dano por golpe recebido</span><strong id="enemyDamage">5</strong></div><div class="intel-chance"><span>Bônus de ouro</span><strong id="goldBonus">+0%</strong></div><div class="intel-chance"><span>Almas ao renascer</span><strong id="prestigePreview">0</strong></div><div class="mini-tip">✦ &nbsp; Goblins e baús surgem durante o combate. Derrote-os antes que desapareçam!</div></section>
+        <section class="panel intel-panel"><div class="panel-heading"><div><div class="eyebrow">O CÓDICE SOMBRIO</div><h2>Visão da Batalha</h2></div><span class="heading-glyph">☽</span></div><div class="intel-block"><div class="intel-symbol">♢</div><div><small>INIMIGO ATUAL</small><strong id="intelMob">Condenado</strong><span id="intelReward">+12 ouro · +9 XP</span></div></div><div class="ornate-divider">✧</div><div class="intel-chance"><span>Equipamento · inimigos comuns</span><strong id="dropChance">2%</strong></div><div class="intel-chance"><span>Garantia de relíquia rara</span><strong id="rareDropProgress">0 / 60 abates ativos</strong></div><div class="intel-chance"><span>Próximo ataque inimigo</span><strong id="enemyAttackCountdown">2.8s</strong></div><div class="intel-chance"><span>Dano por golpe recebido</span><strong id="enemyDamage">5</strong></div><div class="intel-chance"><span>Bônus de ouro</span><strong id="goldBonus">+0%</strong></div><div class="intel-chance"><span>Almas ao renascer</span><strong id="prestigePreview">0</strong></div><div class="mini-tip">✦ &nbsp; Sucata é frequente e vale ouro. Repita fases em Regiões para ganhar XP e buscar equipamentos. Chefes atravessam parte da armadura: prepare poções.</div></section>
         <section class="panel log-panel"><div class="panel-heading log-heading"><div><div class="eyebrow">SUSSURROS DO ABISMO</div><h2>Registro de Combate</h2></div><span class="live-indicator"><span></span> AO VIVO</span></div><div class="combat-log" id="combatLog" role="log" aria-live="off"></div><div class="log-footer">ROLE O MOUSE PARA VER OS REGISTROS ANTERIORES <span>↕</span></div></section>
       </div></section>
       </div>

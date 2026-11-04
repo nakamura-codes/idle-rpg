@@ -13,7 +13,13 @@ try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobil
  const after=Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map(x=>[x.name,x.value]));const out={device:test.name,scene,...stats,fps:Math.round(stats.frames*1000/stats.elapsed),layout:after.LayoutCount-before.LayoutCount,style:after.RecalcStyleCount-before.RecalcStyleCount,taskMs:Math.round(1000*(after.TaskDuration-before.TaskDuration)),scriptMs:Math.round(1000*(after.ScriptDuration-before.ScriptDuration))};rows.push(out);console.log(out);
  }
  await sample('menu');await p.click('[data-menu="new"]');await p.fill('#newProfileName','Perf');await p.click('#createProfileForm button');await p.waitForTimeout(500);await sample('battle-idle');
- await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('attackTarget').click(),200));await sample('battle-attacks');await p.evaluate(()=>clearInterval(window.__auto));await p.click('[data-open-panel="upgrades"]');await sample('codex-idle');await p.keyboard.press('Escape');await p.click('#switchProfile');await sample('menu-return');await p.close();
+ await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('attackTarget').click(),200));await sample('battle-attacks');await p.evaluate(()=>clearInterval(window.__auto));await p.click('[data-open-panel="upgrades"]');await sample('codex-idle');await p.keyboard.press('Escape');if(process.env.PERF_HUNT){await p.click('[data-open-panel="zones"]');await p.selectOption('#farmStageSelect','1');await p.click('[data-start-hunt]');await p.keyboard.press('Escape');await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('attackTarget').click(),200));await sample('hunt-attacks');await p.evaluate(()=>clearInterval(window.__auto));}await p.click('#switchProfile');await sample('menu-return');await p.close();
 }}finally{await browser.close();server.close();}
 if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(rows,null,2));
+if(process.env.PERF_BASELINE){
+ const baseline=JSON.parse(fs.readFileSync(process.env.PERF_BASELINE,'utf8'));
+ const regressions=rows.flatMap(row=>{const before=baseline.find(x=>x.device===row.device&&x.scene===(row.scene==='hunt-attacks'?'battle-attacks':row.scene));return !before?[row.device+' '+row.scene+': missing baseline']:row.fps<before.fps-3?[row.device+' '+row.scene+': FPS '+before.fps+' -> '+row.fps]:row.p95>before.p95+5?[row.device+' '+row.scene+': p95 '+before.p95+' -> '+row.p95]:[];});
+ if(regressions.length)throw Error('Performance regression: '+regressions.join('; '));
+ console.log('PASS performance comparison: <=3 FPS sampling tolerance and <=5 ms p95 variation');
+}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1});
