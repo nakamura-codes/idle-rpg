@@ -14,12 +14,14 @@
   <script src="soundtrack.js?v=3" defer></script>
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.0" defer></script>
-  <script src="game.js?v=12" defer></script>
+  <script src="game-art.js?v=1" defer></script>
+  <script src="game.js?v=13" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=3">
   <script src="game-hud.js?v=5" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="gameplay.css?v=2">
   <link rel="stylesheet" href="hud-legibility.css?v=1">
+  <link rel="stylesheet" href="content-art.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -83,7 +85,7 @@
           </div>
           <div class="progress-bar xp-track" role="progressbar" aria-label="Experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xpProgress"><div class="progress-fill xp-fill" id="xpFill"></div></div>
         </div>
-        <button type="button" id="quickPotion" class="quick-potion" aria-label="Usar poção de vida (Q)" disabled><img id="quickPotionArt" src="assets/items/area-01-09-pocao-de-vida-pequena.png" alt="" width="36" height="42"><b id="quickPotionCount">0</b><span>CURAR <kbd>Q</kbd></span></button>
+        <button type="button" id="quickPotion" class="quick-potion" aria-label="Usar poção de vida (Q)" disabled><span id="quickPotionArt" class="painted-icon" aria-hidden="true"></span><b id="quickPotionCount">0</b><span>CURAR <kbd>Q</kbd></span></button>
       </section>
       <nav class="relic-nav" aria-label="Relíquias do aventureiro"><img class="relic-rail-art" src="assets/ui/relic-rail.webp" alt="" width="960" height="320" aria-hidden="true">
         <button type="button" class="relic-button" data-open-panel="upgrades" aria-label="Livro Negro: status e pontos (C)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/livro-negro.png" alt="" width="88" height="88"><span class="relic-caption"><span>Livro Negro</span><small>STATUS <kbd>C</kbd></small></span><b id="attributeBadge" class="relic-badge" hidden>0</b></button>
@@ -106,12 +108,12 @@
       </nav>
       <div class="hud-panel-scroll" id="hudPanelScroll">
       <section class="codex-summary" id="codexSummary" aria-label="Status do personagem">          <div class="hero-stat-grid">
-            <div class="stat-tile"><small>GOLPE</small><strong id="clickStat">2</strong><span>por clique</span></div>
-            <div class="stat-tile"><small>RITUAL</small><strong id="dpsStat">0</strong><span>por segundo</span></div>
-            <div class="stat-tile"><small>CRÍTICO</small><strong id="critStat">8%</strong><span>chance</span></div>
-            <div class="stat-tile"><small>FORTUNA</small><strong id="luckStat">0%</strong><span>sorte</span></div>
-            <div class="stat-tile"><small>VIDA MÁX.</small><strong id="hpStat">110</strong><span>sobrevivência</span></div>
-            <div class="stat-tile"><small>DEFESA</small><strong id="defenseStat">3</strong><span>redução de dano</span></div>
+            <div class="stat-tile"><span class="painted-icon summary-icon" data-status-icon="click" aria-hidden="true"></span><small>GOLPE</small><strong id="clickStat">2</strong><span>por clique</span></div>
+            <div class="stat-tile"><span class="painted-icon summary-icon" data-status-icon="dps" aria-hidden="true"></span><small>RITUAL</small><strong id="dpsStat">0</strong><span>por segundo</span></div>
+            <div class="stat-tile"><span class="painted-icon summary-icon" data-status-icon="crit" aria-hidden="true"></span><small>CRÍTICO</small><strong id="critStat">8%</strong><span>chance</span></div>
+            <div class="stat-tile"><span class="painted-icon summary-icon" data-status-icon="luck" aria-hidden="true"></span><small>FORTUNA</small><strong id="luckStat">0%</strong><span>sorte</span></div>
+            <div class="stat-tile"><span class="painted-icon summary-icon" data-status-icon="health" aria-hidden="true"></span><small>VIDA MÁX.</small><strong id="hpStat">110</strong><span>sobrevivência</span></div>
+            <div class="stat-tile"><span class="painted-icon summary-icon" data-status-icon="defense" aria-hidden="true"></span><small>DEFESA</small><strong id="defenseStat">3</strong><span>redução de dano</span></div>
           </div>
 </section>
       <div class="tab-body" id="tabBody" aria-live="polite"></div>
