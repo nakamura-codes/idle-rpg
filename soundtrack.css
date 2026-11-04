@@ -1,0 +1,8 @@
+.hellward-audio-controls{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 16px;margin:12px 0;color:var(--cream,#e4d4b4);font:13px Georgia,serif}
+.hellward-audio-controls button{border:1px solid #80633a;background:#1d1511;color:#e4d4b4;padding:8px 12px;cursor:pointer;font:inherit}
+.hellward-audio-controls button:hover,.hellward-audio-controls button:focus-visible{border-color:#d7a456;color:#fff0cf}
+.hellward-audio-controls label,.hw-panel .hellward-audio-controls label{display:flex;align-items:center;gap:8px;margin:0;font:inherit;color:inherit;text-transform:none;letter-spacing:normal}
+.hellward-audio-controls input[type=range],.hw-panel .hellward-audio-controls input[type=range]{width:100px;padding:0;border:0;accent-color:#c5934f;cursor:pointer;background:transparent;box-shadow:none}
+.hellward-audio-controls output{min-width:3ch;font-size:12px;font-variant-numeric:tabular-nums}
+.site-footer{flex-wrap:wrap;gap:12px}.site-footer .hellward-audio-controls{margin:0}
+#musicStatus{font-size:14px;color:#bda982}
