@@ -72,9 +72,9 @@
 .hw-menu .hw-btn,.hw-menu .hw-start{
   background:transparent url('assets/menu/botoes/botao-cinza.png') center/100% 100% no-repeat;
   border:0;box-shadow:none;outline:0;clip-path:none;
-  min-height:60px;padding:10px 40px;color:#dfd0b4;letter-spacing:.06em;
-  text-transform:uppercase;text-shadow:0 2px 3px #000;
-  filter:none;transition:color .18s;
+  min-height:60px;padding:10px 40px;color:#f5dfb7;letter-spacing:.06em;
+  text-transform:uppercase;text-shadow:0 1px 2px #050100,0 0 5px #de54273d;
+  filter:none;transition:none;
 }
 .hw-menu .hw-btn::before,.hw-menu .hw-btn::after{display:none}
 .hw-menu .hw-btn:hover,.hw-menu .hw-btn:focus-visible{
@@ -83,7 +83,7 @@
 }
 @media(max-width:700px){.hw-menu .hw-btn{min-height:54px;font-size:15px;padding:8px 30px}}
 
-/* Duas artes completas: cinza em repouso e vermelha na seleção. */
+/* Metal escuro com detalhes de cobre/brasa; dourado e vermelho na seleção. */
 .hw-menu .hw-btn,.hw-menu .hw-start,.hw-menu .hw-btn:hover,.hw-menu .hw-btn:focus-visible {
   position:relative;isolation:isolate;background:none;filter:none;
 }
@@ -95,7 +95,7 @@
 .hw-menu .hw-btn::before{opacity:1}
 .hw-menu .hw-btn::after {
   background-image:url('assets/menu/botoes/botao-vermelho.png');
-  opacity:0;transition:opacity .22s ease-in-out;
+  opacity:.42;transition:none;
 }
 .hw-menu .hw-btn:hover::after,.hw-menu .hw-btn:focus-visible::after{opacity:1}
 @media(prefers-reduced-motion:reduce){.hw-menu .hw-btn::after{transition:none}}
@@ -110,8 +110,8 @@
 @media(max-width:700px){.hw-menu{background-position:65% center}.hw-menu .hw-logo{width:min(100%,380px)}}
 @media(prefers-reduced-motion:reduce){.hw-menu::before,.hw-menu .hw-shell{animation:none}}
 
-/* Sombra suave sobre cenário e HUD, sem capturar cliques. */
-.hw-menu::after{z-index:3;background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),radial-gradient(ellipse at 35% 50%,transparent 30%,rgba(0,0,0,.78) 100%)}
+/* A vinheta escurece o cenário atrás dos controles, preservando sua leitura. */
+.hw-menu::after{z-index:1;background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),radial-gradient(ellipse at 35% 50%,transparent 30%,rgba(0,0,0,.78) 100%)}
 /* A escala é calculada apenas quando o tamanho ou conteúdo muda. */
 .hw-menu{height:100vh;height:100dvh;overflow:hidden;padding:12px 7%;box-sizing:border-box}
 .hw-menu .hw-shell{flex:none;box-sizing:border-box;padding:12px 24px;transform:scale(var(--hw-fit,1));transform-origin:right center;animation:hw-menu-fade 1s ease-out both}
