@@ -16,6 +16,9 @@
   const MAX_INVENTORY = 140;
   const MAX_OFFLINE_SECONDS = 12 * 60 * 60;
   const MAX_OFFLINE_KILLS = 30000;
+  const RARE_DROP_LIMIT = 60;
+  const SCRAP_DROP_CHANCE = .70;
+  const POTION_DROP_CHANCE = .045;
   const SAVE_INTERVAL = 10000;
   const TABS = new Set(['upgrades', 'inventory', 'zones', 'ascension']);
   const SLOTS = ['weapon', 'helmet', 'armor', 'ring', 'necklace', 'relic'];
@@ -192,12 +195,13 @@
   const heroMaxHp = (s) => Math.max(30,Math.floor(110+(s.level-1)*13+s.upgrades.vitality*35+(s.attributes?.vitality||0)*15+heroEquipmentStats(s).health));
   const freshProgress = () => ({stage:1,kills:0,minibossDefeated:false,bossDefeated:false,cleared:false});
   const progressAt = (s) => s.zoneProgress[s.zone];
+  const combatStage = (s) => s.farmStage ?? progressAt(s).stage;
   // Bosses remain mandatory: no amount of farming, XP or offline DPS skips them.
   const unlockedZone = (s,z) => z === 0 || s.zoneProgress[z-1].cleared;
   const requiredBossKind = (progress) => progress.cleared ? null :
     (progress.stage === 5 && progress.kills >= ENEMIES_PER_PHASE && !progress.minibossDefeated ? 'miniboss' :
     (progress.stage === PHASES_PER_ZONE && progress.kills >= ENEMIES_PER_PHASE && !progress.bossDefeated ? 'boss' : null));
-  const phaseMultiplier = (s) => power(1.36,progressAt(s).stage-1);
+  const phaseMultiplier = (s) => power(1.36,combatStage(s)-1);
   const rewardGold = (s) => Math.max(1,Math.floor(multiply(12 * power(2.35,s.zone),multiply(phaseMultiplier(s),1+Math.min(10000,s.zoneKills[s.zone])*.0075))));
   const rewardXp = (s) => Math.max(1,Math.floor(multiply(9 * power(1.95,s.zone),multiply(phaseMultiplier(s),1+Math.min(10000,s.zoneKills[s.zone])*.005))));
   const maxMobHp = (s,kind='normal') => {
@@ -208,20 +212,28 @@
   const enemyAttackInterval = (mob) => mob.kind==='boss' ? 3600 : mob.kind==='miniboss' ? 3050 : 2750;
   const enemyBaseDamage = (s) => {
     const kind=s.mob.kind;
-    const base=5.4 * power(1.46,s.zone) * power(1.135,progressAt(s).stage-1);
-    return Math.max(1,Math.round(multiply(base,kind==='boss'?2.65:kind==='miniboss'?1.8:1)));
+    const elite=kind==='boss'||kind==='miniboss';
+    const base=5.4 * power(elite?1.64:1.46,s.zone) * power(1.135,combatStage(s)-1);
+    return Math.max(1,Math.round(multiply(base,kind==='boss'?3.2:kind==='miniboss'?2.05:1)));
+  };
+  const enemyHitDamage = (s,defense) => {
+    const kind=s.mob.kind,armorScale=kind==='boss'?60+s.zone*30:kind==='miniboss'?40+s.zone*20:25;
+    // Defense remains useful, but cannot erase an elite's attack indefinitely.
+    const minimum=kind==='boss'?.25:kind==='miniboss'?.15:0;
+    return Math.max(1,Math.round(enemyBaseDamage(s)*Math.max(minimum,armorScale/(armorScale+Math.max(0,defense)))));
   };
   const freshMob = (s,previousName='') => {
     const zone=ZONES[s.zone],progress=progressAt(s);
-    const kind=requiredBossKind(progress)||'normal';
+    const kind=s.farmStage!=null?'normal':requiredBossKind(progress)||'normal';
     const names=zone.names.filter(name=>name!==previousName);
     const maxHp=maxMobHp(s,kind);
     const name=kind==='boss'?zone.boss:kind==='miniboss'?zone.miniboss:pick(names.length?names:zone.names);
-    return {name,kind,hp:maxHp,maxHp,level:1+s.zone*12+(progress.stage-1)*2+(kind==='normal'?0:kind==='boss'?4:2)};
+    return {name,kind,hp:maxHp,maxHp,level:1+s.zone*12+(combatStage(s)-1)*2+(kind==='normal'?0:kind==='boss'?4:2)};
   };
   const newState = (name) => {
     const s = {version:SAVE_VERSION,name:safeName(name,18) || 'Errante',heroHp:110,deadUntil:0,nextEnemyAttackAt:0,createdAt:now(),lastSeen:now(),level:1,xp:0,gold:0,souls:0,shards:0,zone:0,zoneKills:Array(ZONES.length).fill(0),zoneProgress:ZONES.map(freshProgress),attributes:emptyRanks(ATTRIBUTES),upgrades:emptyRanks(UPGRADES),skills:emptyRanks(SKILLS),inventory:[],equipment:Object.fromEntries(SLOTS.map(x=>[x,null])),mob:null,event:null,nextEventAt:now()+randEventDelay(),lastEventAt:0,runKills:0,runGold:0,lifetimeKills:0,rebirths:0,potionBuffUntil:0,potionBonus:0};
     s.mob = freshMob(s);
+    s.farmStage=null;s.farmKills=0;s.lootDryStreak=ZONES.map(()=>0);
     s.nextEnemyAttackAt = now()+enemyAttackInterval(s.mob);
     return s;
   };
@@ -312,6 +324,9 @@
     }
     s.zone=validZone(raw.zone);
     if(!unlockedZone(s,s.zone))s.zone=ZONES.reduce((z,_,i)=>unlockedZone(s,i)?i:z,0);
+    s.farmStage=raw.farmStage==null?null:integer(raw.farmStage,0,0,progressAt(s).stage)||null;
+    s.farmKills=integer(raw.farmKills,0,0,9);
+    s.lootDryStreak=ZONES.map((_,i)=>integer(raw.lootDryStreak?.[i],0,0,RARE_DROP_LIMIT-1));
     const seen = new Set();
     if (Array.isArray(raw.inventory)) for (const entry of raw.inventory.slice(0,MAX_INVENTORY)) {
       const item = normalizeItem(entry);
@@ -323,7 +338,7 @@
     }
     s.mob = freshMob(s);
     if(raw.mob && typeof raw.mob==='object' && raw.version===SAVE_VERSION){
-      const kind=requiredBossKind(progressAt(s))||'normal';
+      const kind=s.farmStage!=null?'normal':requiredBossKind(progressAt(s))||'normal';
       const expectedMax=maxMobHp(s,kind);
       // Rebuild identity and maximum health from trusted area/phase definitions.
       const name=kind==='boss'?ZONES[s.zone].boss:kind==='miniboss'?ZONES[s.zone].miniboss:
@@ -349,6 +364,7 @@
       this.tab = 'upgrades';
       this.buyQuantity = 1;
       this.attributeQuantity = 1;
+      this.huntSelection = null;
       this.inventoryFilter = 'all';
       this.inventorySort = 'new';
       this.sellRarity = 'low';
@@ -454,6 +470,7 @@
     }
     activate(profile,state) {
       this.state=state;
+      this.huntSelection=null;
       this.profileId=profile.id;
       this.lastZoneRendered=-1;
       this.lastEventRendered='';
@@ -487,6 +504,7 @@
       document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>this.changeTab(btn.dataset.tab)));
       $('tabBody').addEventListener('click',(e)=>this.onPanelClick(e));
       $('tabBody').addEventListener('change',(e)=>{
+        if(e.target.id==='farmStageSelect')this.huntSelection=Number(e.target.value);
         if(e.target.id==='inventoryFilter'){this.inventoryFilter=e.target.value;this.renderPanel();}
         if(e.target.id==='inventorySort'){this.inventorySort=e.target.value;this.renderPanel();}
         if(e.target.id==='inventorySellRarity'){this.sellRarity=e.target.value;this.renderPanel();}
@@ -595,7 +613,7 @@
       const critDamage=1.7+s.skills.w3*.22;
       const luck=s.skills.r1*.06+eq.luck;
       const gold=1+s.upgrades.banner*.07+s.skills.s3*.10+eq.gold;
-      const drop=Math.min(.35,.08+luck*.06);
+      const drop=Math.min(.05,.02+Math.max(0,luck)*.012);
       const maxHp=heroMaxHp(s);
       const defense=Math.max(0,3+(s.level-1)*.28+s.upgrades.guard*2.5+s.attributes.guard+eq.defense);
       const regen=Math.max(.2,.55+maxHp*.0025+s.upgrades.recovery*.65);
@@ -636,7 +654,7 @@
       let kills=0,gold=0,xp=0;
       // At most 100 regular enemies are simulated before each mandatory boss.
       // Offline progression stops at the miniboss/boss, so gated areas cannot be skipped.
-      while(remaining>0 && kills<MAX_OFFLINE_KILLS && !requiredBossKind(progressAt(s))){
+      while(remaining>0 && kills<MAX_OFFLINE_KILLS && (s.farmStage!=null || !requiredBossKind(progressAt(s)))){
         const mob=s.mob;
         if(mob.kind!=='normal'){s.mob=freshMob(s);break;}
         if(remaining<mob.hp){mob.hp-=remaining;break;}
@@ -645,7 +663,8 @@
         xp=add(xp,rewardXp(s));
         s.runKills++;s.lifetimeKills++;s.zoneKills[s.zone]++;
         const progress=progressAt(s);
-        if(!progress.cleared){
+        if(s.farmStage!=null)s.farmKills=(s.farmKills+1)%ENEMIES_PER_PHASE;
+        else if(!progress.cleared){
           progress.kills++;
           if(progress.kills===ENEMIES_PER_PHASE && progress.stage!==5 && progress.stage!==10){
             progress.stage++;progress.kills=0;
@@ -687,8 +706,7 @@
       const s=this.state;
       if(!s || s.deadUntil)return;
       const b=this.bonuses();
-      const raw=enemyBaseDamage(s);
-      const mitigated=Math.max(1,Math.round(raw*100/(100+b.defense*4)));
+      const mitigated=enemyHitDamage(s,b.defense);
       s.heroHp=Math.max(0,s.heroHp-mitigated);
       s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
       const target=$('attackTarget'),hero=$('combatHero');
@@ -795,17 +813,20 @@
       if(kind==='miniboss'){
         progress.minibossDefeated=true;
         progress.stage=6;progress.kills=0;
-        this.dropItem(weightedPick(['incomum','raro','epico'],[70,27,3]));
+        this.dropMaterial(3);
+        if(Math.random()<.4)this.awardEquipment(weightedPick(['incomum','raro','epico'],[80,19,1]));
         this.addLog(`MINIBOSS ${name} vencido! Fase 6 desbloqueada. +${fmt(gold)} ouro e +${fmt(xp)} XP.`,'⚔','epic');
         this.toast('✦ MINIBOSS VENCIDO! A fase 6 foi liberada!','epic');
       }else if(kind==='boss'){
         progress.bossDefeated=true;progress.cleared=true;progress.stage=10;progress.kills=10;
-        this.dropItem(weightedPick(['raro','epico','lendario'],[77,20,3]));
+        this.dropMaterial(5);
+        this.awardEquipment(weightedPick(['raro','epico','lendario'],[90,9,1]),3);
         this.addLog(`CHEFÃO ${name} DERROTADO! ${ZONES[s.zone].name} foi conquistada! +${fmt(gold)} ouro e +${fmt(xp)} XP.`,'◆','epic');
         this.toast(`CHEFÃO DERROTADO! ${s.zone===ZONES.length-1?'Todas as regiões conquistadas!':'Nova região liberada!'}`,'epic');
         travelNext=s.zone<ZONES.length-1;
       }else{
-        if(!progress.cleared){
+        if(s.farmStage!=null)s.farmKills=(s.farmKills+1)%ENEMIES_PER_PHASE;
+        else if(!progress.cleared){
           progress.kills++;
           if(progress.kills===ENEMIES_PER_PHASE){
             if(progress.stage===5){
@@ -820,9 +841,7 @@
             }
           }
         }
-        if(Math.random()<this.bonuses().drop)this.dropItem();
-        // Sucatas surgem independentemente dos equipamentos e são empilháveis.
-        if(Math.random()<.12)this.dropMaterial();
+        this.rollCombatLoot();
         this.addLog(`${name} derrotado. +${fmt(gold)} ouro · +${fmt(xp)} XP.`,'⚔');
       }
       if(!s.event && now()-s.lastEventAt>17000 && Math.random()<(.029+s.skills.r3*.007))this.spawnEvent();
@@ -838,7 +857,7 @@
       s.mob=freshMob(s,defeated.name);
       s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
       this.renderCore();
-      if(this.tab==='inventory'||this.tab==='zones')this.renderPanel();
+      if(!$('hudBackdrop').hidden && (this.tab==='inventory'||this.tab==='zones'))this.renderPanel();
     }
     nextEventDelay() {return Math.floor(randEventDelay()/(1+this.state.skills.r3*.14));}
     spawnEvent() {
@@ -881,12 +900,12 @@
       s.shards+=shards;
       const souls=Math.floor(s.shards/10);
       if(souls){s.souls=add(s.souls,souls);s.shards%=10;}
-      const rarity=weightedPick(['raro','epico','lendario'],[73,24,3]);
-      const item=this.dropItem(rarity);
+      this.dropMaterial(event.type==='goblin'?3:4);
+      const item=Math.random()<(event.type==='goblin'?.20:.35)?this.awardEquipment(weightedPick(['raro','epico','lendario'],[85,14,1])):null;
       const name=event.type==='goblin'?'Goblin do Tesouro':'Baú Raro';
       this.floatNumber(`+${fmt(gold)} OURO`,'reward');
       this.addLog(`${name}: +${fmt(gold)} ouro, +${fmt(xp)} XP, ${shards} fragmentos${souls?`, +${souls} alma(s)`:''}!`,'✦','epic');
-      this.toast(`TESOURO! +${fmt(gold)} ouro · ${(RARITIES.find(r=>r.id===item?.rarity)?.label||'ITEM').toUpperCase()} · ${shards} fragmentos`,'epic');
+      this.toast(`TESOURO! +${fmt(gold)} ouro · ${(RARITIES.find(r=>r.id===item?.rarity)?.label||'SUCATA').toUpperCase()} · ${shards} fragmentos`,'epic');
       if(item)this.addLog(`Tesouro raro: ${item.name}!`,'◆','epic');
       this.renderEverything();this.save();
     }
@@ -897,7 +916,7 @@
     }
     chooseCatalogItem(forcedRarity=null,forcedKind=null) {
       const s=this.state,zone=s.zone;
-      const regional=ITEM_CATALOG.filter(x=>catalogZone(x)===zone && (!forcedKind || x.tipo===forcedKind));
+      const regional=ITEM_CATALOG.filter(x=>catalogZone(x)===zone && (!forcedKind || (forcedKind==='equipment'?Boolean(CATALOG_SLOTS[x.tipo]):x.tipo===forcedKind)));
       if(!regional.length) return null;
       if(forcedKind==='material')return pick(regional);
       // Never replace an epic reward with a common item merely because a zone lacks that rarity.
@@ -913,14 +932,14 @@
       }
       return options.length?pick(options):null;
     }
-    makeItem(forcedRarity=null,forcedKind=null) {
+    makeItem(forcedRarity=null,forcedKind=null,minimumQuality=1) {
       const s=this.state;
       const def=this.chooseCatalogItem(forcedRarity,forcedKind);
       if(!def)return null;
       const kind=def.tipo==='material'?'material':def.tipo==='poção'?'potion':'equipment';
       const slot=CATALOG_SLOTS[def.tipo]||null;
       const rarity=CATALOG_RARITIES[def.raridade]||'comum';
-      const quality=kind==='equipment'?rollQuality():null;
+      const quality=kind==='equipment'?Math.max(integer(minimumQuality,1,1,10),rollQuality()):null;
       const mult=kind==='equipment'?qualityMultiplier(rarity,quality):(RARITIES.find(r=>r.id===rarity)||RARITIES[1]).multiplier;
       const level=s.level;
       const scale=(1+Math.min(250,level)*.13+s.zone*.75)*mult;
@@ -939,7 +958,7 @@
       const s=this.state;
       if(item.kind!=='equipment'){
         const stack=s.inventory.find(x=>x.catalogId===item.catalogId && x.kind===item.kind);
-        if(stack){stack.qty=Math.min(99999,stack.qty+1);if(this.tab==='inventory')this.renderPanel();return stack;}
+        if(stack){stack.qty=Math.min(99999,stack.qty+item.qty);return stack;}
       }
       if(s.inventory.length>=MAX_INVENTORY){
         const protectedIds=new Set(Object.values(s.equipment).filter(Boolean));
@@ -961,15 +980,29 @@
         this.toast(`✦ ${item.name} encontrado!`,'epic');
       }else if(s.inventory.length<6)this.addLog(`Obtido: ${item.name}.`,'♢');
       text('inventoryCount',s.inventory.length);
-      if(this.tab==='inventory')this.renderPanel();
       return item;
     }
-    dropMaterial() {return this.addItem(this.makeItem(null,'material'));}
-    dropItem(forceRarity=null) {return this.addItem(this.makeItem(forceRarity),Boolean(forceRarity));}
+    dropMaterial(qty=1) {const item=this.makeItem(null,'material');if(item)item.qty=integer(qty,1,1,10);return this.addItem(item);}
+    dropItem(forceRarity=null,minimumQuality=1) {return this.addItem(this.makeItem(forceRarity,'equipment',minimumQuality),Boolean(forceRarity));}
+    awardEquipment(rarity=null,minimumQuality=1) {
+      const item=this.dropItem(rarity,minimumQuality);
+      if(item && item.quality>=5 && ['raro','epico','lendario'].includes(item.rarity))this.state.lootDryStreak[this.state.zone]=0;
+      return item;
+    }
+    rollCombatLoot() {
+      const s=this.state;
+      if(Math.random()<SCRAP_DROP_CHANCE)this.dropMaterial();
+      if(Math.random()<POTION_DROP_CHANCE)this.addItem(this.makeItem(null,'poção'));
+      s.lootDryStreak[s.zone]=Math.min(RARE_DROP_LIMIT,s.lootDryStreak[s.zone]+1);
+      if(s.lootDryStreak[s.zone]>=RARE_DROP_LIMIT){
+        const item=this.awardEquipment('raro',5);
+        if(item)this.addLog(`Persistência recompensada: ${item.name}, qualidade ${item.quality}/10. Uma relíquia rara encerrou a sequência de caça.`,'◆','rare');
+      }else if(Math.random()<this.bonuses().drop)this.awardEquipment();
+    }
     itemPrice(item) {
       const def=CATALOG_BY_ID.get(item.catalogId);
       const area=def?catalogZone(def):this.state.zone;
-      if(item.kind==='material')return Math.max(1,Math.floor(2*power(1.9,area)));
+      if(item.kind==='material')return Math.max(2,Math.floor(6*power(2.15,area)));
       if(item.kind==='potion')return Math.max(3,Math.floor(5*power(2.2,area)));
       const rarity=RARITIES.find(r=>r.id===item.rarity)||RARITIES[1];
       return Math.max(4,Math.floor((6+item.level*4)*rarity.multiplier*power(1.42,area)));
@@ -1146,7 +1179,9 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const s=this.state;
       s.souls=add(s.souls,gain);
       s.level=1;s.xp=0;s.gold=0;s.zone=0;s.zoneKills=Array(ZONES.length).fill(0);s.zoneProgress=ZONES.map(freshProgress);
+      s.farmStage=null;s.farmKills=0;s.lootDryStreak=ZONES.map(()=>0);
       s.attributes=emptyRanks(ATTRIBUTES);s.upgrades=emptyRanks(UPGRADES);s.runKills=0;s.runGold=0;
+      this.huntSelection=null;
       s.deadUntil=0;s.heroHp=heroMaxHp(s);
       s.rebirths++;s.event=null;s.mob=freshMob(s);s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);s.nextEventAt=now()+this.nextEventDelay();
       this.lastZoneRendered=-1;this.lastEventRendered='';
@@ -1160,6 +1195,8 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       if(!unlockedZone(this.state,index)){this.toast(`Região bloqueada. Derrote o chefão da área anterior para entrar.`);return;}
       if(index===this.state.zone)return;
       this.state.zone=index;
+      this.state.farmStage=null;this.state.farmKills=0;
+      this.huntSelection=null;
       this.state.mob=freshMob(this.state);
       this.state.nextEnemyAttackAt=now()+enemyAttackInterval(this.state.mob);
       this.state.event=null;
@@ -1167,6 +1204,15 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       this.lastZoneRendered=-1;
       this.addLog(`Você atravessou para ${ZONES[index].name}.`,'⚑','rare');
       this.changeTab('zones');this.renderEverything();this.save();
+    }
+    setHuntMode(stage) {
+      const s=this.state;if(!s)return;
+      if(stage!==null && (!Number.isInteger(stage)||stage<1||stage>progressAt(s).stage))return;
+      s.farmStage=stage;s.farmKills=0;s.mob=freshMob(s);
+      this.huntSelection=stage;
+      s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
+      this.addLog(stage===null?'A expedição foi retomada no ponto em que parou.':'Caça iniciada na fase '+stage+'. O avanço da expedição será preservado.','⚑','good');
+      this.renderEverything();this.save();
     }
     changeTab(name) {
       if(!TABS.has(name) || !this.state)return;
@@ -1237,7 +1283,8 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       prop('heroRespawn','hidden',!dead);
       text('heroRespawnTime',dead?`${Math.ceil(Math.max(0,s.deadUntil-now())/1000)}s`:'');
       $('combatHero').classList.toggle('defeated',dead);
-      text('enemyDamage',fmt(Math.max(1,Math.round(enemyBaseDamage(s)*100/(100+b.defense*4)))));
+      text('enemyDamage',fmt(enemyHitDamage(s,b.defense)));
+      text('rareDropProgress',`${s.lootDryStreak[s.zone]} / ${RARE_DROP_LIMIT} abates ativos`);
       text('enemyAttackCountdown',dead?'PAUSADO':`${(Math.max(0,s.nextEnemyAttackAt-now())/1000).toFixed(1)}s`);
       text('runKills',fmt(s.runKills));
       text('runGold',fmt(s.runGold));
@@ -1279,14 +1326,15 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const frame = $('cameraState');
       frame.textContent = bossKind === 'boss' ? (s.zone===ZONES.length-1 ? 'CONFRONTO FINAL' : 'ARENA DE CHEFÃO') :
         bossKind === 'miniboss' ? 'ARENA DE MINIBOSS' : 'COMBATE • 2D';
-      text('stageNumber',`FASE ${phase.stage} / 10`);
-      text('stageKills',phase.cleared?'REGIÃO CONQUISTADA':bossKind==='boss'?'CHEFÃO FINAL':bossKind==='miniboss'?'MINIBOSS':`${phase.kills} / 10 INIMIGOS`);
-      fill('stageProgressFill',phase.cleared?100:phase.kills*10);
-      attr('stageProgressTrack','aria-valuenow',String(phase.cleared?100:phase.kills*10));
+      const hunting=s.farmStage!=null,stage=combatStage(s),kills=hunting?s.farmKills:phase.kills;
+      text('stageNumber',`FASE ${stage} / 10${hunting?' · CAÇA':''}`);
+      text('stageKills',hunting?`${kills} / 10 · REPETINDO`:phase.cleared?'REGIÃO CONQUISTADA':bossKind==='boss'?'CHEFÃO FINAL':bossKind==='miniboss'?'MINIBOSS':`${kills} / 10 INIMIGOS`);
+      fill('stageProgressFill',!hunting&&phase.cleared?100:kills*10);
+      attr('stageProgressTrack','aria-valuenow',String(!hunting&&phase.cleared?100:kills*10));
       for(const bar of $('stagePips').children){
         const n=Number(bar.dataset.stage);
-        bar.classList.toggle('completed',phase.cleared||n<phase.stage);
-        bar.classList.toggle('active',!phase.cleared&&n===phase.stage);
+        bar.classList.toggle('completed',!hunting&&(phase.cleared||n<phase.stage));
+        bar.classList.toggle('active',(hunting||!phase.cleared)&&n===stage);
       }
       text('intelMob',s.mob.name);
       text('mobHPText',`${fmt(Math.ceil(s.mob.hp))} / ${fmt(s.mob.maxHp)}`);
@@ -1308,7 +1356,10 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
     }
     renderMilestone() {
       const s=this.state,p=progressAt(s),z=ZONES[s.zone];
-      if(p.cleared){
+      if(s.farmStage!=null){
+        text('milestoneTitle',`Caça · Fase ${s.farmStage}`);
+        text('milestoneDescription','A fase se repete para reunir ouro, XP e equipamentos. Retome a expedição pelo painel Regiões.');
+      }else if(p.cleared){
         text('milestoneTitle','Região conquistada!');
         text('milestoneDescription',s.zone===ZONES.length-1?'O Imperador caiu. Todas as seis regiões foram conquistadas!':'Você venceu o chefão! A próxima região foi liberada. Volte às regiões anteriores quando quiser.');
       }else if(s.mob.kind==='miniboss'){
@@ -1348,14 +1399,14 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         case 'ascension':html=this.renderAscension();break;
       }
       const body=$('tabBody');
-      const top=body.scrollTop;
+      const scroller=$('hudPanelScroll'),top=scroller.scrollTop;
       const focused = body.contains(document.activeElement) ? document.activeElement : null;
       const focusId = focused?.id;
       const focusData = focused ? Object.entries(focused.dataset) : [];
       if(this.lastPanelHTML===html){this.lastPanelRender=now();return;}
       this.lastPanelHTML=html;
       body.innerHTML=html;
-      body.scrollTop=top;
+      scroller.scrollTop=top;
       const restored = focusId ? document.getElementById(focusId) : focusData.length ? [...body.querySelectorAll('button')].find(b => focusData.every(([k,v]) => b.dataset[k] === v)) : null;
       if (restored && !restored.disabled) restored.focus({preventScroll:true});
       else if (focused) $('hudClose').focus({preventScroll:true});
@@ -1431,7 +1482,10 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
     }
     renderZones() {
       const s=this.state;
-      return `<div class="section-headline"><div><h2>Mapa das Terras Perdidas</h2><p>Cada região possui 10 fases. Derrote 10 criaturas por fase; vença o miniboss da fase 5 e o chefão da fase 10 para liberar o próximo território.</p></div></div><div class="zone-grid">${ZONES.map((z,index)=>{
+      const active=progressAt(s),hunting=s.farmStage!=null;
+      const selected=Math.min(active.stage,Math.max(1,this.huntSelection??s.farmStage??active.stage));
+      const hunt=`<section class="hunt-controls" aria-label="Caça e expedição"><div><h3>${hunting?'Caça em andamento':'Prepare sua próxima batalha'}</h3><p>Repita uma fase já alcançada para ganhar ouro, XP e espólios. Seu avanço e os chefes pendentes ficam guardados.</p></div><div class="hunt-actions"><label for="farmStageSelect">FASE DE CAÇA</label><select id="farmStageSelect" class="dark-select">${Array.from({length:active.stage},(_,n)=>`<option value="${n+1}" ${n+1===selected?'selected':''}>Fase ${n+1}</option>`).join('')}</select><button type="button" class="subtle-button" data-start-hunt>${hunting?'TROCAR FASE':'REPETIR FASE'}</button><button type="button" class="subtle-button" data-resume-journey ${hunting?'':'disabled'}>RETOMAR EXPEDIÇÃO</button></div><p class="hunt-loot-note"><strong>${s.lootDryStreak[s.zone]} / ${RARE_DROP_LIMIT}</strong> abates ativos desde o último equipamento raro de qualidade 5+ nesta região. Em até ${RARE_DROP_LIMIT} abates ativos, equipamento raro ou melhor com qualidade mínima 5/10. Sucata: 70% por inimigo comum.</p></section>`;
+      return `<div class="section-headline"><div><h2>Mapa das Terras Perdidas</h2><p>Cada região possui 10 fases. Derrote 10 criaturas por fase; vença o miniboss da fase 5 e o chefão da fase 10 para liberar o próximo território.</p></div></div>${hunt}<div class="zone-grid">${ZONES.map((z,index)=>{
         const unlocked=unlockedZone(s,index),current=index===s.zone,p=s.zoneProgress[index];
         const gate=!unlocked?'Derrote o chefão da região anterior':p.cleared?'✦ REGIÃO CONQUISTADA':`FASE ${p.stage}/10 · ${p.kills}/10 INIMIGOS`;
         const progressPercent=p.cleared?100:((p.stage-1)*10+p.kills)*100/100;
@@ -1486,6 +1540,8 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       if(b.dataset.sell){this.sellItem(b.dataset.sell);return;}
       if(b.hasAttribute('data-sell-bulk')){this.requestBulkSale();return;}
       if(b.hasAttribute('data-sell-low')){this.sellLowRarities();return;}
+      if(b.hasAttribute('data-start-hunt')){this.setHuntMode(Number($('farmStageSelect').value));return;}
+      if(b.hasAttribute('data-resume-journey')){this.setHuntMode(null);return;}
       if(b.dataset.travel!==undefined){this.travelTo(integer(b.dataset.travel));return;}
       if(b.dataset.skill){this.buySkill(b.dataset.skill);return;}
       if(b.hasAttribute('data-ascend')){this.requestAscension();}

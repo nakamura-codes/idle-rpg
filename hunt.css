@@ -1,0 +1,11 @@
+.hunt-controls{margin:0 0 26px;padding:18px 20px;border:10px solid transparent;border-image:var(--infernal-frame) 128 / 20px / 0 stretch;background:linear-gradient(110deg,#321c19,#160f13);min-width:0}
+.hunt-controls h3{margin:0 0 8px;font:24px/1.25 Georgia,serif;color:#eac897}
+.hunt-controls p{margin:0;color:#d1b696;font:12px/1.7 Arial,sans-serif}
+.hunt-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:16px}
+.hunt-actions label{font:9px/1.4 Arial,sans-serif;color:#d1ad7b;letter-spacing:.7px}
+.hunt-actions .dark-select{min-width:110px}
+.hunt-controls .hunt-loot-note{border-top:1px solid #725037;margin-top:16px;padding-top:13px;color:#c7ae8e;font-size:11px}
+.hunt-loot-note strong{color:#f4d6a7;font-weight:600}
+.hunt-actions button:disabled{opacity:.4}
+.intel-chance #rareDropProgress{font:12px/1.5 Arial,sans-serif;text-align:right;white-space:normal}
+@media(max-width:760px){.hunt-controls{padding:14px;border-width:7px;border-image-width:15px;margin-bottom:20px}.hunt-controls h3{font-size:21px}.hunt-controls p{font-size:11px}.hunt-actions{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}.hunt-actions .dark-select{min-width:0;width:100%}.hunt-actions button{grid-column:1/-1;min-height:42px}.hunt-controls .hunt-loot-note{font-size:10px;line-height:1.7}.intel-chance #rareDropProgress{font-size:11px}}
