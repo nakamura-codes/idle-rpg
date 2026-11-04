@@ -1,0 +1,12 @@
+/* Two optimized paintings. All depth movement is compositor-only. */
+.hw-menu{isolation:isolate;background-image:url('assets/ui/menu-scene.webp?v=2')!important;background-position:center;background-size:max(107vw,190.12vh) max(107vh,60.22vw)}
+.menu-scenery{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;contain:strict}
+.menu-depth-stage{position:absolute;left:50%;top:50%;width:max(100vw,177.684vh);height:max(100vh,56.28vw);transform:translate(-50%,-50%) scale(1.07)}
+.menu-depth-plane{position:absolute;inset:0;background:center/100% 100% no-repeat;transition:transform 650ms cubic-bezier(.16,.6,.22,1);will-change:transform}
+.hw-menu::after{z-index:1;background:linear-gradient(90deg,#0a040300 25%,#10060440 54%,#0a0508b8 100%),linear-gradient(0deg,#07040880,transparent 22%,transparent 82%,#08030640)}
+.hw-menu .hw-shell{z-index:2}
+.hw-menu .hw-note{color:#d2b593;text-shadow:0 1px 3px #000}
+.hw-menu .hw-btn{color:#f0dabe}
+.hw-menu .hw-action:disabled{opacity:.6;cursor:default}
+@media(max-width:900px){.hw-menu{background-image:url('assets/ui/menu-scene-mobile.webp?v=2')!important;background-position:36% center;background-size:cover}.hw-menu::after{background:linear-gradient(#09050766,#080408a8),radial-gradient(ellipse at center,transparent,#08040770)}}
+@media(prefers-reduced-motion:reduce){.menu-depth-plane{transition:none;will-change:auto}}
