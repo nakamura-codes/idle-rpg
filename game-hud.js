@@ -10,7 +10,8 @@
     inventory:['RELIQUIÁRIO DO VIAJANTE','Mochila do Errante'],
     ascension:['O PREÇO DA ETERNIDADE','Cálice da Ascensão'],
     zones:['ALÉM DOS PORTÕES','Regiões Esquecidas'],
-    chronicle:['SUSSURROS DO ABISMO','Crônicas da Jornada']
+    chronicle:['SUSSURROS DO ABISMO','Crônicas da Jornada'],
+    settings:['A JORNADA É SUA','Configurações']
   };
   let active = null, opener = null;
   function setExpanded() {
@@ -25,8 +26,10 @@
     $('codexSummary').hidden = name !== 'upgrades';
     $('codexJourney').hidden = name !== 'upgrades';
     $('hudChronicle').hidden = name !== 'chronicle';
-    $('tabBody').hidden = name === 'chronicle';
-    panel.querySelector('.tab-nav').hidden = name === 'chronicle';
+    const special = name === 'chronicle' || name === 'settings';
+    $('hudSettings').hidden = name !== 'settings';
+    $('tabBody').hidden = special;
+    panel.querySelector('.tab-nav').hidden = special;
     $('hudPanelScroll').scrollTop = 0;
     setExpanded();
   }
@@ -41,7 +44,7 @@
     if (!$('authScreen').hidden || !$('dialogBackdrop').hidden || !labels[name]) return;
     if (active === name && !backdrop.hidden) { close(); return; }
     opener = button || document.querySelector(`[data-open-panel="${name}"]`);
-    if (name !== 'chronicle') panel.querySelector(`[data-tab="${name}"]`).click();
+    if (name !== 'chronicle' && name !== 'settings') panel.querySelector(`[data-tab="${name}"]`).click();
     display(name); backdrop.hidden = false; frame.inert = true;
     $('hudClose').focus({preventScroll:true});
   }

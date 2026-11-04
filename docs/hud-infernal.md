@@ -9,8 +9,10 @@ A arena e as informações essenciais ocupam uma única tela. Os painéis abrem 
 | Mochila velha | I | Equipamentos, consumíveis, filtros e venda |
 | Regiões | M | Viagem e bestiário |
 | Crônicas | J | Informações do inimigo e registro de combate |
+| Poção rápida | Q | Usa a menor dose capaz de restaurar a vida faltante; se não houver, usa a maior disponível |
+| Engrenagem | Clique | Som, tema, exportação/importação de saves e lista de atalhos |
 
-Escape ou o botão de fechar retorna à arena. O foco do teclado permanece no painel aberto e retorna ao atalho ao fechar. Confirmações de ascensão e importação aparecem sobre o painel. O menu principal e suas trilhas permanecem independentes da nova HUD.
+Escape ou o botão de fechar retorna à arena. O foco do teclado permanece no painel aberto e retorna ao atalho ao fechar. Confirmações de ascensão e importação aparecem sobre o painel. Os controles de som da engrenagem e do menu principal compartilham as preferências existentes. O rodapé foi removido da arena; salvar/importar continuam disponíveis nas configurações. A barra dos inimigos comuns fica alinhada à sua posição, com espaço reservado acima da silhueta; chefões usam uma barra central maior.
 
 ## Pontos do Livro Negro
 
@@ -28,10 +30,14 @@ Prompt comum: standalone HELLWARD dark fantasy RPG HUD inventory icon; highly de
 - `assets/hud/calice-ascensao.png`: medieval GOTHIC GOLDEN CHALICE, weathered dark gold, clawlike base, pointed cathedral tracery on bowl, tiny blood-red cabochon, subtle warm gleam.
 - `assets/hud/mochila-velha.png`: OLD BROWN LEATHER BACKPACK, medieval adventurer rucksack, torn edges, dark straps, small brass buckles, folded flap, visibly worn and readable silhouette.
 
+As molduras em `assets/hud/forged-frame.svg` e os nichos em `assets/hud/relic-niche.svg` são vetores locais. A moldura usa nove fatias e dimensões intrínsecas explícitas para preservar cantos e espessura em todos os tamanhos. As ilustrações usam `object-fit: contain`, evitando cortes.
+
 ## Verificação
 
 Com Playwright e Chromium instalados: `node tests/hud-browser.cjs`.
 
 `CHROMIUM_PATH` permite indicar outro executável. `HUD_SCREENSHOTS` permite salvar capturas para inspeção. O teste fornece seu próprio servidor local e mantém o acesso de testes ao estado fora do código de produção.
 
-Cobertura: encaixe em 1366×768, 1920×1080, 1024×600, 390×844, 320×568 e 844×390; abertura/fechamento e navegação dos painéis; distribuição e limite de pontos; efeitos reais nos bônus; migração V7, persistência e importação inválida; melhorias, equipamento, poções, venda, ascensão, exportação/importação JSON e retomada do perfil; erros JavaScript e recursos ausentes.
+Cobertura: encaixe em 1366×768, 1920×1080, 1920×852, 1536×864, 1280×720, 1024×768, 1024×600, 390×844, 375×667, 360×640, 320×568, 844×390 e 667×375; abertura/fechamento e navegação dos painéis; distribuição e limite de pontos; efeitos reais nos bônus; migração V7, persistência e importação inválida; melhorias, equipamento, poções, venda, ascensão, exportação/importação JSON e retomada do perfil; erros JavaScript e recursos ausentes.
+
+A revisão visual inclui configurações, livro, mochila, ascensão, foco, todos os 42 monstros em três formatos de tela, eventos raros, números de dano longos e aviso de derrota. A suíte verifica limites de elementos, separação entre barra e sprite, texto de XP legível, atalhos, quantidade e consumo da poção rápida, volume e tema. Os testes locais isolam o relógio para comparar atributos e quantidades de forma determinística; o comportamento com o relógio ativo é também verificado na versão publicada.
