@@ -139,8 +139,8 @@
   ];
 
   const EVENT_ART = {
-    goblin: `<svg viewBox="0 0 85 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 33 3 19l17-1 11 14m35 1 16-14-18-1-10 14" fill="#88ac52" stroke="#314721" stroke-width="3"/><path d="M18 30Q20 8 42 7q25 2 25 25l-6 27-18 14-19-14Z" fill="#70994b" stroke="#263d20" stroke-width="4"/><path d="M20 28 32 23l10 10-13 9Zm45 0-13-5-10 10 13 9Z" fill="#f2c76c" stroke="#283a20" stroke-width="3"/><path d="m41 43-7 12 8 4 8-4Z" fill="#4b642f"/><path d="m26 61 16 9 17-9" stroke="#e5c28b" stroke-width="3"/><circle cx="13" cy="61" r="12" fill="#d4a043" stroke="#ffe091" stroke-width="3"/><path d="M13 54v14m-5-10h10" stroke="#ffeb9d" stroke-width="2"/></svg>`,
-    chest: `<svg viewBox="0 0 85 78" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 32 17 14 42 5l25 9 4 18Z" fill="#8e562b" stroke="#f1c96a" stroke-width="4"/><path d="M12 32h61v35H12Z" fill="#7e4525" stroke="#f0b956" stroke-width="4"/><path d="M12 41h61" stroke="#edc065" stroke-width="6"/><path d="M28 14v53m29-53v53" stroke="#d4a256" stroke-width="5"/><path d="M36 32h13v23H36Z" fill="#ffdd79" stroke="#986331" stroke-width="2"/><path d="M42 5V0m-18 7-5-5m47 5 5-5" stroke="#ffe8a8" stroke-width="2"/><circle cx="42" cy="44" r="4" fill="#734324"/></svg>`
+    goblin: 'assets/events/treasure-goblin.webp',
+    chest: 'assets/events/cursed-chest.webp'
   };
 
   const $ = (id) => document.getElementById(id);
@@ -1395,7 +1395,10 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const key=`${e.type}-${e.expiresAt}`;
       if(this.lastEventRendered!==key){
         text('eventTitle',e.type==='goblin'?'Goblin do Tesouro':'Baú Raro');
-        $('eventArt').innerHTML=EVENT_ART[e.type]; // trusted built-in illustrations
+        const portrait=document.createElement('img');
+        portrait.src=EVENT_ART[e.type==='goblin'?'goblin':'chest'];
+        portrait.alt='';portrait.width=256;portrait.height=256;portrait.draggable=false;
+        $('eventArt').replaceChildren(portrait);
         attr('eventTarget','aria-label',`Atacar ${e.type==='goblin'?'goblin':'baú'} do evento`);
         this.lastEventRendered=key;
       }

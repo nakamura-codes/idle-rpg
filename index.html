@@ -15,7 +15,7 @@
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.1" defer></script>
   <script src="game-art.js?v=1" defer></script>
-  <script src="game.js?v=16" defer></script>
+  <script src="game.js?v=17" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=4">
   <script src="game-hud.js?v=6" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="hud-legibility.css?v=1">
   <link rel="stylesheet" href="content-art.css?v=1">
   <link rel="stylesheet" href="hunt.css?v=1">
+  <link rel="stylesheet" href="combat-events.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -61,7 +62,7 @@
             <div class="mob-info"><div class="mob-name-row"><span class="mob-icon">☠</span><strong id="mobName">Condenado</strong><span class="mob-rank" id="mobLevel">Nv. 1</span></div><div class="progress-bar hp-track"><div class="progress-fill hp-fill" id="mobHPFill"></div><span class="hp-numbers" id="mobHPText">30 / 30</span></div></div>
             <button id="attackTarget" class="attack-target" type="button" aria-label="Atacar inimigo"><span class="monster-aura"></span><span class="mob-shadow"></span><span class="monster-art" id="monsterArt" aria-hidden="true"></span><span class="target-hint">✥ CLIQUE PARA ATACAR ✥</span></button>
 
-            <div class="event-overlay" id="eventOverlay" hidden><div class="event-ribbon">✦ EVENTO RARO ✦</div><button class="event-button" id="eventTarget" type="button"><span class="event-illustration" id="eventArt" aria-hidden="true">♜</span><span class="event-title" id="eventTitle">Goblin do Tesouro</span><span class="event-instruction">CLIQUE PARA SAQUEAR</span><div class="event-progress-track"><span id="eventHPFill"></span></div><span class="event-clock">⏳ <b id="eventTime">10.0s</b></span></button></div>
+            <div class="event-overlay" id="eventOverlay" hidden><div class="event-ribbon">✦ EVENTO RARO ✦</div><button class="event-button" id="eventTarget" type="button"><span class="event-illustration" id="eventArt" aria-hidden="true">♜</span><span class="event-title" id="eventTitle">Goblin do Tesouro</span><span class="event-instruction">SAQUEAR</span><div class="event-progress-track"><span id="eventHPFill"></span></div><span class="event-clock">⏳ <b id="eventTime">10.0s</b></span></button></div>
             <div class="damage-layer" id="damageLayer" aria-hidden="true"></div>
             <div class="battle-corner tl"></div><div class="battle-corner tr"></div><div class="battle-corner bl"></div><div class="battle-corner br"></div>
           </div>
