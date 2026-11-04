@@ -334,6 +334,7 @@
       this.buyQuantity = 1;
       this.inventoryFilter = 'all';
       this.inventorySort = 'new';
+      this.sellRarity = 'low';
       this.lastFrameAt = 0;
       this.lastCoreRender = 0;
       this.lastPanelRender = 0;
@@ -454,7 +455,7 @@
       if (!this.storageAvailable) this.toast('Modo temporário: seu navegador bloqueou o armazenamento. Exporte backups JSON.');
       if (offline.kills>0) {
         this.addLog(`Seu ritual venceu ${fmt(offline.kills)} inimigos durante sua ausência.`, '☽', 'good');
-        this.dialog('O mundo seguiu em frente',`Enquanto você esteve ausente por ${this.formatDuration(seconds)}, suas forças arcanas derrotaram ${fmt(offline.kills)} inimigos.\n\n+${fmt(offline.gold)} ouro  ·  +${fmt(offline.xp)} XP\n\nAté 12 horas de progresso offline.`,[{text:'RETOMAR A CAÇADA',primary:true}],'☽');
+        this.dialog('As cinzas guardaram sua jornada',`${state.name}, seus rituais continuaram a colher poder enquanto você esteve ausente.`,[{text:'RETOMAR A CAÇADA',primary:true}],'☽',{kind:'offline',duration:this.formatDuration(seconds),kills:offline.kills,gold:offline.gold,xp:offline.xp});
       }
       this.save();
       this.startLoop();
@@ -470,6 +471,7 @@
       $('tabBody').addEventListener('change',(e)=>{
         if(e.target.id==='inventoryFilter'){this.inventoryFilter=e.target.value;this.renderPanel();}
         if(e.target.id==='inventorySort'){this.inventorySort=e.target.value;this.renderPanel();}
+        if(e.target.id==='inventorySellRarity'){this.sellRarity=e.target.value;this.renderPanel();}
       });
       $('exportSave').addEventListener('click',()=>this.exportSave());
       $('importSave').addEventListener('click',()=>this.pickImport());
@@ -517,10 +519,18 @@
         else perform();
       } catch(error){this.toast(`Falha na importação: ${safeName(error?.message,100)||'JSON inválido'}`);}
     }
-    dialog(title,body,actions=[{text:'CONTINUAR',primary:true}],glyph='✦') {
+    dialog(title,body,actions=[{text:'CONTINUAR',primary:true}],glyph='✦',details=null) {
       text('dialogIcon',glyph);
       text('dialogTitle',title);
       text('dialogText',body);
+      $('dialogBackdrop').dataset.kind=details?.kind || 'chronicle';
+      if(details?.kind==='offline') {
+        const intro=document.createElement('p');intro.textContent=body;
+        const loot=document.createElement('div');loot.className='offline-loot';
+        loot.innerHTML=[['⚔',fmt(details.kills),'ABATES'],['✦','+'+fmt(details.gold),'OURO'],['✧','+'+fmt(details.xp),'EXPERIÊNCIA']].map(([icon,value,label])=>`<div><span aria-hidden="true">${icon}</span><strong>${value}</strong><small>${label}</small></div>`).join('');
+        const seal=document.createElement('p');seal.className='offline-seal';seal.textContent='Ausência: '+details.duration+' · Até 12 horas de progresso offline.';
+        $('dialogText').replaceChildren(intro,loot,seal);
+      }
       const container=$('dialogActions');container.replaceChildren();
       for (const act of actions) {
         const btn=document.createElement('button');btn.type='button';btn.className=act.primary?'primary-button':'subtle-button';btn.textContent=act.text;
@@ -530,6 +540,10 @@
       container.querySelector('button:last-child')?.focus();
     }
     toast(text,kind='') {
+      if(!$('hudBackdrop').hidden && $('dialogBackdrop').hidden) {
+        const feedback=$('hudFeedback');feedback.textContent=text;feedback.hidden=false;
+        clearTimeout(this.feedbackTimer);this.feedbackTimer=setTimeout(()=>feedback.hidden=true,3800);return;
+      }
       const node=document.createElement('div');node.className=`toast ${kind}`;node.textContent=text;
       const box=$('toastStack');box.prepend(node);
       while(box.children.length>4)box.lastElementChild.remove();
@@ -992,24 +1006,73 @@
       this.toast(`${item.name}: +${fmt(healed)} de cura!`,'good');
       this.renderPanel();this.renderCore();this.save();
     }
+    bestEquipment() {
+      const s=this.state, result={...s.equipment};
+      for(const slot of SLOTS) {
+        let best=s.inventory.find(i=>i.id===s.equipment[slot] && i.kind==='equipment' && i.slot===slot);
+        for(const item of s.inventory)if(item.kind==='equipment' && item.slot===slot && (!best || this.itemPower(item)>this.itemPower(best)))best=item;
+        result[slot]=best?.id || null;
+      }
+      return result;
+    }
+    equipBestItems() {
+      if(!this.state)return;
+      const best=this.bestEquipment(), changed=SLOTS.filter(slot=>best[slot]!==this.state.equipment[slot]).length;
+      if(!changed){this.toast('Os melhores itens por poder já estão equipados.');return;}
+      this.state.equipment=best;
+      this.state.heroHp=Math.min(this.state.heroHp,heroMaxHp(this.state));
+      this.renderCore();this.renderPanel();this.save();
+      this.toast(`${changed} equipamento(s) melhorado(s). Seleção pelo poder dos atributos.`,'good');
+    }
     sellItem(id) {
-      const s=this.state,index=s.inventory.findIndex(x=>x.id===id);
-      if(index<0)return;
-      const item=s.inventory[index];
-      if(item.kind==='equipment'&&s.equipment[item.slot]===id){this.toast('Desequipe este item antes de vendê-lo.');return;}
-      s.inventory.splice(index,1);
-      const price=this.itemPrice(item)*item.qty;this.awardGold(price);
-      this.toast(`${item.qty} unidade(s) vendida(s) por ${fmt(price)} ouro.`);this.renderPanel();this.renderCore();this.save();
+      if(!this.state)return;
+      const state=this.state,item=state.inventory.find(i=>i.id===id);
+      if(!item)return;
+      if(item.kind==='equipment' && state.equipment[item.slot]===id){this.toast('Desequipe este item antes de vendê-lo.');return;}
+      const perform=()=>{
+        if(this.state!==state)return;
+        const current=state.inventory.find(i=>i.id===id);
+        if(!current || Object.values(state.equipment).includes(id))return;
+        const price=this.itemPrice(current)*current.qty;
+        state.inventory=state.inventory.filter(i=>i.id!==id);this.awardGold(price);
+        this.toast(`${current.qty} unidade(s) vendida(s) por ${fmt(price)} ouro.`,'good');
+        this.renderPanel();this.renderCore();this.save();
+      };
+      if(['raro','epico','lendario'].includes(item.rarity))this.dialog('Entregar esta relíquia?',`${item.name} será vendido por ${fmt(this.itemPrice(item)*item.qty)} ouro. Esta venda não pode ser desfeita.`,[{text:'MANTER ITEM'},{text:'CONFIRMAR VENDA',primary:true,action:perform}],'✦',{kind:'sale'});
+      else perform();
     }
-    sellLowRarities() {
-      const s=this.state;
-      const equipped=new Set(Object.values(s.equipment).filter(Boolean));
-      const toSell=s.inventory.filter(i=>['comum','incomum','sucata'].includes(i.rarity)&&!equipped.has(i.id));
-      if(!toSell.length){this.toast('Não há itens de baixo valor para vender.');return;}
-      let total=0;for(const item of toSell)total=add(total,this.itemPrice(item)*item.qty);
-      const ids=new Set(toSell.map(x=>x.id));s.inventory=s.inventory.filter(i=>!ids.has(i.id));
-      this.awardGold(total);this.toast(`${toSell.length} tipos de item vendidos por ${fmt(total)} ouro.`,'good');this.renderPanel();this.renderCore();this.save();
+    saleCandidates(selection=this.sellRarity) {
+      if(!this.state)return [];
+      const allowed=new Set(['low','all',...RARITIES.map(r=>r.id)]);
+      if(!allowed.has(selection))return [];
+      const equipped=new Set(Object.values(this.state.equipment).filter(Boolean));
+      return this.state.inventory.filter(item=>item.kind!=='potion' && !equipped.has(item.id) &&
+        (selection==='all' || (selection==='low' && ['sucata','comum'].includes(item.rarity)) || item.rarity===selection));
     }
+    requestBulkSale() {
+      const state=this.state, selection=this.sellRarity, candidates=this.saleCandidates(selection);
+      if(!candidates.length){this.toast('Nenhum item disponível nesta seleção. Equipados e poções são preservados.');return;}
+      const ids=new Set(candidates.map(i=>i.id));
+      const units=candidates.reduce((sum,i)=>sum+i.qty,0);
+      const value=candidates.reduce((sum,i)=>add(sum,this.itemPrice(i)*i.qty),0);
+      const rarity=selection==='all'?'todas as raridades':selection==='low'?'sucata e comuns':RARITIES.find(r=>r.id===selection).label;
+      this.dialog('O tributo do saque',`Vender ${fmt(units)} unidade(s) de ${rarity} por ${fmt(value)} ouro?
+
+Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,[
+        {text:'MANTER ESPÓLIOS'},
+        {text:'CONFIRMAR VENDA',primary:true,action:()=>{
+          if(this.state!==state)return;
+          // A snapshot excludes drops gained after the dialog opened; recheck protection.
+          const current=this.saleCandidates(selection).filter(i=>ids.has(i.id));
+          const sold=new Set(current.map(i=>i.id));
+          const earned=current.reduce((sum,i)=>add(sum,this.itemPrice(i)*i.qty),0);
+          state.inventory=state.inventory.filter(i=>!sold.has(i.id));this.awardGold(earned);
+          this.renderCore();this.renderPanel();this.save();
+          this.toast(`${current.length} tipo(s) de item vendidos por ${fmt(earned)} ouro.`,'good');
+        }}
+      ],'✦',{kind:'sale'});
+    }
+    sellLowRarities() {this.sellRarity='low';this.requestBulkSale();}
     upgradeCost(up) {
       return Math.max(1,Math.floor(multiply(up.base,power(up.growth,this.state.upgrades[up.id]))));
     }
@@ -1123,6 +1186,11 @@
       $('attributeBadge').parentElement.setAttribute('aria-label', `Livro Negro: status e pontos (C). ${fmt(points)} pontos disponíveis`);
       text('fragmentValue',`${s.shards} / 10`);
       text('profileName',s.name);
+      text('playerHeroName',s.name);
+      attr('playerHeroName','title',s.name);
+      text('combatHeroName',s.name);
+      attr('heroHealthProgress','aria-label','Vida de '+s.name);
+      attr('codexSummary','aria-label','Status de '+s.name);
       text('levelValue',fmt(s.level));
       const required=xpNeeded(s.level);
       text('xpLabel',s.level===MAX_LEVEL?'NÍVEL MÁXIMO':`${fmt(s.xp)} / ${fmt(required)} XP`);
@@ -1279,7 +1347,7 @@
     renderAttributes() {
       const s = this.state, points = attributePoints(s);
       return `<section class="attribute-section" aria-label="Distribuição de atributos"><div class="attribute-heading"><div><h2>Escreva seu destino</h2><p>Você recebe 2 pontos por nível. Atributos reiniciam na ascensão.</p></div><strong class="attribute-total">${fmt(points)} <small>PONTOS DISPONÍVEIS</small></strong></div>
-        <div class="attribute-grid">${ATTRIBUTES.map(a=>`<article class="attribute-row"><div><strong>${a.name}</strong><small>${a.effect}</small></div><b>${fmt(s.attributes[a.id])}</b><button type="button" data-attribute="${a.id}" aria-label="Adicionar um ponto em ${a.name}" ${points<1?'disabled':''}>+</button></article>`).join('')}</div></section>`;
+        <div class="attribute-grid">${ATTRIBUTES.map(a=>`<article class="attribute-row attribute-${a.id}"><div><strong>${a.name}</strong><small>${a.effect}</small></div><b>${fmt(s.attributes[a.id])}</b><button type="button" data-attribute="${a.id}" aria-label="Adicionar um ponto em ${a.name}" ${points<1?'disabled':''}>+</button></article>`).join('')}</div></section>`;
     }
     renderUpgrades() {
       return this.renderAttributes() + `<div class="section-headline"><div><h2>Forja &amp; Rituais</h2><p>Invista o ouro conquistado para fortalecer esta jornada. Melhorias básicas reiniciam na ascensão.</p></div><div class="quantity-control"><small>COMPRAR</small>${[1,10,'max'].map(n=>`<button class="mini-button ${this.buyQuantity===n?'selected':''}" data-qty="${n}" type="button">${n==='max'?'MÁX':`x${n}`}</button>`).join('')}</div></div>
@@ -1287,7 +1355,7 @@
         const rank=this.state.upgrades[up.id],quote=this.upgradeQuote(up,this.buyQuantity);
         const maxed=rank>=MAX_RANK;
         const label=maxed?'MELHORIA MÁXIMA':quote.count?`COMPRAR ${quote.count} · ✦ ${fmt(quote.total)}`:`✦ ${fmt(this.upgradeCost(up))} OURO`;
-        return `<article class="upgrade-card"><div class="upgrade-icon">${up.icon}</div><h3 class="upgrade-name">${esc(up.title)}</h3><div class="upgrade-description">${esc(up.desc)}</div><div class="upgrade-rank"><span>NÍVEL <strong>${fmt(rank)}</strong></span><span>${esc(up.effect)}</span></div><button type="button" data-buy="${up.id}" class="buy-button" ${!quote.count?'disabled':''}>${label}</button></article>`;
+        return `<article class="upgrade-card"><div class="upgrade-icon"><img src="assets/items/${({strike:'area-01-15-espada-do-espadachim-corrompido',ritual:'area-01-14-medalhao-do-cavaleiro-decapitado',banner:'area-01-12-sinete-das-cinzas',focus:'area-01-06-elmo-amassado',vitality:'area-01-11-couraca-dos-caidos',guard:'area-01-07-couraca-rachada',recovery:'area-01-09-pocao-de-vida-pequena'})[up.id]}.png" alt="" width="48" height="48"></div><h3 class="upgrade-name">${esc(up.title)}</h3><div class="upgrade-description">${esc(up.desc)}</div><div class="upgrade-rank"><span>NÍVEL <strong>${fmt(rank)}</strong></span><span>${esc(up.effect)}</span></div><button type="button" data-buy="${up.id}" class="buy-button" ${!quote.count?'disabled':''}>${label}</button></article>`;
       }).join('')}</div>`;
     }
     itemStatLines(item) {
@@ -1317,17 +1385,22 @@
         if(this.inventorySort==='power')return this.itemPower(b)-this.itemPower(a);
         return b.createdAt-a.createdAt;
       });
+      const best=this.bestEquipment(),canImprove=SLOTS.some(slot=>best[slot]!==s.equipment[slot]);
+      const sale=this.saleCandidates(),saleValue=sale.reduce((sum,i)=>add(sum,this.itemPrice(i)*i.qty),0),saleUnits=sale.reduce((sum,i)=>sum+i.qty,0);
+      const saleOptions=[['low','Sucata e comuns'],...RARITIES.map(r=>[r.id,r.label]),['all','Todos os não equipados']].map(([key,label])=>`<option value="${key}" ${this.sellRarity===key?'selected':''}>${label}</option>`).join('');
       const buff='';
-      return `<div class="section-headline"><div><h2>Arsenal do Errante</h2><p>Raridade define o potencial; qualidade (1–10) define o poder do equipamento. Itens anteriores mantêm seus atributos. Ocupação: ${s.inventory.length}/${MAX_INVENTORY}.</p>${buff}</div></div>
+      return `<div class="section-headline"><div><h2>Arsenal de ${esc(s.name)}</h2><p>Raridade e qualidade (1–10) definem o potencial dos equipamentos. Ocupação: ${s.inventory.length}/${MAX_INVENTORY}.</p>${buff}</div></div>
+        <div class="arsenal-actions"><button type="button" class="equip-best-button" data-equip-best ${!canImprove?'disabled':''}>⚔ EQUIPAR MELHORES</button><span>Maior poder por slot, pelos atributos reais. Empates mantêm o item equipado.</span></div>
         <div class="equipment-strip">${equipment}</div>
-        <div class="inventory-tools"><div class="filter-control"><label for="inventoryFilter">TIPO</label><select class="dark-select" id="inventoryFilter">${filterOptions}</select><label for="inventorySort">ORDEM</label><select class="dark-select" id="inventorySort">${sortOptions}</select></div><button type="button" class="subtle-button" data-sell-low>VENDER SUCATA + COMUNS</button></div>
+        <div class="inventory-tools"><div class="filter-control"><label for="inventoryFilter">TIPO</label><select class="dark-select" id="inventoryFilter">${filterOptions}</select><label for="inventorySort">ORDEM</label><select class="dark-select" id="inventorySort">${sortOptions}</select></div></div>
+        <div class="inventory-sale"><div><label for="inventorySellRarity">TRIBUTO DO SAQUE</label><select class="dark-select" id="inventorySellRarity">${saleOptions}</select></div><button type="button" class="subtle-button" data-sell-bulk ${!sale.length?'disabled':''}>VENDER ${fmt(saleUnits)} · ✦ ${fmt(saleValue)}</button><small>Equipados e poções preservados · confirmação antes de vender</small></div>
         ${items.length?`<div class="inventory-grid">${items.map(item=>{
           const rarity=RARITIES.find(x=>x.id===item.rarity)||RARITIES[1];
           const equipped=item.kind==='equipment'&&s.equipment[item.slot]===item.id;
           const image=item.catalogId?catalogImage(item.catalogId):null;
           const detail=CATALOG_BY_ID.get(item.catalogId);
           const type=item.kind==='equipment'?SLOT_NAMES[item.slot]:item.kind==='potion'?'Poção':'Material';
-          return `<article class="item-card rarity-${item.rarity} ${equipped?'equipped':''}"><div class="item-top"><div class="item-glyph">${image?`<img src="${image}" alt="" class="item-icon" loading="lazy">`:item.slot?SLOT_SYMBOLS[item.slot]:'◇'}</div><div><div class="rarity">${rarity.label} · ${esc(type)}${item.kind==='equipment'?' · QUALIDADE '+(item.quality===null?'ANTERIOR':item.quality+'/10')+' · NV. '+item.level:''}${item.qty>1?' · x'+fmt(item.qty):''}</div><h3>${esc(item.name)}</h3></div></div><div class="item-stats">${item.kind==='equipment'?esc(this.itemStatLines(item)):item.kind==='potion'?'Consumível: restaura vida do herói durante o combate.':'Material comum: pode ser vendido por ouro.'}${detail?`<small class="item-origin">${esc(detail.regiao)}</small>`:''}</div><div class="item-actions">${item.kind==='equipment'?`<button type="button" data-equip="${esc(item.id)}">${equipped?'DESEQUIPAR':'EQUIPAR'}</button>`:item.kind==='potion'?`<button type="button" data-use="${esc(item.id)}">UTILIZAR</button>`:''}<button type="button" data-sell="${esc(item.id)}" ${equipped?'disabled':''}>VENDER · ${fmt(this.itemPrice(item)*item.qty)}</button></div></article>`;
+          return `<article class="item-card rarity-${item.rarity} ${equipped?'equipped':''}"><div class="item-top"><div class="item-glyph">${image?`<img src="${image}" alt="" class="item-icon" loading="lazy">`:item.slot?SLOT_SYMBOLS[item.slot]:'◇'}</div><div><div class="rarity">${rarity.label} · ${esc(type)}${item.kind==='equipment'?' · QUALIDADE '+(item.quality===null?'ANTERIOR':item.quality+'/10')+' · NV. '+item.level:''}${item.qty>1?' · x'+fmt(item.qty):''}</div><h3>${esc(item.name)}</h3></div></div><div class="item-stats">${item.kind==='equipment'?`<strong class="item-power">PODER ${fmt(this.itemPower(item),1)}</strong>`:''}${item.kind==='equipment'?esc(this.itemStatLines(item)):item.kind==='potion'?'Consumível: restaura vida do herói durante o combate.':'Material comum: pode ser vendido por ouro.'}${detail?`<small class="item-origin">${esc(detail.regiao)}</small>`:''}</div><div class="item-actions">${item.kind==='equipment'?`<button type="button" data-equip="${esc(item.id)}">${equipped?'DESEQUIPAR':'EQUIPAR'}</button>`:item.kind==='potion'?`<button type="button" data-use="${esc(item.id)}">UTILIZAR</button>`:''}<button type="button" data-sell="${esc(item.id)}" ${equipped?'disabled':''}>VENDER · ${fmt(this.itemPrice(item)*item.qty)}</button></div></article>`;
         }).join('')}</div>`:`<div class="empty-state"><div class="empty-glyph">◇</div><strong>Nenhum item nesta categoria</strong>Derrote criaturas para encontrar equipamentos, materiais e poções.</div>`}`;
     }
     renderZones() {
@@ -1337,7 +1410,7 @@
         const gate=!unlocked?'Derrote o chefão da região anterior':p.cleared?'✦ REGIÃO CONQUISTADA':`FASE ${p.stage}/10 · ${p.kills}/10 INIMIGOS`;
         const progressPercent=p.cleared?100:((p.stage-1)*10+p.kills)*100/100;
         const bossNote=p.cleared?'Chefão derrotado':p.stage===5&&!p.minibossDefeated?'✦ Miniboss na fase 5':p.stage===10?'☠ Chefão na fase 10':'Miniboss F5 · Chefão F10';
-        return `<article class="zone-card ${current?'current':''} ${!unlocked?'locked':''} ${p.cleared?'cleared':''}"><div class="zone-index">${p.cleared?'◆':unlocked?'✧':'♜'} &nbsp; REGIÃO ${z.rune}</div><h3>${esc(z.name)}</h3><p>${esc(z.subtitle)}</p><div class="zone-requirement">${gate}</div><div class="zone-progress-track"><span style="width:${progressPercent}%"></span></div><div class="zone-boss-note">${bossNote}</div><div class="zone-bestiary" aria-label="Bestiário de ${esc(z.name)}">${[...z.names,z.miniboss,z.boss].map((mobName,mobIndex)=>`<button type="button" class="bestiary-creature ${mobIndex>=5?'elite':''} ${MONSTER_SPRITES[index][mobIndex].endsWith('.png')?'original-art':''}" data-inspect-zone="${index}" data-inspect-creature="${mobIndex}" aria-label="Ver ${esc(mobName)}" title="${esc(mobName)}${MONSTER_SPRITES[index][mobIndex].endsWith('.png')?' · Arte personalizada':''}${mobIndex===5?' (Miniboss)':mobIndex===6?' (Chefão)':''}"><img src="${monsterSrc(index,mobIndex)}" width="56" height="60" loading="lazy" alt=""/></button>`).join('')}</div><button type="button" data-travel="${index}" ${!unlocked||current?'disabled':''}>${current?'ATUAL':unlocked?'VIAJAR':'BLOQUEADA'}</button></article>`;
+        return `<article style="--region-art:url('assets/backgrounds/fast/${['campos-de-cinza','bosque-profanado','criptas-afogadas','fortaleza-de-ferro','fendas-infernais','trono-do-crepusculo'][index]}-mobile.webp')" class="zone-card ${current?'current':''} ${!unlocked?'locked':''} ${p.cleared?'cleared':''}"><div class="zone-index">${p.cleared?'◆':unlocked?'✧':'♜'} &nbsp; REGIÃO ${z.rune}</div><h3>${esc(z.name)}</h3><p>${esc(z.subtitle)}</p><div class="zone-requirement">${gate}</div><div class="zone-progress-track"><span style="width:${progressPercent}%"></span></div><div class="zone-boss-note">${bossNote}</div><div class="zone-bestiary" aria-label="Bestiário de ${esc(z.name)}">${[...z.names,z.miniboss,z.boss].map((mobName,mobIndex)=>`<button type="button" class="bestiary-creature ${mobIndex>=5?'elite':''} ${MONSTER_SPRITES[index][mobIndex].endsWith('.png')?'original-art':''}" data-inspect-zone="${index}" data-inspect-creature="${mobIndex}" aria-label="Ver ${esc(mobName)}" title="${esc(mobName)}${MONSTER_SPRITES[index][mobIndex].endsWith('.png')?' · Arte personalizada':''}${mobIndex===5?' (Miniboss)':mobIndex===6?' (Chefão)':''}"><img src="${monsterSrc(index,mobIndex)}" width="56" height="60" loading="lazy" alt=""/></button>`).join('')}</div><button type="button" data-travel="${index}" ${!unlocked||current?'disabled':''}>${current?'ATUAL':unlocked?'VIAJAR':'BLOQUEADA'}</button></article>`;
       }).join('')}</div>`;
     }
     renderAscension() {
@@ -1353,9 +1426,9 @@
           const caption=maxed?'DOMINADA':locked?`REQUER ${SKILLS.find(x=>x.id===skill.req).name} ${skill.reqRank}`:`◆ ${fmt(price)} ALMA${price>1?'S':''}`;
           return `<button type="button" class="skill-node ${rank?'unlocked':''} ${locked?'locked':''} ${!disabled?'available':''}" data-skill="${skill.id}" ${disabled?'disabled':''} title="${esc(skill.desc)}"><span class="node-symbol">${skill.icon}</span><span class="node-copy"><strong>${esc(skill.name)} · ${rank}/${skill.max}</strong><span>${esc(skill.desc)}</span><em>${esc(caption)}</em></span></button>`;
         }).join('');
-        return `<div class="skill-path"><div class="skill-path-header"><span class="path-icon">${path.icon}</span><strong>${esc(path.name)}</strong><small>${esc(path.subtitle)}</small></div>${nodes}</div>`;
+        return `<div class="skill-path path-${path.id}"><div class="skill-path-header"><span class="path-icon">${path.icon}</span><strong>${esc(path.name)}</strong><small>${esc(path.subtitle)}</small></div>${nodes}</div>`;
       }).join('');
-      return `<div class="section-headline"><div><h2>O Pacto Eterno</h2><p>Almas persistem entre vidas. Desbloqueie nodos sucessivos e molde seu próprio legado.</p></div><span class="eyebrow">◆ ${fmt(s.souls)} ALMAS DISPONÍVEIS</span></div><div class="ascension-layout"><aside class="ascension-info"><div class="ascension-sigil">◆</div><h3>Renascimento</h3><p>Entregue o poder desta jornada ao crepúsculo. Sua próxima vida começará no nível 1, mas com equipamentos e habilidades permanentes.</p><div class="ascension-gain"><strong>+${fmt(gain)}</strong><span>ALMAS AO RENASCER</span></div><button type="button" class="buy-button ascend-button" data-ascend ${!ready?'disabled':''}>${ready?'INICIAR ASCENSÃO ✧':'ASCENSÃO BLOQUEADA'}</button><div class="ascension-note">${ready?'Pronto para transcender.':`Requer nível 15 (${s.level}/15) e 100 abates (${fmt(s.runKills)}/100).`} O inventário, almas, fragmentos e habilidades permanecem.</div></aside><div class="skill-tree">${paths}</div></div>`;
+      return `<div class="section-headline"><div><h2>O Pacto Eterno</h2><p>Almas persistem entre vidas. Desbloqueie nodos sucessivos e molde seu próprio legado.</p></div><span class="eyebrow">◆ ${fmt(s.souls)} ALMAS DISPONÍVEIS</span></div><div class="ascension-layout"><aside class="ascension-info"><div class="ascension-sigil"><img src="assets/hud/calice-ascensao.png" alt="" width="128" height="128"></div><h3>Renascimento</h3><p>Renasça no nível 1 e receba almas permanentes. Equipamentos e habilidades seguem com você.</p><div class="ascension-gain"><strong>+${fmt(gain)}</strong><span>ALMAS AO RENASCER</span></div><button type="button" class="buy-button ascend-button" data-ascend ${!ready?'disabled':''}>${ready?'INICIAR ASCENSÃO ✧':'ASCENSÃO BLOQUEADA'}</button><div class="ascension-note">${ready?'O cálice aguarda seu juramento.':`Requer nível 15 (${s.level}/15) e 100 abates (${fmt(s.runKills)}/100).`}</div></aside><div class="skill-tree">${paths}</div></div>`;
     }
     inspectMonster(zoneIndex,creatureIndex) {
       if (!Number.isInteger(zoneIndex) || !Number.isInteger(creatureIndex) ||
@@ -1380,9 +1453,11 @@
       if(b.dataset.attribute){this.spendAttribute(b.dataset.attribute);return;}
       if(b.dataset.qty){this.buyQuantity=b.dataset.qty==='max'?'max':integer(b.dataset.qty,1,1,10);this.renderPanel();return;}
       if(b.dataset.buy){this.buyUpgrade(b.dataset.buy);return;}
+      if(b.hasAttribute('data-equip-best')){this.equipBestItems();return;}
       if(b.dataset.equip){this.equipItem(b.dataset.equip);return;}
       if(b.dataset.use){this.usePotion(b.dataset.use);return;}
       if(b.dataset.sell){this.sellItem(b.dataset.sell);return;}
+      if(b.hasAttribute('data-sell-bulk')){this.requestBulkSale();return;}
       if(b.hasAttribute('data-sell-low')){this.sellLowRarities();return;}
       if(b.dataset.travel!==undefined){this.travelTo(integer(b.dataset.travel));return;}
       if(b.dataset.skill){this.buySkill(b.dataset.skill);return;}

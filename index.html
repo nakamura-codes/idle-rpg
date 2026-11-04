@@ -14,9 +14,10 @@
   <script src="soundtrack.js?v=3" defer></script>
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.0" defer></script>
-  <script src="game.js?v=11" defer></script>
+  <script src="game.js?v=12" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=3">
-  <script src="game-hud.js?v=3" defer></script>
+  <script src="game-hud.js?v=4" defer></script>
+  <link rel="stylesheet" href="gameplay.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -47,7 +48,7 @@
           <div class="battlefield zone-0" id="battlefield">
             <div class="arena-scenery" aria-hidden="true"></div>
             <div class="camera-state" id="cameraState" aria-hidden="true">COMBATE • 2D</div>
-            <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><img src="assets/hero/fast/errante.webp" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"><span class="hero-ground-name">O ERRANTE</span></div>
+            <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><img src="assets/hero/fast/errante.webp" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"><span class="hero-ground-name" id="combatHeroName">Aventureiro</span></div>
             <span class="duel-slash" id="duelSlash" aria-hidden="true"></span>
             <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-damage-layer" id="heroDamageLayer" aria-hidden="true"></div>
@@ -72,10 +73,10 @@
       <section class="errant-vitals" id="errantVitals" aria-label="Vida e experiência do personagem">
         <div class="life-medallion" aria-hidden="true"><div class="life-orb-liquid"><span id="lifeOrbFill"></span></div><img src="assets/ui/vitality-bezel.webp" alt="" width="160" height="160"></div>
         <div class="vitals-copy">
-          <div class="hero-level-line"><span class="errant-name">O ERRANTE</span><span>NÍVEL <strong id="levelValue">1</strong></span></div>
+          <div class="hero-level-line"><span class="errant-name" id="playerHeroName">Aventureiro</span><span>NÍVEL <strong id="levelValue">1</strong></span></div>
           <div class="hero-health-panel">
             <div class="hero-health-line"><span>VITALIDADE</span><strong id="heroHPText">110 / 110 HP</strong></div>
-            <div class="hero-health-track" id="heroHealthProgress" role="progressbar" aria-label="Vida do Errante" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="heroHPFill" style="width:100%"></span></div>
+            <div class="hero-health-track" id="heroHealthProgress" role="progressbar" aria-label="Vida do personagem" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="heroHPFill" style="width:100%"></span></div>
             <div class="hero-health-footer"><span>REGENERAÇÃO <strong id="heroRegeneration">+0,8/s</strong></span><span id="xpLabel">0 / 24 XP</span></div>
           </div>
           <div class="progress-bar xp-track" role="progressbar" aria-label="Experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xpProgress"><div class="progress-fill xp-fill" id="xpFill"></div></div>
@@ -94,7 +95,7 @@
 
   <div class="hud-backdrop" id="hudBackdrop" hidden>
     <section class="management panel" id="hudPanel" role="dialog" aria-modal="true" aria-labelledby="hudPanelTitle" tabindex="-1">
-      <header class="hud-panel-heading"><div><small id="hudPanelEyebrow">CRÔNICAS DO ERRANTE</small><h2 id="hudPanelTitle">Livro Negro</h2></div><button class="hud-close" id="hudClose" type="button" aria-label="Fechar painel">✕</button></header>
+      <header class="hud-panel-heading"><img id="hudPanelArt" src="assets/hud/livro-negro.png" alt="" width="80" height="80"><div><small id="hudPanelEyebrow">CRÔNICAS DO ERRANTE</small><h2 id="hudPanelTitle">Livro Negro</h2><p id="hudFeedback" class="hud-feedback" role="status" aria-live="polite" hidden></p></div><button class="hud-close" id="hudClose" type="button" aria-label="Fechar painel">✕</button></header>
       <nav class="tab-nav" aria-label="Menu do jogo">
         <button type="button" class="tab-button active" data-tab="upgrades" aria-selected="true"><span class="tab-icon">⚒</span><span>LIVRO NEGRO</span></button>
         <button type="button" class="tab-button" data-tab="inventory" aria-selected="false"><span class="tab-icon">♢</span><span>INVENTÁRIO <i id="inventoryCount">0</i></span></button>
@@ -102,7 +103,7 @@
         <button type="button" class="tab-button" data-tab="ascension" aria-selected="false"><span class="tab-icon">✧</span><span>ASCENSÃO</span></button>
       </nav>
       <div class="hud-panel-scroll" id="hudPanelScroll">
-      <section class="codex-summary" id="codexSummary" aria-label="Status do Errante">          <div class="hero-stat-grid">
+      <section class="codex-summary" id="codexSummary" aria-label="Status do personagem">          <div class="hero-stat-grid">
             <div class="stat-tile"><small>GOLPE</small><strong id="clickStat">2</strong><span>por clique</span></div>
             <div class="stat-tile"><small>RITUAL</small><strong id="dpsStat">0</strong><span>por segundo</span></div>
             <div class="stat-tile"><small>CRÍTICO</small><strong id="critStat">8%</strong><span>chance</span></div>
@@ -155,7 +156,7 @@
       <small class="hw-note">O progresso é salvo neste navegador.</small>
     </div>
   </div>
-  <div class="modal-backdrop" id="dialogBackdrop" hidden><section class="dialog panel" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><div class="dialog-icon" id="dialogIcon">✦</div><div class="eyebrow" id="dialogEyebrow">CRÔNICA</div><h2 id="dialogTitle">A jornada continua</h2><p id="dialogText"></p><div class="dialog-actions" id="dialogActions"></div></section></div>
+  <div class="modal-backdrop" id="dialogBackdrop" hidden><section class="dialog panel" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><div class="dialog-icon" id="dialogIcon">✦</div><div class="eyebrow" id="dialogEyebrow">CRÔNICA</div><h2 id="dialogTitle">A jornada continua</h2><div id="dialogText" class="dialog-copy"></div><div class="dialog-actions" id="dialogActions"></div></section></div>
   <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
   <input type="file" id="saveFileInput" accept=".json,application/json" hidden>
 </body>

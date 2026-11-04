@@ -117,7 +117,7 @@ const server = http.createServer((req,res) => {
     const mobHP = await p.evaluate(()=>window.__hudTest.game.state.mob.hp);
     await p.keyboard.press('Space');
     assert.equal(await p.evaluate(()=>window.__hudTest.game.state.mob.hp),mobHP);
-    for(const [tab,title] of [['inventory','Mochila do Errante'],['zones','Regiões Esquecidas'],['ascension','Cálice da Ascensão']]) {
+    for(const [tab,title] of [['inventory','Mochila de Errante'],['zones','Regiões Esquecidas'],['ascension','Cálice da Ascensão']]) {
       await p.click(`[data-tab="${tab}"]`);
       assert.equal(await p.locator('#hudPanelTitle').textContent(),title);
       assert.equal(await p.locator('#codexSummary').isVisible(),false);
@@ -166,6 +166,7 @@ const server = http.createServer((req,res) => {
     await p.keyboard.press('i');
     await p.click('[data-equip="test-sword"]');
     await p.click('[data-sell="test-sword"]');
+    await p.getByRole('button',{name:'CONFIRMAR VENDA',exact:true}).click();
     assert.equal(await p.locator('[data-equip="test-sword"]').count(),0);
     console.log('PASS panel keyboard navigation, gold upgrades, equipment, potions and sale');
     // Ascension confirmation is layered above, with panel focus restored on cancel.

@@ -7,7 +7,7 @@
   const frame = $('appFrame');
   const labels = {
     upgrades:['CRÔNICAS DO ERRANTE','Livro Negro'],
-    inventory:['RELIQUIÁRIO DO VIAJANTE','Mochila do Errante'],
+    inventory:['RELIQUIÁRIO DO VIAJANTE','Mochila'],
     ascension:['O PREÇO DA ETERNIDADE','Cálice da Ascensão'],
     zones:['ALÉM DOS PORTÕES','Regiões Esquecidas'],
     chronicle:['SUSSURROS DO ABISMO','Crônicas da Jornada'],
@@ -20,8 +20,11 @@
   function display(name) {
     if (!labels[name]) return;
     active = name;
+    $('hudFeedback').hidden=true;
     $('hudPanelEyebrow').textContent = labels[name][0];
-    $('hudPanelTitle').textContent = labels[name][1];
+    $('hudPanelTitle').textContent = name === 'inventory' ? 'Mochila de ' + $('profileName').textContent : labels[name][1];
+    const art={upgrades:'assets/hud/livro-negro.png',inventory:'assets/hud/mochila-velha.png',ascension:'assets/hud/calice-ascensao.png',zones:'assets/ui/vitality-bezel.webp',chronicle:'assets/hud/livro-negro.png',settings:'assets/ui/vitality-bezel.webp'}[name];
+    if($('hudPanelArt').getAttribute('src')!==art)$('hudPanelArt').src=art;
     panel.dataset.view = name;
     $('codexSummary').hidden = name !== 'upgrades';
     $('codexJourney').hidden = name !== 'upgrades';
@@ -36,6 +39,7 @@
   function close(restore = true) {
     if (backdrop.hidden) return;
     backdrop.hidden = true; active = null;
+    $('hudFeedback').hidden=true;
     frame.inert = !$('authScreen').hidden;
     setExpanded();
     if (restore && $('authScreen').hidden) opener?.focus({preventScroll:true});
