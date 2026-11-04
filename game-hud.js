@@ -5,6 +5,16 @@
   const root = document.documentElement;
   const backdrop = $('hudBackdrop'), panel = $('hudPanel');
   const frame = $('appFrame');
+  // Decorative type is limited to large titles. Keep the experiment reversible.
+  function setTitleFont(value) {
+    const font=value==='classic'?'classic':'dornen';
+    root.dataset.hudFont=font;$('hudTitleFont').value=font;
+    try {localStorage.setItem('hellward_hud_title_font',font);} catch {}
+  }
+  let savedFont='dornen';
+  try {savedFont=localStorage.getItem('hellward_hud_title_font') || savedFont;} catch {}
+  setTitleFont(savedFont);
+  $('hudTitleFont').addEventListener('change',e=>setTitleFont(e.target.value));
   const labels = {
     upgrades:['CRÔNICAS DO ERRANTE','Livro Negro'],
     inventory:['RELIQUIÁRIO DO VIAJANTE','Mochila'],
@@ -23,7 +33,7 @@
     $('hudFeedback').hidden=true;
     $('hudPanelEyebrow').textContent = labels[name][0];
     $('hudPanelTitle').textContent = name === 'inventory' ? 'Mochila de ' + $('profileName').textContent : labels[name][1];
-    const art={upgrades:'assets/hud/livro-negro.png',inventory:'assets/hud/mochila-velha.png',ascension:'assets/hud/calice-ascensao.png',zones:'assets/ui/vitality-bezel.webp',chronicle:'assets/hud/livro-negro.png',settings:'assets/ui/vitality-bezel.webp'}[name];
+    const art={upgrades:'assets/hud/livro-negro.png',inventory:'assets/hud/mochila-velha.png',ascension:'assets/hud/calice-ascensao.png',zones:'assets/ui/regions-tree.webp',chronicle:'assets/hud/livro-negro.png',settings:'assets/ui/vitality-bezel.webp'}[name];
     if($('hudPanelArt').getAttribute('src')!==art)$('hudPanelArt').src=art;
     panel.dataset.view = name;
     $('codexSummary').hidden = name !== 'upgrades';

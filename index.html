@@ -16,8 +16,10 @@
   <script src="item-catalog.js?v=7.0" defer></script>
   <script src="game.js?v=12" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=3">
-  <script src="game-hud.js?v=4" defer></script>
-  <link rel="stylesheet" href="gameplay.css?v=1">
+  <script src="game-hud.js?v=5" defer></script>
+  <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="gameplay.css?v=2">
+  <link rel="stylesheet" href="hud-legibility.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -84,11 +86,11 @@
         <button type="button" id="quickPotion" class="quick-potion" aria-label="Usar poção de vida (Q)" disabled><img id="quickPotionArt" src="assets/items/area-01-09-pocao-de-vida-pequena.png" alt="" width="36" height="42"><b id="quickPotionCount">0</b><span>CURAR <kbd>Q</kbd></span></button>
       </section>
       <nav class="relic-nav" aria-label="Relíquias do aventureiro"><img class="relic-rail-art" src="assets/ui/relic-rail.webp" alt="" width="960" height="320" aria-hidden="true">
-        <button type="button" class="relic-button" data-open-panel="upgrades" aria-label="Livro Negro: status e pontos (C)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/livro-negro.png" alt="" width="88" height="88"><span>Livro Negro</span><small>STATUS · <kbd>C</kbd></small><b id="attributeBadge" class="relic-badge" hidden>0</b></button>
-        <button type="button" class="relic-button" data-open-panel="ascension" aria-label="Cálice da Ascensão (A)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/calice-ascensao.png" alt="" width="88" height="88"><span>Ascensão</span><small>RENASCER · <kbd>A</kbd></small></button>
-        <button type="button" class="relic-button" data-open-panel="inventory" aria-label="Mochila: inventário e poções (I)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/mochila-velha.png" alt="" width="88" height="88"><span>Mochila</span><small>ITENS · <kbd>I</kbd></small></button>
+        <button type="button" class="relic-button" data-open-panel="upgrades" aria-label="Livro Negro: status e pontos (C)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/livro-negro.png" alt="" width="88" height="88"><span class="relic-caption"><span>Livro Negro</span><small>STATUS <kbd>C</kbd></small></span><b id="attributeBadge" class="relic-badge" hidden>0</b></button>
+        <button type="button" class="relic-button" data-open-panel="ascension" aria-label="Cálice da Ascensão (A)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/calice-ascensao.png" alt="" width="88" height="88"><span class="relic-caption"><span>Ascensão</span><small>RENASCER <kbd>A</kbd></small></span></button>
+        <button type="button" class="relic-button" data-open-panel="inventory" aria-label="Mochila: inventário e poções (I)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/mochila-velha.png" alt="" width="88" height="88"><span class="relic-caption"><span>Mochila</span><small>ITENS <kbd>I</kbd></small></span></button>
       </nav>
-      <nav class="hud-secondary" aria-label="Exploração e registros"><button type="button" data-open-panel="zones" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><span aria-hidden="true">♜</span> Regiões <kbd>M</kbd></button><button type="button" data-open-panel="chronicle" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><span aria-hidden="true">☷</span> Crônicas <kbd>J</kbd></button></nav>
+      <nav class="hud-secondary" aria-label="Exploração e registros"><button type="button" data-open-panel="zones" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/ui/regions-tree.webp" alt="" width="28" height="30"><span class="secondary-label">Regiões</span><kbd>M</kbd></button><button type="button" data-open-panel="chronicle" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><span class="secondary-icon" aria-hidden="true">☷</span><span class="secondary-label">Crônicas</span><kbd>J</kbd></button></nav>
     </div>
 
   </div>
@@ -116,7 +118,7 @@
       <div id="codexJourney"><section class="panel journey-panel"><div class="panel-heading compact"><span class="eyebrow">REGISTRO DA JORNADA</span><span class="heading-glyph">✤</span></div><div class="journey-row"><span>Inimigos abatidos</span><strong id="runKills">0</strong></div><div class="journey-row"><span>Ouro conquistado</span><strong id="runGold">0</strong></div><div class="journey-row"><span>Renascimentos</span><strong id="rebirths">0</strong></div><div class="journey-row"><span>Zona atual</span><strong id="currentZoneShort">I</strong></div></section></div>
       <section id="hudSettings" class="hud-settings" hidden>
         <section class="settings-card"><h3>Som do abismo</h3><p>Ajuste o volume das trilhas do menu e da batalha.</p><div id="hudAudioControls"></div></section>
-        <section class="settings-card"><h3>Aparência</h3><p>Escolha o tema da interface.</p><button id="themeToggle" type="button" class="settings-action" aria-pressed="true" aria-label="Alternar modo escuro">☾ Escuro</button></section>
+        <section class="settings-card"><h3>Aparência</h3><p>Escolha o tema e compare a fonte dos títulos.</p><button id="themeToggle" type="button" class="settings-action" aria-pressed="true" aria-label="Alternar modo escuro">☾ Escuro</button><label class="font-control" for="hudTitleFont">Fonte dos títulos<select id="hudTitleFont" class="dark-select"><option value="dornen">Dornen · teste</option><option value="classic">Clássica</option></select></label><p class="font-note">Dornen nos títulos; descrições e números mantêm a fonte de leitura.</p></section>
         <section class="settings-card"><h3>Progresso da jornada</h3><p>O progresso é salvo automaticamente neste navegador. Exporte um backup para guardar uma cópia ou transferir sua jornada.</p><div class="footer-buttons"><button type="button" id="exportSave">↓ Exportar save</button><button type="button" id="importSave">↑ Importar save</button></div></section>
         <section class="settings-card"><h3>Atalhos do aventureiro</h3><dl class="shortcut-list"><div><dt>Livro Negro</dt><dd>C</dd></div><div><dt>Mochila</dt><dd>I</dd></div><div><dt>Ascensão</dt><dd>A</dd></div><div><dt>Regiões</dt><dd>M</dd></div><div><dt>Crônicas</dt><dd>J</dd></div><div><dt>Poção de vida</dt><dd>Q</dd></div><div><dt>Atacar</dt><dd>Espaço</dd></div><div><dt>Fechar painel</dt><dd>Esc</dd></div></dl></section>
       </section>

@@ -54,6 +54,16 @@ const server = http.createServer((req,res) => {
       assert.ok(layout.relics.every(b=>b.x>=0 && b.right<=w && b.bottom<=h), `${w}x${h} clipped relic: ${JSON.stringify(layout.relics)}`);
       assert.deepEqual(layout.broken, []);
       assert.ok(await p.locator('#xpLabel').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=6 && el.getBoundingClientRect().width>=25), `${w}x${h} XP text too small`);
+      const captions=await p.locator('.relic-caption').evaluateAll(nodes=>nodes.map(el=>{
+        const box=n=>n.getBoundingClientRect().toJSON(),title=el.querySelector('span'),detail=el.querySelector('small');
+        return {plaque:box(el),button:box(el.parentElement),title:box(title),detail:box(detail),titleSize:parseFloat(getComputedStyle(title).fontSize),detailSize:parseFloat(getComputedStyle(detail).fontSize)};
+      }));
+      for(const c of captions){
+        assert.ok(c.titleSize>=10 && c.detailSize>=8,`${w} unreadable relic label`);
+        assert.ok(c.title.x>=c.plaque.x && c.title.right<=c.plaque.right+1 && c.detail.x>=c.plaque.x && c.detail.right<=c.plaque.right+1,`${w} text outside its plaque`);
+        assert.ok(c.plaque.y>=c.button.y && c.plaque.bottom<=h,`${w} clipped plaque`);
+      }
+      assert.ok(Math.max(...captions.map(c=>c.title.y))-Math.min(...captions.map(c=>c.title.y))<1,`${w} misaligned relic titles`);
       await p.evaluate(()=>document.activeElement?.blur());
       await capture(`hud-${w}x${h}`);
       // Every viewport must keep the settings and codex close controls reachable.
@@ -69,6 +79,17 @@ const server = http.createServer((req,res) => {
       console.log(`PASS viewport ${w}x${h} / arena ${Math.round(layout.arena.height)}px`);
     }
     await p.setViewportSize({width:1366,height:768});
+    await p.click('[data-open-panel="settings"]');
+    assert.ok(await p.evaluate(()=>document.fonts.check('34px "Dornen UI"','Regiões Ascensão Crônicas')));
+    await p.selectOption('#hudTitleFont','classic');
+    assert.equal(await p.locator('html').getAttribute('data-hud-font'),'classic');
+    assert.equal(await p.evaluate(()=>localStorage.getItem('hellward_hud_title_font')),'classic');
+    await p.selectOption('#hudTitleFont','dornen');
+    assert.equal(await p.locator('html').getAttribute('data-hud-font'),'dornen');
+    await p.keyboard.press('Escape');
+    await p.click('[data-open-panel="zones"]');
+    assert.ok((await p.locator('#hudPanelArt').getAttribute('src')).endsWith('regions-tree.webp'));
+    await p.keyboard.press('Escape');
     await p.click('[data-open-panel="upgrades"]');
     assert.equal(await p.locator('#hudPanelTitle').textContent(),'Livro Negro');
     assert.equal(await p.locator('[data-attribute]:enabled').count(),0);

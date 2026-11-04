@@ -39,3 +39,32 @@ The inventory suite checks all slots, real-stat ranking, ties, health, cancellat
 sale proceeds, protected equipment/potions, concurrent drops, persistence and the
 actual offline return. It checks all six panels at 1366×768, 390×844, 320×568 and
 844×390 with no horizontal clipping or JavaScript/asset errors.
+
+## Readability and Dornen experiment
+
+Relic names and subtitles now share individual opaque plaques with aligned
+baselines. Their minimum sizes are 10px and 8px respectively, including 320px
+screens. Region and enemy headers occupy separate aligned columns on desktop and
+stack on portrait phones. Boss health bars reserve a gap above the sprites.
+
+`assets/fonts/Dornen.ttf` is the original user-supplied font by Dieter Schumacher;
+its included license is retained as `LICENSE-Dornen.txt`. The original has no
+Portuguese accents. `tools/build-dornen.py` produces `dornen-ui.woff` with angular
+accent outlines for Portuguese precomposed letters, retaining the base outlines.
+Rebuild with `python tools/build-dornen.py` (fonttools required).
+
+Dornen UI is limited to large gameplay titles. Settings → Appearance offers
+**Dornen · teste** and **Clássica**; the preference persists separately from saves.
+Body copy, numbers and small controls keep their readable fonts. No new animation
+or rendering loop is used.
+
+The region emblem at `assets/ui/regions-tree.webp` is a transparent 256px WebP
+generated with the built-in image tool, then optimized for the header/navigation.
+Generation brief: a single ancient sinister tree with gnarled black bark, crooked
+bare branches, twisted roots and restrained orange/red infernal flames; hand-painted
+gothic dark fantasy game illustration, centered clear silhouette, transparent
+background, no scenery, characters, frame or text.
+
+The browser suite additionally checks plaque alignment, text containment and
+minimum font sizes at 13 viewports, loading and switching Dornen, and the region
+emblem. Gameplay/inventory regression coverage remains unchanged.
