@@ -50,7 +50,7 @@
     parent.append(group);controls.push(group);
   }
   addControls(document.getElementById('menuSettings'));
-  addControls(document.querySelector('.site-footer'));
+  addControls(document.getElementById('hudAudioControls'));
   updateControls();
   function setup() {
     if (context) return;

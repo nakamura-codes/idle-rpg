@@ -23,7 +23,7 @@ const server = http.createServer((req,res) => {
     p.on('response', r => {if(r.status() >= 400) errors.push(`${r.status()} ${r.url()}`);});
     // Test-only access to the existing closure; no testing API ships in game.js.
     await p.route('**/game.js?*', async route => {
-      const source = fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();', '  window.__hudTest = {game:new Game(), normalizeSave, newState, attributePoints, xpNeeded};');
+      const source = fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();', '  window.__hudTest = {game:new Game(), normalizeSave, newState, attributePoints, xpNeeded, ZONES};');
       await route.fulfill({contentType:'application/javascript', body:source});
     });
     await p.goto(`http://127.0.0.1:${server.address().port}`);
@@ -40,7 +40,7 @@ const server = http.createServer((req,res) => {
     const shots = process.env.HUD_SCREENSHOTS;
     if(shots)fs.mkdirSync(shots,{recursive:true});
     async function capture(name) {if(shots)await p.screenshot({path:path.join(shots,name+'.png')});}
-    for (const [w,h] of [[1366,768],[1920,1080],[1024,600],[390,844],[320,568],[844,390]]) {
+    for (const [w,h] of [[1366,768],[1920,1080],[1920,852],[1536,864],[1280,720],[1024,768],[1024,600],[390,844],[375,667],[360,640],[320,568],[844,390],[667,375]]) {
       await p.setViewportSize({width:w,height:h});
       await p.waitForTimeout(80);
       const layout = await p.evaluate(() => {
@@ -53,7 +53,19 @@ const server = http.createServer((req,res) => {
       assert.ok(layout.dock.bottom <= h, `${w}x${h} dock clipped`);
       assert.ok(layout.relics.every(b=>b.x>=0 && b.right<=w && b.bottom<=h), `${w}x${h} clipped relic: ${JSON.stringify(layout.relics)}`);
       assert.deepEqual(layout.broken, []);
+      assert.ok(await p.locator('#xpLabel').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=6 && el.getBoundingClientRect().width>=35), `${w}x${h} XP text too small`);
+      await p.evaluate(()=>document.activeElement?.blur());
       await capture(`hud-${w}x${h}`);
+      // Every viewport must keep the settings and codex close controls reachable.
+      for(const name of ['settings','upgrades','inventory','ascension']) {
+        await p.click(`[data-open-panel="${name}"]`);
+        const overlay=await p.locator('#hudPanel').evaluate(el=>({box:el.getBoundingClientRect().toJSON(),scroll:el.scrollWidth,client:el.clientWidth,close:document.getElementById('hudClose').getBoundingClientRect().toJSON()}));
+        assert.ok(overlay.box.x>=0 && overlay.box.right<=w && overlay.box.y>=0 && overlay.box.bottom<=h, `${w}x${h} ${name} clipped overlay`);
+        assert.ok(overlay.scroll<=overlay.client+1, `${w}x${h} ${name} horizontal panel overflow`);
+        assert.ok(overlay.close.bottom<=h && overlay.close.right<=w, 'Close control clipped');
+        if(shots && name==='settings' && (w===1366 || w===320))await capture(`settings-${w}x${h}`);
+        await p.keyboard.press('Escape');
+      }
       console.log(`PASS viewport ${w}x${h} / arena ${Math.round(layout.arena.height)}px`);
     }
     await p.setViewportSize({width:1366,height:768});
@@ -115,6 +127,11 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.locator('#hudChronicle').isVisible(),true);
     await capture('hud-chronicle');
     await p.keyboard.press('Escape');
+    // Focus mode should enlarge the arena and preserve access to the three relics.
+    const arenaBefore=await p.locator('#battlefield').evaluate(el=>el.clientHeight);
+    await p.click('#focusBattle');
+    assert.ok(await p.locator('#battlefield').evaluate(el=>el.clientHeight)>arenaBefore);
+    await capture('hud-focused');await p.click('#focusBattle');
     // Existing buy/equip/potion/sell actions remain attached to the moved tabBody.
     await p.evaluate(()=>{const {game:g}=window.__hudTest;g.state.gold=100;g.renderCore();g.renderPanel();});
     await p.keyboard.press('c');
@@ -137,6 +154,16 @@ const server = http.createServer((req,res) => {
       await p.click('[data-use="test-potion"]');
       assert.ok(await p.evaluate(()=>window.__hudTest.game.state.heroHp>30));
     }
+    await p.keyboard.press('Escape');
+    await p.evaluate(()=>{const {game:g}=window.__hudTest;g.state.heroHp=30;g.renderCore();});
+    assert.equal(await p.locator('#quickPotion').isEnabled(),true);
+    const qtyBefore=await p.locator('#quickPotionCount').textContent();
+    await p.keyboard.press('q');
+    assert.ok(await p.evaluate(()=>window.__hudTest.game.state.heroHp>30));
+    assert.equal(Number(await p.locator('#quickPotionCount').textContent()),Number(qtyBefore)-1);
+    await p.evaluate(()=>{const {game:g}=window.__hudTest;g.state.heroHp=g.bonuses().maxHp;g.renderCore();});
+    assert.equal(await p.locator('#quickPotion').isDisabled(),true);
+    await p.keyboard.press('i');
     await p.click('[data-equip="test-sword"]');
     await p.click('[data-sell="test-sword"]');
     assert.equal(await p.locator('[data-equip="test-sword"]').count(),0);
@@ -164,6 +191,7 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.locator('#appFrame').evaluate(el=>el.inert),false);
     // Exercise the real export/import route, including replacement confirmation.
     const downloadPromise = p.waitForEvent('download');
+    await p.click('[data-open-panel="settings"]');
     await p.click('#exportSave');
     const download = await downloadPromise;
     const exported = JSON.parse(fs.readFileSync(await download.path(),'utf8'));
@@ -180,6 +208,55 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.evaluate(()=>window.__hudTest.game.state.attributes.strength),1);
     assert.equal(await p.locator('#attributeBadge').textContent(),'13');
     console.log('PASS real JSON export/import, old-save point grant and page reload persistence');
+    // Settings control the same audio preferences as the main menu.
+    await p.click('[data-open-panel="settings"]');
+    await p.locator('#hudAudioControls button').click();
+    assert.equal(await p.locator('#hudAudioControls button').getAttribute('aria-pressed'),'false');
+    await p.locator('#hudAudioControls input').fill('45');
+    assert.equal(await p.locator('#hudAudioControls output').textContent(),'45%');
+    await p.click('#themeToggle');
+    assert.equal(await p.evaluate(()=>document.documentElement.dataset.theme),'classic');
+    await p.click('#themeToggle');await p.keyboard.press('Escape');
+    // Explicitly inspect every regular roster entry and both bosses at mobile and desktop sizes.
+    for(const [w,h] of [[1366,768],[320,568],[844,390]]) {
+      await p.setViewportSize({width:w,height:h});
+      for(let zone=0;zone<6;zone++) {
+        for(const index of [0,1,2,3,4,5,6]) {
+          const kind=index===6?'boss':index===5?'miniboss':'normal';
+          await p.evaluate(({zone,kind,index})=>{
+            const g=window.__hudTest.game;
+            g.state.zone=zone;g.state.zoneProgress[zone].stage=kind==='boss'?10:kind==='miniboss'?5:1;
+            g.state.mob={name:kind==='boss'?window.__hudTest.ZONES[zone].boss:kind==='miniboss'?window.__hudTest.ZONES[zone].miniboss:window.__hudTest.ZONES[zone].names[index],kind,level:50,hp:100,maxHp:100};
+            g.lastZoneRendered=-1;g.renderCore();
+          },{zone,kind,index});
+          await p.locator('#monsterArt img').evaluate(img=>img.decode());
+          const placement=await p.evaluate(()=>{
+            const rect=s=>document.querySelector(s).getBoundingClientRect().toJSON();
+            return {arena:rect('#battlefield'),hero:rect('#combatHero'),target:rect('#attackTarget'),hp:rect('.mob-info')};
+          });
+          const {arena,hero,target,hp}=placement;
+          assert.ok(hero.x>=arena.x && hero.right<=arena.right && hero.y>=arena.y && hero.bottom<=arena.bottom, `${w} ${zone} ${kind} clipped hero`);
+          assert.ok(target.x>=arena.x && target.right<=arena.right+1 && target.y>=hp.bottom+2 && target.bottom<=arena.bottom, `${w} ${zone} ${kind} sprite/health overlap ${JSON.stringify(placement)}`);
+          assert.ok(hp.x>=arena.x && hp.right<=arena.right && hp.y>=arena.y, `${w} ${zone} ${kind} clipped health`);
+          if(zone===5 && kind==='boss')await capture(`final-boss-${w}x${h}`);
+        }
+      }
+    }
+    console.log('PASS potion hotkey, settings audio/theme and all six regions with regular/miniboss/boss framing');
+    // Rare events, critical damage and the defeat notice also stay within the arena.
+    for(const [w,h] of [[1366,768],[320,568],[844,390]]) {
+      await p.setViewportSize({width:w,height:h});
+      await p.evaluate(()=>{const g=window.__hudTest.game;g.state.deadUntil=0;g.state.heroHp=50;g.state.event=null;g.spawnEvent();g.floatNumber('CRÍTICO! −1e250','crit');g.floatHeroNumber('−1e250');});
+      await p.waitForTimeout(180);
+      const overlays=await p.evaluate(()=>{const arena=document.getElementById('battlefield').getBoundingClientRect().toJSON();return {arena,boxes:[...document.querySelectorAll('#eventOverlay,.float-damage,.hero-damage-number')].filter(el=>el.getClientRects().length).map(el=>({name:el.className,rect:el.getBoundingClientRect().toJSON()}))};});
+      for(const {name,rect:b} of overlays.boxes)assert.ok(b.x>=overlays.arena.x-1 && b.right<=overlays.arena.right+1 && b.y>=overlays.arena.y-1 && b.bottom<=overlays.arena.bottom+1, `${w} clipped ${name} ${JSON.stringify(overlays)}`);
+      await capture(`event-${w}x${h}`);
+      await p.evaluate(()=>{const g=window.__hudTest.game;g.state.event=null;g.state.heroHp=0;g.state.deadUntil=Date.now()+7000;g.renderCore();});
+      const defeat=await p.locator('#heroRespawn').evaluate(el=>({box:el.getBoundingClientRect().toJSON(),arena:document.getElementById('battlefield').getBoundingClientRect().toJSON()}));
+      assert.ok(defeat.box.y>=defeat.arena.y && defeat.box.bottom<=defeat.arena.bottom && defeat.box.x>=defeat.arena.x && defeat.box.right<=defeat.arena.right,'Clipped defeat message');
+      await capture(`defeat-${w}x${h}`);
+    }
+    console.log('PASS rare event, oversized critical/healing numbers and defeat overlay bounds');
     assert.deepEqual(errors, []);
     console.log('PASS return to menu, resume profile, no JavaScript or asset errors');
   } finally {await browser.close();}

@@ -453,6 +453,7 @@
       $('createProfileForm').addEventListener('submit',(e)=>{e.preventDefault();this.createProfile($('newProfileName').value);});
       $('switchProfile').addEventListener('click',()=>{if(this.state){this.save();this.state=null;this.profileId=null;this.showAuth();}});
       $('attackTarget').addEventListener('click',()=>this.attack());
+      $('quickPotion').addEventListener('click',()=>this.useQuickPotion());
       $('eventTarget').addEventListener('click',(e)=>{e.stopPropagation();this.attackEvent();});
       document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>this.changeTab(btn.dataset.tab)));
       $('tabBody').addEventListener('click',(e)=>this.onPanelClick(e));
@@ -467,6 +468,7 @@
       document.addEventListener('keydown',(e)=>{
         if (!this.state || !$('dialogBackdrop').hidden || !$('authScreen').hidden) return;
         const interactive=['INPUT','BUTTON','SELECT','TEXTAREA'].includes(document.activeElement?.tagName);
+        if(e.code==='KeyQ' && !e.repeat && !e.ctrlKey && !e.metaKey && !e.altKey && !['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName) && $('hudBackdrop').hidden){e.preventDefault();this.useQuickPotion();}
         if(e.code==='Space' && !interactive && $('hudBackdrop').hidden){e.preventDefault();this.attack();}
       });
     }
@@ -657,6 +659,8 @@
       const area=$('heroDamageLayer');
       const node=document.createElement('span');node.className=`hero-damage-number ${heal?'healing':''}`;
       node.textContent=label;area.append(node);
+      const safeWidth=area.clientWidth*.9;
+      if(node.offsetWidth>safeWidth)node.style.fontSize=`${parseFloat(getComputedStyle(node).fontSize)*safeWidth/node.offsetWidth}px`;
       while(area.children.length>5)area.firstElementChild.remove();
       setTimeout(()=>node.remove(),1050);
     }
@@ -715,8 +719,16 @@
       const layer=$('damageLayer');
       const node=document.createElement('span');node.className=`float-damage ${style}`;
       node.textContent=text;
-      node.style.marginLeft=`${rand(-55,55)}px`;
       layer.append(node);
+      const width=layer.clientWidth, safeWidth=Math.max(20,width-20)/1.1;
+      if(node.offsetWidth>safeWidth)node.style.fontSize=`${parseFloat(getComputedStyle(node).fontSize)*safeWidth/node.offsetWidth}px`;
+      const anchor=style==='event-hit'?$('eventTarget'):$('attackTarget');
+      const bounds=anchor.getBoundingClientRect(), parent=layer.getBoundingClientRect();
+      const center=style==='reward'?width/2:bounds.left-parent.left+bounds.width/2+rand(-12,12);
+      const half=node.offsetWidth*.55+8;
+      node.style.left=`${Math.max(half,Math.min(width-half,center))}px`;
+      node.style.top=`${Math.max(74,Math.min(layer.clientHeight-30,layer.clientHeight*.5))}px`;
+      node.style.marginLeft='0';
       while(layer.children.length>24)layer.firstElementChild.remove();
       setTimeout(()=>node.remove(),900);
     }
@@ -938,6 +950,31 @@
       this.state.heroHp=Math.min(this.state.heroHp,heroMaxHp(this.state));
       this.renderPanel();this.renderCore();this.save();
     }
+    quickPotionChoice() {
+      if (!this.state) return null;
+      const s=this.state, maxHp=this.bonuses().maxHp, missing=Math.max(0,maxHp-s.heroHp);
+      const options=s.inventory.filter(item=>item.kind==='potion' && item.qty>0).map(item=>{
+        const def=CATALOG_BY_ID.get(item.catalogId), area=def?catalogZone(def):0;
+        return {item,heal:Math.max(20,Math.ceil(maxHp*Math.min(.85,.36+area*.085)))};
+      }).sort((a,b)=>a.heal-b.heal || a.item.createdAt-b.item.createdAt);
+      // Use the smallest dose that can fill the missing health, otherwise the largest.
+      return (options.find(x=>x.heal>=missing) || options[options.length-1])?.item || null;
+    }
+    useQuickPotion() {
+      if (!this.state || !$('authScreen').hidden || !$('dialogBackdrop').hidden || !$('hudBackdrop').hidden) return;
+      const item=this.quickPotionChoice();
+      if(item)this.usePotion(item.id);
+    }
+    renderQuickPotion() {
+      const s=this.state, item=this.quickPotionChoice(), button=$('quickPotion');
+      const count=s.inventory.filter(x=>x.kind==='potion').reduce((sum,x)=>sum+x.qty,0);
+      $('quickPotionCount').textContent=fmt(count);
+      button.disabled=!item || Boolean(s.deadUntil) || s.heroHp>=this.bonuses().maxHp-.01;
+      const label=!count?'Nenhuma poção de vida. Encontre poções durante sua jornada.':s.deadUntil?'Você está derrotado. Aguarde para usar poções.':button.disabled?'Vida cheia. Poções disponíveis: '+fmt(count):'Usar '+item.name+' (Q). Poções disponíveis: '+fmt(count);
+      button.setAttribute('aria-label',label);button.title=label;
+      const image=catalogImage(item?.catalogId) || 'assets/items/area-01-09-pocao-de-vida-pequena.png';
+      if($('quickPotionArt').getAttribute('src')!==image)$('quickPotionArt').src=image;
+    }
     usePotion(id) {
       const s=this.state,item=s.inventory.find(x=>x.id===id);
       if(!item||item.kind!=='potion')return;
@@ -1101,6 +1138,10 @@
       $('heroHPFill').style.width=`${Math.max(0,Math.min(100,hp/b.maxHp*100))}%`;
       $('arenaHPFill').style.width=`${Math.max(0,Math.min(100,hp/b.maxHp*100))}%`;
       $('heroHPFill').classList.toggle('critical',hp/b.maxHp<.26);
+      $('errantVitals').classList.toggle('low-health',hp/b.maxHp<.26 && !s.deadUntil);
+      $('heroHealthProgress').setAttribute('aria-valuenow',String(Math.round(100*hp/b.maxHp)));
+      $('heroHealthProgress').setAttribute('aria-valuetext',`${fmt(Math.ceil(hp))} de ${fmt(b.maxHp)} pontos de vida`);
+      this.renderQuickPotion();
       $('heroRegeneration').textContent=`+${fmt(b.regen,1)}/s`;
       $('defenseStat').textContent=fmt(b.defense,1);
       $('hpStat').textContent=fmt(b.maxHp);
@@ -1118,6 +1159,7 @@
       $('currentZoneShort').textContent=ZONES[s.zone].rune;
       const phase=progressAt(s),bossKind=s.mob.kind;
       $('mobName').textContent=s.mob.name;
+      $('mobName').title=s.mob.name;
       // A save cannot inject an arbitrary src: choose only from our bundled roster.
       const visualIndex = bossKind === 'boss' ? 6 : bossKind === 'miniboss' ? 5
         : Math.max(0, ZONES[s.zone].names.indexOf(s.mob.name));
