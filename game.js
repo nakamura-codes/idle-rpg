@@ -42,7 +42,23 @@
   function weightedPick(values,weights){let roll=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<values.length;i++){roll-=weights[i];if(roll<0)return values[i];}return values[values.length-1];}
   function rollQuality(){return weightedPick([1,2,3,4,5,6,7,8,9,10],QUALITY_WEIGHTS);}
   const catalogZone = (def) => Math.max(0,ITEM_ZONE_MAP.indexOf(def.regiao));
-  const catalogImage = (id) => CATALOG_BY_ID.has(id) ? `assets/items/${id}.png` : null;
+  const ART = window.HELLWARD_ART;
+  const DEFAULT_ITEM_ART = {weapon:'area-01-05-espada-enferrujada',helmet:'area-01-06-elmo-amassado',armor:'area-01-07-couraca-rachada',ring:'area-01-08-anel-de-cobre',necklace:'area-01-14-medalhao-do-cavaleiro-decapitado',relic:'area-02-16-olho-da-hidra'};
+  const iconStyle = art => `background-image:url('${art.src}');background-size:${art.cols*100}% ${art.rows*100}%;background-position:${art.col*100/(art.cols-1)}% ${art.row*100/(art.rows-1)}%`;
+  const iconMarkup = (art,classes='') => `<span class="painted-icon ${classes}" style="${iconStyle(art)}" aria-hidden="true"></span>`;
+  const statusIcon = (key,classes='') => iconMarkup(ART.status[key],classes);
+  function itemArt(item,emptySlot=null) {
+    if(ART.items[item?.catalogId])return ART.items[item.catalogId];
+    const named=ITEM_CATALOG.find(d=>d.nome.toLocaleLowerCase('pt-BR')===item?.name?.toLocaleLowerCase('pt-BR'));
+    if(named)return ART.items[named.id];
+    const slot=item?.slot || emptySlot;
+    return ART.items[DEFAULT_ITEM_ART[slot]] || ART.status[item?.kind==='potion'?'recovery':'souls'];
+  }
+  function paintIcon(node,art) {
+    const key=`${art.src}:${art.col}:${art.row}`;
+    if(node.dataset.artKey===key)return;
+    node.dataset.artKey=key;node.style.cssText=iconStyle(art);
+  }
   const ZONES = [
     {name: 'Campos de Cinza', subtitle: 'Onde os primeiros condenados despertam.', names: ['Condenado Errante', 'Guerreiro Esquelético', 'Sentinela Caída', 'Arqueiro Macabro', 'Zumbi Errante'], miniboss:'Espadachim Corrompido', boss:'Cavaleiro Decapitado', level: 1, kills: 0, rune: 'I', art: 'skeleton'},
     {name: 'Bosque Profanado', subtitle: 'Raízes antigas escondem fome e maldição.', names: ['Lobo Sombrio', 'Ratazana Pestilenta', 'Lobo da Praga', 'Entorpecido de Musgo', 'Goblin Selvagem'], miniboss:'Rei das Ratazanas', boss:'Hidra Profanada', level: 5, kills: 20, rune: 'II', art: 'beast'},
@@ -107,7 +123,7 @@
   ];
 
   const monsterSrc = (zoneIndex, creatureIndex) =>
-    `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=5.1-left`;
+    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=5.1-left`;
 
   // Shape-specific movement: skeletons, beasts, spirits, constructs, and cosmic beings move differently.
   const MONSTER_FAMILIES = [
@@ -332,6 +348,7 @@
       this.profileId = null;
       this.tab = 'upgrades';
       this.buyQuantity = 1;
+      this.attributeQuantity = 1;
       this.inventoryFilter = 'all';
       this.inventorySort = 'new';
       this.sellRarity = 'low';
@@ -348,6 +365,7 @@
       this.storageAvailable = this.testStorage();
       this.resetLegacyProgress();
       this.bindEvents();
+      document.querySelectorAll('[data-status-icon]').forEach(node=>paintIcon(node,ART.status[node.dataset.statusIcon]));
       this.showAuth();
       window.addEventListener('pagehide',()=>this.save());
       window.addEventListener('beforeunload',()=>this.save());
@@ -986,8 +1004,7 @@
       button.disabled=!item || Boolean(s.deadUntil) || s.heroHp>=this.bonuses().maxHp-.01;
       const label=!count?'Nenhuma poção de vida. Encontre poções durante sua jornada.':s.deadUntil?'Você está derrotado. Aguarde para usar poções.':button.disabled?'Vida cheia. Poções disponíveis: '+fmt(count):'Usar '+item.name+' (Q). Poções disponíveis: '+fmt(count);
       button.setAttribute('aria-label',label);button.title=label;
-      const image=catalogImage(item?.catalogId) || 'assets/items/area-01-09-pocao-de-vida-pequena.png';
-      if($('quickPotionArt').getAttribute('src')!==image)$('quickPotionArt').src=image;
+      paintIcon($('quickPotionArt'),itemArt(item || {catalogId:'area-01-09-pocao-de-vida-pequena'}));
     }
     usePotion(id) {
       const s=this.state,item=s.inventory.find(x=>x.id===id);
@@ -1234,6 +1251,13 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const visualIndex = bossKind === 'boss' ? 6 : bossKind === 'miniboss' ? 5
         : Math.max(0, ZONES[s.zone].names.indexOf(s.mob.name));
       const sprite = monsterSrc(s.zone,visualIndex);
+      const proportions=ART.monsters[s.zone][visualIndex];
+      const arenaNode=$('battlefield');
+      if(arenaNode.dataset.monsterSize!==proportions.size)arenaNode.dataset.monsterSize=proportions.size;
+      if(arenaNode.dataset.stature!==String(proportions.height)){
+        arenaNode.dataset.stature=String(proportions.height);
+        arenaNode.style.setProperty('--monster-stature',proportions.height+'%');
+      }
       const artNode = $('monsterArt');
       if(artNode.dataset.family!==MONSTER_FAMILIES[s.zone][visualIndex])artNode.dataset.family=MONSTER_FAMILIES[s.zone][visualIndex];
       if (artNode.dataset.sprite !== sprite) {
@@ -1337,17 +1361,20 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       else if (focused) $('hudClose').focus({preventScroll:true});
       this.lastPanelRender=now();
     }
-    spendAttribute(id) {
+    spendAttribute(id,quantity=this.attributeQuantity) {
       const a = ATTRIBUTES.find(a => a.id === id);
-      if (!a || !this.state || attributePoints(this.state) < 1) return;
-      this.state.attributes[id]++;
-      if (id === 'vitality' && !this.state.deadUntil) this.state.heroHp = Math.min(heroMaxHp(this.state), this.state.heroHp + 15);
+      if (!a || !this.state || ![1,5,10,'all'].includes(quantity)) return;
+      const available=attributePoints(this.state),count=quantity==='all'?available:Math.min(quantity,available);
+      if(count<1)return;
+      this.state.attributes[id]+=count;
+      if (id === 'vitality' && !this.state.deadUntil) this.state.heroHp = Math.min(heroMaxHp(this.state), this.state.heroHp + 15*count);
       this.renderCore(); this.renderPanel(); this.save();
     }
     renderAttributes() {
       const s = this.state, points = attributePoints(s);
       return `<section class="attribute-section" aria-label="Distribuição de atributos"><div class="attribute-heading"><div><h2>Escreva seu destino</h2><p>Você recebe 2 pontos por nível. Atributos reiniciam na ascensão.</p></div><strong class="attribute-total">${fmt(points)} <small>PONTOS DISPONÍVEIS</small></strong></div>
-        <div class="attribute-grid">${ATTRIBUTES.map(a=>`<article class="attribute-row attribute-${a.id}"><div><strong>${a.name}</strong><small>${a.effect}</small></div><b>${fmt(s.attributes[a.id])}</b><button type="button" data-attribute="${a.id}" aria-label="Adicionar um ponto em ${a.name}" ${points<1?'disabled':''}>+</button></article>`).join('')}</div></section>`;
+        <div class="attribute-quantity quantity-control" role="group" aria-label="Pontos por aplicação"><small>PONTOS POR VEZ</small>${[1,5,10,'all'].map(n=>`<button type="button" class="mini-button ${this.attributeQuantity===n?'selected':''}" data-attribute-qty="${n}" aria-pressed="${this.attributeQuantity===n}">${n==='all'?'MÁX':`x${n}`}</button>`).join('')}<span>O botão aplica até a quantidade disponível.</span></div>
+        <div class="attribute-grid">${ATTRIBUTES.map(a=>{const count=this.attributeQuantity==='all'?points:Math.min(this.attributeQuantity,points);return `<article class="attribute-row attribute-${a.id}">${statusIcon({strength:'strength',will:'will',vitality:'health',guard:'defense'}[a.id],'attribute-icon')}<div><strong>${a.name}</strong><small>${a.effect}</small></div><b>${fmt(s.attributes[a.id])}</b><button type="button" data-attribute="${a.id}" aria-label="Adicionar ${count} ponto${count===1?'':'s'} em ${a.name}" ${points<1?'disabled':''}>+${count}</button></article>`;}).join('')}</div></section>`;
     }
     renderUpgrades() {
       return this.renderAttributes() + `<div class="section-headline"><div><h2>Forja &amp; Rituais</h2><p>Invista o ouro conquistado para fortalecer esta jornada. Melhorias básicas reiniciam na ascensão.</p></div><div class="quantity-control"><small>COMPRAR</small>${[1,10,'max'].map(n=>`<button class="mini-button ${this.buyQuantity===n?'selected':''}" data-qty="${n}" type="button">${n==='max'?'MÁX':`x${n}`}</button>`).join('')}</div></div>
@@ -1355,7 +1382,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         const rank=this.state.upgrades[up.id],quote=this.upgradeQuote(up,this.buyQuantity);
         const maxed=rank>=MAX_RANK;
         const label=maxed?'MELHORIA MÁXIMA':quote.count?`COMPRAR ${quote.count} · ✦ ${fmt(quote.total)}`:`✦ ${fmt(this.upgradeCost(up))} OURO`;
-        return `<article class="upgrade-card"><div class="upgrade-icon"><img src="assets/items/${({strike:'area-01-15-espada-do-espadachim-corrompido',ritual:'area-01-14-medalhao-do-cavaleiro-decapitado',banner:'area-01-12-sinete-das-cinzas',focus:'area-01-06-elmo-amassado',vitality:'area-01-11-couraca-dos-caidos',guard:'area-01-07-couraca-rachada',recovery:'area-01-09-pocao-de-vida-pequena'})[up.id]}.png" alt="" width="48" height="48"></div><h3 class="upgrade-name">${esc(up.title)}</h3><div class="upgrade-description">${esc(up.desc)}</div><div class="upgrade-rank"><span>NÍVEL <strong>${fmt(rank)}</strong></span><span>${esc(up.effect)}</span></div><button type="button" data-buy="${up.id}" class="buy-button" ${!quote.count?'disabled':''}>${label}</button></article>`;
+        return `<article class="upgrade-card"><div class="upgrade-icon">${statusIcon(({strike:'click',ritual:'dps',banner:'gold',focus:'crit',vitality:'health',guard:'defense',recovery:'recovery'})[up.id])}</div><h3 class="upgrade-name">${esc(up.title)}</h3><div class="upgrade-description">${esc(up.desc)}</div><div class="upgrade-rank"><span>NÍVEL <strong>${fmt(rank)}</strong></span><span>${esc(up.effect)}</span></div><button type="button" data-buy="${up.id}" class="buy-button" ${!quote.count?'disabled':''}>${label}</button></article>`;
       }).join('')}</div>`;
     }
     itemStatLines(item) {
@@ -1374,8 +1401,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const s=this.state;
       const equipment=SLOTS.map(slot=>{
         const item=s.inventory.find(x=>x.id===s.equipment[slot]);
-        const art=item?.catalogId?catalogImage(item.catalogId):null;
-        return `<div class="equip-slot">${art?`<img class="equip-thumbnail" src="${art}" alt="">`:`<span class="equip-symbol">${SLOT_SYMBOLS[slot]}</span>`}<div><small>${SLOT_NAMES[slot].toUpperCase()}</small><strong title="${esc(item?.name||'Vazio')}">${item?esc(item.name):'Vazio'}</strong></div></div>`;
+        return `<div class="equip-slot ${item?'':'empty-slot'}">${iconMarkup(itemArt(item,slot),'equip-thumbnail')}<div><small>${SLOT_NAMES[slot].toUpperCase()}</small><strong title="${esc(item?.name||'Vazio')}">${item?esc(item.name):'Vazio'}</strong></div></div>`;
       }).join('');
       const filters=['all',...SLOTS,'material','potion'];
       const filterOptions=filters.map(f=>`<option value="${f}" ${this.inventoryFilter===f?'selected':''}>${f==='all'?'Todos os tipos':f==='material'?'Materiais / sucata':f==='potion'?'Poções':SLOT_NAMES[f]}</option>`).join('');
@@ -1397,10 +1423,10 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         ${items.length?`<div class="inventory-grid">${items.map(item=>{
           const rarity=RARITIES.find(x=>x.id===item.rarity)||RARITIES[1];
           const equipped=item.kind==='equipment'&&s.equipment[item.slot]===item.id;
-          const image=item.catalogId?catalogImage(item.catalogId):null;
+          const image=itemArt(item);
           const detail=CATALOG_BY_ID.get(item.catalogId);
           const type=item.kind==='equipment'?SLOT_NAMES[item.slot]:item.kind==='potion'?'Poção':'Material';
-          return `<article class="item-card rarity-${item.rarity} ${equipped?'equipped':''}"><div class="item-top"><div class="item-glyph">${image?`<img src="${image}" alt="" class="item-icon" loading="lazy">`:item.slot?SLOT_SYMBOLS[item.slot]:'◇'}</div><div><div class="rarity">${rarity.label} · ${esc(type)}${item.kind==='equipment'?' · QUALIDADE '+(item.quality===null?'ANTERIOR':item.quality+'/10')+' · NV. '+item.level:''}${item.qty>1?' · x'+fmt(item.qty):''}</div><h3>${esc(item.name)}</h3></div></div><div class="item-stats">${item.kind==='equipment'?`<strong class="item-power">PODER ${fmt(this.itemPower(item),1)}</strong>`:''}${item.kind==='equipment'?esc(this.itemStatLines(item)):item.kind==='potion'?'Consumível: restaura vida do herói durante o combate.':'Material comum: pode ser vendido por ouro.'}${detail?`<small class="item-origin">${esc(detail.regiao)}</small>`:''}</div><div class="item-actions">${item.kind==='equipment'?`<button type="button" data-equip="${esc(item.id)}">${equipped?'DESEQUIPAR':'EQUIPAR'}</button>`:item.kind==='potion'?`<button type="button" data-use="${esc(item.id)}">UTILIZAR</button>`:''}<button type="button" data-sell="${esc(item.id)}" ${equipped?'disabled':''}>VENDER · ${fmt(this.itemPrice(item)*item.qty)}</button></div></article>`;
+          return `<article class="item-card rarity-${item.rarity} ${equipped?'equipped':''}"><div class="item-top"><div class="item-glyph">${iconMarkup(image,'item-icon')}</div><div><div class="rarity">${rarity.label} · ${esc(type)}${item.kind==='equipment'?' · QUALIDADE '+(item.quality===null?'ANTERIOR':item.quality+'/10')+' · NV. '+item.level:''}${item.qty>1?' · x'+fmt(item.qty):''}</div><h3>${esc(item.name)}</h3></div></div><div class="item-stats">${item.kind==='equipment'?`<strong class="item-power">PODER ${fmt(this.itemPower(item),1)}</strong>`:''}${item.kind==='equipment'?esc(this.itemStatLines(item)):item.kind==='potion'?'Consumível: restaura vida do herói durante o combate.':'Material comum: pode ser vendido por ouro.'}${detail?`<small class="item-origin">${esc(detail.regiao)}</small>`:''}</div><div class="item-actions">${item.kind==='equipment'?`<button type="button" data-equip="${esc(item.id)}">${equipped?'DESEQUIPAR':'EQUIPAR'}</button>`:item.kind==='potion'?`<button type="button" data-use="${esc(item.id)}">UTILIZAR</button>`:''}<button type="button" data-sell="${esc(item.id)}" ${equipped?'disabled':''}>VENDER · ${fmt(this.itemPrice(item)*item.qty)}</button></div></article>`;
         }).join('')}</div>`:`<div class="empty-state"><div class="empty-glyph">◇</div><strong>Nenhum item nesta categoria</strong>Derrote criaturas para encontrar equipamentos, materiais e poções.</div>`}`;
     }
     renderZones() {
@@ -1438,7 +1464,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const creature=names[creatureIndex];
       const rank=creatureIndex===6?'CHEFÃO — FASE 10':creatureIndex===5?'MINIBOSS — FASE 5':'CRIATURA COMUM';
       const isCustom=MONSTER_SPRITES[zoneIndex][creatureIndex].endsWith('.png');
-      this.dialog(creature,`${rank}  ·  ${zone.name}${isCustom?'  ·  ARTE EXCLUSIVA':''}`,[{text:'FECHAR',primary:true}],creatureIndex===6?'☠':creatureIndex===5?'✦':'◇');
+      this.dialog(creature,`${rank}  ·  ${zone.name}  ·  PORTE ${ART.sizeLabels[ART.monsters[zoneIndex][creatureIndex].size].toUpperCase()}${isCustom?'  ·  ARTE EXCLUSIVA':''}`,[{text:'FECHAR',primary:true}],creatureIndex===6?'☠':creatureIndex===5?'✦':'◇');
       const art=document.createElement('img');
       art.className='dialog-monster-preview';
       art.src=monsterSrc(zoneIndex,creatureIndex);
@@ -1451,6 +1477,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const b=e.target.closest('button');if(!b||b.disabled)return;
       if(b.dataset.inspectZone!==undefined){this.inspectMonster(Number(b.dataset.inspectZone),Number(b.dataset.inspectCreature));return;}
       if(b.dataset.attribute){this.spendAttribute(b.dataset.attribute);return;}
+      if(b.hasAttribute('data-attribute-qty')){this.attributeQuantity=b.dataset.attributeQty==='all'?'all':integer(b.dataset.attributeQty,1,1,10);this.renderPanel();return;}
       if(b.dataset.qty){this.buyQuantity=b.dataset.qty==='max'?'max':integer(b.dataset.qty,1,1,10);this.renderPanel();return;}
       if(b.dataset.buy){this.buyUpgrade(b.dataset.buy);return;}
       if(b.hasAttribute('data-equip-best')){this.equipBestItems();return;}

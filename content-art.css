@@ -1,0 +1,49 @@
+/* Compact static icon atlases: all item/status artwork stays in seven textures. */
+.painted-icon{display:inline-block;flex:none;width:48px;height:48px;background-repeat:no-repeat;image-rendering:auto;vertical-align:middle;filter:none!important}
+.codex-summary .stat-tile{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;min-height:116px;padding:10px 4px}
+.codex-summary .stat-tile .summary-icon{width:36px;height:36px;margin-bottom:3px}
+.codex-summary .stat-tile small{font-size:9px;line-height:12px;color:#d3b68c}
+.codex-summary .stat-tile strong{font-size:24px;line-height:27px}
+.codex-summary .stat-tile>span:not(.painted-icon){font-size:10px;line-height:14px;color:#c6aa88}
+.attribute-row::before{display:none!important}
+.attribute-row .attribute-icon{width:48px;height:48px}
+.attribute-row button{width:58px;font:14px/1 Arial,sans-serif;white-space:nowrap}
+.attribute-row>b{font-size:23px}
+.attribute-quantity{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:8px;margin:0 0 18px;padding:12px 0;border-block:1px solid #63452e}
+.attribute-quantity>small{font:9px/1.4 Arial,sans-serif;color:#d7b78e;letter-spacing:.6px;margin-right:6px}
+.attribute-quantity .mini-button{min-width:40px;min-height:34px;font:11px/1 Arial,sans-serif}
+.attribute-quantity>span{font:11px/1.5 Arial,sans-serif;color:#c4aa8b;margin-left:auto}
+.upgrade-card .upgrade-icon .painted-icon{width:54px;height:54px}
+.item-card .item-glyph{width:76px;height:80px;flex:0 0 76px;background:#100b0e;border:1px solid #6a4936;border-image:none;padding:4px}
+.item-card .item-icon{width:66px;height:66px;image-rendering:auto}
+.equip-slot .equip-thumbnail{width:52px;height:52px;flex:0 0 52px;image-rendering:auto}
+.empty-slot .equip-thumbnail{opacity:.5}
+.quick-potion>.painted-icon{width:32px;height:32px}
+
+/* Authored creature sizes; contain preserves silhouettes and transparent margins. */
+.app-frame .battlefield .monster-art img{object-position:center bottom}
+.app-frame .battlefield .combat-hero{left:9%!important;width:26%!important;height:min(48%,calc(100% - var(--headroom) - var(--floor)))!important;max-height:250px}
+.app-frame .battlefield .attack-target{right:7%!important;width:34%!important;height:min(var(--monster-stature,48%),calc(100% - var(--headroom) - var(--floor)))!important;max-height:440px}
+.app-frame .battlefield[data-monster-size=small] .attack-target{width:29%!important;max-height:190px}
+.app-frame .battlefield[data-monster-size=large] .attack-target{width:41%!important;right:5%!important;max-height:365px}
+.app-frame .battlefield[data-monster-size=giant] .attack-target{width:54%!important;right:2%!important;max-height:460px}
+.app-frame .battlefield[data-monster-size=giant] .combat-hero{left:6%!important;width:25%!important;height:min(36%,calc((100% - var(--headroom) - var(--floor)) * .7))!important;max-height:205px}
+.app-frame .battlefield[data-monster-size=colossal] .attack-target{width:67%!important;right:1%!important;height:calc(100% - var(--headroom) - var(--floor))!important;max-height:630px}
+.app-frame .battlefield[data-monster-size=colossal] .combat-hero{left:4%!important;width:23%!important;height:min(30%,calc((100% - var(--headroom) - var(--floor)) * .42))!important;max-height:170px}
+.battle-panel:has(.final-boss-fight) .battle-top,.battle-panel:has(.final-boss-fight) .stage-strip{left:32%}
+.app-frame .battlefield.final-boss-fight{--headroom:132px}
+.app-frame .battlefield.final-boss-fight .mob-info{top:16px!important;left:77%!important;width:min(350px,29%)!important;min-height:58px;padding:8px 12px}
+@media(min-width:1600px){.app-frame .battlefield .combat-hero{max-height:290px}.app-frame .battlefield .attack-target{max-height:500px}.app-frame .battlefield[data-monster-size=small] .attack-target{max-height:220px}.app-frame .battlefield[data-monster-size=giant] .attack-target{max-height:560px}.app-frame .battlefield[data-monster-size=colossal] .attack-target{max-height:700px}.app-frame .battlefield[data-monster-size=colossal] .combat-hero{max-height:190px}}
+@media(max-width:1100px){.attribute-row{gap:8px;padding-inline:8px}.attribute-row .attribute-icon{width:42px;height:42px}.attribute-row button{width:52px}.attribute-quantity>span{flex-basis:100%;margin-left:0}}
+@media(max-width:760px){
+ .codex-summary .stat-tile{min-height:106px;padding:8px 3px;gap:4px}.codex-summary .stat-tile .summary-icon{width:32px;height:32px}.codex-summary .stat-tile small{font-size:8px;line-height:11px}.codex-summary .stat-tile strong{font-size:22px;line-height:25px}.codex-summary .stat-tile>span:not(.painted-icon){font-size:9px;line-height:12px}
+ .attribute-heading{align-items:flex-start}.attribute-total{min-width:84px}.attribute-heading h2{font-size:21px}.attribute-heading p{font-size:11px}.attribute-quantity{gap:6px;padding:10px 0}.attribute-quantity>small{width:100%;font-size:9px}.attribute-quantity .mini-button{min-width:44px;min-height:36px}.attribute-quantity>span{font-size:10px}.attribute-row{gap:8px;min-height:80px;padding:10px 8px}.attribute-row .attribute-icon{width:38px;height:38px}.attribute-row>div{min-width:0}.attribute-row strong{font-size:16px}.attribute-row small{font-size:10px}.attribute-row>b{font-size:21px}.attribute-row button{width:52px;height:36px;font-size:12px}
+ .upgrade-card .upgrade-icon .painted-icon{width:44px;height:44px}.item-card .item-glyph{width:64px;height:68px;flex-basis:64px;padding:2px}.item-card .item-icon{width:58px;height:58px}.equip-slot .equip-thumbnail{width:46px;height:46px;flex-basis:46px}.quick-potion>.painted-icon{width:27px;height:27px}
+ .app-frame .battlefield .combat-hero{left:2%!important;width:34%!important;height:min(45%,calc(100% - var(--headroom) - var(--floor)))!important;max-height:200px}.app-frame .battlefield .attack-target{right:1%!important;width:51%!important;max-height:280px}.app-frame .battlefield[data-monster-size=small] .attack-target{width:45%!important;max-height:145px}.app-frame .battlefield[data-monster-size=large] .attack-target{width:56%!important;right:0!important;max-height:330px}.app-frame .battlefield[data-monster-size=giant] .attack-target{width:62%!important;right:0!important;max-height:400px}.app-frame .battlefield[data-monster-size=giant] .combat-hero{left:1%!important;width:28%!important;height:min(31%,calc((100% - var(--headroom) - var(--floor)) * .65))!important;max-height:145px}.app-frame .battlefield[data-monster-size=colossal] .attack-target{width:70%!important;right:0!important;max-height:none}.app-frame .battlefield[data-monster-size=colossal] .combat-hero{left:1%!important;width:26%!important;height:min(25%,calc((100% - var(--headroom) - var(--floor)) * .42))!important;max-height:95px}
+ .battle-panel:has(.final-boss-fight) .battle-top,.battle-panel:has(.final-boss-fight) .stage-strip{left:50%}.app-frame .battlefield.final-boss-fight{--headroom:166px}.app-frame .battlefield.final-boss-fight .mob-info{top:110px!important;left:50%!important;width:86%!important;min-height:42px;padding:5px 10px}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .app-frame .battlefield .combat-hero{left:7%!important;width:25%!important;max-height:160px}.app-frame .battlefield .attack-target{right:7%!important;width:34%!important;max-height:220px}.app-frame .battlefield[data-monster-size=small] .attack-target{width:30%!important;max-height:105px}.app-frame .battlefield[data-monster-size=large] .attack-target{width:41%!important;right:3%!important}.app-frame .battlefield[data-monster-size=giant] .attack-target{width:53%!important;right:1%!important;max-height:280px}.app-frame .battlefield[data-monster-size=giant] .combat-hero{left:5%!important;width:24%!important;max-height:120px}.app-frame .battlefield[data-monster-size=colossal] .attack-target{width:65%!important;right:1%!important;max-height:none}.app-frame .battlefield[data-monster-size=colossal] .combat-hero{left:3%!important;width:23%!important;max-height:100px}
+ .battle-panel:has(.final-boss-fight) .battle-top,.battle-panel:has(.final-boss-fight) .stage-strip{left:28%}.app-frame .battlefield.final-boss-fight{--headroom:98px}.app-frame .battlefield.final-boss-fight .mob-info{top:8px!important;left:77%!important;width:32%!important;min-height:42px;padding:5px 9px}
+}
+@media(max-width:760px) and (orientation:portrait){.app-frame .battlefield[data-monster-size=small] .attack-target{height:min(calc(var(--monster-stature) * .65),calc(100% - var(--headroom) - var(--floor)))!important;max-height:min(145px,30vw)}}
