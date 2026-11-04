@@ -33,7 +33,7 @@
     $('menuPanelTitle').textContent = titles[name];
     if (name === 'continue') $('noProfiles').hidden = !$('savedProfiles').hidden;
     if (name === 'settings') updateTheme();
-    if (name === 'new') $('newProfileName').focus(); else $('menuBack').focus();
+    if (name === 'new') $('newProfileName').focus({preventScroll:true}); else $('menuBack').focus({preventScroll:true});
   }
   function updateTheme() { $('menuTheme').textContent = 'Tema: ' + (document.documentElement.dataset.theme === 'classic' ? 'Clássico' : 'Escuro'); }
 

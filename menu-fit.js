@@ -10,6 +10,9 @@
     const open = !menu.hidden;
     document.documentElement.classList.toggle('hw-menu-open',open);
     if (!open || !shell.offsetHeight || !shell.offsetWidth) return;
+    // Focusing a panel control must not scroll the fixed, scaled menu.
+    if(menu.scrollTop)menu.scrollTop=0;
+    if(menu.scrollLeft)menu.scrollLeft=0;
     const padding = getComputedStyle(menu);
     const height = menu.clientHeight-parseFloat(padding.paddingTop)-parseFloat(padding.paddingBottom);
     const width = menu.clientWidth-parseFloat(padding.paddingLeft)-parseFloat(padding.paddingRight);

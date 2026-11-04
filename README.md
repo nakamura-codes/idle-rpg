@@ -35,6 +35,7 @@ node tests/balance.cjs
 node tests/hud-browser.cjs
 node tests/gameplay-inventory.cjs
 node tests/content-art.cjs
+node tests/menu-parallax.cjs
 ```
 
 As suítes de navegador usam Playwright; a suíte de arte também usa Sharp.
@@ -47,5 +48,6 @@ navegador competindo por CPU. O procedimento e o comparador estão em `AGENTS.md
 `tests/performance.cjs`. Resultados anteriores e decisões de gameplay estão em `docs/`.
 
 A limpeza de arquivos obsoletos está documentada em `docs/project-cleanup.md`.
+O menu infernal em camadas está documentado em `docs/menu-parallax.md`.
 O histórico Git preserva as versões anteriores; a limpeza reduz a árvore atual
 e os arquivos publicados, sem reescrever o histórico.
