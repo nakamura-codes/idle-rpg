@@ -19,8 +19,10 @@
   <script src="soundtrack.js?v=2" defer></script>
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.0" defer></script>
-  <script src="game.js?v=9.3" defer></script>
+  <script src="game.js?v=10.0" defer></script>
   <script src="parallax.js?v=8.1" defer></script>
+  <link rel="stylesheet" href="game-hud.css?v=1">
+  <script src="game-hud.js?v=1" defer></script>
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -42,29 +44,7 @@
     <div class="underbar"><div class="underbar-left"><span class="status-dot"></span><span>O ABISMO NÃO DESCANSA</span><span class="divider-dot">✧</span><span id="runStatus">JORNADA I</span></div><div class="underbar-right">SALVAMENTO AUTOMÁTICO <span class="autosave-indicator" id="saveIndicator">●</span></div></div>
 
     <main class="game-layout">
-      <aside class="left-column">
-        <section class="panel adventurer-panel">
-          <div class="panel-label"><span class="panel-ornament">✧</span> CRÔNICAS DO AVENTUREIRO <span class="panel-ornament">✧</span></div>
-          <div class="hero-portrait"><div class="hero-circle"></div><img src="assets/hero/cavaleiro-hellward.png" class="hero-new-portrait" alt="Cavaleiro de Hellward" draggable="false"><div class="portrait-caption">O ERRANTE</div></div>
-          <div class="hero-level-line"><span>NÍVEL <strong id="levelValue">1</strong></span><span id="xpLabel">0 / 24 XP</span></div>
-          <div class="progress-bar xp-track" role="progressbar" aria-label="Experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xpProgress"><div class="progress-fill xp-fill" id="xpFill"></div></div>
-          <div class="hero-health-panel" aria-label="Vida do herói">
-            <div class="hero-health-line"><strong>♥ VIDA DO ERRANTE</strong><strong id="heroHPText">110 / 110 HP</strong></div>
-            <div class="hero-health-track"><span id="heroHPFill" style="width:100%"></span></div>
-            <div class="hero-health-footer">REGENERAÇÃO <strong id="heroRegeneration">+0,8/s</strong></div>
-          </div>
-          <div class="hero-stat-grid">
-            <div class="stat-tile"><small>GOLPE</small><strong id="clickStat">2</strong><span>por clique</span></div>
-            <div class="stat-tile"><small>RITUAL</small><strong id="dpsStat">0</strong><span>por segundo</span></div>
-            <div class="stat-tile"><small>CRÍTICO</small><strong id="critStat">8%</strong><span>chance</span></div>
-            <div class="stat-tile"><small>FORTUNA</small><strong id="luckStat">0%</strong><span>sorte</span></div>
-            <div class="stat-tile"><small>VIDA MÁX.</small><strong id="hpStat">110</strong><span>sobrevivência</span></div>
-            <div class="stat-tile"><small>DEFESA</small><strong id="defenseStat">3</strong><span>redução de dano</span></div>
-          </div>
-          <div class="hero-footer"><span class="footer-rune">ᛟ</span><span>Todo poder tem seu preço.</span><span class="footer-rune">ᛟ</span></div>
-        </section>
-        <section class="panel journey-panel"><div class="panel-heading compact"><span class="eyebrow">REGISTRO DA JORNADA</span><span class="heading-glyph">✤</span></div><div class="journey-row"><span>Inimigos abatidos</span><strong id="runKills">0</strong></div><div class="journey-row"><span>Ouro conquistado</span><strong id="runGold">0</strong></div><div class="journey-row"><span>Renascimentos</span><strong id="rebirths">0</strong></div><div class="journey-row"><span>Zona atual</span><strong id="currentZoneShort">I</strong></div></section>
-      </aside>
+
 
       <section class="battle-column" aria-label="Campo de batalha">
         <section class="battle-panel">
@@ -90,22 +70,57 @@
         <section class="milestone-banner" id="milestoneBanner"><div class="milestone-symbol">♜</div><div><strong id="milestoneTitle">O caminho começa aqui</strong><p id="milestoneDescription">Derrote 10 inimigos por fase; elimine o miniboss na fase 5 e o chefão na fase 10 para avançar.</p></div><span class="milestone-arrow">❯</span></section>
       </section>
 
-      <aside class="right-column">
-        <section class="panel intel-panel"><div class="panel-heading"><div><div class="eyebrow">O CÓDICE SOMBRIO</div><h2>Visão da Batalha</h2></div><span class="heading-glyph">☽</span></div><div class="intel-block"><div class="intel-symbol">♢</div><div><small>INIMIGO ATUAL</small><strong id="intelMob">Condenado</strong><span id="intelReward">+12 ouro · +9 XP</span></div></div><div class="ornate-divider">✧</div><div class="intel-chance"><span>Chance de equipamento</span><strong id="dropChance">18%</strong></div><div class="intel-chance"><span>Próximo ataque inimigo</span><strong id="enemyAttackCountdown">2.8s</strong></div><div class="intel-chance"><span>Dano por golpe recebido</span><strong id="enemyDamage">5</strong></div><div class="intel-chance"><span>Bônus de ouro</span><strong id="goldBonus">+0%</strong></div><div class="intel-chance"><span>Almas ao renascer</span><strong id="prestigePreview">0</strong></div><div class="mini-tip">✦ &nbsp; Goblins e baús surgem durante o combate. Derrote-os antes que desapareçam!</div></section>
-        <section class="panel log-panel"><div class="panel-heading log-heading"><div><div class="eyebrow">SUSSURROS DO ABISMO</div><h2>Registro de Combate</h2></div><span class="live-indicator"><span></span> AO VIVO</span></div><div class="combat-log" id="combatLog" role="log" aria-live="off"></div><div class="log-footer">ROLE O MOUSE PARA VER OS REGISTROS ANTERIORES <span>↕</span></div></section>
-      </aside>
+
     </main>
 
-    <section class="management panel" aria-label="Gerenciamento do personagem">
+
+    <div class="hud-dock">
+      <section class="errant-vitals" aria-label="Vida e experiência do personagem">          <div class="hero-portrait"><div class="hero-circle"></div><img src="assets/hero/cavaleiro-hellward.png" class="hero-new-portrait" alt="Cavaleiro de Hellward" draggable="false"><div class="portrait-caption">O ERRANTE</div></div>
+          <div class="hero-level-line"><span>NÍVEL <strong id="levelValue">1</strong></span><span id="xpLabel">0 / 24 XP</span></div>
+          <div class="progress-bar xp-track" role="progressbar" aria-label="Experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xpProgress"><div class="progress-fill xp-fill" id="xpFill"></div></div>
+          <div class="hero-health-panel" aria-label="Vida do herói">
+            <div class="hero-health-line"><strong>♥ VIDA DO ERRANTE</strong><strong id="heroHPText">110 / 110 HP</strong></div>
+            <div class="hero-health-track"><span id="heroHPFill" style="width:100%"></span></div>
+            <div class="hero-health-footer">REGENERAÇÃO <strong id="heroRegeneration">+0,8/s</strong></div>
+          </div>
+      </section>
+      <nav class="relic-nav" aria-label="Relíquias do aventureiro">
+        <button type="button" class="relic-button" data-open-panel="upgrades" aria-label="Livro Negro: status e pontos (C)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/livro-negro.png" alt="" width="88" height="88"><span>Livro Negro</span><small>STATUS · <kbd>C</kbd></small><b id="attributeBadge" class="relic-badge" hidden>0</b></button>
+        <button type="button" class="relic-button" data-open-panel="ascension" aria-label="Cálice da Ascensão (A)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/calice-ascensao.png" alt="" width="88" height="88"><span>Ascensão</span><small>RENASCER · <kbd>A</kbd></small></button>
+        <button type="button" class="relic-button" data-open-panel="inventory" aria-label="Mochila: inventário e poções (I)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/mochila-velha.png" alt="" width="88" height="88"><span>Mochila</span><small>ITENS · <kbd>I</kbd></small></button>
+      </nav>
+      <nav class="hud-secondary" aria-label="Exploração e registros"><button type="button" data-open-panel="zones" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><span aria-hidden="true">♜</span> Regiões <kbd>M</kbd></button><button type="button" data-open-panel="chronicle" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><span aria-hidden="true">☷</span> Crônicas <kbd>J</kbd></button></nav>
+    </div>
+    <footer class="site-footer"><span>✧ HELLWARD · EDIÇÃO ETERNA</span><span>O ABISMO AGUARDA SEU RETORNO.</span><div class="footer-buttons"><button type="button" id="exportSave">↓ EXPORTAR JSON</button><button type="button" id="importSave">↑ IMPORTAR JSON</button></div></footer>
+  </div>
+
+  <div class="hud-backdrop" id="hudBackdrop" hidden>
+    <section class="management panel" id="hudPanel" role="dialog" aria-modal="true" aria-labelledby="hudPanelTitle" tabindex="-1">
+      <header class="hud-panel-heading"><div><small id="hudPanelEyebrow">CRÔNICAS DO ERRANTE</small><h2 id="hudPanelTitle">Livro Negro</h2></div><button class="hud-close" id="hudClose" type="button" aria-label="Fechar painel">✕</button></header>
       <nav class="tab-nav" aria-label="Menu do jogo">
-        <button type="button" class="tab-button active" data-tab="upgrades" aria-selected="true"><span class="tab-icon">⚒</span><span>MELHORIAS</span></button>
+        <button type="button" class="tab-button active" data-tab="upgrades" aria-selected="true"><span class="tab-icon">⚒</span><span>LIVRO NEGRO</span></button>
         <button type="button" class="tab-button" data-tab="inventory" aria-selected="false"><span class="tab-icon">♢</span><span>INVENTÁRIO <i id="inventoryCount">0</i></span></button>
         <button type="button" class="tab-button" data-tab="zones" aria-selected="false"><span class="tab-icon">⚑</span><span>REGIÕES</span></button>
         <button type="button" class="tab-button" data-tab="ascension" aria-selected="false"><span class="tab-icon">✧</span><span>ASCENSÃO</span></button>
       </nav>
+      <div class="hud-panel-scroll" id="hudPanelScroll">
+      <section class="codex-summary" id="codexSummary" aria-label="Status do Errante">          <div class="hero-stat-grid">
+            <div class="stat-tile"><small>GOLPE</small><strong id="clickStat">2</strong><span>por clique</span></div>
+            <div class="stat-tile"><small>RITUAL</small><strong id="dpsStat">0</strong><span>por segundo</span></div>
+            <div class="stat-tile"><small>CRÍTICO</small><strong id="critStat">8%</strong><span>chance</span></div>
+            <div class="stat-tile"><small>FORTUNA</small><strong id="luckStat">0%</strong><span>sorte</span></div>
+            <div class="stat-tile"><small>VIDA MÁX.</small><strong id="hpStat">110</strong><span>sobrevivência</span></div>
+            <div class="stat-tile"><small>DEFESA</small><strong id="defenseStat">3</strong><span>redução de dano</span></div>
+          </div>
+</section>
       <div class="tab-body" id="tabBody" aria-live="polite"></div>
+      <div id="codexJourney"><section class="panel journey-panel"><div class="panel-heading compact"><span class="eyebrow">REGISTRO DA JORNADA</span><span class="heading-glyph">✤</span></div><div class="journey-row"><span>Inimigos abatidos</span><strong id="runKills">0</strong></div><div class="journey-row"><span>Ouro conquistado</span><strong id="runGold">0</strong></div><div class="journey-row"><span>Renascimentos</span><strong id="rebirths">0</strong></div><div class="journey-row"><span>Zona atual</span><strong id="currentZoneShort">I</strong></div></section></div>
+      <section id="hudChronicle" hidden>      <div class="chronicle-content">
+        <section class="panel intel-panel"><div class="panel-heading"><div><div class="eyebrow">O CÓDICE SOMBRIO</div><h2>Visão da Batalha</h2></div><span class="heading-glyph">☽</span></div><div class="intel-block"><div class="intel-symbol">♢</div><div><small>INIMIGO ATUAL</small><strong id="intelMob">Condenado</strong><span id="intelReward">+12 ouro · +9 XP</span></div></div><div class="ornate-divider">✧</div><div class="intel-chance"><span>Chance de equipamento</span><strong id="dropChance">18%</strong></div><div class="intel-chance"><span>Próximo ataque inimigo</span><strong id="enemyAttackCountdown">2.8s</strong></div><div class="intel-chance"><span>Dano por golpe recebido</span><strong id="enemyDamage">5</strong></div><div class="intel-chance"><span>Bônus de ouro</span><strong id="goldBonus">+0%</strong></div><div class="intel-chance"><span>Almas ao renascer</span><strong id="prestigePreview">0</strong></div><div class="mini-tip">✦ &nbsp; Goblins e baús surgem durante o combate. Derrote-os antes que desapareçam!</div></section>
+        <section class="panel log-panel"><div class="panel-heading log-heading"><div><div class="eyebrow">SUSSURROS DO ABISMO</div><h2>Registro de Combate</h2></div><span class="live-indicator"><span></span> AO VIVO</span></div><div class="combat-log" id="combatLog" role="log" aria-live="off"></div><div class="log-footer">ROLE O MOUSE PARA VER OS REGISTROS ANTERIORES <span>↕</span></div></section>
+      </div></section>
+      </div>
     </section>
-    <footer class="site-footer"><span>✧ HELLWARD · EDIÇÃO ETERNA</span><span>JOGO LOCAL · SEM SERVIDOR · SALVO NO SEU NAVEGADOR</span><div class="footer-buttons"><button type="button" id="exportSave">↓ EXPORTAR JSON</button><button type="button" id="importSave">↑ IMPORTAR JSON</button></div></footer>
   </div>
 
   <div class="auth-screen hw-menu" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
