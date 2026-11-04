@@ -383,6 +383,7 @@
       $('savedProfiles').hidden=profiles.length===0;
       $('authScreen').hidden=false;
       $('authScreen').dispatchEvent(new Event('menu-open'));
+      document.dispatchEvent(new CustomEvent('hellward:scenechange',{detail:{scene:'menu'}}));
       $('newProfileName').value='';
     }
     createProfile(name, preloaded = null) {
@@ -414,6 +415,7 @@
       this.lastEventRendered='';
       this.lastFrameAt=now();
       $('authScreen').hidden=true;
+      document.dispatchEvent(new CustomEvent('hellward:scenechange',{detail:{scene:'battle'}}));
       const seconds=Math.min(MAX_OFFLINE_SECONDS,Math.max(0,(now()-state.lastSeen)/1000));
       const offline=this.grantOffline(seconds);
       state.lastSeen=now();

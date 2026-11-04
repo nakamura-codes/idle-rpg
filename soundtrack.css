@@ -6,3 +6,5 @@
 .hellward-audio-controls output{min-width:3ch;font-size:12px;font-variant-numeric:tabular-nums}
 .site-footer{flex-wrap:wrap;gap:12px}.site-footer .hellward-audio-controls{margin:0}
 #musicStatus{font-size:14px;color:#bda982}
+
+.hellward-audio-controls [data-music-track]{flex-basis:100%;font:11px Georgia,serif;color:#bda982;text-align:center}
