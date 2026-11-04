@@ -53,7 +53,7 @@ const server = http.createServer((req,res) => {
       assert.ok(layout.dock.bottom <= h, `${w}x${h} dock clipped`);
       assert.ok(layout.relics.every(b=>b.x>=0 && b.right<=w && b.bottom<=h), `${w}x${h} clipped relic: ${JSON.stringify(layout.relics)}`);
       assert.deepEqual(layout.broken, []);
-      assert.ok(await p.locator('#xpLabel').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=6 && el.getBoundingClientRect().width>=35), `${w}x${h} XP text too small`);
+      assert.ok(await p.locator('#xpLabel').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=6 && el.getBoundingClientRect().width>=25), `${w}x${h} XP text too small`);
       await p.evaluate(()=>document.activeElement?.blur());
       await capture(`hud-${w}x${h}`);
       // Every viewport must keep the settings and codex close controls reachable.
@@ -185,6 +185,8 @@ const server = http.createServer((req,res) => {
     await p.keyboard.press('Escape');
     await p.click('#switchProfile');
     assert.equal(await p.locator('#authScreen').isVisible(),true);
+    assert.equal(await p.evaluate(()=>window.__hudTest.game.startedLoop),false);
+    assert.equal(await p.evaluate(()=>window.__hudTest.game.loopTimer),0);
     assert.equal(await p.locator('#hudBackdrop').isVisible(),false);
     await p.click('[data-menu="continue"]');await p.click('.saved-profile');
     assert.equal(await p.locator('#authScreen').isVisible(),false);

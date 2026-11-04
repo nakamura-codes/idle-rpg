@@ -5,24 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#15120f">
   <meta name="description" content="Hellward — RPG idle de fantasia sombria. Evolua, conquiste tesouros e renasça mais forte.">
-  <script src="ui.js?v=9.0"></script>
+  <script src="ui.js?v=10"></script>
   <title>Hellward · Idle RPG</title>
   <link rel="stylesheet" href="styles.css?v=7.3">
-  <link rel="stylesheet" href="arena.css?v=7.4">
-  <link rel="stylesheet" href="arena-hd.css?v=8.1">
-  <link rel="stylesheet" href="ui.css?v=9.0">
-  <link rel="stylesheet" href="hud-hellward.css?v=1.0">
-  <link rel="stylesheet" href="hud-grim.css?v=1.0">
   <link rel="stylesheet" href="menu.css?v=11">
   <script src="menu-fit.js?v=1" defer></script>
   <link rel="stylesheet" href="soundtrack.css?v=2">
   <script src="soundtrack.js?v=3" defer></script>
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.0" defer></script>
-  <script src="game.js?v=10.1" defer></script>
-  <script src="parallax.js?v=8.1" defer></script>
-  <link rel="stylesheet" href="game-hud.css?v=2">
-  <script src="game-hud.js?v=2" defer></script>
+  <script src="game.js?v=11" defer></script>
+  <link rel="stylesheet" href="game-hud.css?v=3">
+  <script src="game-hud.js?v=3" defer></script>
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -37,7 +31,7 @@
         <div class="resource-pill"><div class="resource-icon soul">◆</div><div><small>ALMAS</small><strong id="prestigeValue">0</strong></div></div>
         <div class="resource-pill fragment-pill"><div class="resource-icon shard">✧</div><div><small>FRAGMENTOS</small><strong id="fragmentValue">0 / 10</strong></div></div>
       </div>
-      <div class="ui-tools"><button id="focusBattle" type="button" aria-pressed="false">Focar batalha</button><button id="settingsButton" class="settings-button" type="button" data-open-panel="settings" aria-label="Configurações do jogo" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2-2 .9-1.9-.5-2 3.4L4 10.3v3.4l-1.5 1.5 2 3.4 1.9-.5 2 .9.6 2h4l.6-2 2-.9 1.9.5 2-3.4-1.5-1.5v-3.4l1.5-1.5-2-3.4-1.9.5-2-.9L13 3Z"/><circle cx="11" cy="12" r="3"/></svg></button></div>
+      <div class="ui-tools"><button id="focusBattle" type="button" aria-pressed="false" aria-label="Ampliar campo de batalha">Ampliar</button><button id="settingsButton" class="settings-button" type="button" data-open-panel="settings" aria-label="Configurações do jogo" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2-2 .9-1.9-.5-2 3.4L4 10.3v3.4l-1.5 1.5 2 3.4 1.9-.5 2 .9.6 2h4l.6-2 2-.9 1.9.5 2-3.4-1.5-1.5v-3.4l1.5-1.5-2-3.4-1.9.5-2-.9L13 3Z"/><circle cx="11" cy="12" r="3"/></svg></button></div>
       <button class="profile-button" id="switchProfile" type="button" title="Trocar perfil"><span class="profile-avatar" aria-hidden="true">♜</span><span class="profile-copy"><small>AVENTUREIRO</small><strong id="profileName">—</strong></span><span class="profile-chevron">⌄</span></button>
     </header>
 
@@ -51,9 +45,9 @@
           <div class="battle-top"><div><div class="eyebrow gold-eyebrow">✦ &nbsp; EXPEDIÇÃO ATUAL &nbsp; ✦</div><h1 id="zoneName">Campos de Cinza</h1><p id="zoneSubtitle">Onde os primeiros condenados despertam.</p></div><div class="zone-crest" id="zoneCrest" aria-hidden="true">I</div></div>
           <div class="stage-strip" aria-label="Progressão da região"><div class="stage-caption"><strong id="stageNumber">FASE 1 / 10</strong><span id="stageKills">0 / 10 INIMIGOS</span></div><div class="stage-progress-track" id="stageProgressTrack" role="progressbar" aria-label="Inimigos da fase" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="stageProgressFill"></span></div><div class="stage-pips" id="stagePips"><span data-stage="1" class="active" title="Fase 1">1</span><span data-stage="2" title="Fase 2">2</span><span data-stage="3" title="Fase 3">3</span><span data-stage="4" title="Fase 4">4</span><span data-stage="5" class="miniboss-pip" title="Fase 5 · Miniboss">5</span><span data-stage="6" title="Fase 6">6</span><span data-stage="7" title="Fase 7">7</span><span data-stage="8" title="Fase 8">8</span><span data-stage="9" title="Fase 9">9</span><span data-stage="10" class="boss-pip" title="Fase 10 · Chefão">10</span></div></div>
           <div class="battlefield zone-0" id="battlefield">
-            <div class="parallax-world" aria-hidden="true"><div class="parallax-layer hd-horizon" data-depth="0.22"></div><div class="parallax-layer hd-floor" data-depth="0.65"></div><div class="parallax-layer hd-haze" data-depth="0.4"></div></div>
+            <div class="arena-scenery" aria-hidden="true"></div>
             <div class="camera-state" id="cameraState" aria-hidden="true">COMBATE • 2D</div>
-            <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><img src="assets/hero/cavaleiro-hellward.png" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"><span class="hero-ground-name">O ERRANTE</span></div>
+            <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><img src="assets/hero/fast/errante.webp" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"><span class="hero-ground-name">O ERRANTE</span></div>
             <span class="duel-slash" id="duelSlash" aria-hidden="true"></span>
             <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-damage-layer" id="heroDamageLayer" aria-hidden="true"></div>
@@ -76,7 +70,7 @@
 
     <div class="hud-dock">
       <section class="errant-vitals" id="errantVitals" aria-label="Vida e experiência do personagem">
-        <div class="hero-portrait"><img src="assets/hero/cavaleiro-hellward.png" class="hero-new-portrait" alt="Cavaleiro de Hellward" draggable="false"></div>
+        <div class="life-medallion" aria-hidden="true"><div class="life-orb-liquid"><span id="lifeOrbFill"></span></div><img src="assets/ui/vitality-bezel.webp" alt="" width="160" height="160"></div>
         <div class="vitals-copy">
           <div class="hero-level-line"><span class="errant-name">O ERRANTE</span><span>NÍVEL <strong id="levelValue">1</strong></span></div>
           <div class="hero-health-panel">
@@ -88,7 +82,7 @@
         </div>
         <button type="button" id="quickPotion" class="quick-potion" aria-label="Usar poção de vida (Q)" disabled><img id="quickPotionArt" src="assets/items/area-01-09-pocao-de-vida-pequena.png" alt="" width="36" height="42"><b id="quickPotionCount">0</b><span>CURAR <kbd>Q</kbd></span></button>
       </section>
-      <nav class="relic-nav" aria-label="Relíquias do aventureiro">
+      <nav class="relic-nav" aria-label="Relíquias do aventureiro"><img class="relic-rail-art" src="assets/ui/relic-rail.webp" alt="" width="960" height="320" aria-hidden="true">
         <button type="button" class="relic-button" data-open-panel="upgrades" aria-label="Livro Negro: status e pontos (C)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/livro-negro.png" alt="" width="88" height="88"><span>Livro Negro</span><small>STATUS · <kbd>C</kbd></small><b id="attributeBadge" class="relic-badge" hidden>0</b></button>
         <button type="button" class="relic-button" data-open-panel="ascension" aria-label="Cálice da Ascensão (A)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/calice-ascensao.png" alt="" width="88" height="88"><span>Ascensão</span><small>RENASCER · <kbd>A</kbd></small></button>
         <button type="button" class="relic-button" data-open-panel="inventory" aria-label="Mochila: inventário e poções (I)" aria-haspopup="dialog" aria-expanded="false" aria-controls="hudPanel"><img src="assets/hud/mochila-velha.png" alt="" width="88" height="88"><span>Mochila</span><small>ITENS · <kbd>I</kbd></small></button>
@@ -136,8 +130,8 @@
   <div class="auth-screen hw-menu" id="authScreen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
     <div class="hw-shell">
       <div class="hw-title-art">
-        <img class="hw-logo" src="assets/menu/logo/hellward-titulo-restaurado.webp" width="1774" height="887" alt="Hellward — Um mundo esquecido aguarda" decoding="async">
-        <span class="hw-title-heat" aria-hidden="true"></span>
+        <img class="hw-logo" src="assets/ui/menu-title.webp" width="900" height="450" alt="Hellward — Um mundo esquecido aguarda" decoding="async">
+
       </div>
       <h1 id="authTitle" class="sr-only">Menu principal do Hellward</h1>
       <nav id="menuHome" class="hw-buttons" aria-label="Menu principal">
