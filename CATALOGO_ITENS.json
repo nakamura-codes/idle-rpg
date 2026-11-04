@@ -1,6 +1,6 @@
 {
   "projeto": "Hellward",
-  "tipo": "sprites_gerados",
+  "tipo": "atlas_ilustrados",
   "total": 100,
   "itens": [
     {
@@ -12,9 +12,14 @@
       "categoria": "Material / sucata",
       "visual": "Fragmento curto de tíbia ressecada, sujo de poeira, com uma ponta lascada.",
       "origem_sugerida": "Mortos-vivos comuns",
-      "imagem": "assets/items/area-01-01-osso-quebradico.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-01-osso-quebradico.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-02-fivela-retorcida",
@@ -25,9 +30,14 @@
       "categoria": "Material / sucata",
       "visual": "Fivela barata de ferro enferrujado, entortada e sem tira de couro.",
       "origem_sugerida": "Soldados caídos",
-      "imagem": "assets/items/area-01-02-fivela-retorcida.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-02-fivela-retorcida.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-03-placa-de-armadura-partida",
@@ -38,9 +48,14 @@
       "categoria": "Material / sucata",
       "visual": "Retalho irregular de chapa cinza com três rebites soltos e ferrugem.",
       "origem_sugerida": "Sentinela Caída",
-      "imagem": "assets/items/area-01-03-placa-de-armadura-partida.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-03-placa-de-armadura-partida.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-04-medalha-sem-inscricao",
@@ -51,9 +66,14 @@
       "categoria": "Material / sucata",
       "visual": "Disco pequeno de bronze escuro, rachado, preso a uma argola partida.",
       "origem_sugerida": "Condenado Errante",
-      "imagem": "assets/items/area-01-04-medalha-sem-inscricao.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-04-medalha-sem-inscricao.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-05-espada-enferrujada",
@@ -64,9 +84,14 @@
       "categoria": "Arma",
       "visual": "Espada curta reta, lâmina opaca corroída e cabo marrom enfaixado.",
       "origem_sugerida": "Condenado Errante",
-      "imagem": "assets/items/area-01-05-espada-enferrujada.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-05-espada-enferrujada.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-06-elmo-amassado",
@@ -77,9 +102,14 @@
       "categoria": "Capacete",
       "visual": "Capacete simples de ferro, com uma grande mossa lateral e borda torta.",
       "origem_sugerida": "Sentinela Caída",
-      "imagem": "assets/items/area-01-06-elmo-amassado.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-06-elmo-amassado.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-07-couraca-rachada",
@@ -90,9 +120,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral cinza de placas simples, couro solto e fenda central.",
       "origem_sugerida": "Soldados caídos",
-      "imagem": "assets/items/area-01-07-couraca-rachada.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-07-couraca-rachada.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-08-anel-de-cobre",
@@ -103,9 +138,14 @@
       "categoria": "Anel",
       "visual": "Aro fino de cobre manchado, sem joias ou inscrições.",
       "origem_sugerida": "Campos de Cinza",
-      "imagem": "assets/items/area-01-08-anel-de-cobre.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-08-anel-de-cobre.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-09-pocao-de-vida-pequena",
@@ -116,9 +156,14 @@
       "categoria": "Poção de vida",
       "visual": "Frasco baixo de vidro simples, poção vermelha clara, rolha de cortiça e barbante.",
       "origem_sugerida": "Comuns da região",
-      "imagem": "assets/items/area-01-09-pocao-de-vida-pequena.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-09-pocao-de-vida-pequena.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-10-lamina-do-guarda-caido",
@@ -129,9 +174,14 @@
       "categoria": "Arma",
       "visual": "Espada de guarda cruciforme, ferro recuperado e entalhe de corvo no pomo.",
       "origem_sugerida": "Sentinela Caída",
-      "imagem": "assets/items/area-01-10-lamina-do-guarda-caido.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-10-lamina-do-guarda-caido.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-11-couraca-dos-caidos",
@@ -142,9 +192,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral de ferro fosco com marcas de flechas e faixa de tecido vermelho gasto.",
       "origem_sugerida": "Guerreiro Esquelético",
-      "imagem": "assets/items/area-01-11-couraca-dos-caidos.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-11-couraca-dos-caidos.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-12-sinete-das-cinzas",
@@ -155,9 +210,14 @@
       "categoria": "Anel",
       "visual": "Anel de bronze antigo com selo em formato de brasa e pedra vermelha baça.",
       "origem_sugerida": "Condenado Errante",
-      "imagem": "assets/items/area-01-12-sinete-das-cinzas.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-12-sinete-das-cinzas.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-13-espada-dos-condenados",
@@ -168,9 +228,14 @@
       "categoria": "Arma",
       "visual": "Espada longa cinza com nervura dentada, runas apagadas e guarda em forma de ossos.",
       "origem_sugerida": "Guerreiro Esquelético",
-      "imagem": "assets/items/area-01-13-espada-dos-condenados.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-13-espada-dos-condenados.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-14-medalhao-do-cavaleiro-decapitado",
@@ -181,9 +246,14 @@
       "categoria": "Colar",
       "visual": "Pingente de cavaleiro sem cabeça, ferro negro, correntes curtas e rubi envelhecido.",
       "origem_sugerida": "Cavaleiro Decapitado",
-      "imagem": "assets/items/area-01-14-medalhao-do-cavaleiro-decapitado.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-14-medalhao-do-cavaleiro-decapitado.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-15-espada-do-espadachim-corrompido",
@@ -194,9 +264,14 @@
       "categoria": "Arma",
       "visual": "Lâmina longa manchada, guarda irregular e frisos rubros pulsando entre rachaduras.",
       "origem_sugerida": "Espadachim Corrompido",
-      "imagem": "assets/items/area-01-15-espada-do-espadachim-corrompido.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-15-espada-do-espadachim-corrompido.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-01-16-lamina-do-cavaleiro-decapitado",
@@ -207,9 +282,14 @@
       "categoria": "Arma",
       "visual": "Espadão cerimonial rachado, metais negros, caveiras na guarda e fogo vermelho contido.",
       "origem_sugerida": "Cavaleiro Decapitado",
-      "imagem": "assets/items/area-01-16-lamina-do-cavaleiro-decapitado.png",
+      "imagem": "assets/items/illustrated/region-1.webp",
       "regiao": "Campos de Cinza",
-      "arquivo_png": "regiao_01_campos_de_cinza/area-01-16-lamina-do-cavaleiro-decapitado.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-01-tufo-de-pelo-sarnento",
@@ -220,9 +300,14 @@
       "categoria": "Material / sucata",
       "visual": "Mecha desgrenhada de pelos escuros, presa por barro e sangue seco.",
       "origem_sugerida": "Lobo da Praga",
-      "imagem": "assets/items/area-02-01-tufo-de-pelo-sarnento.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-01-tufo-de-pelo-sarnento.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-02-presa-quebrada",
@@ -233,9 +318,14 @@
       "categoria": "Material / sucata",
       "visual": "Dente canino bege, lascado na ponta e com base escurecida.",
       "origem_sugerida": "Lobo Sombrio",
-      "imagem": "assets/items/area-02-02-presa-quebrada.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-02-presa-quebrada.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-03-glandula-apodrecida",
@@ -246,9 +336,14 @@
       "categoria": "Material / sucata",
       "visual": "Bolsa orgânica pequena, enrugada, com gotas verdes de veneno.",
       "origem_sugerida": "Ratazana Pestilenta",
-      "imagem": "assets/items/area-02-03-glandula-apodrecida.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-03-glandula-apodrecida.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-04-raiz-retorcida",
@@ -259,9 +354,14 @@
       "categoria": "Material / sucata",
       "visual": "Raiz curta e nodosa, enrolada em musgo de tom verde escuro.",
       "origem_sugerida": "Entorpecido de Musgo",
-      "imagem": "assets/items/area-02-04-raiz-retorcida.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-04-raiz-retorcida.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-05-faca-de-caca-cega",
@@ -272,9 +372,14 @@
       "categoria": "Arma",
       "visual": "Faca curta e gasta, lâmina sem fio e cabo de madeira úmida.",
       "origem_sugerida": "Goblin Selvagem",
-      "imagem": "assets/items/area-02-05-faca-de-caca-cega.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-05-faca-de-caca-cega.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-06-capuz-rasgado",
@@ -285,9 +390,14 @@
       "categoria": "Capacete",
       "visual": "Capuz de couro marrom, costuras grosseiras e orelheiras desiguais.",
       "origem_sugerida": "Goblin Selvagem",
-      "imagem": "assets/items/area-02-06-capuz-rasgado.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-06-capuz-rasgado.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-07-colete-de-couro-podre",
@@ -298,9 +408,14 @@
       "categoria": "Armadura",
       "visual": "Colete de couro escuro com furos e pequenos remendos de barbante.",
       "origem_sugerida": "Goblin Selvagem",
-      "imagem": "assets/items/area-02-07-colete-de-couro-podre.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-07-colete-de-couro-podre.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-08-aro-de-madeira",
@@ -311,9 +426,14 @@
       "categoria": "Anel",
       "visual": "Anel de galho escurecido, superfície áspera e seiva seca.",
       "origem_sugerida": "Bosque Profanado",
-      "imagem": "assets/items/area-02-08-aro-de-madeira.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-08-aro-de-madeira.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-09-balsamo-de-folhas",
@@ -324,9 +444,14 @@
       "categoria": "Poção de vida",
       "visual": "Frasco pequeno verde-oliva com líquido medicinal turvo e folhas no gargalo.",
       "origem_sugerida": "Goblin Selvagem",
-      "imagem": "assets/items/area-02-09-balsamo-de-folhas.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-09-balsamo-de-folhas.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-10-adaga-da-matilha",
@@ -337,9 +462,14 @@
       "categoria": "Arma",
       "visual": "Adaga curva feita com presa alongada de lobo e punho envolto em couro.",
       "origem_sugerida": "Lobo Sombrio",
-      "imagem": "assets/items/area-02-10-adaga-da-matilha.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-10-adaga-da-matilha.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-11-armadura-da-floresta-profanada",
@@ -350,9 +480,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral de casca escura costurado a couro, com pequenas raízes vivas.",
       "origem_sugerida": "Entorpecido de Musgo",
-      "imagem": "assets/items/area-02-11-armadura-da-floresta-profanada.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-11-armadura-da-floresta-profanada.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-12-colar-de-presas",
@@ -363,9 +498,14 @@
       "categoria": "Colar",
       "visual": "Cordão rústico com cinco dentes irregulares e garras presas a nós de cipó.",
       "origem_sugerida": "Lobo da Praga",
-      "imagem": "assets/items/area-02-12-colar-de-presas.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-12-colar-de-presas.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-13-anel-da-pestilencia",
@@ -376,9 +516,14 @@
       "categoria": "Anel",
       "visual": "Aro corroído com cristal verde opaco e dois dentes de ratazana cruzados.",
       "origem_sugerida": "Ratazana Pestilenta",
-      "imagem": "assets/items/area-02-13-anel-da-pestilencia.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-13-anel-da-pestilencia.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-14-mascara-do-musgo-vivo",
@@ -389,9 +534,14 @@
       "categoria": "Capacete",
       "visual": "Máscara de casca entalhada, líquens luminosos e duas aberturas verdes.",
       "origem_sugerida": "Entorpecido de Musgo",
-      "imagem": "assets/items/area-02-14-mascara-do-musgo-vivo.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-14-mascara-do-musgo-vivo.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-15-coroa-do-rei-das-ratazanas",
@@ -402,9 +552,14 @@
       "categoria": "Capacete",
       "visual": "Diadema de ossos e dentes de roedor, fios vermelhos e gema pútrida central.",
       "origem_sugerida": "Rei das Ratazanas",
-      "imagem": "assets/items/area-02-15-coroa-do-rei-das-ratazanas.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-15-coroa-do-rei-das-ratazanas.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-02-16-olho-da-hidra",
@@ -415,9 +570,14 @@
       "categoria": "Relíquia",
       "visual": "Olho reptiliano rubro, encapsulado em âmbar tóxico, com aro de escamas douradas.",
       "origem_sugerida": "Hidra Profanada",
-      "imagem": "assets/items/area-02-16-olho-da-hidra.png",
+      "imagem": "assets/items/illustrated/region-2.webp",
       "regiao": "Bosque Profanado",
-      "arquivo_png": "regiao_02_bosque_profanado/area-02-16-olho-da-hidra.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-01-dente-do-afogado",
@@ -428,9 +588,14 @@
       "categoria": "Material / sucata",
       "visual": "Dente humano úmido, com raiz escura e sal cristalizado.",
       "origem_sugerida": "Afogado Sem Rosto",
-      "imagem": "assets/items/area-03-01-dente-do-afogado.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-01-dente-do-afogado.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-02-elo-de-corrente-salgada",
@@ -441,9 +606,14 @@
       "categoria": "Material / sucata",
       "visual": "Um elo pesado e esverdeado, tomado por corrosão marinha.",
       "origem_sugerida": "Afogado Sem Rosto",
-      "imagem": "assets/items/area-03-02-elo-de-corrente-salgada.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-02-elo-de-corrente-salgada.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-03-lasca-de-sarcofago",
@@ -454,9 +624,14 @@
       "categoria": "Material / sucata",
       "visual": "Pedra funerária pequena, com pedaço de inscrição e limo azul.",
       "origem_sugerida": "Criptas Afogadas",
-      "imagem": "assets/items/area-03-03-lasca-de-sarcofago.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-03-lasca-de-sarcofago.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-04-espada-corroida",
@@ -467,9 +642,14 @@
       "categoria": "Arma",
       "visual": "Espada reta velha, coberta por manchas verdes de oxidação.",
       "origem_sugerida": "Guardas da cripta",
-      "imagem": "assets/items/area-03-04-espada-corroida.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-04-espada-corroida.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-05-elmo-funerario-quebrado",
@@ -480,9 +660,14 @@
       "categoria": "Capacete",
       "visual": "Capacete cônico de ferro, crista partida e pano azul encharcado.",
       "origem_sugerida": "Sacerdote Esquecido",
-      "imagem": "assets/items/area-03-05-elmo-funerario-quebrado.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-05-elmo-funerario-quebrado.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-06-vestes-mofadas",
@@ -493,9 +678,14 @@
       "categoria": "Armadura",
       "visual": "Túnica funerária pesada, esgarçada e coberta de manchas de umidade.",
       "origem_sugerida": "Sacerdote Esquecido",
-      "imagem": "assets/items/area-03-06-vestes-mofadas.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-06-vestes-mofadas.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-07-anel-oxidado",
@@ -506,9 +696,14 @@
       "categoria": "Anel",
       "visual": "Aro prateado barato, escurecido, com uma pequena rachadura.",
       "origem_sugerida": "Criptas Afogadas",
-      "imagem": "assets/items/area-03-07-anel-oxidado.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-07-anel-oxidado.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-08-pocao-de-vida-media",
@@ -519,9 +714,14 @@
       "categoria": "Poção de vida",
       "visual": "Frasco arredondado de vidro grosso, líquido vermelho intenso e cinta metálica.",
       "origem_sugerida": "Criptas Afogadas",
-      "imagem": "assets/items/area-03-08-pocao-de-vida-media.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-08-pocao-de-vida-media.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-09-veu-do-lamento",
@@ -532,9 +732,14 @@
       "categoria": "Capacete",
       "visual": "Capuz azul-acinzentado sobre máscara de osso, com fios aquáticos pendentes.",
       "origem_sugerida": "Lamento Submerso",
-      "imagem": "assets/items/area-03-09-veu-do-lamento.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-09-veu-do-lamento.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-10-anel-do-afogado",
@@ -545,9 +750,14 @@
       "categoria": "Anel",
       "visual": "Prata corroída com uma gema azul translúcida e gotas eternas.",
       "origem_sugerida": "Afogado Sem Rosto",
-      "imagem": "assets/items/area-03-10-anel-do-afogado.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-10-anel-do-afogado.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-11-medalhao-submerso",
@@ -558,9 +768,14 @@
       "categoria": "Colar",
       "visual": "Pingente oval com símbolo funerário sob vidro embaçado e corrente verdeada.",
       "origem_sugerida": "Afogado Sem Rosto",
-      "imagem": "assets/items/area-03-11-medalhao-submerso.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-11-medalhao-submerso.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-12-lamina-do-sacerdote-esquecido",
@@ -571,9 +786,14 @@
       "categoria": "Arma",
       "visual": "Espada ritual curta, guarda de osso e escrita necromântica azul pálida.",
       "origem_sugerida": "Sacerdote Esquecido",
-      "imagem": "assets/items/area-03-12-lamina-do-sacerdote-esquecido.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-12-lamina-do-sacerdote-esquecido.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-13-manto-dos-esquecidos",
@@ -584,9 +804,14 @@
       "categoria": "Armadura",
       "visual": "Manto preto-violeta com bordas úmidas, fios prateados e símbolos de almas.",
       "origem_sugerida": "Espectro da Cripta",
-      "imagem": "assets/items/area-03-13-manto-dos-esquecidos.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-13-manto-dos-esquecidos.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-14-orbe-dos-lamentos",
@@ -597,9 +822,14 @@
       "categoria": "Relíquia",
       "visual": "Esfera azul-profundo envolvendo três pequenas faces espectrais em espiral.",
       "origem_sugerida": "Lamento Submerso",
-      "imagem": "assets/items/area-03-14-orbe-dos-lamentos.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-14-orbe-dos-lamentos.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-15-grimorio-da-bruxa-das-criptas",
@@ -610,9 +840,14 @@
       "categoria": "Relíquia",
       "visual": "Livro grosso de pele escura, fechos ósseos e selo de magia violeta.",
       "origem_sugerida": "Bruxa das Criptas",
-      "imagem": "assets/items/area-03-15-grimorio-da-bruxa-das-criptas.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-15-grimorio-da-bruxa-das-criptas.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-03-16-gadanha-do-rei-lich",
@@ -623,9 +858,14 @@
       "categoria": "Arma",
       "visual": "Foice longa de metal negro, lâmina espectral violeta, crânios e runas brilhantes.",
       "origem_sugerida": "Rei Lich",
-      "imagem": "assets/items/area-03-16-gadanha-do-rei-lich.png",
+      "imagem": "assets/items/illustrated/region-3.webp",
       "regiao": "Criptas Afogadas",
-      "arquivo_png": "regiao_03_criptas_afogadas/area-03-16-gadanha-do-rei-lich.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-01-engrenagem-lascada",
@@ -636,9 +876,14 @@
       "categoria": "Material / sucata",
       "visual": "Pequena engrenagem de bronze com dois dentes ausentes e fuligem.",
       "origem_sugerida": "Construto Enferrujado",
-      "imagem": "assets/items/area-04-01-engrenagem-lascada.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-01-engrenagem-lascada.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-02-elo-de-algema",
@@ -649,9 +894,14 @@
       "categoria": "Material / sucata",
       "visual": "Ferro grosso retorcido, sem brilho e manchado de ferrugem.",
       "origem_sugerida": "Carcereiro Rúnico",
-      "imagem": "assets/items/area-04-02-elo-de-algema.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-02-elo-de-algema.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-03-po-de-ferrugem",
@@ -662,9 +912,14 @@
       "categoria": "Material / sucata",
       "visual": "Montículo de pó vermelho-acastanhado dentro de saquinho de estopa.",
       "origem_sugerida": "Golem Ferrugem",
-      "imagem": "assets/items/area-04-03-po-de-ferrugem.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-03-po-de-ferrugem.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-04-machado-sem-fio",
@@ -675,9 +930,14 @@
       "categoria": "Arma",
       "visual": "Machado curto pesado, lâmina opaca e cabo de madeira trincada.",
       "origem_sugerida": "Orc Carniceiro",
-      "imagem": "assets/items/area-04-04-machado-sem-fio.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-04-machado-sem-fio.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-05-capacete-de-ferro-torto",
@@ -688,9 +948,14 @@
       "categoria": "Capacete",
       "visual": "Elmo militar cinza com viseira amassada e rebites expostos.",
       "origem_sugerida": "Carcereiro Rúnico",
-      "imagem": "assets/items/area-04-05-capacete-de-ferro-torto.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-05-capacete-de-ferro-torto.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-06-peitoral-de-sucata",
@@ -701,9 +966,14 @@
       "categoria": "Armadura",
       "visual": "Placas desiguais de ferro fixadas por tiras de couro industrial.",
       "origem_sugerida": "Construto Enferrujado",
-      "imagem": "assets/items/area-04-06-peitoral-de-sucata.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-06-peitoral-de-sucata.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-07-anel-de-ferro-bruto",
@@ -714,9 +984,14 @@
       "categoria": "Anel",
       "visual": "Aro espesso de ferro cinzento, marcas de martelo e nenhuma pedra.",
       "origem_sugerida": "Fortaleza de Ferro",
-      "imagem": "assets/items/area-04-07-anel-de-ferro-bruto.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-07-anel-de-ferro-bruto.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-08-tonico-do-ferreiro",
@@ -727,9 +1002,14 @@
       "categoria": "Poção de vida",
       "visual": "Frasco metálico avermelhado, vidro escuro e poção restauradora âmbar.",
       "origem_sugerida": "Fortaleza de Ferro",
-      "imagem": "assets/items/area-04-08-tonico-do-ferreiro.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-08-tonico-do-ferreiro.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-09-lamina-dos-guardas",
@@ -740,9 +1020,14 @@
       "categoria": "Arma",
       "visual": "Espada militar larga, guarda quadrada e gravação de portão rebitado.",
       "origem_sugerida": "Carcereiro Rúnico",
-      "imagem": "assets/items/area-04-09-lamina-dos-guardas.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-09-lamina-dos-guardas.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-10-armadura-rebitada",
@@ -753,9 +1038,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral de placas negras, correntes curtas e rebites regulares.",
       "origem_sugerida": "Orc Carniceiro",
-      "imagem": "assets/items/area-04-10-armadura-rebitada.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-10-armadura-rebitada.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-11-sinete-do-carcereiro",
@@ -766,9 +1056,14 @@
       "categoria": "Anel",
       "visual": "Anel de ferro grosso com runa vermelha e miniatura de algema.",
       "origem_sugerida": "Carcereiro Rúnico",
-      "imagem": "assets/items/area-04-11-sinete-do-carcereiro.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-11-sinete-do-carcereiro.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-12-martelo-de-basalto",
@@ -779,9 +1074,14 @@
       "categoria": "Arma",
       "visual": "Martelo de duas mãos com bloco de rocha negra e cintas metálicas.",
       "origem_sugerida": "Guardião de Basalto",
-      "imagem": "assets/items/area-04-12-martelo-de-basalto.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-12-martelo-de-basalto.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-13-coracao-de-ferro",
@@ -792,9 +1092,14 @@
       "categoria": "Relíquia",
       "visual": "Núcleo circular de engrenagens com centro laranja pulsante.",
       "origem_sugerida": "Construto Enferrujado",
-      "imagem": "assets/items/area-04-13-coracao-de-ferro.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-13-coracao-de-ferro.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-14-elmo-do-carcereiro-runico",
@@ -805,9 +1110,14 @@
       "categoria": "Capacete",
       "visual": "Capacete fechado angular, grade na viseira e inscrições âmbar.",
       "origem_sugerida": "Carcereiro Rúnico",
-      "imagem": "assets/items/area-04-14-elmo-do-carcereiro-runico.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-14-elmo-do-carcereiro-runico.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-15-couraca-do-ogro",
@@ -818,9 +1128,14 @@
       "categoria": "Armadura",
       "visual": "Armadura colossal de placas toscas, pontas de osso e correias grossas.",
       "origem_sugerida": "Ogro do Ferro",
-      "imagem": "assets/items/area-04-15-couraca-do-ogro.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-15-couraca-do-ogro.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-04-16-lamina-do-abismo",
@@ -831,9 +1146,14 @@
       "categoria": "Arma",
       "visual": "Espadão negro serrilhado, com espinhos, caveiras na guarda e fendas vermelhas.",
       "origem_sugerida": "Cavaleiro do Abismo",
-      "imagem": "assets/items/area-04-16-lamina-do-abismo.png",
+      "imagem": "assets/items/illustrated/region-4.webp",
       "regiao": "Fortaleza de Ferro",
-      "arquivo_png": "regiao_04_fortaleza_de_ferro/area-04-16-lamina-do-abismo.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-01-escama-carbonizada",
@@ -844,9 +1164,14 @@
       "categoria": "Material / sucata",
       "visual": "Pequena escama preta quebrada, com fuligem e borda avermelhada.",
       "origem_sugerida": "Dragão das Fendas",
-      "imagem": "assets/items/area-05-01-escama-carbonizada.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-01-escama-carbonizada.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-02-pedra-vulcanica-porosa",
@@ -857,9 +1182,14 @@
       "categoria": "Material / sucata",
       "visual": "Pedra áspera preta, com buracos e poeira vermelha.",
       "origem_sugerida": "Fendas Infernais",
-      "imagem": "assets/items/area-05-02-pedra-vulcanica-porosa.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-02-pedra-vulcanica-porosa.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-03-vidro-infernal-rachado",
@@ -870,9 +1200,14 @@
       "categoria": "Material / sucata",
       "visual": "Estilhaço vermelho translúcido, escurecido pela fumaça.",
       "origem_sugerida": "Sombra Incandescente",
-      "imagem": "assets/items/area-05-03-vidro-infernal-rachado.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-03-vidro-infernal-rachado.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-04-lamina-carbonizada",
@@ -883,9 +1218,14 @@
       "categoria": "Arma",
       "visual": "Espada curta de metal queimado, ponta torta e cabo preto.",
       "origem_sugerida": "Arauto das Chamas",
-      "imagem": "assets/items/area-05-04-lamina-carbonizada.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-04-lamina-carbonizada.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-05-elmo-chamuscado",
@@ -896,9 +1236,14 @@
       "categoria": "Capacete",
       "visual": "Capacete escuro parcialmente derretido, bordas de cinza.",
       "origem_sugerida": "Demônio Carmesim",
-      "imagem": "assets/items/area-05-05-elmo-chamuscado.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-05-elmo-chamuscado.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-06-couraca-queimada",
@@ -909,9 +1254,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral simples carbonizado, pequenas placas deformadas pelo calor.",
       "origem_sugerida": "Arauto das Chamas",
-      "imagem": "assets/items/area-05-06-couraca-queimada.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-06-couraca-queimada.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-07-anel-de-obsidiana-trincado",
@@ -922,9 +1272,14 @@
       "categoria": "Anel",
       "visual": "Aro preto vítreo com uma única fissura alaranjada.",
       "origem_sugerida": "Fendas Infernais",
-      "imagem": "assets/items/area-05-07-anel-de-obsidiana-trincado.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-07-anel-de-obsidiana-trincado.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-08-pocao-de-vida-grande",
@@ -935,9 +1290,14 @@
       "categoria": "Poção de vida",
       "visual": "Frasco robusto de vidro vermelho, líquido rubi espesso e gargalo reforçado.",
       "origem_sugerida": "Fendas Infernais",
-      "imagem": "assets/items/area-05-08-pocao-de-vida-grande.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-08-pocao-de-vida-grande.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-09-colar-de-carvao-vivo",
@@ -948,9 +1308,14 @@
       "categoria": "Colar",
       "visual": "Pingente de pedra escura levemente incandescente em corrente de ferro.",
       "origem_sugerida": "Arauto das Chamas",
-      "imagem": "assets/items/area-05-09-colar-de-carvao-vivo.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-09-colar-de-carvao-vivo.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-10-cortadora-de-brasas",
@@ -961,9 +1326,14 @@
       "categoria": "Arma",
       "visual": "Espada curva curta, fio alaranjado e punho de couro chamuscado.",
       "origem_sugerida": "Demônio Carmesim",
-      "imagem": "assets/items/area-05-10-cortadora-de-brasas.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-10-cortadora-de-brasas.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-11-armadura-de-cinza",
@@ -974,9 +1344,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral leve de escamas opacas com veios fracos de calor.",
       "origem_sugerida": "Sombra Incandescente",
-      "imagem": "assets/items/area-05-11-armadura-de-cinza.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-11-armadura-de-cinza.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-12-mascara-de-fumaca",
@@ -987,9 +1362,14 @@
       "categoria": "Capacete",
       "visual": "Máscara de obsidiana com fendas de ventilação e chifres quebrados.",
       "origem_sugerida": "Sombra Incandescente",
-      "imagem": "assets/items/area-05-12-mascara-de-fumaca.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-12-mascara-de-fumaca.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-13-couraca-carmesim",
@@ -1000,9 +1380,14 @@
       "categoria": "Armadura",
       "visual": "Armadura infernal com placas pretas afiadas e sulcos vermelhos luminosos.",
       "origem_sugerida": "Demônio Carmesim",
-      "imagem": "assets/items/area-05-13-couraca-carmesim.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-13-couraca-carmesim.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-14-anel-das-chamas-eternas",
@@ -1013,9 +1398,14 @@
       "categoria": "Anel",
       "visual": "Aro de obsidiana ornamental com chama vermelha suspensa no centro.",
       "origem_sugerida": "Arauto das Chamas",
-      "imagem": "assets/items/area-05-14-anel-das-chamas-eternas.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-14-anel-das-chamas-eternas.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-15-garra-do-flagelo",
@@ -1026,9 +1416,14 @@
       "categoria": "Arma",
       "visual": "Arma curta de lâminas curvadas como garras demoníacas e runas ardentes.",
       "origem_sugerida": "Flagelo Abissal",
-      "imagem": "assets/items/area-05-15-garra-do-flagelo.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-15-garra-do-flagelo.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-16-coracao-do-devorador",
@@ -1039,9 +1434,14 @@
       "categoria": "Relíquia",
       "visual": "Órgão negro vitrificado, olhos rubros e veias escarlates seladas em metal.",
       "origem_sugerida": "Devorador Mórbido",
-      "imagem": "assets/items/area-05-16-coracao-do-devorador.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-16-coracao-do-devorador.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-17-manto-da-sucubo-das-cinzas",
@@ -1052,9 +1452,14 @@
       "categoria": "Armadura",
       "visual": "Manto preto-vinho de penas queimadas, rendas rasgadas e talismãs brilhantes.",
       "origem_sugerida": "Súcubo das Cinzas",
-      "imagem": "assets/items/area-05-17-manto-da-sucubo-das-cinzas.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-17-manto-da-sucubo-das-cinzas.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 4,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-05-18-presa-do-dragao-infernal",
@@ -1065,9 +1470,14 @@
       "categoria": "Arma",
       "visual": "Espada de osso dracônico, escamas negras e canal central de magma líquido.",
       "origem_sugerida": "Dragão das Fendas",
-      "imagem": "assets/items/area-05-18-presa-do-dragao-infernal.png",
+      "imagem": "assets/items/illustrated/region-5.webp",
       "regiao": "Fendas Infernais",
-      "arquivo_png": "regiao_05_fendas_infernais/area-05-18-presa-do-dragao-infernal.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 4,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-01-obsidiana-estilhacada",
@@ -1078,9 +1488,14 @@
       "categoria": "Material / sucata",
       "visual": "Lasca escura polida com reflexo roxo e borda quebrada.",
       "origem_sugerida": "Trono do Crepúsculo",
-      "imagem": "assets/items/area-06-01-obsidiana-estilhacada.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-01-obsidiana-estilhacada.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-02-selo-imperial-apagado",
@@ -1091,9 +1506,14 @@
       "categoria": "Material / sucata",
       "visual": "Pequeno disco dourado gasto, com símbolo de eclipse quase ilegível.",
       "origem_sugerida": "Rei das Sombras",
-      "imagem": "assets/items/area-06-02-selo-imperial-apagado.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-02-selo-imperial-apagado.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-03-po-do-eclipse",
@@ -1104,9 +1524,14 @@
       "categoria": "Material / sucata",
       "visual": "Pó violeta-acinzentado em frasco rachado de vidro fumê.",
       "origem_sugerida": "Arauto do Eclipse",
-      "imagem": "assets/items/area-06-03-po-do-eclipse.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-03-po-do-eclipse.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-04-espada-imperial-partida",
@@ -1117,9 +1542,14 @@
       "categoria": "Arma",
       "visual": "Espada cerimonial quebrada, aço escurecido e guarda dourada simples.",
       "origem_sugerida": "Servos do Trono",
-      "imagem": "assets/items/area-06-04-espada-imperial-partida.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-04-espada-imperial-partida.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 0,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-05-coroa-danificada",
@@ -1130,9 +1560,14 @@
       "categoria": "Capacete",
       "visual": "Aro real de latão amassado, com duas pontas faltando.",
       "origem_sugerida": "Servos do Trono",
-      "imagem": "assets/items/area-06-05-coroa-danificada.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-05-coroa-danificada.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-06-peitoral-real-amassado",
@@ -1143,9 +1578,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral negro básico, placas finas e brasão imperial descascado.",
       "origem_sugerida": "Servos do Trono",
-      "imagem": "assets/items/area-06-06-peitoral-real-amassado.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-06-peitoral-real-amassado.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-07-tonico-lunar",
@@ -1156,9 +1596,14 @@
       "categoria": "Poção de vida",
       "visual": "Poção rubra em ampola de vidro violeta, tampa de prata fosca.",
       "origem_sugerida": "Trono do Crepúsculo",
-      "imagem": "assets/items/area-06-07-tonico-lunar.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-07-tonico-lunar.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-08-lamina-do-arauto",
@@ -1169,9 +1614,14 @@
       "categoria": "Arma",
       "visual": "Espada estreita de aço preto com sulco violeta e pomo geométrico.",
       "origem_sugerida": "Arauto do Eclipse",
-      "imagem": "assets/items/area-06-08-lamina-do-arauto.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-08-lamina-do-arauto.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 1,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-09-veu-do-eclipse",
@@ -1182,9 +1632,14 @@
       "categoria": "Capacete",
       "visual": "Capuz negro de seda com diadema de pequenos cristais violetas.",
       "origem_sugerida": "Sacerdote do Vazio",
-      "imagem": "assets/items/area-06-09-veu-do-eclipse.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-09-veu-do-eclipse.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-10-pingente-da-noite",
@@ -1195,9 +1650,14 @@
       "categoria": "Colar",
       "visual": "Pendente pontiagudo de obsidiana em corrente dourada fina.",
       "origem_sugerida": "Rei das Sombras",
-      "imagem": "assets/items/area-06-10-pingente-da-noite.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-10-pingente-da-noite.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-11-couraca-do-trono",
@@ -1208,9 +1668,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral imperial discreto com faixas vinho e detalhes dourados gastos.",
       "origem_sugerida": "Arauto do Eclipse",
-      "imagem": "assets/items/area-06-11-couraca-do-trono.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-11-couraca-do-trono.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-12-anel-do-vazio",
@@ -1221,9 +1686,14 @@
       "categoria": "Anel",
       "visual": "Aro negro fino com pequeno eclipse flutuante em gema violeta.",
       "origem_sugerida": "Sacerdote do Vazio",
-      "imagem": "assets/items/area-06-12-anel-do-vazio.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-12-anel-do-vazio.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 2,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-13-coroa-das-almas-perdidas",
@@ -1234,9 +1704,14 @@
       "categoria": "Capacete",
       "visual": "Coroa de ouro negro e espinhos com três gemas contendo silhuetas de almas.",
       "origem_sugerida": "Rei das Sombras",
-      "imagem": "assets/items/area-06-13-coroa-das-almas-perdidas.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-13-coroa-das-almas-perdidas.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-14-foice-do-lich-imortal",
@@ -1247,9 +1722,14 @@
       "categoria": "Arma",
       "visual": "Gadanha estreita de haste cinza e lâmina violeta gravada em sigilos.",
       "origem_sugerida": "Lich Imortal",
-      "imagem": "assets/items/area-06-14-foice-do-lich-imortal.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-14-foice-do-lich-imortal.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-15-esfera-do-devorador-de-estrelas",
@@ -1260,9 +1740,14 @@
       "categoria": "Relíquia",
       "visual": "Orbe negro salpicado de pontos de luz aprisionada e anéis orbitais finos.",
       "origem_sugerida": "Devorador de Estrelas",
-      "imagem": "assets/items/area-06-15-esfera-do-devorador-de-estrelas.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-15-esfera-do-devorador-de-estrelas.png"
+      "icone_atlas": {
+        "coluna": 2,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-16-manto-da-medusa-do-eclipse",
@@ -1273,9 +1758,14 @@
       "categoria": "Armadura",
       "visual": "Manto esverdeado real com escamas, serpentes douradas e gemas roxas.",
       "origem_sugerida": "Medusa do Eclipse",
-      "imagem": "assets/items/area-06-16-manto-da-medusa-do-eclipse.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-16-manto-da-medusa-do-eclipse.png"
+      "icone_atlas": {
+        "coluna": 3,
+        "linha": 3,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-17-armadura-do-imperador",
@@ -1286,9 +1776,14 @@
       "categoria": "Armadura",
       "visual": "Peitoral negro imperial de espinhos, ouro antigo e rachaduras de energia violeta.",
       "origem_sugerida": "Imperador do Crepúsculo",
-      "imagem": "assets/items/area-06-17-armadura-do-imperador.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-17-armadura-do-imperador.png"
+      "icone_atlas": {
+        "coluna": 0,
+        "linha": 4,
+        "colunas": 4,
+        "linhas": 5
+      }
     },
     {
       "id": "area-06-18-espada-do-ultimo-eclipse",
@@ -1299,9 +1794,14 @@
       "categoria": "Arma",
       "visual": "Espadão real de obsidiana e ouro escuro, núcleo de eclipse violeta radiante.",
       "origem_sugerida": "Imperador do Crepúsculo",
-      "imagem": "assets/items/area-06-18-espada-do-ultimo-eclipse.png",
+      "imagem": "assets/items/illustrated/region-6.webp",
       "regiao": "Trono do Crepúsculo",
-      "arquivo_png": "regiao_06_trono_do_crepusculo/area-06-18-espada-do-ultimo-eclipse.png"
+      "icone_atlas": {
+        "coluna": 1,
+        "linha": 4,
+        "colunas": 4,
+        "linhas": 5
+      }
     }
   ]
 }

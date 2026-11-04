@@ -216,36 +216,6 @@
 .battlefield .combat-hero,.battlefield .attack-target{isolation:isolate}
 .battlefield .hero-respawn{z-index:16}
 @media(prefers-reduced-motion:reduce){.parallax-layer{transition:none!important}.parallax-front .p-atmosphere{animation:none!important;opacity:.1}}
-.battlefield.zone-0 .p-far{background-image:url("assets/backgrounds/campos-de-cinza/background_far.png");}
-.battlefield.zone-0 .p-mid{background-image:url("assets/backgrounds/campos-de-cinza/background_mid.png");}
-.battlefield.zone-0 .p-ground{background-image:url("assets/backgrounds/campos-de-cinza/battle_ground.png");}
-.battlefield.zone-0 .p-foreground{background-image:url("assets/backgrounds/campos-de-cinza/foreground.png");}
-.battlefield.zone-0 .p-atmosphere{background-image:url("assets/backgrounds/campos-de-cinza/atmosphere.png");}
-.battlefield.zone-1 .p-far{background-image:url("assets/backgrounds/bosque-profanado/background_far.png");}
-.battlefield.zone-1 .p-mid{background-image:url("assets/backgrounds/bosque-profanado/background_mid.png");}
-.battlefield.zone-1 .p-ground{background-image:url("assets/backgrounds/bosque-profanado/battle_ground.png");}
-.battlefield.zone-1 .p-foreground{background-image:url("assets/backgrounds/bosque-profanado/foreground.png");}
-.battlefield.zone-1 .p-atmosphere{background-image:url("assets/backgrounds/bosque-profanado/atmosphere.png");}
-.battlefield.zone-2 .p-far{background-image:url("assets/backgrounds/criptas-afogadas/background_far.png");}
-.battlefield.zone-2 .p-mid{background-image:url("assets/backgrounds/criptas-afogadas/background_mid.png");}
-.battlefield.zone-2 .p-ground{background-image:url("assets/backgrounds/criptas-afogadas/battle_ground.png");}
-.battlefield.zone-2 .p-foreground{background-image:url("assets/backgrounds/criptas-afogadas/foreground.png");}
-.battlefield.zone-2 .p-atmosphere{background-image:url("assets/backgrounds/criptas-afogadas/atmosphere.png");}
-.battlefield.zone-3 .p-far{background-image:url("assets/backgrounds/fortaleza-de-ferro/background_far.png");}
-.battlefield.zone-3 .p-mid{background-image:url("assets/backgrounds/fortaleza-de-ferro/background_mid.png");}
-.battlefield.zone-3 .p-ground{background-image:url("assets/backgrounds/fortaleza-de-ferro/battle_ground.png");}
-.battlefield.zone-3 .p-foreground{background-image:url("assets/backgrounds/fortaleza-de-ferro/foreground.png");}
-.battlefield.zone-3 .p-atmosphere{background-image:url("assets/backgrounds/fortaleza-de-ferro/atmosphere.png");}
-.battlefield.zone-4 .p-far{background-image:url("assets/backgrounds/fendas-infernais/background_far.png");}
-.battlefield.zone-4 .p-mid{background-image:url("assets/backgrounds/fendas-infernais/background_mid.png");}
-.battlefield.zone-4 .p-ground{background-image:url("assets/backgrounds/fendas-infernais/battle_ground.png");}
-.battlefield.zone-4 .p-foreground{background-image:url("assets/backgrounds/fendas-infernais/foreground.png");}
-.battlefield.zone-4 .p-atmosphere{background-image:url("assets/backgrounds/fendas-infernais/atmosphere.png");}
-.battlefield.zone-5 .p-far{background-image:url("assets/backgrounds/trono-do-crepusculo/background_far.png");}
-.battlefield.zone-5 .p-mid{background-image:url("assets/backgrounds/trono-do-crepusculo/background_mid.png");}
-.battlefield.zone-5 .p-ground{background-image:url("assets/backgrounds/trono-do-crepusculo/battle_ground.png");}
-.battlefield.zone-5 .p-foreground{background-image:url("assets/backgrounds/trono-do-crepusculo/foreground.png");}
-.battlefield.zone-5 .p-atmosphere{background-image:url("assets/backgrounds/trono-do-crepusculo/atmosphere.png");}
 
 /* V7.3: scenery stays behind the actors; rim light follows sprite alpha. */
 .battlefield .combat-hero-sprite{

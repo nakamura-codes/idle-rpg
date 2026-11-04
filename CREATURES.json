@@ -159,8 +159,8 @@
     "slot": 0,
     "type": "common",
     "name": "Espectro da Cripta",
-    "asset": "assets/monsters/espectro-da-cripta.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/espectro-da-cripta-v2.png",
+    "source": "Retrato atual com fallback vetorial",
     "battle_direction": "left",
     "sprite_mirrored": true
   },
@@ -456,8 +456,8 @@
     "slot": 6,
     "type": "boss",
     "name": "Imperador do Crepúsculo",
-    "asset": "assets/monsters/imperador-do-crepusculo.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/imperador-colossal.webp",
+    "source": "Retrato colossal atual",
     "battle_direction": "left",
     "sprite_mirrored": false
   }

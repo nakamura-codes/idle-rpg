@@ -1,6 +1,6 @@
 /* ===== Tela do menu ===== */
 .hw-menu[hidden], .hw-menu [hidden]{display:none!important}
-.hw-menu{position:fixed;inset:0;z-index:1000;overflow:auto;display:flex;align-items:center;justify-content:flex-end;padding:24px 7%;background:#100e0d url('assets/menu/cenario/cenario-cavaleiro.jpg') center/cover no-repeat;color:#e8d6b4}
+.hw-menu{position:fixed;inset:0;z-index:1000;overflow:auto;display:flex;align-items:center;justify-content:flex-end;padding:24px 7%;background:#100e0d url('assets/ui/menu-scene.webp') center/cover no-repeat;color:#e8d6b4}
 
 /* brasas subindo (só CSS) */
 .hw-menu::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.6;
@@ -125,5 +125,5 @@ html.hw-menu-open,html.hw-menu-open body{overflow:hidden}
 /* Iluminação quente estática, preservando a arte e o sombreado geral. */
 .hw-menu .hw-title-art{position:relative;isolation:isolate;width:min(100%,460px);aspect-ratio:2/1;margin:0 auto;pointer-events:none}
 .hw-menu .hw-title-art .hw-logo{width:100%;height:auto;filter:brightness(1.85) saturate(1.12) drop-shadow(0 0 9px rgba(229,85,22,.32))}
-.hw-title-heat{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,transparent 53%,rgba(255,112,28,.6) 65%,transparent 70%);mask:url('assets/menu/logo/hellward-titulo-restaurado.webp') center/100% 100% no-repeat;-webkit-mask:url('assets/menu/logo/hellward-titulo-restaurado.webp') center/100% 100% no-repeat;mix-blend-mode:screen;opacity:.4}
+
 @media(max-width:700px){.hw-menu .hw-title-art{width:min(100%,380px)}}

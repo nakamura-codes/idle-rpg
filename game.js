@@ -122,7 +122,7 @@
     ['espectro-da-cripta-v2.png', 'alma-enregelada.png', 'lamento-submerso.png', 'afogado-sem-rosto.png', 'sacerdote-esquecido.png', 'bruxa-das-criptas.png', 'rei-lich.png'],
     ['golem-ferrugem.png', 'carcereiro-runico.png', 'guardiao-de-basalto.png', 'orc-carniceiro.png', 'construto-enferrujado.png', 'ogro-do-ferro.png', 'cavaleiro-do-abismo.png'],
     ['arauto-das-chamas.png', 'demonio-carmesim.png', 'flagelo-abissal.png', 'sucubo-das-cinzas.png', 'sombra-incandescente.png', 'devorador-morbido.png', 'dragao-das-fendas.png'],
-    ['lich-imortal.png', 'rei-das-sombras.png', 'devorador-de-estrelas.png', 'sacerdote-do-vazio.png', 'arauto-do-eclipse.png', 'medusa-do-eclipse.png', 'imperador-do-crepusculo.png'],
+    ['lich-imortal.png', 'rei-das-sombras.png', 'devorador-de-estrelas.png', 'sacerdote-do-vazio.png', 'arauto-do-eclipse.png', 'medusa-do-eclipse.png', 'imperador-colossal.webp'],
   ];
 
   const monsterSrc = (zoneIndex, creatureIndex) =>
@@ -1503,7 +1503,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         const gate=!unlocked?'Derrote o chefão da região anterior':p.cleared?'✦ REGIÃO CONQUISTADA':`FASE ${p.stage}/10 · ${p.kills}/10 INIMIGOS`;
         const progressPercent=p.cleared?100:((p.stage-1)*10+p.kills)*100/100;
         const bossNote=p.cleared?'Chefão derrotado':p.stage===5&&!p.minibossDefeated?'✦ Miniboss na fase 5':p.stage===10?'☠ Chefão na fase 10':'Miniboss F5 · Chefão F10';
-        return `<article style="--region-art:url('assets/backgrounds/fast/${['campos-de-cinza','bosque-profanado','criptas-afogadas','fortaleza-de-ferro','fendas-infernais','trono-do-crepusculo'][index]}-mobile.webp')" class="zone-card ${current?'current':''} ${!unlocked?'locked':''} ${p.cleared?'cleared':''}"><div class="zone-index">${p.cleared?'◆':unlocked?'✧':'♜'} &nbsp; REGIÃO ${z.rune}</div><h3>${esc(z.name)}</h3><p>${esc(z.subtitle)}</p><div class="zone-requirement">${gate}</div><div class="zone-progress-track"><span style="width:${progressPercent}%"></span></div><div class="zone-boss-note">${bossNote}</div><div class="zone-bestiary" aria-label="Bestiário de ${esc(z.name)}">${[...z.names,z.miniboss,z.boss].map((mobName,mobIndex)=>`<button type="button" class="bestiary-creature ${mobIndex>=5?'elite':''} ${MONSTER_SPRITES[index][mobIndex].endsWith('.png')?'original-art':''}" data-inspect-zone="${index}" data-inspect-creature="${mobIndex}" aria-label="Ver ${esc(mobName)}" title="${esc(mobName)}${MONSTER_SPRITES[index][mobIndex].endsWith('.png')?' · Arte personalizada':''}${mobIndex===5?' (Miniboss)':mobIndex===6?' (Chefão)':''}"><img src="${monsterSrc(index,mobIndex)}" width="56" height="60" loading="lazy" alt=""/></button>`).join('')}</div><button type="button" data-travel="${index}" ${!unlocked||current?'disabled':''}>${current?'ATUAL':unlocked?'VIAJAR':'BLOQUEADA'}</button></article>`;
+        return `<article style="--region-art:url('assets/backgrounds/fast/${['campos-de-cinza','bosque-profanado','criptas-afogadas','fortaleza-de-ferro','fendas-infernais','trono-do-crepusculo'][index]}-mobile.webp')" class="zone-card ${current?'current':''} ${!unlocked?'locked':''} ${p.cleared?'cleared':''}"><div class="zone-index">${p.cleared?'◆':unlocked?'✧':'♜'} &nbsp; REGIÃO ${z.rune}</div><h3>${esc(z.name)}</h3><p>${esc(z.subtitle)}</p><div class="zone-requirement">${gate}</div><div class="zone-progress-track"><span style="width:${progressPercent}%"></span></div><div class="zone-boss-note">${bossNote}</div><div class="zone-bestiary" aria-label="Bestiário de ${esc(z.name)}">${[...z.names,z.miniboss,z.boss].map((mobName,mobIndex)=>`<button type="button" class="bestiary-creature ${mobIndex>=5?'elite':''} ${/\.(png|webp)$/.test(MONSTER_SPRITES[index][mobIndex])?'original-art':''}" data-inspect-zone="${index}" data-inspect-creature="${mobIndex}" aria-label="Ver ${esc(mobName)}" title="${esc(mobName)}${/\.(png|webp)$/.test(MONSTER_SPRITES[index][mobIndex])?' · Arte personalizada':''}${mobIndex===5?' (Miniboss)':mobIndex===6?' (Chefão)':''}"><img src="${monsterSrc(index,mobIndex)}" width="56" height="60" loading="lazy" alt=""/></button>`).join('')}</div><button type="button" data-travel="${index}" ${!unlocked||current?'disabled':''}>${current?'ATUAL':unlocked?'VIAJAR':'BLOQUEADA'}</button></article>`;
       }).join('')}</div>`;
     }
     renderAscension() {
@@ -1530,7 +1530,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const names=[...zone.names,zone.miniboss,zone.boss];
       const creature=names[creatureIndex];
       const rank=creatureIndex===6?'CHEFÃO — FASE 10':creatureIndex===5?'MINIBOSS — FASE 5':'CRIATURA COMUM';
-      const isCustom=MONSTER_SPRITES[zoneIndex][creatureIndex].endsWith('.png');
+      const isCustom=/\.(png|webp)$/.test(MONSTER_SPRITES[zoneIndex][creatureIndex]);
       this.dialog(creature,`${rank}  ·  ${zone.name}  ·  PORTE ${ART.sizeLabels[ART.monsters[zoneIndex][creatureIndex].size].toUpperCase()}${isCustom?'  ·  ARTE EXCLUSIVA':''}`,[{text:'FECHAR',primary:true}],creatureIndex===6?'☠':creatureIndex===5?'✦':'◇');
       const art=document.createElement('img');
       art.className='dialog-monster-preview';

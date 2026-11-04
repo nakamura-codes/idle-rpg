@@ -30,7 +30,7 @@ Prompt comum: standalone HELLWARD dark fantasy RPG HUD inventory icon; highly de
 - `assets/hud/calice-ascensao.png`: medieval GOTHIC GOLDEN CHALICE, weathered dark gold, clawlike base, pointed cathedral tracery on bowl, tiny blood-red cabochon, subtle warm gleam.
 - `assets/hud/mochila-velha.png`: OLD BROWN LEATHER BACKPACK, medieval adventurer rucksack, torn edges, dark straps, small brass buckles, folded flap, visibly worn and readable silhouette.
 
-As molduras em `assets/hud/forged-frame.svg` e os nichos em `assets/hud/relic-niche.svg` são vetores locais. A moldura usa nove fatias e dimensões intrínsecas explícitas para preservar cantos e espessura em todos os tamanhos. As ilustrações usam `object-fit: contain`, evitando cortes.
+As molduras atuais usam `assets/ui/infernal-frame.webp` com nove fatias; o altar utiliza `assets/ui/relic-rail.webp`. O vetor `assets/hud/forged-frame.svg` permanece como dependência de estilo. As ilustrações usam `object-fit: contain`, evitando cortes. Os nichos antigos foram retirados na limpeza do projeto.
 
 ## Verificação
 
@@ -40,4 +40,4 @@ Com Playwright e Chromium instalados: `node tests/hud-browser.cjs`.
 
 Cobertura: encaixe em 1366×768, 1920×1080, 1920×852, 1536×864, 1280×720, 1024×768, 1024×600, 390×844, 375×667, 360×640, 320×568, 844×390 e 667×375; abertura/fechamento e navegação dos painéis; distribuição e limite de pontos; efeitos reais nos bônus; migração V7, persistência e importação inválida; melhorias, equipamento, poções, venda, ascensão, exportação/importação JSON e retomada do perfil; erros JavaScript e recursos ausentes.
 
-A revisão visual inclui configurações, livro, mochila, ascensão, foco, todos os 42 monstros em três formatos de tela, eventos raros, números de dano longos e aviso de derrota. A suíte verifica limites de elementos, separação entre barra e sprite, texto de XP legível, atalhos, quantidade e consumo da poção rápida, volume e tema. Os testes locais isolam o relógio para comparar atributos e quantidades de forma determinística; o comportamento com o relógio ativo é também verificado na versão publicada.
+A revisão visual inclui configurações, livro, mochila, ascensão, todos os 42 monstros em três formatos de tela, eventos raros, números de dano longos e aviso de derrota. A suíte verifica limites de elementos, separação entre barra e sprite, texto de XP legível, atalhos, quantidade e consumo da poção rápida, volume e tema. A opção Ampliar foi removida. Os testes locais isolam o relógio para comparar atributos e quantidades de forma determinística; o comportamento com o relógio ativo é também verificado na versão publicada.

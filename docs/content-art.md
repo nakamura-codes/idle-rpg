@@ -42,7 +42,7 @@ healing blood flask, tattered reward banner, amber compass and amethyst soul cry
 wide final-boss sprite. The edit preserves black spiked armor, eclipse head/flame
 corona, crimson wings, burning blade and void orb; it raises the wings and gives the
 titan a tall complete body, with transparent background and no text or environment.
-The original assets remain available. The portrait silhouette fits narrow phones
+The previous source portraits remain recoverable in Git history. The portrait silhouette fits narrow phones
 without stretching or clipping the wings, blade or feet.
 
 ## Creature direction
