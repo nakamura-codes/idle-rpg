@@ -120,3 +120,18 @@
 html.hw-menu-open,html.hw-menu-open body{overflow:hidden}
 @media(max-width:700px){.hw-menu{padding:10px 12px}.hw-menu .hw-shell{padding:10px 16px;transform-origin:center center}}
 @media(prefers-reduced-motion:reduce){.hw-menu .hw-shell{animation:none}}
+
+/* A luminosidade é compensada só no título; o sombreado geral permanece. */
+.hw-menu .hw-title-art{position:relative;isolation:isolate;width:min(100%,460px);aspect-ratio:2/1;margin:0 auto;pointer-events:none}
+.hw-menu .hw-title-art .hw-logo{width:100%;height:auto;filter:brightness(1.8) saturate(1.1) drop-shadow(0 0 7px rgba(223,75,20,.44))}
+.hw-title-heat{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,transparent 53%,rgba(255,88,9,.65) 64%,transparent 70%);mask:url('assets/menu/logo/hellward-titulo-restaurado.webp') center/100% 100% no-repeat;-webkit-mask:url('assets/menu/logo/hellward-titulo-restaurado.webp') center/100% 100% no-repeat;mix-blend-mode:screen;animation:hw-title-embers 2.6s ease-in-out infinite alternate}
+.hw-menu .hw-title-flame{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;will-change:transform,opacity}
+.hw-title-flame-base{transform-origin:50% 66%;animation:hw-title-fire 1.8s ease-in-out infinite alternate}
+.hw-title-flame-left{transform-origin:11% 66%;animation:hw-title-fire-left 2.3s ease-in-out -.7s infinite alternate}
+.hw-title-flame-right{transform-origin:88% 66%;animation:hw-title-fire-right 2s ease-in-out -1.2s infinite alternate}
+@keyframes hw-title-fire{0%{transform:translate3d(0,1px,0) scaleY(.82);opacity:.65}55%{opacity:1}100%{transform:translate3d(0,-1px,0) scaleY(1.08);opacity:.9}}
+@keyframes hw-title-fire-left{0%{transform:scale3d(.95,.83,1) rotate(-1deg);opacity:.7}100%{transform:scale3d(1.02,1.08,1) rotate(1deg);opacity:1}}
+@keyframes hw-title-fire-right{0%{transform:scale3d(1.01,1.04,1) rotate(1deg);opacity:1}100%{transform:scale3d(.94,.81,1) rotate(-1deg);opacity:.72}}
+@keyframes hw-title-embers{from{opacity:.3}to{opacity:.7}}
+@media(max-width:700px){.hw-menu .hw-title-art{width:min(100%,380px)}}
+@media(prefers-reduced-motion:reduce){.hw-title-flame,.hw-title-heat{animation:none;will-change:auto}.hw-title-heat{opacity:.4}}
