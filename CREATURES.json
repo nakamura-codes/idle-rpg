@@ -16,10 +16,10 @@
     "slot": 1,
     "type": "common",
     "name": "Guerreiro Esquelético",
-    "asset": "assets/monsters/guerreiro-esqueletico.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/guerreiro-esqueletico.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 1,
@@ -49,10 +49,10 @@
     "slot": 4,
     "type": "common",
     "name": "Zumbi Errante",
-    "asset": "assets/monsters/zumbi-errante.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/zumbi-errante.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 1,
@@ -71,10 +71,10 @@
     "slot": 6,
     "type": "boss",
     "name": "Cavaleiro Decapitado",
-    "asset": "assets/monsters/cavaleiro-decapitado.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/cavaleiro-decapitado.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -82,10 +82,10 @@
     "slot": 0,
     "type": "common",
     "name": "Lobo Sombrio",
-    "asset": "assets/monsters/lobo-sombrio.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/lobo-sombrio.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -93,10 +93,10 @@
     "slot": 1,
     "type": "common",
     "name": "Ratazana Pestilenta",
-    "asset": "assets/monsters/ratazana-pestilenta.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/ratazana-pestilenta.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -137,10 +137,10 @@
     "slot": 5,
     "type": "miniboss",
     "name": "Rei das Ratazanas",
-    "asset": "assets/monsters/rei-das-ratazanas.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/rei-das-ratazanas.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -148,10 +148,10 @@
     "slot": 6,
     "type": "boss",
     "name": "Hidra Profanada",
-    "asset": "assets/monsters/hidra-profanada.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/hidra-profanada.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -225,10 +225,10 @@
     "slot": 6,
     "type": "boss",
     "name": "Rei Lich",
-    "asset": "assets/monsters/rei-lich.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/rei-lich.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -302,10 +302,10 @@
     "slot": 6,
     "type": "boss",
     "name": "Cavaleiro do Abismo",
-    "asset": "assets/monsters/cavaleiro-do-abismo.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/cavaleiro-do-abismo.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -379,10 +379,10 @@
     "slot": 6,
     "type": "boss",
     "name": "Dragão das Fendas",
-    "asset": "assets/monsters/dragao-das-fendas.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/dragao-das-fendas.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,
@@ -456,8 +456,8 @@
     "slot": 6,
     "type": "boss",
     "name": "Imperador do Crepúsculo",
-    "asset": "assets/monsters/imperador-colossal.webp",
-    "source": "Retrato colossal atual",
+    "asset": "assets/monsters/imperador-do-crepusculo.webp",
+    "source": "Pintura HD revisada — segunda etapa 2026-11-05",
     "battle_direction": "left",
     "sprite_mirrored": false
   }

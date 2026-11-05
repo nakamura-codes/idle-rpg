@@ -1,0 +1,206 @@
+{
+  "reviewDate": "2026-11-05",
+  "replacedMonsters": 11,
+  "newHero": true,
+  "removedFiles": [
+    "assets/monsters/imperador-colossal.webp",
+    "assets/monsters/dragao-das-fendas.png",
+    "assets/monsters/rei-das-ratazanas.png",
+    "assets/monsters/rei-lich.png",
+    "assets/monsters/cavaleiro-do-abismo.png",
+    "assets/monsters/hidra-profanada.png",
+    "assets/monsters/lobo-sombrio.png",
+    "assets/monsters/guerreiro-esqueletico.png",
+    "assets/monsters/cavaleiro-decapitado.png",
+    "assets/monsters/ratazana-pestilenta.png",
+    "assets/monsters/zumbi-errante.png"
+  ],
+  "art": [
+    {
+      "index": 42,
+      "name": "Imperador do Crepúsculo",
+      "asset": "assets/monsters/imperador-do-crepusculo.webp",
+      "dimensions": [
+        768,
+        1016
+      ],
+      "bytes": 372606,
+      "sha256": "e94d2fd8a0b9b523d8f550c37c37c20726107a75be45c4f3b00ecb2cb69c0ba6",
+      "sourceSha256": "467f66443907ec8aeb8b041c2a818cda4dd8ad97f8bb4a4159269fd414767703"
+    },
+    {
+      "index": "hero",
+      "name": "Errante",
+      "asset": "assets/hero/fast/errante.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 156012,
+      "sha256": "344c31a7c72e742ba8336b478f8d2769241ac62188e89c7843afac4e916ddacb",
+      "sourceSha256": "94c8daeadcfad0ea6a66a189fb8b0662d7ad4844d8348b6e72c93f63ae15864a"
+    },
+    {
+      "index": 35,
+      "name": "Dragão das Fendas",
+      "asset": "assets/monsters/dragao-das-fendas.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 145288,
+      "sha256": "ab2a87bfb5ca21636e73d70c5906288b1e4d1a3d3c78ccddddae2b4844ea2f7b",
+      "sourceSha256": "a9d74227bda75d5e9dcb4b788c9eb3410180898605746880c283652281753acf"
+    },
+    {
+      "index": 13,
+      "name": "Rei das Ratazanas",
+      "asset": "assets/monsters/rei-das-ratazanas.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 175720,
+      "sha256": "b899f14e621a23861716ba612b8b67c6bd647a2d8f30f7dd401e0bc30f8a43b1",
+      "sourceSha256": "1af7e663b2ab88b1663e5f8947410f2e04476574645b91162f4eb46d06b82c12"
+    },
+    {
+      "index": 21,
+      "name": "Rei Lich",
+      "asset": "assets/monsters/rei-lich.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 204692,
+      "sha256": "7b4f1c4dc9154c4e796e584dc7e68c279b4db95cf92d97f25ca606e0037296fc",
+      "sourceSha256": "0a588e0167fe2f1c9668bf3bf7f3d9552640244b8277172e802309989389f8b2"
+    },
+    {
+      "index": 28,
+      "name": "Cavaleiro do Abismo",
+      "asset": "assets/monsters/cavaleiro-do-abismo.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 148564,
+      "sha256": "49432f7bc0bbf5b98e08c801af0e5515f4ba5c190effe17a08182f1b36ad8252",
+      "sourceSha256": "4c25f8f570e7031959a712419e775e3eb953fccd2dc8797f62bc80f34aad4809"
+    },
+    {
+      "index": 14,
+      "name": "Hidra Profanada",
+      "asset": "assets/monsters/hidra-profanada.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 121148,
+      "sha256": "13cbb4aed79fa41f4ccff5f95dac96d33403df39efe3c85b1dffaafb25eb880f",
+      "sourceSha256": "d06f622156ef1aa98a82f479a1b7d9bc760b5f827ffe655e11668f0a23c27d23"
+    },
+    {
+      "index": 8,
+      "name": "Lobo Sombrio",
+      "asset": "assets/monsters/lobo-sombrio.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 66878,
+      "sha256": "68b8b8f8c4f2008966295046c819879d322ac62de4637091fd1d4335b5134bef",
+      "sourceSha256": "73163669805d6a24c4e0ddfebb1ddf6a47b296372b0d72a5044eb3937c57cc86"
+    },
+    {
+      "index": 2,
+      "name": "Guerreiro Esquelético",
+      "asset": "assets/monsters/guerreiro-esqueletico.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 159874,
+      "sha256": "51ac5ec01ba067b47a8873f7cf0494fdf36626d5220c88e374234986e2780f28",
+      "sourceSha256": "a8dd5a826e09bcd623af131268ecd36cb614890e17d3a12063aceb49dce96915"
+    },
+    {
+      "index": 7,
+      "name": "Cavaleiro Decapitado",
+      "asset": "assets/monsters/cavaleiro-decapitado.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 143166,
+      "sha256": "d6fda9c083fbe0bfaf777176f072c263ce0fd4b2be0b9d49589a1a27f1653489",
+      "sourceSha256": "f5b2bc97809120c5a414a5437294d85c76ec5ad77ea1cb634f16730cc6b52656"
+    },
+    {
+      "index": 9,
+      "name": "Ratazana Pestilenta",
+      "asset": "assets/monsters/ratazana-pestilenta.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 47938,
+      "sha256": "7d941238aa8b3689dc8d670836d1a697870d6ab58882e4f38e07f13a63ae1555",
+      "sourceSha256": "5e96f0429ec7b783f041bd4722053a124bd9776b15772f582ef7df93de4055dc"
+    },
+    {
+      "index": 5,
+      "name": "Zumbi Errante",
+      "asset": "assets/monsters/zumbi-errante.webp",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 183132,
+      "sha256": "d2d9481a89c40ef146863c023130ab39cbbb016a7d745dad2366093cf611e335",
+      "sourceSha256": "bf0e16883d5dd88beafa16d7a19649e128b3d2c4d351f1ca121d8bea3be0177c"
+    }
+  ],
+  "regions": [
+    {
+      "region": 0,
+      "name": "Campos de Cinza",
+      "light": "cobre e cinza quente",
+      "mist": "poeira cinzenta baixa"
+    },
+    {
+      "region": 1,
+      "name": "Bosque Profanado",
+      "light": "verde doentio",
+      "mist": "névoa musgosa"
+    },
+    {
+      "region": 2,
+      "name": "Criptas Afogadas",
+      "light": "ciano funerário",
+      "mist": "névoa fria densa"
+    },
+    {
+      "region": 3,
+      "name": "Fortaleza de Ferro",
+      "light": "âmbar de forja",
+      "mist": "fumaça discreta"
+    },
+    {
+      "region": 4,
+      "name": "Fendas Infernais",
+      "light": "vermelho de brasa",
+      "mist": "fumaça vulcânica"
+    },
+    {
+      "region": 5,
+      "name": "Trono do Crepúsculo",
+      "light": "violeta crepuscular",
+      "mist": "névoa espectral"
+    }
+  ],
+  "shadows": "Sombras de contato e projeção para herói, todos os 42 monstros, fichas, bestiário e ilustrações de eventos",
+  "effects": "Duas camadas CSS estáticas; sem timers, blur, blend filters ou animação por quadro",
+  "transferBytesBefore": 7845079,
+  "transferBytesAfter": 1925018
+}

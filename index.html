@@ -14,8 +14,8 @@
   <script src="soundtrack.js?v=3" defer></script>
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.1" defer></script>
-  <script src="game-art.js?v=1" defer></script>
-  <script src="game.js?v=18" defer></script>
+  <script src="game-art.js?v=2" defer></script>
+  <script src="game.js?v=19" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=5">
   <script src="game-hud.js?v=6" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="content-art.css?v=1">
   <link rel="stylesheet" href="hunt.css?v=1">
   <link rel="stylesheet" href="combat-events.css?v=2">
+  <link rel="stylesheet" href="region-atmosphere.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -53,8 +54,10 @@
           <div class="stage-strip" aria-label="Progressão da região"><div class="stage-caption"><strong id="stageNumber">FASE 1 / 10</strong><span id="stageKills">0 / 10 INIMIGOS</span></div><div class="stage-progress-track" id="stageProgressTrack" role="progressbar" aria-label="Inimigos da fase" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="stageProgressFill"></span></div><div class="stage-pips" id="stagePips"><span data-stage="1" class="active" title="Fase 1">1</span><span data-stage="2" title="Fase 2">2</span><span data-stage="3" title="Fase 3">3</span><span data-stage="4" title="Fase 4">4</span><span data-stage="5" class="miniboss-pip" title="Fase 5 · Miniboss">5</span><span data-stage="6" title="Fase 6">6</span><span data-stage="7" title="Fase 7">7</span><span data-stage="8" title="Fase 8">8</span><span data-stage="9" title="Fase 9">9</span><span data-stage="10" class="boss-pip" title="Fase 10 · Chefão">10</span></div></div>
           <div class="battlefield zone-0" id="battlefield">
             <div class="arena-scenery" aria-hidden="true"></div>
+            <div class="arena-lighting" aria-hidden="true"></div>
+            <div class="arena-mist" aria-hidden="true"></div>
             <div class="camera-state" id="cameraState" aria-hidden="true">COMBATE • 2D</div>
-            <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><img src="assets/hero/fast/errante.webp" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"><span class="hero-ground-name" id="combatHeroName">Aventureiro</span></div>
+            <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><img src="assets/hero/fast/errante.webp?v=2" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"><span class="hero-ground-name" id="combatHeroName">Aventureiro</span></div>
             <span class="duel-slash" id="duelSlash" aria-hidden="true"></span>
             <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-damage-layer" id="heroDamageLayer" aria-hidden="true"></div>
