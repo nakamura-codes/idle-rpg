@@ -117,16 +117,16 @@
   // 42 unique transparent sprites, indexed exactly like the fixed combat roster.
   // V7 starts fresh with combat survival and a new save schema.
   const MONSTER_SPRITES = [
-    ['condenado-errante.webp', 'guerreiro-esqueletico.png', 'sentinela-caida.webp', 'arqueiro-macabro.webp', 'zumbi-errante.png', 'espadachim-corrompido.webp', 'cavaleiro-decapitado.png'],
-    ['lobo-sombrio.png', 'ratazana-pestilenta.png', 'lobo-da-praga.webp', 'entorpecido-de-musgo.webp', 'goblin-selvagem.webp', 'rei-das-ratazanas.png', 'hidra-profanada.png'],
-    ['espectro-da-cripta.webp', 'alma-enregelada.webp', 'lamento-submerso.webp', 'afogado-sem-rosto.webp', 'sacerdote-esquecido.webp', 'bruxa-das-criptas.webp', 'rei-lich.png'],
-    ['golem-ferrugem.webp', 'carcereiro-runico.webp', 'guardiao-de-basalto.webp', 'orc-carniceiro.webp', 'construto-enferrujado.webp', 'ogro-do-ferro.webp', 'cavaleiro-do-abismo.png'],
-    ['arauto-das-chamas.webp', 'demonio-carmesim.webp', 'flagelo-abissal.webp', 'sucubo-das-cinzas.webp', 'sombra-incandescente.webp', 'devorador-morbido.webp', 'dragao-das-fendas.png'],
-    ['lich-imortal.webp', 'rei-das-sombras.webp', 'devorador-de-estrelas.webp', 'sacerdote-do-vazio.webp', 'arauto-do-eclipse.webp', 'medusa-do-eclipse.webp', 'imperador-colossal.webp'],
+    ['condenado-errante.webp', 'guerreiro-esqueletico.webp', 'sentinela-caida.webp', 'arqueiro-macabro.webp', 'zumbi-errante.webp', 'espadachim-corrompido.webp', 'cavaleiro-decapitado.webp'],
+    ['lobo-sombrio.webp', 'ratazana-pestilenta.webp', 'lobo-da-praga.webp', 'entorpecido-de-musgo.webp', 'goblin-selvagem.webp', 'rei-das-ratazanas.webp', 'hidra-profanada.webp'],
+    ['espectro-da-cripta.webp', 'alma-enregelada.webp', 'lamento-submerso.webp', 'afogado-sem-rosto.webp', 'sacerdote-esquecido.webp', 'bruxa-das-criptas.webp', 'rei-lich.webp'],
+    ['golem-ferrugem.webp', 'carcereiro-runico.webp', 'guardiao-de-basalto.webp', 'orc-carniceiro.webp', 'construto-enferrujado.webp', 'ogro-do-ferro.webp', 'cavaleiro-do-abismo.webp'],
+    ['arauto-das-chamas.webp', 'demonio-carmesim.webp', 'flagelo-abissal.webp', 'sucubo-das-cinzas.webp', 'sombra-incandescente.webp', 'devorador-morbido.webp', 'dragao-das-fendas.webp'],
+    ['lich-imortal.webp', 'rei-das-sombras.webp', 'devorador-de-estrelas.webp', 'sacerdote-do-vazio.webp', 'arauto-do-eclipse.webp', 'medusa-do-eclipse.webp', 'imperador-do-crepusculo.webp'],
   ];
 
   const monsterSrc = (zoneIndex, creatureIndex) =>
-    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=6-hd`;
+    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=7-hd`;
 
   // Shape-specific movement: skeletons, beasts, spirits, constructs, and cosmic beings move differently.
   const MONSTER_FAMILIES = [

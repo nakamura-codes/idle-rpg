@@ -1,8 +1,8 @@
 {
   "reviewDate": "2026-11-05",
   "reviewedMonsters": 42,
-  "replacedMonsters": 31,
-  "retainedMonsters": 11,
+  "replacedMonsters": 42,
+  "retainedMonsters": 0,
   "removedFiles": [
     "assets/monsters/condenado-errante.png",
     "assets/monsters/sentinela-caida.png",
@@ -35,7 +35,18 @@
     "assets/monsters/sacerdote-do-vazio.png",
     "assets/monsters/arauto-do-eclipse.png",
     "assets/monsters/medusa-do-eclipse.png",
-    "assets/monsters/espectro-da-cripta.svg"
+    "assets/monsters/espectro-da-cripta.svg",
+    "assets/monsters/imperador-colossal.webp",
+    "assets/monsters/dragao-das-fendas.png",
+    "assets/monsters/rei-das-ratazanas.png",
+    "assets/monsters/rei-lich.png",
+    "assets/monsters/cavaleiro-do-abismo.png",
+    "assets/monsters/hidra-profanada.png",
+    "assets/monsters/lobo-sombrio.png",
+    "assets/monsters/guerreiro-esqueletico.png",
+    "assets/monsters/cavaleiro-decapitado.png",
+    "assets/monsters/ratazana-pestilenta.png",
+    "assets/monsters/zumbi-errante.png"
   ],
   "duplicateFilesBefore": [],
   "monsters": [
@@ -61,15 +72,21 @@
     {
       "index": 2,
       "name": "Guerreiro Esquelético",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/guerreiro-esqueletico.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/guerreiro-esqueletico.webp",
+      "previousAsset": "assets/monsters/guerreiro-esqueletico.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 570826,
-      "sha256": "20f9ec48d70846f9281a8d0511a368ed526d931b39e9a06952b1513e803575f1"
+      "bytes": 159874,
+      "sha256": "51ac5ec01ba067b47a8873f7cf0494fdf36626d5220c88e374234986e2780f28",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 3,
@@ -112,15 +129,21 @@
     {
       "index": 5,
       "name": "Zumbi Errante",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/zumbi-errante.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/zumbi-errante.webp",
+      "previousAsset": "assets/monsters/zumbi-errante.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 546838,
-      "sha256": "ee6c1f0fc1656741235e60810e42b21087da4a9cc82f1f1b6ed8338bc2e6486d"
+      "bytes": 183132,
+      "sha256": "d2d9481a89c40ef146863c023130ab39cbbb016a7d745dad2366093cf611e335",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 6,
@@ -144,41 +167,59 @@
     {
       "index": 7,
       "name": "Cavaleiro Decapitado",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/cavaleiro-decapitado.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/cavaleiro-decapitado.webp",
+      "previousAsset": "assets/monsters/cavaleiro-decapitado.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 861995,
-      "sha256": "7d74e73c4c0446a8ff6739e7ec0257ee723dd8acf681adc991c905e72e54fcea"
+      "bytes": 143166,
+      "sha256": "d6fda9c083fbe0bfaf777176f072c263ce0fd4b2be0b9d49589a1a27f1653489",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 8,
       "name": "Lobo Sombrio",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/lobo-sombrio.png",
-      "dimensions": [
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/lobo-sombrio.webp",
+      "previousAsset": "assets/monsters/lobo-sombrio.png",
+      "beforeDimensions": [
         768,
         768
       ],
-      "bytes": 514507,
-      "sha256": "ed9a6c81b5c74eed541950b0fe54e5f3a4b1ed4d25632de9e616eb259b5f5568"
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 66878,
+      "sha256": "68b8b8f8c4f2008966295046c819879d322ac62de4637091fd1d4335b5134bef",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 9,
       "name": "Ratazana Pestilenta",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/ratazana-pestilenta.png",
-      "dimensions": [
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/ratazana-pestilenta.webp",
+      "previousAsset": "assets/monsters/ratazana-pestilenta.png",
+      "beforeDimensions": [
         768,
         768
       ],
-      "bytes": 633960,
-      "sha256": "f6dc00922f0cd436c2e404d37c1e681175d4d3feea655f13e88901d7040cc13f"
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 47938,
+      "sha256": "7d941238aa8b3689dc8d670836d1a697870d6ab58882e4f38e07f13a63ae1555",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 10,
@@ -240,28 +281,40 @@
     {
       "index": 13,
       "name": "Rei das Ratazanas",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/rei-das-ratazanas.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/rei-das-ratazanas.webp",
+      "previousAsset": "assets/monsters/rei-das-ratazanas.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 995740,
-      "sha256": "8e40d4ca4d025707739ad6143ae133bf311f1dd20507870d31bd2c0026c71b7a"
+      "bytes": 175720,
+      "sha256": "b899f14e621a23861716ba612b8b67c6bd647a2d8f30f7dd401e0bc30f8a43b1",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 14,
       "name": "Hidra Profanada",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/hidra-profanada.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/hidra-profanada.webp",
+      "previousAsset": "assets/monsters/hidra-profanada.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 979224,
-      "sha256": "d270936d8666c2020fa955840392e81b81bffb34c1872a89764f39e108577c87"
+      "bytes": 121148,
+      "sha256": "13cbb4aed79fa41f4ccff5f95dac96d33403df39efe3c85b1dffaafb25eb880f",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 15,
@@ -380,15 +433,21 @@
     {
       "index": 21,
       "name": "Rei Lich",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/rei-lich.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/rei-lich.webp",
+      "previousAsset": "assets/monsters/rei-lich.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 802244,
-      "sha256": "1e74868b70d75fedbfb6d93a696b8fa110483a58ac8d02daf397c32312dc8552"
+      "bytes": 204692,
+      "sha256": "7b4f1c4dc9154c4e796e584dc7e68c279b4db95cf92d97f25ca606e0037296fc",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 22,
@@ -507,15 +566,21 @@
     {
       "index": 28,
       "name": "Cavaleiro do Abismo",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/cavaleiro-do-abismo.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/cavaleiro-do-abismo.webp",
+      "previousAsset": "assets/monsters/cavaleiro-do-abismo.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 793123,
-      "sha256": "9af8d92c5af76d15b23a96f990abad7a816b6b0a1529a41aaad5696d370b0d43"
+      "bytes": 148564,
+      "sha256": "49432f7bc0bbf5b98e08c801af0e5515f4ba5c190effe17a08182f1b36ad8252",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 29,
@@ -634,15 +699,21 @@
     {
       "index": 35,
       "name": "Dragão das Fendas",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/dragao-das-fendas.png",
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/dragao-das-fendas.webp",
+      "previousAsset": "assets/monsters/dragao-das-fendas.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
       "dimensions": [
         768,
         768
       ],
-      "bytes": 932504,
-      "sha256": "62cc7ee3ccb1c0e43a6b4c9d00ce33d74b79bded57c0103af7bff1b6ec8c0dac"
+      "bytes": 145288,
+      "sha256": "ab2a87bfb5ca21636e73d70c5906288b1e4d1a3d3c78ccddddae2b4844ea2f7b",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     },
     {
       "index": 36,
@@ -761,15 +832,21 @@
     {
       "index": 42,
       "name": "Imperador do Crepúsculo",
-      "action": "retained",
-      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
-      "asset": "assets/monsters/imperador-colossal.webp",
-      "dimensions": [
+      "action": "replaced",
+      "reviewPass": 2,
+      "asset": "assets/monsters/imperador-do-crepusculo.webp",
+      "previousAsset": "assets/monsters/imperador-colossal.webp",
+      "beforeDimensions": [
         502,
         664
       ],
-      "bytes": 165578,
-      "sha256": "a2ff79ead99ca9b27f6bd71af280f4a500036546404d59c1116b18021a81a473"
+      "dimensions": [
+        768,
+        1016
+      ],
+      "bytes": 372606,
+      "sha256": "e94d2fd8a0b9b523d8f550c37c37c20726107a75be45c4f3b00ecb2cb69c0ba6",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
     }
   ],
   "otherRaster": [
@@ -1019,11 +1096,13 @@
     {
       "asset": "assets/hero/fast/errante.webp",
       "dimensions": [
-        512,
-        512
+        768,
+        768
       ],
-      "decision": "retained",
-      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+      "decision": "replaced",
+      "reason": "Errante redesenhado com gravuras góticas, materiais desgastados e sombras de forma",
+      "bytes": 156012,
+      "sha256": "344c31a7c72e742ba8336b478f8d2769241ac62188e89c7843afac4e916ddacb"
     },
     {
       "asset": "assets/hud/calice-ascensao.png",
@@ -1197,5 +1276,6 @@
       "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
     }
   ],
-  "assetPolicy": "Uma imagem canônica por monstro; imagens mobile e atlas compartilhados mantidos por uso ativo"
+  "assetPolicy": "Uma imagem canônica por monstro; imagens mobile e atlas compartilhados mantidos por uso ativo",
+  "reviewPass": 2
 }

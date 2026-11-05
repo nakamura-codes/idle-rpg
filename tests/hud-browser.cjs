@@ -239,6 +239,9 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.evaluate(()=>document.documentElement.dataset.theme),'classic');
     await p.click('#themeToggle');await p.keyboard.press('Escape');
     // Explicitly inspect every regular roster entry and both bosses at mobile and desktop sizes.
+    // Reload/import above resumes combat; freeze the art fixture so a live enemy
+    // cannot turn the hero into the rotated defeat pose during these bounds checks.
+    await p.evaluate(()=>{const g=window.__hudTest.game;g.stopLoop();g.state.deadUntil=0;g.state.heroHp=g.bonuses().maxHp;g.renderCore();});
     for(const [w,h] of [[1366,768],[320,568],[844,390]]) {
       await p.setViewportSize({width:w,height:h});
       for(let zone=0;zone<6;zone++) {

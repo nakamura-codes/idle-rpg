@@ -41,6 +41,7 @@ const server=http.createServer((req,res)=>{
   await p.evaluate(()=>{const g=window.__regionsTest.game;g.inspectMonster(0,0);g.dialog('Aviso',document.getElementById('dialogText').textContent);});
   assert.equal(await p.locator('#dialogText img').count(),0);await p.click('#dialogActions button');
   await p.keyboard.press('Escape');console.log('PASS 42 creature cards reopened three times: one portrait and one caption; generic dialogs clear old artwork');
+  const regionalLight=new Set(),regionalMist=new Set();
   for(const [w,h] of [[1366,768],[390,844],[320,568],[844,390]]){
    await p.setViewportSize({width:w,height:h});
    for(let z=0;z<6;z++){
@@ -52,6 +53,25 @@ const server=http.createServer((req,res)=>{
      const src=await p.locator('.arena-scenery').evaluate(async el=>{const src=getComputedStyle(el).backgroundImage.match(/url\(["']?(.*?)["']?\)/)[1];const img=new Image();img.src=src;await img.decode();return src;});
      const expected=slugs[z]+(i===6?'-boss':'')+(w<=760?'-mobile':'')+'.webp?v=dark-14';
      assert.ok(src.endsWith(expected),`${w}: ${src} should end in ${expected}`);sources.push(src);
+     const atmosphere=await p.evaluate(()=>{
+      const light=document.querySelector('.arena-lighting'),mist=document.querySelector('.arena-mist');
+      const read=el=>{const s=getComputedStyle(el);return {background:s.backgroundImage,opacity:s.opacity,pointer:s.pointerEvents,animation:s.animationName,filter:s.filter,box:el.getBoundingClientRect().toJSON()};};
+      return {light:read(light),mist:read(mist),shadows:[...document.querySelectorAll('.hero-ground-shadow,.mob-shadow')].map(read)};
+     });
+     for(const layer of [atmosphere.light,atmosphere.mist]){assert.equal(layer.pointer,'none');assert.equal(layer.animation,'none');assert.equal(layer.filter,'none');assert.ok(layer.box.width>0&&layer.box.height>0);}
+     for(const shadow of atmosphere.shadows){assert.ok(shadow.box.width>0&&shadow.box.height>=14);assert.ok(Number(shadow.opacity)>.5);assert.equal(shadow.filter,'none');}
+     regionalLight.add(atmosphere.light.background);regionalMist.add(atmosphere.mist.background+atmosphere.mist.opacity);
+     if(w===1366&&z===0&&i===0&&sources.length===1){
+      // Check painted output: a positioned shadow behind the scenery would fail.
+      const clip=await p.locator('.hero-ground-shadow').boundingBox();
+      const shown=await p.screenshot({clip});
+      await p.addStyleTag({content:'.hero-ground-shadow,.mob-shadow{visibility:hidden!important}'});
+      const hidden=await p.screenshot({clip});
+      await p.locator('style').last().evaluate(el=>el.remove());
+      const a=await sharp(shown).removeAlpha().raw().toBuffer(),b=await sharp(hidden).removeAlpha().raw().toBuffer();
+      const darkening=a.reduce((sum,x,n)=>sum+b[n]-x,0)/a.length;
+      assert.ok(darkening>.08,`Hero ground shadow must visibly darken the floor: ${darkening}`);
+     }
      if(shots&&[0,6].includes(i))await p.screenshot({path:path.join(shots,`region-${z}-${i===6?'boss':'common'}-${w}.png`)});
     }
     assert.equal(sources[0],sources[1],'Miniboss belongs to the common regional arena');assert.notEqual(sources[1],sources[2],'Main boss owns its matching arena');assert.equal(sources[0],sources[3],'Leaving boss restores regional scenery');
@@ -61,6 +81,7 @@ const server=http.createServer((req,res)=>{
    for(let n=0;n<3;n++){await p.click(button);assert.equal(await p.locator('#dialogText img').count(),1);const b=await p.locator('.dialog').boundingBox();assert.ok(b.x>=0&&b.y>=0&&b.x+b.width<=w+1&&b.y+b.height<=h+1,'Dialog stays inside viewport');await p.click('#dialogActions button');}
    await p.keyboard.press('Escape');console.log(`PASS six common/miniboss/boss scenery transitions and repeated portrait dialog at ${w}x${h}`);
   }
+  assert.equal(regionalLight.size,6,'Six distinct regional light palettes');assert.equal(regionalMist.size,6,'Six distinct mist densities/colors');
   for(const slug of slugs)for(const boss of ['', '-boss'])for(const mobile of [false,true]){
    const m=await sharp(path.join(root,'assets/backgrounds/fast',slug+boss+(mobile?'-mobile':'')+'.webp')).metadata();
    assert.equal(m.width,mobile?720:1280);assert.equal(m.height,mobile?405:720);assert.equal(Boolean(m.hasAlpha),false,'Scene is full bleed');
