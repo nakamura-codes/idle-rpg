@@ -27,3 +27,14 @@ O herói e os 42 inimigos têm sombras de contato e projeção no chão. O deslo
 - Combate, Q, seleção por toque, eventos, pontos, inventário, progressão e saves verificados pelas suítes existentes.
 
 O inventário e os hashes estão em `atmosphere-review.json`; os prompts completos estão em `art-prompts.json`. A medição de FPS desta etapa está em `performance-atmosphere.json`, com resultados brutos e limites da simulação.
+
+## FPS desta etapa
+
+| Ambiente | Antes: mínimo / mediana / máximo | Depois: mínimo / mediana / máximo |
+| --- | --- | --- |
+| desktop | 8 / 51.5 / 60 | 22 / 59.5 / 60 |
+| mobile-6x | 7 / 42.5 / 59 | 12 / 36.5 / 57 |
+
+Comparação automática: **failed**, com 16 situações fora da tolerância de 3 FPS / 5 ms de p95. O ambiente já apresentou grande oscilação antes das mudanças, inclusive 8 FPS no desktop e 7 FPS no celular simulado. Os dados completos, incluindo resultados baixos e casos sinalizados, foram preservados. A estabilidade de FPS no telefone real permanece pendente; não há garantia de desempenho em hardware real. As camadas ambientais são estáticas e não acrescentam timers, filtros ou atualizações por quadro.
+
+As 12 novas imagens somam 1.925.018 bytes, contra 7.845.079 bytes dos arquivos substituídos: redução de 75,5% na transferência de imagens. Isso não equivale a uma medição de FPS.
