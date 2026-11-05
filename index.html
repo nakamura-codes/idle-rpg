@@ -15,7 +15,7 @@
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.1" defer></script>
   <script src="game-art.js?v=3" defer></script>
-  <script src="game.js?v=20" defer></script>
+  <script src="game.js?v=21" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=5">
   <script src="game-hud.js?v=6" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="hud-legibility.css?v=1">
   <link rel="stylesheet" href="content-art.css?v=1">
   <link rel="stylesheet" href="hunt.css?v=1">
-  <link rel="stylesheet" href="combat-events.css?v=2">
+  <link rel="stylesheet" href="combat-events.css?v=3">
   <link rel="stylesheet" href="region-atmosphere.css?v=1">
   <link rel="stylesheet" href="boss-command-hud.css?v=1">
 </head>
@@ -63,7 +63,7 @@
             <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-damage-layer" id="heroDamageLayer" aria-hidden="true"></div>
             <div class="hero-respawn" id="heroRespawn" hidden><strong>☠ VOCÊ FOI DERROTADO</strong><span>Retornando em <b id="heroRespawnTime">8s</b></span><small>O inimigo recuperou a vida. Seus itens e fases foram preservados.</small></div>
-            <div class="mob-info"><div class="mob-name-row"><span class="mob-icon">☠</span><strong id="mobName">Condenado</strong><span class="mob-rank" id="mobLevel">Nv. 1</span></div><div class="progress-bar hp-track"><div class="progress-fill hp-fill" id="mobHPFill"></div><span class="hp-numbers" id="mobHPText">30 / 30</span></div></div>
+            <div class="mob-info"><div class="mob-name-row"><span class="mob-icon">☠</span><strong id="mobName">Condenado</strong><span class="mob-rank" id="mobLevel">Nv. 1</span></div><div class="progress-bar hp-track" id="mobHealthProgress" role="progressbar" aria-label="Vida do inimigo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div class="hp-damage-trail" id="mobHPDamageTrail" aria-hidden="true"></div><div class="progress-fill hp-fill" id="mobHPFill" aria-hidden="true"></div><span class="hp-numbers" id="mobHPText">30 / 30</span></div></div>
             <button id="attackTarget" class="attack-target" type="button" aria-label="Atacar inimigo"><span class="monster-aura"></span><span class="mob-shadow"></span><span class="monster-art" id="monsterArt" aria-hidden="true"></span><span class="target-hint">✥ CLIQUE PARA ATACAR ✥</span></button>
 
             <div class="event-overlay" id="eventOverlay" hidden><div class="event-ribbon">✦ EVENTO RARO ✦</div><button class="event-button" id="eventTarget" type="button"><span class="event-illustration" id="eventArt" aria-hidden="true">♜</span><span class="event-title" id="eventTitle">Goblin do Tesouro</span><span class="event-instruction">SAQUEAR</span><div class="event-progress-track"><span id="eventHPFill"></span></div><span class="event-clock">⏳ <b id="eventTime">10.0s</b></span></button></div>

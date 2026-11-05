@@ -4,6 +4,16 @@
   -webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;
 }
 .battlefield img{-webkit-user-drag:none}
+/* One compositor-only damage echo, behind current HP and its readable label. */
+.battlefield .hp-track{position:relative;isolation:isolate}
+.battlefield .hp-damage-trail{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  transform-origin:left center;background:linear-gradient(#c39a63,#765132);
+}
+.battlefield .hp-track .hp-fill{position:relative;z-index:1;transition:none}
+.battlefield .hp-track .hp-numbers{z-index:2;text-shadow:0 1px 2px #000}
+.hw-lite .hp-damage-trail{visibility:hidden}
+@media(prefers-reduced-motion:reduce){.hp-damage-trail{visibility:hidden}}
 /* Q can trigger :focus-visible on the last clicked target. Keep the keyboard
    cue on its short caption instead of outlining the monster's entire box. */
 .battlefield .attack-target:focus-visible{outline:none}

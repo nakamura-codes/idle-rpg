@@ -381,6 +381,12 @@
       this.lastPanelRender = 0;
       this.lastZoneRendered = -1;
       this.lastEventRendered = '';
+      this.enemyHealthTrail = null;
+      this.reducedCombatMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      this.reducedCombatMotion.addEventListener('change',()=>{
+        this.resetEnemyHealthTrail();
+        if(this.state)this.renderEnemyHealth();
+      });
       this.startedLoop = false;
       this.loopTimer = 0;
       this.arenaSize = {width:800,height:400};
@@ -394,6 +400,7 @@
       window.addEventListener('pagehide',()=>this.save());
       window.addEventListener('beforeunload',()=>this.save());
       document.addEventListener('visibilitychange',()=>{
+        this.resetEnemyHealthTrail();
         if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
       });
       setInterval(()=>this.save(),SAVE_INTERVAL);
@@ -439,6 +446,7 @@
     }
     showAuth() {
       this.stopLoop();
+      this.resetEnemyHealthTrail();
       const profiles=this.getProfiles().sort((a,b)=>b.lastPlayed-a.lastPlayed);
       const list=$('profileList');
       list.replaceChildren();
@@ -1247,6 +1255,32 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       // Battlefield background changes per zone; sprite changes per individual monster.
       this.lastZoneRendered=s.zone;
     }
+    resetEnemyHealthTrail() {
+      const trail=$('mobHPDamageTrail');
+      if(trail.style.transition!=='none')trail.style.transition='none';
+      this.enemyHealthTrail=null;
+    }
+    renderEnemyHealth() {
+      const mob=this.state.mob,previous=this.enemyHealthTrail;
+      const ratio=Math.max(0,Math.min(1,mob.hp/Math.max(1,mob.maxHp)));
+      fill('mobHPFill',ratio*100);
+      attr('mobHealthProgress','aria-label',`Vida de ${mob.name}`);
+      attr('mobHealthProgress','aria-valuenow',String(Math.round(ratio*100)));
+      attr('mobHealthProgress','aria-valuetext',`${fmt(Math.ceil(mob.hp))} de ${fmt(mob.maxHp)} pontos de vida`);
+      const motion=!document.hidden && !this.reducedCombatMotion.matches && !document.documentElement.classList.contains('hw-lite');
+      const sameEnemy=previous?.mob===mob && previous.maxHp===mob.maxHp;
+      const trail=$('mobHPDamageTrail');
+      if(!motion && trail.style.transition!=='none')trail.style.transition='none';
+      if(sameEnemy && previous.ratio===ratio)return;
+      const t=performance.now(),damage=motion && sameEnemy && ratio<previous.ratio;
+      // CSS retargets from its current visual value; no animation timing/layout reads.
+      // Only the first hit pauses. A continued stream cannot postpone the echo forever.
+      const delay=previous && t<previous.until?0:90;
+      const transition=damage?`transform 420ms cubic-bezier(0.2, 0.7, 0.3, 1) ${delay}ms`:'none';
+      if(trail.style.transition!==transition)trail.style.transition=transition;
+      fill('mobHPDamageTrail',ratio*100);
+      this.enemyHealthTrail={mob,maxHp:mob.maxHp,ratio,until:damage?t+420+delay:0};
+    }
     renderCore() {
       const s=this.state;
       if(!s)return;
@@ -1353,7 +1387,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       }
       text('intelMob',s.mob.name);
       text('mobHPText',`${fmt(Math.ceil(s.mob.hp))} / ${fmt(s.mob.maxHp)}`);
-      fill('mobHPFill',Math.max(0,Math.min(100,100*s.mob.hp/Math.max(1,s.mob.maxHp))));
+      this.renderEnemyHealth();
       text('zoneKillsLabel',`${fmt(s.zoneKills[s.zone])} ABATES · FASE ${phase.stage}/10`);
       const rewardScale=bossKind==='boss'?18:bossKind==='miniboss'?7:1;
       text('intelReward',`+${fmt(Math.floor(multiply(rewardGold(s),rewardScale)*b.gold))} ouro · +${fmt(Math.floor(rewardXp(s)*(bossKind==='boss'?14:bossKind==='miniboss'?6:1)))} XP`);
