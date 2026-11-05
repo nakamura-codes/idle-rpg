@@ -27,4 +27,18 @@ A moldura dos eventos foi refeita com o exterior transparente. O painel interno 
 
 O teste de fichas foi executado também sobre a versão anterior e reproduziu a falha: dois retratos na segunda abertura do primeiro monstro. A versão corrigida passou nas 42 fichas. As capturas de celular e paisagem foram revisadas visualmente.
 
-O inventário detalhado está em `sprite-review.json`; a associação entre regiões, chefões e arquivos está em `region-backgrounds.json`. Os prompts de criação estão em `art-prompts.json`. Os resultados de desempenho ficam em `performance-art-review.json` após a medição final.
+O inventário detalhado está em `sprite-review.json`; a associação entre regiões, chefões e arquivos está em `region-backgrounds.json`. Os prompts de criação estão em `art-prompts.json`. Os resultados completos de desempenho estão em `performance-art-review.json`.
+
+
+## Desempenho e pendências
+
+Foram medidas 40 situações por versão: menu, combate, eventos, painéis, caça e criaturas de todas as regiões, incluindo os seis chefões. Chromium headless com renderização SwiftShader; desktop em 1366 × 768 com CPU normal e celular em 390 × 844 com CPU limitada em 6×. Cada amostra dura cinco segundos. Os testes rodaram em sequência, após as verificações funcionais e o processamento das imagens.
+
+| Ambiente | Versão anterior: mínimo / mediana / máximo | Integração: mínimo / mediana / máximo |
+| --- | --- | --- |
+| Desktop | 49 / 60 / 60 FPS | 51 / 60 / 60 FPS |
+| Celular simulado, CPU 6× | 8 / 35 / 59 FPS | 4 / 55 / 60 FPS |
+
+A comparação automática **não passou** no limite de 3 FPS / 5 ms de p95 em oito situações. Repetimos três vezes os casos Entorpecido de Musgo, Devorador de Estrelas e Imperador, com 750 ms de aquecimento por amostra. Musgo e Devorador de Estrelas voltaram a 55–60 FPS na integração; o Imperador variou de 7 a 60 FPS na versão anterior e de 14 a 58 FPS na integração, usando o mesmo sprite do chefão. Essa variabilidade impede atribuir um resultado estável ao celular ou garantir ausência de regressão.
+
+A integração das artes e as correções funcionais estão concluídas. **Ficam pendentes o perfil de desempenho em um telefone real e a investigação de memória/cache de imagens e dos tempos de quadro do chefão final.** O relatório preserva os resultados baixos e as falhas da comparação; não há garantia de 60 FPS em hardware real.
