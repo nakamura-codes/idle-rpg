@@ -6,7 +6,7 @@ const server=http.createServer((req,res)=>{const file=path.join(root,decodeURICo
 try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobile-6x',width:390,height:844,cpu:6}].filter(t=>!process.env.PERF_DEVICE||t.name===process.env.PERF_DEVICE)){
  const p=await browser.newPage({viewport:{width:test.width,height:test.height}});const cdp=await p.context().newCDPSession(p);await cdp.send('Emulation.setCPUThrottlingRate',{rate:test.cpu});await cdp.send('Performance.enable');
  await p.addInitScript(()=>{window.__mutations=0;new MutationObserver(r=>window.__mutations+=r.length).observe(document,{subtree:true,attributes:true,characterData:true,childList:true});});
- if(process.env.PERF_EVENTS||process.env.PERF_MONSTERS)await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__perfGame=new Game();window.__perfZones=ZONES;')}));
+ if(process.env.PERF_EVENTS||process.env.PERF_MONSTERS||process.env.PERF_FEEDBACK)await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__perfGame=new Game();window.__perfZones=ZONES;')}));
  await p.goto('http://127.0.0.1:'+server.address().port);await p.waitForTimeout(1000);
  async function sample(scene){
  if(process.env.PERF_SCENES&&!process.env.PERF_SCENES.split(',').includes(scene))return;
@@ -25,6 +25,12 @@ try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobil
    await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('eventTarget').click(),200));await sample('event-'+type);await p.evaluate(()=>clearInterval(window.__auto));
   }
   await p.evaluate(()=>{const g=window.__perfGame;g.state.event=null;g.renderEvent();});
+ }
+ if(process.env.PERF_FEEDBACK){
+  // Isolate a bounded, sustained mix of normal/critical damage and hero healing.
+  await p.evaluate(()=>{const g=window.__perfGame;g.stopLoop();window.__feedback=setInterval(()=>{g.floatNumber('−12,5k');g.floatNumber('CRÍTICO! −98,7k','crit');g.floatHeroNumber('−3,2k');g.floatHeroNumber('+4,8k ♥',true);},200);});
+  await sample('combat-feedback');
+  await p.evaluate(()=>{clearInterval(window.__feedback);const g=window.__perfGame;g.lastFrameAt=Date.now();g.startLoop();});
  }
  await p.click('[data-open-panel="upgrades"]');await sample('codex-idle');await p.keyboard.press('Escape');if(process.env.PERF_HUNT){await p.click('[data-open-panel="zones"]');await p.selectOption('#farmStageSelect','1');await p.click('[data-start-hunt]');await p.keyboard.press('Escape');await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('attackTarget').click(),200));await sample('hunt-attacks');await p.evaluate(()=>clearInterval(window.__auto));}if(process.env.PERF_MONSTERS){
   const snapshot=await p.evaluate(()=>JSON.stringify(window.__perfGame.state));

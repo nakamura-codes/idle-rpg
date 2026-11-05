@@ -14,6 +14,37 @@
 .battlefield .hp-track .hp-numbers{z-index:2;text-shadow:0 1px 2px #000}
 .hw-lite .hp-damage-trail{visibility:hidden}
 @media(prefers-reduced-motion:reduce){.hp-damage-trail{visibility:hidden}}
+/* Cached actor coordinates share arena space; they never inherit sprite rotation. */
+.app-frame .battlefield .hero-damage-layer{
+  inset:0;width:100%;height:100%;display:block;contain:layout style;z-index:24;
+}
+.app-frame .battlefield .combat-number{
+  position:absolute;width:max-content;margin:0;padding:0;pointer-events:none;
+  font-family:Georgia,serif;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;
+  letter-spacing:0;white-space:nowrap;color:#fff0d1;
+  text-shadow:-1px -1px #100b0c,1px -1px #100b0c,-1px 1px #100b0c,1px 1px #100b0c,0 2px 2px #000;
+  animation:hw-number-rise 760ms ease-out both!important;
+}
+.app-frame .combat-number.crit{color:#ffd18a;font-weight:900}
+.app-frame .combat-number.hero-hit{color:#ffafa3}
+.app-frame .combat-number.healing{color:#c3e6b3}
+.app-frame .combat-number.event-hit,.app-frame .combat-number.reward{color:#e8c889}
+.combat-number[data-caption]::before{
+  content:attr(data-caption);position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);
+  padding:1px 4px;border:1px solid #9e774b;background:#171014e8;color:inherit;
+  font:700 9px/11px Arial,sans-serif;letter-spacing:.7px;text-shadow:0 1px #000;
+}
+.combat-number.healing[data-caption]::before{border-color:#6f8062}
+@keyframes hw-number-rise{
+  0%{opacity:0;transform:translate(-50%,5px)}
+  10%,55%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-32px)}
+}
+.hw-lite .app-frame .battlefield .combat-number{animation:hw-number-still 540ms linear both!important}
+@keyframes hw-number-still{0%,75%{opacity:1;transform:translateX(-50%)}100%{opacity:0;transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){
+  .app-frame .battlefield .combat-number{animation:hw-number-still 540ms linear both!important}
+}
 /* Q can trigger :focus-visible on the last clicked target. Keep the keyboard
    cue on its short caption instead of outlining the monster's entire box. */
 .battlefield .attack-target:focus-visible{outline:none}

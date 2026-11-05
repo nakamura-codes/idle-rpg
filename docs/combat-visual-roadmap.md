@@ -4,7 +4,7 @@ Análise do print enviado em 05/11/2026. A imagem já tem arquitetura gótica fo
 
 ## Prioridade por impacto / esforço
 
-Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Apenas a nº 1 foi implementada nesta entrega.
+Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1 e nº 2. As demais continuam como próximas etapas.
 
 | Nº | Melhoria | Impacto | Esforço | Resultado e limite de custo |
 |---|---|---:|---:|---|
@@ -52,11 +52,34 @@ A auditoria confirmou 95 assets ativos, 89 imagens raster e 42 monstros únicos;
 
 Métricas antes/depois e limites estão em `docs/performance-enemy-health-trail.json`. Não há novos assets raster, dependências ou arquivos de imagem duplicados nesta melhoria.
 
-## Resultado de FPS
+## Resultado de FPS da nº 1
 
 A rodada ampla **não passou** a comparação automática: ataques desktop 60→54 FPS, ataques mobile 55→49 e caça mobile 53→44 (CPU 6×). Não tratar esta entrega como uma aprovação do gate de FPS.
 
 Uma comparação A/B adicional mantém o mesmo inimigo e a mesma cadência, alternando três pares antes/depois: mediana mobile **56→55 FPS**, p95 **33,3→33,2 ms**, dentro das tolerâncias do projeto. A implementação final usa transição CSS sem leitura de progresso; a versão inicial com animação recriada por golpe foi descartada após medir custo maior. A rodada ampla e o controle medem situações diferentes; há variação forte do host, inclusive uma amostra de menu da versão antiga que durou 13,758 s em vez de 5 s. Atribuir todas as quedas ao host seria uma inferência, não um resultado comprovado. Permanecem pendentes a validação em celular físico e uma sessão de horas.
+
+## Nº 2 — números de combate legíveis
+
+Implementada após a nº 1, mantendo os demais efeitos da lista para entregas futuras.
+
+- Dano causado em osso claro; crítico maior em âmbar e etiqueta CRÍTICO; dano recebido em coral; cura em verde dessaturado e etiqueta CURA. A informação também depende de sinais/etiquetas, não apenas de cor.
+- Valores em Georgia com peso alto e contorno de sombra estático. A etiqueta não fica na mesma linha do número; cada lançamento alterna entre três faixas, separadas em 40 px no celular e 48 px no desktop.
+- O mesmo ResizeObserver existente observa arena, herói, alvo e cartão do evento. As coordenadas são armazenadas só quando esses elementos mudam de tamanho; não há leitura de layout em golpes ou quadros da animação. Os números continuam em camadas independentes dos sprites, sem herdar a rotação/opacidade da derrota.
+- Números acompanham o centro real do alvo, incluindo o Imperador colossal. Dano de evento acompanha sua ilustração. Cura/dano do herói desvia do cartão do evento quando há interseção.
+- Os dois grupos guardam no máximo 8 nós/temporizadores do inimigo e 5 do herói. Ao ultrapassar, o mais antigo é removido e seu timeout cancelado. Menu, ativação de perfil, mudança de visibilidade e preferência de movimento limpam os grupos.
+- Uma animação CSS de transform/opacity de 760 ms por número; remoção após 900 ms. Modo leve e movimento reduzido usam apenas um fade sem deslocamento. Nenhum asset, biblioteca ou loop adicional.
+
+Arquivos e trechos:
+
+| Arquivo | Trecho |
+|---|---|
+| `game.js` | Construtor e eventos de limpeza; `floatNumber()` e `floatHeroNumber()` delegam para `spawnCombatNumber()`; `cacheCombatNumberAnchors()`, `positionCombatNumber()`, `removeCombatNumber()` e `clearCombatNumbers()` cuidam apenas da apresentação. |
+| `combat-events.css` | Bloco `.combat-number`, etiquetas `data-caption`, variantes de cor, camada do herói ocupando a arena e keyframes `hw-number-rise` / `hw-number-still`. |
+| `index.html` | Cache atualizado para `game.js?v=22` e `combat-events.css?v=4`. |
+| `tests/combat-numbers.cjs` | Cinco viewports, ancoragem de comum/miniboss/colossal, separação das etiquetas, eventos, estado inalterado, ausência de medição durante golpes, limites de nós/temporizadores, expiração e modo leve/movimento reduzido. |
+| `tests/performance.cjs` | Flag apenas de teste `PERF_FEEDBACK=1`: mistura contínua de dano normal, crítico, dano recebido e cura a cada 200 ms. Antes e depois usam exatamente a mesma instrumentação. |
+
+Resultados e limitações de FPS: `docs/performance-combat-numbers.json`. A cena específica de feedback ficou em **60→60 FPS no desktop e 58→60 FPS no mobile CPU6**, dentro das tolerâncias de FPS/p95. O comparativo amplo **não passou** em 8 cenas; houve pausas longas e oscilações também em menus. Uma tentativa incompleta foi preservada. Não há garantia de desempenho em celular físico ou em sessões de horas. A medição anterior da nº 1 permanece preservada em seu próprio relatório.
 
 ## Prompts de imagem — estilo fixo
 
