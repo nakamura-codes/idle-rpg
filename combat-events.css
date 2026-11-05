@@ -14,7 +14,7 @@
 /* One static painted frame, two cached WebP sprites; no extra animation loop. */
 .app-frame .event-overlay{
   left:12px;right:auto;top:142px;width:156px;height:222px;
-  padding:27px 15px 17px;background:url('assets/events/infernal-reliquary.webp') center/100% 100% no-repeat;
+  padding:27px 15px 17px;background:url('assets/events/infernal-reliquary.webp?v=2') center/100% 100% no-repeat;
   animation:none;box-shadow:none;
 }
 .app-frame .event-ribbon{
