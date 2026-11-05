@@ -16,3 +16,12 @@ A placa de nome e HP perdeu o preenchimento vermelho externo. O fundo escuro fic
 Os dados de silhueta, hashes das imagens e prompt da moldura estão em `boss-command-hud.json`. Os resultados de desempenho desta alteração ficam em `performance-boss-command-hud.json`.
 
 Não houve alteração de saves, progressão, itens, combate ou distribuição de pontos. A lógica de simulação continua com o mesmo timer; as mudanças visuais não acrescentam loops, filtros ou medições de layout por quadro.
+
+## Desempenho
+
+| Ambiente | Antes: mínimo / mediana / máximo | Depois: mínimo / mediana / máximo |
+| --- | --- | --- |
+| desktop | 25 / 60.0 / 60 | 29 / 57.5 / 60 |
+| mobile-6x | 14 / 48.5 / 60 | 21 / 50.5 / 60 |
+
+A comparação automática **failed**, com 14 situações fora da tolerância de 3 FPS / 5 ms de p95. O primeiro processo foi interrompido pela indisponibilidade do ambiente; o trecho completo de desktop foi preservado e as 20 amostras de celular foram repetidas após a recuperação. Os resultados brutos e o trecho interrompido estão no JSON. Há queda também no menu, que não foi alterado, mas isso não permite garantir ausência de regressão. A estabilidade em celular e a validação em aparelho real continuam pendentes.
