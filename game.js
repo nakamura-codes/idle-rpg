@@ -382,15 +382,22 @@
       this.lastZoneRendered = -1;
       this.lastEventRendered = '';
       this.enemyHealthTrail = null;
+      this.combatNumbers = {enemy:new Map(),hero:new Map()};
+      this.combatNumberSequence = {enemy:0,hero:0};
+      this.combatNumberAnchors = {};
       this.reducedCombatMotion = matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedCombatMotion.addEventListener('change',()=>{
         this.resetEnemyHealthTrail();
+        this.clearCombatNumbers();
         if(this.state)this.renderEnemyHealth();
       });
       this.startedLoop = false;
       this.loopTimer = 0;
       this.arenaSize = {width:800,height:400};
-      new ResizeObserver(entries=>{const r=entries[0].contentRect;if(r.width && r.height)this.arenaSize={width:r.width,height:r.height};}).observe($('battlefield'));
+      // Reuse one observer: cache anchors only when the arena/actors/event resize.
+      // Floating numbers never measure layout on hits or animation frames.
+      const combatResize=new ResizeObserver(()=>this.cacheCombatNumberAnchors());
+      for(const id of ['battlefield','combatHero','attackTarget','eventOverlay'])combatResize.observe($(id));
       this.sessionStorage = new Map();
       this.storageAvailable = this.testStorage();
       this.resetLegacyProgress();
@@ -401,6 +408,7 @@
       window.addEventListener('beforeunload',()=>this.save());
       document.addEventListener('visibilitychange',()=>{
         this.resetEnemyHealthTrail();
+        this.clearCombatNumbers();
         if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
       });
       setInterval(()=>this.save(),SAVE_INTERVAL);
@@ -447,6 +455,7 @@
     showAuth() {
       this.stopLoop();
       this.resetEnemyHealthTrail();
+      this.clearCombatNumbers();
       const profiles=this.getProfiles().sort((a,b)=>b.lastPlayed-a.lastPlayed);
       const list=$('profileList');
       list.replaceChildren();
@@ -485,6 +494,7 @@
       }
     }
     activate(profile,state) {
+      this.clearCombatNumbers();
       this.state=state;
       this.huntSelection=null;
       this.profileId=profile.id;
@@ -735,12 +745,7 @@
       if(s.heroHp<=0)this.killHero();
     }
     floatHeroNumber(label,heal=false) {
-      const area=$('heroDamageLayer');
-      const node=document.createElement('span');node.className=`hero-damage-number ${heal?'healing':''}`;
-      node.textContent=label;area.append(node);
-      node.style.fontSize=`${Math.min(22,Math.min(this.arenaSize.width,innerWidth)*.28/(label.length*.75))}px`;
-      while(area.children.length>5)area.firstElementChild.remove();
-      setTimeout(()=>node.remove(),1050);
+      this.spawnCombatNumber(label,heal?'healing':'hero-hit',true);
     }
     killHero() {
       const s=this.state;
@@ -790,16 +795,68 @@
       }
     }
     floatNumber(label,style='') {
-      const layer=$('damageLayer'),node=document.createElement('span');
-      node.className=`float-damage ${style}`;node.textContent=label;
-      const width=Math.min(this.arenaSize.width,innerWidth);
-      const size=Math.min(style==='crit'?26:21,(width-28)/(label.length*.75));
-      const half=Math.min(width/2-8,label.length*size*.38);
-      const center=style==='reward'?50:style==='event-hit'?13:75;
-      node.style.fontSize=`${size}px`;node.style.left=`clamp(${half+8}px,${center}%,calc(100% - ${half+8}px))`;
-      node.style.top='clamp(72px,50%,calc(100% - 32px))';layer.append(node);
-      while(layer.children.length>8)layer.firstElementChild.remove();
-      setTimeout(()=>node.remove(),750);
+      this.spawnCombatNumber(label,style,false);
+    }
+    cacheCombatNumberAnchors() {
+      const arena=$('battlefield').getBoundingClientRect();
+      if(!arena.width || !arena.height)return;
+      this.arenaSize={width:arena.width,height:arena.height};
+      const box=id=>{
+        const b=$(id).getBoundingClientRect();
+        return {x:b.left-arena.left,y:b.top-arena.top,width:b.width,height:b.height};
+      };
+      this.combatNumberAnchors={enemy:box('attackTarget'),hero:box('combatHero'),event:box('eventArt'),eventCard:$('eventOverlay').hidden?null:box('eventOverlay')};
+      for(const group of Object.values(this.combatNumbers))for(const [node,meta] of group)this.positionCombatNumber(node,meta);
+    }
+    positionCombatNumber(node,meta) {
+      const {width,height}=this.arenaSize;
+      const a=this.combatNumberAnchors[meta.kind];
+      const small=width<=760,crit=meta.style==='crit';
+      const desired=crit?(small?24:30):meta.hero?(small?18:22):(small?19:23);
+      const budget=Math.min(width-24,meta.hero?Math.max(108,width*.28):width*.45,260);
+      const size=Math.min(desired,budget/Math.max(1,node.textContent.length*.68));
+      const half=Math.max(node.textContent.length*size*.34,meta.caption.length*5/2)+7;
+      let x=a?.width?a.x+a.width/2:width*(meta.hero?.22:meta.kind==='event'?.13:.75);
+      let y=a?.height?a.y+a.height*(meta.hero?.32:meta.kind==='event'?.5:.42):height*.55;
+      if(meta.kind==='reward'){x=width*.5;y=height*.56;}
+      const laneGap=meta.kind==='event'?6:small?40:48;
+      // Reserve travel/caption space before splitting lanes, even on short actors.
+      if(a?.height && meta.kind==='enemy')y=Math.max(a.y+50+laneGap,y);
+      x+=meta.lane*(small?9:14);
+      y+=meta.lane*laneGap;
+      y=Math.max(58,Math.min(height-Math.ceil(size*1.1)-8,y));
+      const card=this.combatNumberAnchors.eventCard;
+      if(meta.hero && card && x-half<card.x+card.width+8 && x+half>card.x && y+20>card.y && y-54<card.y+card.height)x=card.x+card.width+half+12;
+      x=Math.max(half+8,Math.min(width-half-8,x));
+      node.style.fontSize=`${size}px`;node.style.left=`${x}px`;node.style.top=`${y}px`;
+    }
+    spawnCombatNumber(label,style,hero) {
+      if(document.hidden || !$('authScreen').hidden)return;
+      const key=hero?'hero':'enemy',group=this.combatNumbers[key];
+      while(group.size>=(hero?5:8))this.removeCombatNumber(group.keys().next().value,group);
+      const node=document.createElement('span');
+      const caption=style==='crit'?'CRÍTICO':style==='healing'?'CURA':'';
+      node.className=`combat-number ${hero?'hero-damage-number':'float-damage'} ${style}`;
+      let value=String(label);
+      if(style==='crit')value=value.replace(/^CRÍTICO!?\s*/u,'');
+      if(style==='healing')value=value.replace(/\s*♥\s*$/u,'');
+      node.textContent=value;
+      if(caption)node.dataset.caption=caption;
+      const kind=hero?'hero':style==='event-hit'?'event':style==='reward'?'reward':'enemy';
+      const meta={hero,kind,style,caption,lane:this.combatNumberSequence[key]++%3-1,timer:0};
+      this.positionCombatNumber(node,meta);
+      $(hero?'heroDamageLayer':'damageLayer').append(node);
+      group.set(node,meta);
+      meta.timer=setTimeout(()=>this.removeCombatNumber(node,group),900);
+    }
+    removeCombatNumber(node,group) {
+      const meta=group.get(node);
+      if(meta)clearTimeout(meta.timer);
+      group.delete(node);node.remove();
+    }
+    clearCombatNumbers() {
+      for(const group of Object.values(this.combatNumbers))for(const node of group.keys())this.removeCombatNumber(node,group);
+      this.combatNumberSequence={enemy:0,hero:0};
     }
     damageMob(amount,fromClick,critical) {
       const s=this.state;
