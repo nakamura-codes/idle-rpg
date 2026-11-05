@@ -1,0 +1,62 @@
+/* Boss scale is measured against the arena, rather than a tiny hero. */
+.app-frame .battlefield.boss-fight{--headroom:104px;--floor:28px}
+.app-frame .battlefield.boss-fight .mob-info{top:14px!important;left:78%!important;width:min(390px,32%)!important;min-height:54px}
+.app-frame .battlefield.boss-fight .attack-target{width:82%!important;right:0!important;height:calc(100% - var(--headroom) - var(--floor))!important;max-height:none}
+.app-frame .battlefield.boss-fight .combat-hero{left:3%!important;width:25%!important;height:min(28%,calc((100% - var(--headroom) - var(--floor)) * .48))!important;max-height:180px;z-index:7}
+.app-frame .battlefield.final-boss-fight{--headroom:82px;--floor:22px}
+.app-frame .battlefield.final-boss-fight .attack-target{width:78%!important;right:0!important;height:calc(100% - var(--headroom) - var(--floor))!important;max-height:none}
+.app-frame .battlefield.final-boss-fight .combat-hero{left:3%!important;width:23%!important;height:min(22%,calc((100% - var(--headroom) - var(--floor)) * .28))!important;max-height:155px}
+.app-frame .battlefield.miniboss-fight .attack-target{width:53%!important;right:2%!important;height:min(74%,calc(100% - var(--headroom) - var(--floor)))!important;max-height:none}
+.battle-panel:has(.boss-fight) .battle-top,.battle-panel:has(.boss-fight) .stage-strip{left:30%}
+/* The ornate frame stays transparent outside; only its interior has a dark bed. */
+.app-frame .battlefield .mob-info{background:none!important}
+.app-frame .battlefield .mob-info::before{background:none!important}
+.app-frame .battlefield .mob-info::after{content:'';position:absolute;inset:8px;z-index:-2;background:#090809eb;pointer-events:none}
+.app-frame .battlefield .mob-name-row{background:none!important}
+.app-frame .battlefield .hp-track{background:#100b10!important}
+/* One painted 9-slice surround encloses vitals, relic actions and navigation. */
+.app-frame .hud-dock{max-width:none;isolation:isolate;background:none;padding:6px 26px 10px}
+.hud-dock::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:24px solid transparent;border-image:url('assets/ui/command-surround.webp') 100 fill / 26px / 0 stretch}
+.app-frame .relic-nav{padding-inline:3%;background:none}
+@media(max-width:1100px){.app-frame .hud-dock{padding-inline:12px}}
+@media(max-width:760px){
+ .app-frame .battlefield.boss-fight{--headroom:170px;--floor:24px}
+ .app-frame .battlefield.boss-fight .mob-info{top:110px!important;left:50%!important;width:88%!important;min-height:42px}
+ .app-frame .battlefield.boss-fight .mob-name-row{flex-wrap:nowrap;min-height:18px}
+ .app-frame .battlefield.boss-fight .mob-name-row strong{font-size:12px;line-height:18px;white-space:nowrap}
+ .app-frame .battlefield.boss-fight .attack-target{width:94%!important;right:0!important}
+ .app-frame .battlefield.boss-fight .combat-hero{left:1%!important;width:27%!important;height:min(25%,calc((100% - var(--headroom) - var(--floor)) * .48))!important;max-height:115px}
+ .battle-panel:has(.final-boss-fight) .battle-top{top:5px}
+ .battle-panel:has(.final-boss-fight) .battle-top h1{font-size:19px;margin:3px 0}
+ .battle-panel:has(.final-boss-fight) .stage-strip{top:55px}
+ .app-frame .battlefield.final-boss-fight{--headroom:144px;--floor:22px}
+ .app-frame .battlefield.final-boss-fight .mob-info{top:84px!important;min-height:42px}
+ .app-frame .battlefield.final-boss-fight .attack-target{width:90%!important;right:0!important}
+ .app-frame .battlefield.final-boss-fight .combat-hero{width:24%!important;height:min(19%,calc((100% - var(--headroom) - var(--floor)) * .28))!important;max-height:95px}
+ .app-frame .battlefield.miniboss-fight .attack-target{width:70%!important;right:0!important}
+ .battle-panel:has(.boss-fight) .battle-top,.battle-panel:has(.boss-fight) .stage-strip{left:50%}
+ .app-frame .hud-dock{padding:5px 8px 7px}
+ .hud-dock::before{border-image-width:18px}
+ .app-frame .relic-nav{height:80px;padding:0 0 2px}
+ .app-frame .relic-button{height:78px;gap:2px}
+ .app-frame .relic-button img{height:34px;width:34px}
+ .app-frame .relic-button>.relic-caption{min-height:39px}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .app-frame .battlefield.boss-fight{--headroom:82px;--floor:22px}
+ .app-frame .battlefield.boss-fight .mob-info{top:8px!important;left:78%!important;width:34%!important;min-height:42px}
+ .app-frame .battlefield.boss-fight .attack-target{width:76%!important;right:0!important}
+ .app-frame .battlefield.boss-fight .combat-hero{left:4%!important;width:24%!important;height:min(34%,calc((100% - var(--headroom) - var(--floor)) * .48))!important;max-height:120px}
+ .app-frame .battlefield.final-boss-fight{--headroom:60px;--floor:20px}
+ .app-frame .battlefield.final-boss-fight .attack-target{width:76%!important}
+ .app-frame .battlefield.final-boss-fight .combat-hero{width:22%!important;height:min(24%,calc((100% - var(--headroom) - var(--floor)) * .28))!important;max-height:90px}
+ .battle-panel:has(.final-boss-fight) .battle-top{top:7px}
+ .battle-panel:has(.final-boss-fight) .stage-strip{top:49px}
+ .app-frame .battlefield.miniboss-fight .attack-target{width:58%!important}
+ .battle-panel:has(.boss-fight) .battle-top,.battle-panel:has(.boss-fight) .stage-strip{left:28%}
+ .app-frame .hud-dock{padding:3px 12px 5px}
+ .app-frame .relic-nav{height:92px;padding:0 2% 2px}
+ .app-frame .relic-button{height:88px}
+ .app-frame .relic-button img{height:42px;width:42px}
+ .hud-dock::before{border-image-width:17px}
+}

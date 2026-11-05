@@ -1,0 +1,473 @@
+{
+  "date": "2026-11-05",
+  "baselineCommit": "a8b9ebcb6f9f45f046f6faf1422ba97aed4618bc",
+  "trimmedBosses": [
+    {
+      "asset": "assets/monsters/cavaleiro-decapitado.webp",
+      "before": [
+        768,
+        768
+      ],
+      "after": [
+        729,
+        752
+      ],
+      "bytes": 374240
+    },
+    {
+      "asset": "assets/monsters/hidra-profanada.webp",
+      "before": [
+        768,
+        768
+      ],
+      "after": [
+        752,
+        439
+      ],
+      "bytes": 273778
+    },
+    {
+      "asset": "assets/monsters/rei-lich.webp",
+      "before": [
+        768,
+        768
+      ],
+      "after": [
+        713,
+        752
+      ],
+      "bytes": 500420
+    },
+    {
+      "asset": "assets/monsters/cavaleiro-do-abismo.webp",
+      "before": [
+        768,
+        768
+      ],
+      "after": [
+        752,
+        625
+      ],
+      "bytes": 382422
+    },
+    {
+      "asset": "assets/monsters/dragao-das-fendas.webp",
+      "before": [
+        768,
+        768
+      ],
+      "after": [
+        752,
+        505
+      ],
+      "bytes": 369744
+    },
+    {
+      "asset": "assets/monsters/imperador-do-crepusculo.webp",
+      "before": [
+        768,
+        1016
+      ],
+      "after": [
+        751,
+        974
+      ],
+      "bytes": 963922
+    }
+  ],
+  "frame": {
+    "asset": "assets/ui/command-surround.webp",
+    "dimensions": [
+      1200,
+      400
+    ],
+    "bytes": 94112,
+    "sha256": "4dca4b26e515193fd9942578be0deaab6e6dbd281a6bb773991761c6c8aa622c",
+    "sourceSha256": "b75f8de555e34e4ffe7a35f4fc018546dacf2f2b4bd938962c0e7a9a69257518",
+    "prompt": "Use case: ui-mockup. Production raster UI asset for HELLWARD dark medieval fantasy RPG. Use the supplied carved gothic metal frame as a STYLE reference only. Create one new continuous WIDE RECTANGULAR COMMAND-BAR SURROUND, landscape 3:1 aspect ratio. A low-profile forged black-iron and tarnished dark bronze border, engraved gothic arches and subtle bone/skull motifs limited to the four corners, worn rivets and deep sculpted shadows, muted tiny ember-red accents ONLY inside metal cracks. Straight horizontal top/bottom rails and straight side rails, all four corners visible. Central 80 percent is a simple quiet near-black charcoal leather/stone panel for overlaying existing player statistics, inventory and action controls. NO red background rectangle, no vivid crimson panel, no buttons, no icons, no text, no labels, no health bars, no characters. Designed for 9-slice scaling: consistent narrow perimeter, all elaborate detail within the outer 10 percent, no dividers or large ornament protruding into the empty center, no tall spires. Genuine transparent alpha OUTSIDE the outer irregular metal silhouette and a small transparent export margin on all edges; opaque almost-black central panel. A cohesive sinister detailed hand-painted dark fantasy game HUD, not a flat line drawing."
+  },
+  "retiredAssets": [
+    "assets/ui/relic-rail.webp"
+  ],
+  "silhouetteMeasurements": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": 0,
+      "ratio": 4.079895158803577,
+      "coverage": 0.8221751342215152
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": 1,
+      "ratio": 4.044131920372387,
+      "coverage": 0.8149681732058842
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": 2,
+      "ratio": 4.107801418439716,
+      "coverage": 0.8277987671505269
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": 3,
+      "ratio": 4.089655652173914,
+      "coverage": 0.8241420560747664
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": 4,
+      "ratio": 4.064123977615153,
+      "coverage": 0.8189969464236142
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": 5,
+      "ratio": 4.9793895130331105,
+      "coverage": 0.8640733846360513
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "zone": 0,
+      "ratio": 2.780910159930299,
+      "coverage": 0.7461698381780042
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "zone": 1,
+      "ratio": 2.756533466600153,
+      "coverage": 0.7396291186756072
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "zone": 2,
+      "ratio": 2.7999314332540357,
+      "coverage": 0.7512735990410547
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "zone": 3,
+      "ratio": 2.787563040488009,
+      "coverage": 0.7479549295774648
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "zone": 4,
+      "ratio": 2.770160315560805,
+      "coverage": 0.743285455306094
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "zone": 5,
+      "ratio": 3.8111918967202207,
+      "coverage": 0.8034820834658878
+    },
+    {
+      "viewport": [
+        1024,
+        600
+      ],
+      "zone": 0,
+      "ratio": 3.009204440333025,
+      "coverage": 0.7523011100832563
+    },
+    {
+      "viewport": [
+        1024,
+        600
+      ],
+      "zone": 1,
+      "ratio": 2.9828265821531144,
+      "coverage": 0.7457066455382786
+    },
+    {
+      "viewport": [
+        1024,
+        600
+      ],
+      "zone": 2,
+      "ratio": 3.029787234042553,
+      "coverage": 0.7574468085106383
+    },
+    {
+      "viewport": [
+        1024,
+        600
+      ],
+      "zone": 3,
+      "ratio": 3.0164034782608695,
+      "coverage": 0.7541008695652174
+    },
+    {
+      "viewport": [
+        1024,
+        600
+      ],
+      "zone": 4,
+      "ratio": 2.9975721050365904,
+      "coverage": 0.7493930262591476
+    },
+    {
+      "viewport": [
+        1024,
+        600
+      ],
+      "zone": 5,
+      "ratio": 4.333422611076393,
+      "coverage": 0.8125167395768236
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": 0,
+      "ratio": 3.6428629137677984,
+      "coverage": 0.6065998253631948
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": 1,
+      "ratio": 2.0435040678206673,
+      "coverage": 0.3402788521039604
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": 2,
+      "ratio": 3.7500863180078197,
+      "coverage": 0.6244543809219631
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": 3,
+      "ratio": 2.942066140195712,
+      "coverage": 0.48990501402201386
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": 4,
+      "ratio": 2.362348674147296,
+      "coverage": 0.3933720063329471
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "zone": 5,
+      "ratio": 4.824982982827523,
+      "coverage": 0.7141453365049031
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "zone": 0,
+      "ratio": 2.1136708068522907,
+      "coverage": 0.4006125080593166
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "zone": 1,
+      "ratio": 2.0951429501088668,
+      "coverage": 0.39710084903706777
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "zone": 2,
+      "ratio": 2.128128199512019,
+      "coverage": 0.40335267569310124
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "zone": 3,
+      "ratio": 2.1187274245089567,
+      "coverage": 0.40157090909090903
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "zone": 4,
+      "ratio": 2.10550023286202,
+      "coverage": 0.39906390639063904
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "zone": 5,
+      "ratio": 3.6665869507785485,
+      "coverage": 0.4888059237135212
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "zone": 0,
+      "ratio": 2.1132619060141886,
+      "coverage": 0.5676914893617021
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "zone": 1,
+      "ratio": 2.0947376335830077,
+      "coverage": 0.5627152619589978
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "zone": 2,
+      "ratio": 2.127716501814559,
+      "coverage": 0.5715744680851064
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "zone": 3,
+      "ratio": 2.1183175454413266,
+      "coverage": 0.5690496
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "zone": 4,
+      "ratio": 2.1050929126648303,
+      "coverage": 0.5654970297029703
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "zone": 5,
+      "ratio": 3.665970401878221,
+      "coverage": 0.6688295687885011
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": 0,
+      "ratio": 2.1133734135427953,
+      "coverage": 0.5418798098687189
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": 1,
+      "ratio": 2.094848163667298,
+      "coverage": 0.537129840546697
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": 2,
+      "ratio": 2.12782877204856,
+      "coverage": 0.545586238116795
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": 3,
+      "ratio": 2.1184293197337714,
+      "coverage": 0.543176170212766
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": 4,
+      "ratio": 2.1052039891516166,
+      "coverage": 0.5397851274489152
+    },
+    {
+      "viewport": [
+        667,
+        375
+      ],
+      "zone": 5,
+      "ratio": 3.6662810181083367,
+      "coverage": 0.6487395692253921
+    }
+  ],
+  "scalePolicy": "Measure the nontransparent creature against the arena and the visible hero; all six campaign bosses are giant or colossal. Keep silhouettes below the health HUD and fully inside the arena."
+}

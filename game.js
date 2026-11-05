@@ -126,7 +126,7 @@
   ];
 
   const monsterSrc = (zoneIndex, creatureIndex) =>
-    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=7-hd`;
+    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=8-boss`;
 
   // Shape-specific movement: skeletons, beasts, spirits, constructs, and cosmic beings move differently.
   const MONSTER_FAMILIES = [

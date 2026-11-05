@@ -176,12 +176,13 @@
         768
       ],
       "dimensions": [
-        768,
-        768
+        729,
+        752
       ],
-      "bytes": 143166,
-      "sha256": "d6fda9c083fbe0bfaf777176f072c263ce0fd4b2be0b9d49589a1a27f1653489",
-      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
+      "bytes": 374240,
+      "sha256": "23f562f71aa4ceded2aeb0b1b9c4e75f5ecc4628aa0ce6e390670181fa7939a8",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real",
+      "displayTrim": "Transparent gutters cropped without enlarging or repainting the creature"
     },
     {
       "index": 8,
@@ -309,12 +310,13 @@
         768
       ],
       "dimensions": [
-        768,
-        768
+        752,
+        439
       ],
-      "bytes": 121148,
-      "sha256": "13cbb4aed79fa41f4ccff5f95dac96d33403df39efe3c85b1dffaafb25eb880f",
-      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
+      "bytes": 273778,
+      "sha256": "fd644f58dfd8c5290dfe305ccbbddf047fb61b239b2108d3a5e518fd8601dfaa",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real",
+      "displayTrim": "Transparent gutters cropped without enlarging or repainting the creature"
     },
     {
       "index": 15,
@@ -442,12 +444,13 @@
         768
       ],
       "dimensions": [
-        768,
-        768
+        713,
+        752
       ],
-      "bytes": 204692,
-      "sha256": "7b4f1c4dc9154c4e796e584dc7e68c279b4db95cf92d97f25ca606e0037296fc",
-      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
+      "bytes": 500420,
+      "sha256": "66c4423561c09a2c59c101e518c1f82c5554a6d4443c47d74c49c5fd6f496cc3",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real",
+      "displayTrim": "Transparent gutters cropped without enlarging or repainting the creature"
     },
     {
       "index": 22,
@@ -575,12 +578,13 @@
         768
       ],
       "dimensions": [
-        768,
-        768
+        752,
+        625
       ],
-      "bytes": 148564,
-      "sha256": "49432f7bc0bbf5b98e08c801af0e5515f4ba5c190effe17a08182f1b36ad8252",
-      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
+      "bytes": 382422,
+      "sha256": "13f145f334c579f2db8f763c7a6ca95ab9d05d4b7a0b862fe71c9efe282af433",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real",
+      "displayTrim": "Transparent gutters cropped without enlarging or repainting the creature"
     },
     {
       "index": 29,
@@ -708,12 +712,13 @@
         768
       ],
       "dimensions": [
-        768,
-        768
+        752,
+        505
       ],
-      "bytes": 145288,
-      "sha256": "ab2a87bfb5ca21636e73d70c5906288b1e4d1a3d3c78ccddddae2b4844ea2f7b",
-      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
+      "bytes": 369744,
+      "sha256": "ba59d816dd05ae47bf452af420407a256726ccef0a6e54dd98a4d2a08060442b",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real",
+      "displayTrim": "Transparent gutters cropped without enlarging or repainting the creature"
     },
     {
       "index": 36,
@@ -841,12 +846,13 @@
         664
       ],
       "dimensions": [
-        768,
-        1016
+        751,
+        974
       ],
-      "bytes": 372606,
-      "sha256": "e94d2fd8a0b9b523d8f550c37c37c20726107a75be45c4f3b00ecb2cb69c0ba6",
-      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real"
+      "bytes": 963922,
+      "sha256": "7d34abbcd188f390615e2106397feb4571a3c9d07a4139fb0e3b9d797abc39b1",
+      "reason": "Refaz o sprite restante com pintura dark fantasy, sombras de forma e transparência real",
+      "displayTrim": "Transparent gutters cropped without enlarging or repainting the creature"
     }
   ],
   "otherRaster": [
@@ -1249,15 +1255,6 @@
       "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
     },
     {
-      "asset": "assets/ui/relic-rail.webp",
-      "dimensions": [
-        960,
-        320
-      ],
-      "decision": "retained",
-      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
-    },
-    {
       "asset": "assets/ui/status-icons.webp",
       "dimensions": [
         512,
@@ -1274,6 +1271,15 @@
       ],
       "decision": "retained",
       "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/command-surround.webp",
+      "dimensions": [
+        1200,
+        400
+      ],
+      "decision": "created",
+      "reason": "Continuous dark fantasy frame around the complete player command dock"
     }
   ],
   "assetPolicy": "Uma imagem canônica por monstro; imagens mobile e atlas compartilhados mantidos por uso ativo",

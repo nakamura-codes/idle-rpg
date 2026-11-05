@@ -54,7 +54,7 @@ html[data-hud-font=classic]{--hud-title-font:Georgia,serif}
 .relic-caption>small{display:flex;align-items:center;justify-content:center;gap:7px;font:9px/11px Arial,sans-serif;letter-spacing:.6px;color:#d9bd97;white-space:nowrap}
 .relic-caption kbd{display:inline-block;font:9px/11px Arial,sans-serif;padding:0 3px;background:#37211d;color:#ffe1b3;border-color:#99734e}
 .relic-button:hover .relic-caption,.relic-button[aria-expanded=true] .relic-caption{background:#40201b}
-.relic-rail-art{opacity:.7}
+
 .relic-badge{top:13px;right:7px;min-width:20px;height:20px;font-size:12px}
 .hud-secondary{gap:9px}
 .hud-secondary button{display:grid;grid-template-columns:28px minmax(0,1fr) 18px;align-items:center;gap:7px;min-height:42px;height:42px;padding:6px 16px;text-align:left}
