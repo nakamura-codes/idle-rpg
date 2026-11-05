@@ -114,19 +114,19 @@
   };
   const PREFIXES = {comum:['Gasto','Rústico','Esquecido'], incomum:['Temperado','Velado','Vigilante'], raro:['Rúnico','Sombrio','Venerável'], epico:['Espectral','Imperial','Profanado'], lendario:['Eterno','do Ocaso','da Última Aurora']};
 
-  // 42 unique transparent PNG sprites, indexed exactly like the fixed combat roster.
+  // 42 unique transparent sprites, indexed exactly like the fixed combat roster.
   // V7 starts fresh with combat survival and a new save schema.
   const MONSTER_SPRITES = [
-    ['condenado-errante.png', 'guerreiro-esqueletico.png', 'sentinela-caida.png', 'arqueiro-macabro.png', 'zumbi-errante.png', 'espadachim-corrompido.png', 'cavaleiro-decapitado.png'],
-    ['lobo-sombrio.png', 'ratazana-pestilenta.png', 'lobo-da-praga.png', 'entorpecido-de-musgo.png', 'goblin-selvagem.png', 'rei-das-ratazanas.png', 'hidra-profanada.png'],
-    ['espectro-da-cripta-v2.png', 'alma-enregelada.png', 'lamento-submerso.png', 'afogado-sem-rosto.png', 'sacerdote-esquecido.png', 'bruxa-das-criptas.png', 'rei-lich.png'],
-    ['golem-ferrugem.png', 'carcereiro-runico.png', 'guardiao-de-basalto.png', 'orc-carniceiro.png', 'construto-enferrujado.png', 'ogro-do-ferro.png', 'cavaleiro-do-abismo.png'],
-    ['arauto-das-chamas.png', 'demonio-carmesim.png', 'flagelo-abissal.png', 'sucubo-das-cinzas.png', 'sombra-incandescente.png', 'devorador-morbido.png', 'dragao-das-fendas.png'],
-    ['lich-imortal.png', 'rei-das-sombras.png', 'devorador-de-estrelas.png', 'sacerdote-do-vazio.png', 'arauto-do-eclipse.png', 'medusa-do-eclipse.png', 'imperador-colossal.webp'],
+    ['condenado-errante.webp', 'guerreiro-esqueletico.png', 'sentinela-caida.webp', 'arqueiro-macabro.webp', 'zumbi-errante.png', 'espadachim-corrompido.webp', 'cavaleiro-decapitado.png'],
+    ['lobo-sombrio.png', 'ratazana-pestilenta.png', 'lobo-da-praga.webp', 'entorpecido-de-musgo.webp', 'goblin-selvagem.webp', 'rei-das-ratazanas.png', 'hidra-profanada.png'],
+    ['espectro-da-cripta.webp', 'alma-enregelada.webp', 'lamento-submerso.webp', 'afogado-sem-rosto.webp', 'sacerdote-esquecido.webp', 'bruxa-das-criptas.webp', 'rei-lich.png'],
+    ['golem-ferrugem.webp', 'carcereiro-runico.webp', 'guardiao-de-basalto.webp', 'orc-carniceiro.webp', 'construto-enferrujado.webp', 'ogro-do-ferro.webp', 'cavaleiro-do-abismo.png'],
+    ['arauto-das-chamas.webp', 'demonio-carmesim.webp', 'flagelo-abissal.webp', 'sucubo-das-cinzas.webp', 'sombra-incandescente.webp', 'devorador-morbido.webp', 'dragao-das-fendas.png'],
+    ['lich-imortal.webp', 'rei-das-sombras.webp', 'devorador-de-estrelas.webp', 'sacerdote-do-vazio.webp', 'arauto-do-eclipse.webp', 'medusa-do-eclipse.webp', 'imperador-colossal.webp'],
   ];
 
   const monsterSrc = (zoneIndex, creatureIndex) =>
-    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=5.1-left`;
+    ART.monsters[zoneIndex][creatureIndex].src || `assets/monsters/${MONSTER_SPRITES[zoneIndex][creatureIndex]}?v=6-hd`;
 
   // Shape-specific movement: skeletons, beasts, spirits, constructs, and cosmic beings move differently.
   const MONSTER_FAMILIES = [
@@ -566,7 +566,9 @@
     dialog(title,body,actions=[{text:'CONTINUAR',primary:true}],glyph='✦',details=null) {
       text('dialogIcon',glyph);
       text('dialogTitle',title);
-      text('dialogText',body);
+      // Every opening owns fresh content, including when the caption is unchanged.
+      // An image has no textContent, so the changed-value text helper cannot reset it.
+      $('dialogText').replaceChildren(document.createTextNode(String(body)));
       $('dialogBackdrop').dataset.kind=details?.kind || 'chronicle';
       if(details?.kind==='offline') {
         const intro=document.createElement('p');intro.textContent=body;
@@ -1506,7 +1508,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         const gate=!unlocked?'Derrote o chefão da região anterior':p.cleared?'✦ REGIÃO CONQUISTADA':`FASE ${p.stage}/10 · ${p.kills}/10 INIMIGOS`;
         const progressPercent=p.cleared?100:((p.stage-1)*10+p.kills)*100/100;
         const bossNote=p.cleared?'Chefão derrotado':p.stage===5&&!p.minibossDefeated?'✦ Miniboss na fase 5':p.stage===10?'☠ Chefão na fase 10':'Miniboss F5 · Chefão F10';
-        return `<article style="--region-art:url('assets/backgrounds/fast/${['campos-de-cinza','bosque-profanado','criptas-afogadas','fortaleza-de-ferro','fendas-infernais','trono-do-crepusculo'][index]}-mobile.webp')" class="zone-card ${current?'current':''} ${!unlocked?'locked':''} ${p.cleared?'cleared':''}"><div class="zone-index">${p.cleared?'◆':unlocked?'✧':'♜'} &nbsp; REGIÃO ${z.rune}</div><h3>${esc(z.name)}</h3><p>${esc(z.subtitle)}</p><div class="zone-requirement">${gate}</div><div class="zone-progress-track"><span style="width:${progressPercent}%"></span></div><div class="zone-boss-note">${bossNote}</div><div class="zone-bestiary" aria-label="Bestiário de ${esc(z.name)}">${[...z.names,z.miniboss,z.boss].map((mobName,mobIndex)=>`<button type="button" class="bestiary-creature ${mobIndex>=5?'elite':''} ${/\.(png|webp)$/.test(MONSTER_SPRITES[index][mobIndex])?'original-art':''}" data-inspect-zone="${index}" data-inspect-creature="${mobIndex}" aria-label="Ver ${esc(mobName)}" title="${esc(mobName)}${/\.(png|webp)$/.test(MONSTER_SPRITES[index][mobIndex])?' · Arte personalizada':''}${mobIndex===5?' (Miniboss)':mobIndex===6?' (Chefão)':''}"><img src="${monsterSrc(index,mobIndex)}" width="56" height="60" loading="lazy" alt=""/></button>`).join('')}</div><button type="button" data-travel="${index}" ${!unlocked||current?'disabled':''}>${current?'ATUAL':unlocked?'VIAJAR':'BLOQUEADA'}</button></article>`;
+        return `<article style="--region-art:url('assets/backgrounds/fast/${['campos-de-cinza','bosque-profanado','criptas-afogadas','fortaleza-de-ferro','fendas-infernais','trono-do-crepusculo'][index]}-mobile.webp?v=dark-14')" class="zone-card ${current?'current':''} ${!unlocked?'locked':''} ${p.cleared?'cleared':''}"><div class="zone-index">${p.cleared?'◆':unlocked?'✧':'♜'} &nbsp; REGIÃO ${z.rune}</div><h3>${esc(z.name)}</h3><p>${esc(z.subtitle)}</p><div class="zone-requirement">${gate}</div><div class="zone-progress-track"><span style="width:${progressPercent}%"></span></div><div class="zone-boss-note">${bossNote}</div><div class="zone-bestiary" aria-label="Bestiário de ${esc(z.name)}">${[...z.names,z.miniboss,z.boss].map((mobName,mobIndex)=>`<button type="button" class="bestiary-creature ${mobIndex>=5?'elite':''} ${/\.(png|webp)$/.test(MONSTER_SPRITES[index][mobIndex])?'original-art':''}" data-inspect-zone="${index}" data-inspect-creature="${mobIndex}" aria-label="Ver ${esc(mobName)}" title="${esc(mobName)}${/\.(png|webp)$/.test(MONSTER_SPRITES[index][mobIndex])?' · Arte personalizada':''}${mobIndex===5?' (Miniboss)':mobIndex===6?' (Chefão)':''}"><img src="${monsterSrc(index,mobIndex)}" width="56" height="60" loading="lazy" alt=""/></button>`).join('')}</div><button type="button" data-travel="${index}" ${!unlocked||current?'disabled':''}>${current?'ATUAL':unlocked?'VIAJAR':'BLOQUEADA'}</button></article>`;
       }).join('')}</div>`;
     }
     renderAscension() {
@@ -1563,12 +1565,5 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       if(b.hasAttribute('data-ascend')){this.requestAscension();}
     }
   }
-  // Recover the specter's portrait in combat, the bestiary and its dialog.
-  document.addEventListener('error', event => {
-    const image = event.target;
-    if (image instanceof HTMLImageElement && image.src.includes('/espectro-da-cripta-v2.png')) {
-      image.src = 'assets/monsters/espectro-da-cripta.svg?v=8.1';
-    }
-  }, true);
   new Game();
 })();

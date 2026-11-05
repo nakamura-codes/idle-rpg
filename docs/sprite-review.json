@@ -1,0 +1,1201 @@
+{
+  "reviewDate": "2026-11-05",
+  "reviewedMonsters": 42,
+  "replacedMonsters": 31,
+  "retainedMonsters": 11,
+  "removedFiles": [
+    "assets/monsters/condenado-errante.png",
+    "assets/monsters/sentinela-caida.png",
+    "assets/monsters/arqueiro-macabro.png",
+    "assets/monsters/espadachim-corrompido.png",
+    "assets/monsters/lobo-da-praga.png",
+    "assets/monsters/entorpecido-de-musgo.png",
+    "assets/monsters/goblin-selvagem.png",
+    "assets/monsters/espectro-da-cripta-v2.png",
+    "assets/monsters/alma-enregelada.png",
+    "assets/monsters/lamento-submerso.png",
+    "assets/monsters/afogado-sem-rosto.png",
+    "assets/monsters/sacerdote-esquecido.png",
+    "assets/monsters/bruxa-das-criptas.png",
+    "assets/monsters/golem-ferrugem.png",
+    "assets/monsters/carcereiro-runico.png",
+    "assets/monsters/guardiao-de-basalto.png",
+    "assets/monsters/orc-carniceiro.png",
+    "assets/monsters/construto-enferrujado.png",
+    "assets/monsters/ogro-do-ferro.png",
+    "assets/monsters/arauto-das-chamas.png",
+    "assets/monsters/demonio-carmesim.png",
+    "assets/monsters/flagelo-abissal.png",
+    "assets/monsters/sucubo-das-cinzas.png",
+    "assets/monsters/sombra-incandescente.png",
+    "assets/monsters/devorador-morbido.png",
+    "assets/monsters/lich-imortal.png",
+    "assets/monsters/rei-das-sombras.png",
+    "assets/monsters/devorador-de-estrelas.png",
+    "assets/monsters/sacerdote-do-vazio.png",
+    "assets/monsters/arauto-do-eclipse.png",
+    "assets/monsters/medusa-do-eclipse.png",
+    "assets/monsters/espectro-da-cripta.svg"
+  ],
+  "duplicateFilesBefore": [],
+  "monsters": [
+    {
+      "index": 1,
+      "name": "Condenado Errante",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/condenado-errante.webp",
+      "previousAsset": "assets/monsters/condenado-errante.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 179512,
+      "sha256": "5c30f687a4d7a0feef32497c94395cf425c32734a07c78a887f1cb55a8a06910",
+      "brief": "A gaunt condemned undead wanderer, decomposed gray skin, exposed ribs, torn burial rags, rusted shackles on wrists, stalking forward with long bony fingers. Desiccated face, no cheerful expression."
+    },
+    {
+      "index": 2,
+      "name": "Guerreiro Esquelético",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/guerreiro-esqueletico.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 570826,
+      "sha256": "20f9ec48d70846f9281a8d0511a368ed526d931b39e9a06952b1513e803575f1"
+    },
+    {
+      "index": 3,
+      "name": "Sentinela Caída",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/sentinela-caida.webp",
+      "previousAsset": "assets/monsters/sentinela-caida.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 146774,
+      "sha256": "cee1ad902e8a5eed38163df1fecf408d8998b135a0465e3432ad935d07b20529",
+      "brief": "A fallen skeletal sentinel wearing battered black iron plate and a shredded wine-red tabard, carrying a long chipped sword and a broken heater shield. Hollow skull eyes and a disciplined threatening stance."
+    },
+    {
+      "index": 4,
+      "name": "Arqueiro Macabro",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/arqueiro-macabro.webp",
+      "previousAsset": "assets/monsters/arqueiro-macabro.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 156260,
+      "sha256": "e89cc5a06b4e92a00351bb068e512097a76789fd8c5b28cc1019536459a42ed8",
+      "brief": "A skeletal macabre archer in a tattered dark hood, exposed ribs, ragged leather quiver with barbed arrows and a long gnarled bone-and-yew bow. A subtle ember glint in the eye sockets."
+    },
+    {
+      "index": 5,
+      "name": "Zumbi Errante",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/zumbi-errante.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 546838,
+      "sha256": "ee6c1f0fc1656741235e60810e42b21087da4a9cc82f1f1b6ed8338bc2e6486d"
+    },
+    {
+      "index": 6,
+      "name": "Espadachim Corrompido",
+      "action": "replaced",
+      "reason": "Visual de aventureiro pouco corrompido",
+      "asset": "assets/monsters/espadachim-corrompido.webp",
+      "previousAsset": "assets/monsters/espadachim-corrompido.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 248946,
+      "sha256": "b338b66d3a95ba0cec53ef568bf8d890df4e3f18ee44bfc855d3d56a23cdb051",
+      "brief": "A corrupted human swordsman, scarred ashen face partly hidden by a torn hood, corroded black plate and leather, shredded charcoal cape, broad long sword with faint deep-red curse fissures. Grim anatomy and battle-worn weight."
+    },
+    {
+      "index": 7,
+      "name": "Cavaleiro Decapitado",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/cavaleiro-decapitado.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 861995,
+      "sha256": "7d74e73c4c0446a8ff6739e7ec0257ee723dd8acf681adc991c905e72e54fcea"
+    },
+    {
+      "index": 8,
+      "name": "Lobo Sombrio",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/lobo-sombrio.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 514507,
+      "sha256": "ed9a6c81b5c74eed541950b0fe54e5f3a4b1ed4d25632de9e616eb259b5f5568"
+    },
+    {
+      "index": 9,
+      "name": "Ratazana Pestilenta",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/ratazana-pestilenta.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 633960,
+      "sha256": "f6dc00922f0cd436c2e404d37c1e681175d4d3feea655f13e88901d7040cc13f"
+    },
+    {
+      "index": 10,
+      "name": "Lobo da Praga",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/lobo-da-praga.webp",
+      "previousAsset": "assets/monsters/lobo-da-praga.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 81682,
+      "sha256": "28f855f1e2f2e411d0d3ecfcca527fb5d2024e2afc0624b43f86db22469bba6e",
+      "brief": "A plague wolf on four legs, emaciated and mangy, charcoal fur with bare necrotic patches, exposed ribs, scarred muzzle, fangs and restrained sickly ochre eyes. Realistic threatening canine anatomy, no bright green slime."
+    },
+    {
+      "index": 11,
+      "name": "Entorpecido de Musgo",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/entorpecido-de-musgo.webp",
+      "previousAsset": "assets/monsters/entorpecido-de-musgo.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 358604,
+      "sha256": "951c969746e5e1fb1f857f1a1c7009462b98e747356b41ba36f5518b123c66a9",
+      "brief": "A human-sized undead moss thrall, long distorted arms, damp decomposed barklike skin, black roots and dead moss overtaking its torso, crooked branches and small rotten fungi on shoulders. A sinister forest corpse, not a friendly tree spirit."
+    },
+    {
+      "index": 12,
+      "name": "Goblin Selvagem",
+      "action": "replaced",
+      "reason": "Proporções cartunescas e verde excessivo",
+      "asset": "assets/monsters/goblin-selvagem.webp",
+      "previousAsset": "assets/monsters/goblin-selvagem.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 84020,
+      "sha256": "5748df1a02dcfe4ea573e3b1e4122c9578d743bdd17aa7edcad96a0074132890",
+      "brief": "A feral wild goblin, small gaunt humanoid with muted gray-olive skin, long ears and a cruel narrow face, ragged leather wraps, hunched stalking posture and a jagged iron knife. Believable sinister proportions, no huge cartoon head."
+    },
+    {
+      "index": 13,
+      "name": "Rei das Ratazanas",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/rei-das-ratazanas.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 995740,
+      "sha256": "8e40d4ca4d025707739ad6143ae133bf311f1dd20507870d31bd2c0026c71b7a"
+    },
+    {
+      "index": 14,
+      "name": "Hidra Profanada",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/hidra-profanada.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 979224,
+      "sha256": "d270936d8666c2020fa955840392e81b81bffb34c1872a89764f39e108577c87"
+    },
+    {
+      "index": 15,
+      "name": "Espectro da Cripta",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/espectro-da-cripta.webp",
+      "previousAsset": "assets/monsters/espectro-da-cripta-v2.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 198390,
+      "sha256": "c64ee9359941a0e6242be632e8481f728b5d19dcebba3013d4fbdb0ba002eccc",
+      "brief": "A crypt specter with a clearly visible hollow skull beneath a shredded black funeral hood, elongated skeletal hands, ragged floating robe and restrained cold teal ectoplasm confined to the silhouette. Ominous ancient ghost."
+    },
+    {
+      "index": 16,
+      "name": "Alma Enregelada",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/alma-enregelada.webp",
+      "previousAsset": "assets/monsters/alma-enregelada.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 133936,
+      "sha256": "eb277c210ba43cec3c682fab290d820dbc7f6a9ddd96668c6f227b79662a4c16",
+      "brief": "A frozen soul, a tall skeletal ice wraith in tattered charcoal burial robes, jagged translucent ice grown through ribs and shoulders, dim cold-blue eyes and long clawed hands. Cold desaturated silver and blue-black, haunted rather than magical glitter."
+    },
+    {
+      "index": 17,
+      "name": "Lamento Submerso",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/lamento-submerso.webp",
+      "previousAsset": "assets/monsters/lamento-submerso.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 186576,
+      "sha256": "4276d14da1d0c3d5a4f51cddab98ea2b406101be2e487ebc0362cb83b9ba6e72",
+      "brief": "A drowned lamentation wraith, anguished gaunt pale face with a silent open mouth, long wet black hair and dark decaying burial drapery trailing as a few thick tendrils. Skeletal arms reach left, restrained dark teal undertones, unmistakably sinister."
+    },
+    {
+      "index": 18,
+      "name": "Afogado Sem Rosto",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/afogado-sem-rosto.webp",
+      "previousAsset": "assets/monsters/afogado-sem-rosto.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 205576,
+      "sha256": "3c00007f731aa3ad103f4e281d761f442ee3b05906c5a072143c70d400aca240",
+      "brief": "A faceless drowned revenant, swollen gray cadaver with smooth featureless face, barnacles and corroded chains embedded in its torso, ragged soaked cloth and a heavy broken anchor hook. Disturbing maritime dark fantasy, cold muted blue-black palette."
+    },
+    {
+      "index": 19,
+      "name": "Sacerdote Esquecido",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/sacerdote-esquecido.webp",
+      "previousAsset": "assets/monsters/sacerdote-esquecido.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 222070,
+      "sha256": "9050f0980c8e74309eefc837bafbc1cfe156d0fa38b46e320c56884c8a2bcdff",
+      "brief": "A forgotten skeletal priest, ancient hooded funeral robes in faded black and sepia, corroded reliquary charms, prayer beads, hunched posture and a crooked staff topped with a tarnished skull. Desiccated skull face and oppressive catacomb mood."
+    },
+    {
+      "index": 20,
+      "name": "Bruxa das Criptas",
+      "action": "replaced",
+      "reason": "Visual de bruxa fantasiosa pouco ameaçadora",
+      "asset": "assets/monsters/bruxa-das-criptas.webp",
+      "previousAsset": "assets/monsters/bruxa-das-criptas.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 398874,
+      "sha256": "d5ded27514da4644d0230c8abff52d740aaf2e2cd4de4e771c543613e906e402",
+      "brief": "A decrepit crypt witch, ancient gaunt bone-white face, sunken eyes, a tattered black ritual hood and iron headdress, layered decaying vestments and skull talismans. Holding a twisted staff with a tiny dark ruby glow. Threatening, no whimsical pointed cartoon hat."
+    },
+    {
+      "index": 21,
+      "name": "Rei Lich",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/rei-lich.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 802244,
+      "sha256": "1e74868b70d75fedbfb6d93a696b8fa110483a58ac8d02daf397c32312dc8552"
+    },
+    {
+      "index": 22,
+      "name": "Golem Ferrugem",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/golem-ferrugem.webp",
+      "previousAsset": "assets/monsters/golem-ferrugem.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 372088,
+      "sha256": "27f6e8cd7b1acb54ba3b1247b9351e75537935ef3c7a04f37bc1258495dae231",
+      "brief": "A rust golem, an enormous heavy biped assembled from jagged rusted armor, fallen swords and oxidized iron slabs, huge uneven arms, skull-shaped furnace cavity and very restrained ember light within. Weighty brutal silhouette, not a shiny robot."
+    },
+    {
+      "index": 23,
+      "name": "Carcereiro Rúnico",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/carcereiro-runico.webp",
+      "previousAsset": "assets/monsters/carcereiro-runico.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 326196,
+      "sha256": "e3b1b1abec9a22a60bf0014311b30d66136538299f4d7ee6dfa7bb71923d6f49",
+      "brief": "A runic jailer, towering undead executioner in corroded black plate, spiked iron cage helmet hiding its face, heavy hooked mace, shackles and rusted prison chains, faint scorched amber runes on chest. Visually distinct from a stone golem."
+    },
+    {
+      "index": 24,
+      "name": "Guardião de Basalto",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/guardiao-de-basalto.webp",
+      "previousAsset": "assets/monsters/guardiao-de-basalto.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 299758,
+      "sha256": "80045d5cce034eef47a4a6101865152bb06fc16cbed5199308d97967d77e4b32",
+      "brief": "A basalt guardian, massive squat obsidian and dark basalt stone colossus, huge fractured slab fists, jagged shoulders and shieldlike forearm, narrow molten-orange fissures deep in its stone body. Dense heavy proportions, subtle glow, menacing ancient construct."
+    },
+    {
+      "index": 25,
+      "name": "Orc Carniceiro",
+      "action": "replaced",
+      "reason": "Proporções caricatas",
+      "asset": "assets/monsters/orc-carniceiro.webp",
+      "previousAsset": "assets/monsters/orc-carniceiro.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 310064,
+      "sha256": "7e7dc0bc47bfb12bc1703d998d9014a17becc5625a3bd1a8a8694ac574f94c81",
+      "brief": "An orc butcher, large sinewy gray-olive orc with scarred narrow face, broken tusk, rough iron and bone armor, filthy dark leather butcher apron and enormous chipped cleaver. Realistic weight and threatening anatomy, no cute caricature or bright green skin."
+    },
+    {
+      "index": 26,
+      "name": "Construto Enferrujado",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/construto-enferrujado.webp",
+      "previousAsset": "assets/monsters/construto-enferrujado.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 254896,
+      "sha256": "16a9758b886e687c112f95c678973afd4dac67b8fc989774ce48471a17ec02f7",
+      "brief": "A rusted execution construct, a skeletal iron automaton with an open ribcage of gears, narrow cage head, long heavy mechanical legs, one hooked sawblade hand and a trailing prison chain. Aged dark bronze and corroded black iron, distinct lean silhouette from the bulky rust golem."
+    },
+    {
+      "index": 27,
+      "name": "Ogro do Ferro",
+      "action": "replaced",
+      "reason": "Proporções caricatas",
+      "asset": "assets/monsters/ogro-do-ferro.webp",
+      "previousAsset": "assets/monsters/ogro-do-ferro.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 300946,
+      "sha256": "7f6b7df7f9de5699e98ae5503bfe62bbe889cb884a15769b9602af46f9416f3a",
+      "brief": "An iron ogre, gigantic hunched gray-brown brute, long powerful arms, weathered scarred face and small deep-set eyes, brutal riveted iron plates bolted over leather and flesh, carrying a huge rusted iron maul. Heavy asymmetrical anatomy, no rounded cartoon proportions."
+    },
+    {
+      "index": 28,
+      "name": "Cavaleiro do Abismo",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/cavaleiro-do-abismo.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 793123,
+      "sha256": "9af8d92c5af76d15b23a96f990abad7a816b6b0a1529a41aaad5696d370b0d43"
+    },
+    {
+      "index": 29,
+      "name": "Arauto das Chamas",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/arauto-das-chamas.webp",
+      "previousAsset": "assets/monsters/arauto-das-chamas.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 325816,
+      "sha256": "29fcb844fce6544cf4c4c76dc2a6ebdbedbd4882e960a1bc4cc88d47b44d6fe2",
+      "brief": "A herald of flames, an infernal armored priest whose blackened skeletal body is bound in charcoal plate, torn burnt tabard, crown of scorched metal and a furnace staff. Contained amber-red fire rises close to shoulders and staff, sinister ash and iron, full readable silhouette."
+    },
+    {
+      "index": 30,
+      "name": "Demônio Carmesim",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/demonio-carmesim.webp",
+      "previousAsset": "assets/monsters/demonio-carmesim.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 273872,
+      "sha256": "406f45d16f806aec7b1b98f633dc901a03d48e8b79d186131c3e93f6f7b7d588",
+      "brief": "A crimson demon, tall lean muscular demonic biped with dark oxblood skin, jagged black horns, ragged bat wings folded enough to fit the canvas, clawed hands, hooves and a barbed tail. Menacing adult dark fantasy anatomy, muted crimson and black, no cartoon grin."
+    },
+    {
+      "index": 31,
+      "name": "Flagelo Abissal",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/flagelo-abissal.webp",
+      "previousAsset": "assets/monsters/flagelo-abissal.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 363028,
+      "sha256": "33a916d87d6fe3f8ac6a8a1d50a3dd22fe911f889039ba58a3b6898ea4271f91",
+      "brief": "An abyssal scourge, a towering coiled chitinous centipede-serpent monstrosity, many hooked legs, layered black and oxblood carapace plates, serrated jaws and small ember eyes. Entire coiled body and all major limbs visible, unsettling insectoid abyss creature."
+    },
+    {
+      "index": 32,
+      "name": "Súcubo das Cinzas",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/sucubo-das-cinzas.webp",
+      "previousAsset": "assets/monsters/sucubo-das-cinzas.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 200012,
+      "sha256": "590ce5a12dcfc873124d2d4844765e1ae85a7a744b12bb1a0be2bfef682c00b7",
+      "brief": "A succubus of ashes, a sinister winged female demon with gray ash skin, cruel gaunt face, curved black horns, long talons and ragged bat wings, dressed in weathered black ritual armor and torn opaque drapery fully covering torso and hips. Threatening nonsexual pose, not glamorous."
+    },
+    {
+      "index": 33,
+      "name": "Sombra Incandescente",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/sombra-incandescente.webp",
+      "previousAsset": "assets/monsters/sombra-incandescente.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 360192,
+      "sha256": "0c25cae48ba0af79e82dd7dc0ef1173cc0bff3b029c1c988e267e13c628b8ef8",
+      "brief": "An incandescent shadow, a charred humanoid wraith beneath a torn scorched hood, body of black ash crust split by narrow deep ember fissures, clawed hands and ragged heavy funeral robes. A coherent solid silhouette, dim smoldering edges, no detached sparks or big flame halo."
+    },
+    {
+      "index": 34,
+      "name": "Devorador Mórbido",
+      "action": "replaced",
+      "reason": "Slime brilhante e cartunesco",
+      "asset": "assets/monsters/devorador-morbido.webp",
+      "previousAsset": "assets/monsters/devorador-morbido.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 328780,
+      "sha256": "87604442507ab970e7f98ab2ebb939de002ef0db52d73bef597736ab3bb5105c",
+      "brief": "A morbid devourer, a low hulking mass of decayed gray-olive flesh and black organic armor, multiple grotesque tooth-lined mouths and a few dull ember eyes, long uneven grasping limbs and wet weathered textures. Horror creature with physical weight, not a neon green gelatin cartoon blob."
+    },
+    {
+      "index": 35,
+      "name": "Dragão das Fendas",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/dragao-das-fendas.png",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 932504,
+      "sha256": "62cc7ee3ccb1c0e43a6b4c9d00ce33d74b79bded57c0103af7bff1b6ec8c0dac"
+    },
+    {
+      "index": 36,
+      "name": "Lich Imortal",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/lich-imortal.webp",
+      "previousAsset": "assets/monsters/lich-imortal.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 381352,
+      "sha256": "1a9a62b6940307782740f252212d9dcbf0d9e91b1c27123a7affb451be031d02",
+      "brief": "An immortal lich, gaunt skeletal archmage wearing ancient black-and-tarnished-bronze armor under shredded funeral vestments, bone-and-iron crown, clawed hand and a staff with a tiny dark violet crystal. Imposing detailed silhouette, muted palette, no broad magical glow."
+    },
+    {
+      "index": 37,
+      "name": "Rei das Sombras",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/rei-das-sombras.webp",
+      "previousAsset": "assets/monsters/rei-das-sombras.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 282978,
+      "sha256": "88e747e91d26d1a01aa7468e1a9b05dad0954c6488d717c22b5f0e3d405c13b1",
+      "brief": "A king of shadows, skeletal fallen monarch in layered black iron armor, jagged ancient crown and a long shredded charcoal royal cape, wielding a huge chipped greatsword with a faint cold edge. Shadow tendrils remain close to the body, sinister regal silhouette distinct from a staff-wielding lich."
+    },
+    {
+      "index": 38,
+      "name": "Devorador de Estrelas",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/devorador-de-estrelas.webp",
+      "previousAsset": "assets/monsters/devorador-de-estrelas.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 376762,
+      "sha256": "4d2ee93d7365b939f2979238770835121e25c21efce53d007a690ec8b108807f",
+      "brief": "A devourer of stars, massive eldritch cosmic beast formed of blackened sinewy tentacles and chitin, a dark central void maw, a few dim violet eyes and sparse trapped starlight within cracked flesh. Entire coherent coiled silhouette, muted violet-black, horror rather than fluorescent space magic."
+    },
+    {
+      "index": 39,
+      "name": "Sacerdote do Vazio",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/sacerdote-do-vazio.webp",
+      "previousAsset": "assets/monsters/sacerdote-do-vazio.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 267784,
+      "sha256": "d6be2d2d6c52c832229ccdc81ee032948e5b7b6424850082f9d87e04b14e06b2",
+      "brief": "A priest of the void, tall thin hooded cultist with no visible face inside a black hood, long torn ceremonial charcoal robes, pale elongated skeletal hands, tarnished bronze talismans and a staff holding a small black void orb with restrained violet rim light. Grim ancient occult presence."
+    },
+    {
+      "index": 40,
+      "name": "Arauto do Eclipse",
+      "action": "replaced",
+      "reason": "Resolução de origem 192×192",
+      "asset": "assets/monsters/arauto-do-eclipse.webp",
+      "previousAsset": "assets/monsters/arauto-do-eclipse.png",
+      "beforeDimensions": [
+        192,
+        192
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 367128,
+      "sha256": "a0b7f0071843fb1ed7fb4d5ad65c75f95fbad29fc87df69db52bebd98ced13d2",
+      "brief": "A herald of the eclipse, a tall spiked black-iron ritual figure with an empty circular eclipsed sun disk in place of its face, thin restrained burnt-gold corona, riblike ceremonial armor and long shredded black-red vestments. A jagged staff, imposing sinister full body, no giant glowing background halo."
+    },
+    {
+      "index": 41,
+      "name": "Medusa do Eclipse",
+      "action": "replaced",
+      "reason": "Visual clássico e pouco ameaçador",
+      "asset": "assets/monsters/medusa-do-eclipse.webp",
+      "previousAsset": "assets/monsters/medusa-do-eclipse.png",
+      "beforeDimensions": [
+        768,
+        768
+      ],
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 340218,
+      "sha256": "81dbdaec593e6e262c05f7f70758d7f3ab309399229fd44805a50ba974383836",
+      "brief": "A medusa of the eclipse, a sinister ancient serpentine queen with a coiled dark scaled tail, weathered obsidian and tarnished jade armor, ragged opaque royal drapery, half-petrified bone-pale face and venomous black snake hair. Shadowed eyes, threatening clawed gesture, mature nonsexual anatomy, not a glamorous classical pin-up."
+    },
+    {
+      "index": 42,
+      "name": "Imperador do Crepúsculo",
+      "action": "retained",
+      "reason": "Silhueta sombria, boa definição e resolução adequada ao porte",
+      "asset": "assets/monsters/imperador-colossal.webp",
+      "dimensions": [
+        502,
+        664
+      ],
+      "bytes": 165578,
+      "sha256": "a2ff79ead99ca9b27f6bd71af280f4a500036546404d59c1116b18021a81a473"
+    }
+  ],
+  "otherRaster": [
+    {
+      "asset": "assets/backgrounds/fast/bosque-profanado-boss-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/bosque-profanado-boss.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/bosque-profanado-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/bosque-profanado.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/campos-de-cinza-boss-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/campos-de-cinza-boss.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/campos-de-cinza-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/campos-de-cinza.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/criptas-afogadas-boss-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/criptas-afogadas-boss.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/criptas-afogadas-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/criptas-afogadas.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fendas-infernais-boss-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fendas-infernais-boss.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fendas-infernais-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fendas-infernais.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fortaleza-de-ferro-boss-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fortaleza-de-ferro-boss.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fortaleza-de-ferro-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/fortaleza-de-ferro.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/trono-do-crepusculo-boss-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/trono-do-crepusculo-boss.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/trono-do-crepusculo-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/backgrounds/fast/trono-do-crepusculo.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "replaced",
+      "reason": "Cenário sinistro pintado por região; arena de chefão distinta e coerente com a área; variantes desktop/mobile otimizadas"
+    },
+    {
+      "asset": "assets/events/cursed-chest.webp",
+      "dimensions": [
+        256,
+        256
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/events/infernal-reliquary.webp",
+      "dimensions": [
+        384,
+        480
+      ],
+      "decision": "replaced",
+      "reason": "Exterior transparente ao redor dos ornamentos; remove o retângulo preto sem apagar o painel interno"
+    },
+    {
+      "asset": "assets/events/treasure-goblin.webp",
+      "dimensions": [
+        256,
+        256
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/hero/fast/errante.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/hud/calice-ascensao.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/hud/livro-negro.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/hud/mochila-velha.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/items/illustrated/region-1.webp",
+      "dimensions": [
+        512,
+        640
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/items/illustrated/region-2.webp",
+      "dimensions": [
+        512,
+        640
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/items/illustrated/region-3.webp",
+      "dimensions": [
+        512,
+        640
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/items/illustrated/region-4.webp",
+      "dimensions": [
+        512,
+        640
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/items/illustrated/region-5.webp",
+      "dimensions": [
+        512,
+        640
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/items/illustrated/region-6.webp",
+      "dimensions": [
+        512,
+        640
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/menu/botoes/botao-cinza.png",
+      "dimensions": [
+        948,
+        186
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/menu/botoes/botao-vermelho.png",
+      "dimensions": [
+        948,
+        186
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/infernal-frame.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/menu-scene-mobile.webp",
+      "dimensions": [
+        720,
+        405
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/menu-scene.webp",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/menu-title.webp",
+      "dimensions": [
+        900,
+        450
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/regions-tree.webp",
+      "dimensions": [
+        256,
+        256
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/relic-rail.webp",
+      "dimensions": [
+        960,
+        320
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/status-icons.webp",
+      "dimensions": [
+        512,
+        384
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    },
+    {
+      "asset": "assets/ui/vitality-bezel.webp",
+      "dimensions": [
+        320,
+        320
+      ],
+      "decision": "retained",
+      "reason": "Revisado: arte coerente com o dark fantasy e definição adequada ao uso; variantes mobile têm função responsiva"
+    }
+  ],
+  "assetPolicy": "Uma imagem canônica por monstro; imagens mobile e atlas compartilhados mantidos por uso ativo"
+}

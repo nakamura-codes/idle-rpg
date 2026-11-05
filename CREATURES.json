@@ -5,10 +5,10 @@
     "slot": 0,
     "type": "common",
     "name": "Condenado Errante",
-    "asset": "assets/monsters/condenado-errante.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/condenado-errante.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 1,
@@ -27,10 +27,10 @@
     "slot": 2,
     "type": "common",
     "name": "Sentinela Caída",
-    "asset": "assets/monsters/sentinela-caida.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/sentinela-caida.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 1,
@@ -38,10 +38,10 @@
     "slot": 3,
     "type": "common",
     "name": "Arqueiro Macabro",
-    "asset": "assets/monsters/arqueiro-macabro.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/arqueiro-macabro.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 1,
@@ -60,10 +60,10 @@
     "slot": 5,
     "type": "miniboss",
     "name": "Espadachim Corrompido",
-    "asset": "assets/monsters/espadachim-corrompido.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/espadachim-corrompido.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 1,
@@ -104,10 +104,10 @@
     "slot": 2,
     "type": "common",
     "name": "Lobo da Praga",
-    "asset": "assets/monsters/lobo-da-praga.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/lobo-da-praga.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -115,10 +115,10 @@
     "slot": 3,
     "type": "common",
     "name": "Entorpecido de Musgo",
-    "asset": "assets/monsters/entorpecido-de-musgo.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/entorpecido-de-musgo.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -126,10 +126,10 @@
     "slot": 4,
     "type": "common",
     "name": "Goblin Selvagem",
-    "asset": "assets/monsters/goblin-selvagem.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/goblin-selvagem.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 2,
@@ -159,10 +159,10 @@
     "slot": 0,
     "type": "common",
     "name": "Espectro da Cripta",
-    "asset": "assets/monsters/espectro-da-cripta-v2.png",
-    "source": "Retrato atual com fallback vetorial",
+    "asset": "assets/monsters/espectro-da-cripta.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -170,10 +170,10 @@
     "slot": 1,
     "type": "common",
     "name": "Alma Enregelada",
-    "asset": "assets/monsters/alma-enregelada.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/alma-enregelada.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -181,10 +181,10 @@
     "slot": 2,
     "type": "common",
     "name": "Lamento Submerso",
-    "asset": "assets/monsters/lamento-submerso.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/lamento-submerso.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -192,10 +192,10 @@
     "slot": 3,
     "type": "common",
     "name": "Afogado Sem Rosto",
-    "asset": "assets/monsters/afogado-sem-rosto.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/afogado-sem-rosto.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -203,10 +203,10 @@
     "slot": 4,
     "type": "common",
     "name": "Sacerdote Esquecido",
-    "asset": "assets/monsters/sacerdote-esquecido.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/sacerdote-esquecido.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -214,10 +214,10 @@
     "slot": 5,
     "type": "miniboss",
     "name": "Bruxa das Criptas",
-    "asset": "assets/monsters/bruxa-das-criptas.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/bruxa-das-criptas.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 3,
@@ -236,10 +236,10 @@
     "slot": 0,
     "type": "common",
     "name": "Golem Ferrugem",
-    "asset": "assets/monsters/golem-ferrugem.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/golem-ferrugem.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -247,10 +247,10 @@
     "slot": 1,
     "type": "common",
     "name": "Carcereiro Rúnico",
-    "asset": "assets/monsters/carcereiro-runico.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/carcereiro-runico.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -258,10 +258,10 @@
     "slot": 2,
     "type": "common",
     "name": "Guardião de Basalto",
-    "asset": "assets/monsters/guardiao-de-basalto.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/guardiao-de-basalto.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -269,10 +269,10 @@
     "slot": 3,
     "type": "common",
     "name": "Orc Carniceiro",
-    "asset": "assets/monsters/orc-carniceiro.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/orc-carniceiro.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -280,10 +280,10 @@
     "slot": 4,
     "type": "common",
     "name": "Construto Enferrujado",
-    "asset": "assets/monsters/construto-enferrujado.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/construto-enferrujado.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -291,10 +291,10 @@
     "slot": 5,
     "type": "miniboss",
     "name": "Ogro do Ferro",
-    "asset": "assets/monsters/ogro-do-ferro.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/ogro-do-ferro.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 4,
@@ -313,10 +313,10 @@
     "slot": 0,
     "type": "common",
     "name": "Arauto das Chamas",
-    "asset": "assets/monsters/arauto-das-chamas.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/arauto-das-chamas.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -324,10 +324,10 @@
     "slot": 1,
     "type": "common",
     "name": "Demônio Carmesim",
-    "asset": "assets/monsters/demonio-carmesim.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/demonio-carmesim.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -335,10 +335,10 @@
     "slot": 2,
     "type": "common",
     "name": "Flagelo Abissal",
-    "asset": "assets/monsters/flagelo-abissal.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/flagelo-abissal.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -346,10 +346,10 @@
     "slot": 3,
     "type": "common",
     "name": "Súcubo das Cinzas",
-    "asset": "assets/monsters/sucubo-das-cinzas.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/sucubo-das-cinzas.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -357,10 +357,10 @@
     "slot": 4,
     "type": "common",
     "name": "Sombra Incandescente",
-    "asset": "assets/monsters/sombra-incandescente.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/sombra-incandescente.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -368,10 +368,10 @@
     "slot": 5,
     "type": "miniboss",
     "name": "Devorador Mórbido",
-    "asset": "assets/monsters/devorador-morbido.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/devorador-morbido.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 5,
@@ -390,10 +390,10 @@
     "slot": 0,
     "type": "common",
     "name": "Lich Imortal",
-    "asset": "assets/monsters/lich-imortal.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/lich-imortal.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,
@@ -401,10 +401,10 @@
     "slot": 1,
     "type": "common",
     "name": "Rei das Sombras",
-    "asset": "assets/monsters/rei-das-sombras.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/rei-das-sombras.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,
@@ -412,10 +412,10 @@
     "slot": 2,
     "type": "common",
     "name": "Devorador de Estrelas",
-    "asset": "assets/monsters/devorador-de-estrelas.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/devorador-de-estrelas.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,
@@ -423,10 +423,10 @@
     "slot": 3,
     "type": "common",
     "name": "Sacerdote do Vazio",
-    "asset": "assets/monsters/sacerdote-do-vazio.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/sacerdote-do-vazio.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,
@@ -434,10 +434,10 @@
     "slot": 4,
     "type": "common",
     "name": "Arauto do Eclipse",
-    "asset": "assets/monsters/arauto-do-eclipse.png",
-    "source": "novo RAR",
+    "asset": "assets/monsters/arauto-do-eclipse.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,
@@ -445,10 +445,10 @@
     "slot": 5,
     "type": "miniboss",
     "name": "Medusa do Eclipse",
-    "asset": "assets/monsters/medusa-do-eclipse.png",
-    "source": "PNG anterior",
+    "asset": "assets/monsters/medusa-do-eclipse.webp",
+    "source": "Pintura HD revisada 2026-11-05",
     "battle_direction": "left",
-    "sprite_mirrored": true
+    "sprite_mirrored": false
   },
   {
     "region": 6,

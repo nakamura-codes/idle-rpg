@@ -114,7 +114,7 @@
 .hero-ground-name{position:absolute;bottom:-20px;left:0;right:0;color:#e8ca95;text-align:center;font-size:10px;font-weight:800;letter-spacing:1.4px;text-shadow:0 2px 5px #000}
 .battlefield .attack-target{left:auto;right:3%;top:auto;bottom:30px;transform:none;width:49%;height:298px;transition:width .55s ease,height .55s ease,right .55s ease;z-index:4}
 .battlefield .monster-art{transform:none!important;display:block;position:absolute;inset:0;width:100%;height:100%;transition:filter .16s}
-.battlefield .monster-art img{display:block;object-fit:contain;object-position:bottom center;width:100%;height:100%;image-rendering:pixelated;filter:drop-shadow(0 10px 6px #000b)}
+.battlefield .monster-art img{display:block;object-fit:contain;object-position:bottom center;width:100%;height:100%;image-rendering:auto;filter:drop-shadow(0 10px 6px #000b)}
 .battlefield .mob-shadow{bottom:5px;left:12%;width:76%;height:20px}
 .battlefield .monster-aura{inset:30% 5% 10%;pointer-events:none}
 .battlefield .target-hint{bottom:-20px;font-size:9px;letter-spacing:1px}
@@ -151,10 +151,10 @@
 .combat-hero-sprite{image-rendering:auto;filter:drop-shadow(0 4px 3px #0009)}
 .equipment-strip{grid-template-columns:repeat(3,minmax(0,1fr))}
 .equip-slot{min-width:0}
-.equip-thumbnail{display:block;width:44px;height:48px;object-fit:contain;flex:0 0 44px;image-rendering:pixelated;filter:drop-shadow(0 2px 3px #000b)}
+.equip-thumbnail{display:block;width:44px;height:48px;object-fit:contain;flex:0 0 44px;image-rendering:auto;filter:drop-shadow(0 2px 3px #000b)}
 .item-card .item-top{align-items:center;min-height:78px}
 .item-card .item-glyph{width:65px;height:67px;flex:0 0 65px;display:grid;place-items:center;overflow:hidden}
-.item-card .item-icon{width:60px;height:60px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 3px 4px #0009)}
+.item-card .item-icon{width:60px;height:60px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 3px 4px #0009)}
 .item-card .item-stats{min-height:42px}
 .item-origin{display:block;margin-top:6px;color:#a48d70;font-size:10px}
 .item-card.rarity-sucata{--rarity-text:#9e978e;--rarity-border:#544b45}

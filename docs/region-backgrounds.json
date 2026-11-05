@@ -1,0 +1,338 @@
+[
+  {
+    "region": 0,
+    "regionName": "Campos de Cinza",
+    "slug": "campos-de-cinza",
+    "mode": "boss",
+    "boss": "Cavaleiro Decapitado",
+    "sourceSha256": "fafb081a8aa137e59068d6781804f0629cc96204febfd6c1597a597c96f60f7c",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/campos-de-cinza-boss.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 182752,
+        "sha256": "77019066d08d57b63fcbcd3fa023a5328edef04aa1cf9093af27f4098c6849ae"
+      },
+      {
+        "asset": "assets/backgrounds/fast/campos-de-cinza-boss-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 60322,
+        "sha256": "43c21309d7a5ecbb4054c584e7ba1ed0bfb4613a7d543fffe90e4529a925962d"
+      }
+    ]
+  },
+  {
+    "region": 0,
+    "regionName": "Campos de Cinza",
+    "slug": "campos-de-cinza",
+    "mode": "common",
+    "boss": "Cavaleiro Decapitado",
+    "sourceSha256": "02fd63d70c18a30ca3e07f9f6ff48503622ba67a81b7e07013914430b14914fb",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/campos-de-cinza.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 170302,
+        "sha256": "970a24a181bc39ad942659be5d6f355443ccba904c541a035b66f17c5fbbc0be"
+      },
+      {
+        "asset": "assets/backgrounds/fast/campos-de-cinza-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 52574,
+        "sha256": "e85c8a16e440ec8638b81ed53dc6a82e1cdd147e89cd324a54eed3206972b85d"
+      }
+    ]
+  },
+  {
+    "region": 1,
+    "regionName": "Bosque Profanado",
+    "slug": "bosque-profanado",
+    "mode": "boss",
+    "boss": "Hidra Profanada",
+    "sourceSha256": "a68cb78e8c256a95be6ff33772e2f44c66ec7d065646aec548d395a60382a0fe",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/bosque-profanado-boss.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 204994,
+        "sha256": "118fd236e821227bfd4a815b0b90dea3f41814d89d57b626d82e166cfadaf424"
+      },
+      {
+        "asset": "assets/backgrounds/fast/bosque-profanado-boss-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 71562,
+        "sha256": "948c140eed8d78f1a76d9c558ea0a6b0644f82f85f581071177165f229bb9e3b"
+      }
+    ]
+  },
+  {
+    "region": 1,
+    "regionName": "Bosque Profanado",
+    "slug": "bosque-profanado",
+    "mode": "common",
+    "boss": "Hidra Profanada",
+    "sourceSha256": "3970b155a62f2fab608d177f7347f0b1b6e14c68f094a6e3a070a90c5d4e8900",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/bosque-profanado.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 186568,
+        "sha256": "4d1ad76cfc557d5b392ebb1e0f6ddd19c117f4dc5ba13b58df779b197a2bcf6d"
+      },
+      {
+        "asset": "assets/backgrounds/fast/bosque-profanado-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 63984,
+        "sha256": "9a972b34995a88ad40a8b4a246c3fe65e07f2e2b222218d5d555649435492aa4"
+      }
+    ]
+  },
+  {
+    "region": 2,
+    "regionName": "Criptas Afogadas",
+    "slug": "criptas-afogadas",
+    "mode": "boss",
+    "boss": "Rei Lich",
+    "sourceSha256": "3254edf84e6306211fe4d90d4eed69d981ce95fec8bcd992ab5e55ea2434907d",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/criptas-afogadas-boss.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 209054,
+        "sha256": "78f4da0c68e9c860c1dfa09491dfbfd17a49a4b6c16c458699ace4c64493f33b"
+      },
+      {
+        "asset": "assets/backgrounds/fast/criptas-afogadas-boss-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 69018,
+        "sha256": "e6086682934219143dcf569fb9d7c976e535ce3497ae8b9dada1ea1439c8802a"
+      }
+    ]
+  },
+  {
+    "region": 2,
+    "regionName": "Criptas Afogadas",
+    "slug": "criptas-afogadas",
+    "mode": "common",
+    "boss": "Rei Lich",
+    "sourceSha256": "d9aaeb2972115dddb2edd8886a8de1302ee3f4982be073d955e0f75f7f57a387",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/criptas-afogadas.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 198056,
+        "sha256": "f84ee2ef4e1ef2335b3d7546774fa9672478ac24d462ded68f8bea411f97e9f8"
+      },
+      {
+        "asset": "assets/backgrounds/fast/criptas-afogadas-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 63030,
+        "sha256": "4e3a07d1b91b4baa3c8c1fab99e593f81b5acba9885aa887b3f5d1c1189ab2e4"
+      }
+    ]
+  },
+  {
+    "region": 3,
+    "regionName": "Fortaleza de Ferro",
+    "slug": "fortaleza-de-ferro",
+    "mode": "boss",
+    "boss": "Cavaleiro do Abismo",
+    "sourceSha256": "54bc53767b3dafd631c16f6d3eb804a0b5ef77d55612428229b847df305f9671",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/fortaleza-de-ferro-boss.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 221632,
+        "sha256": "64ca8ab4dfd384417db882426db71718d6fd7ea3a20e2a8462c1201cd2f0b9d8"
+      },
+      {
+        "asset": "assets/backgrounds/fast/fortaleza-de-ferro-boss-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 71050,
+        "sha256": "d5983d16a450b54163ea2d7aa17432056311895af2dd5c35c80a0405e737bd98"
+      }
+    ]
+  },
+  {
+    "region": 3,
+    "regionName": "Fortaleza de Ferro",
+    "slug": "fortaleza-de-ferro",
+    "mode": "common",
+    "boss": "Cavaleiro do Abismo",
+    "sourceSha256": "0edb3726b705e4b1c02f61eda40cd895034898202d2d987916d77ef04ba336c2",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/fortaleza-de-ferro.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 214298,
+        "sha256": "0467815077bbbd86045a2d25bf759e89d82d0bf382b361ee5a45051048979446"
+      },
+      {
+        "asset": "assets/backgrounds/fast/fortaleza-de-ferro-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 64476,
+        "sha256": "827f13ad4ec41e1d4493f75c50782ea3ad0b0b4aaedd82779c4377759df90aac"
+      }
+    ]
+  },
+  {
+    "region": 4,
+    "regionName": "Fendas Infernais",
+    "slug": "fendas-infernais",
+    "mode": "boss",
+    "boss": "Dragão das Fendas",
+    "sourceSha256": "2330aaaf18d21c44cf471ea02ac5a5800712da66abbb85e2c07cedce88c55c38",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/fendas-infernais-boss.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 165354,
+        "sha256": "ea923baa45024edd4a4a26af8ed8a8be611dedaf34b29c7d5b6a1eb062280223"
+      },
+      {
+        "asset": "assets/backgrounds/fast/fendas-infernais-boss-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 53588,
+        "sha256": "222e9e5bf9d67b45ce708a2b508aaceb787ed2a953ec6872708325416182a8e2"
+      }
+    ]
+  },
+  {
+    "region": 4,
+    "regionName": "Fendas Infernais",
+    "slug": "fendas-infernais",
+    "mode": "common",
+    "boss": "Dragão das Fendas",
+    "sourceSha256": "0badd94487bc1a0d72cf187fd9d4ed58931e5078fc82e0b73e805e55890adc1b",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/fendas-infernais.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 141488,
+        "sha256": "400c6255b47602cbcbc8cd0441f7ea78454b8efa7dd1aa6c143a348d4387ed74"
+      },
+      {
+        "asset": "assets/backgrounds/fast/fendas-infernais-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 42916,
+        "sha256": "61aaafcf3be96833159197658e819c7ccc9589c3404ea051c4bdda30cca0e018"
+      }
+    ]
+  },
+  {
+    "region": 5,
+    "regionName": "Trono do Crepúsculo",
+    "slug": "trono-do-crepusculo",
+    "mode": "boss",
+    "boss": "Imperador do Crepúsculo",
+    "sourceSha256": "641e3882f020095937cc984632a44b788881f20cf6740ef8119799f5024cce7e",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/trono-do-crepusculo-boss.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 229612,
+        "sha256": "817c548ea22051b7d1a5a2c31fc579eba4baecdf47a5c1d87210375fe4ac9c33"
+      },
+      {
+        "asset": "assets/backgrounds/fast/trono-do-crepusculo-boss-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 76628,
+        "sha256": "2e77f4a387a0b79e5ccb62bae2544f8ccc0a0fac89b371c9c983a24cd29bc4f5"
+      }
+    ]
+  },
+  {
+    "region": 5,
+    "regionName": "Trono do Crepúsculo",
+    "slug": "trono-do-crepusculo",
+    "mode": "common",
+    "boss": "Imperador do Crepúsculo",
+    "sourceSha256": "e792207096ce01253797ae4db55150f17a17b2a7c7de2f258cfc1722e6b4cfa4",
+    "assets": [
+      {
+        "asset": "assets/backgrounds/fast/trono-do-crepusculo.webp",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "bytes": 221552,
+        "sha256": "5c0277d8272f66cfec7f04d0b5838bcfaf6927430aad8180a5ca4227e0174419"
+      },
+      {
+        "asset": "assets/backgrounds/fast/trono-do-crepusculo-mobile.webp",
+        "dimensions": [
+          720,
+          405
+        ],
+        "bytes": 71180,
+        "sha256": "b55a7c49ff978c269730ec4de95bb1e0cdc08ba6085eca823b4b42fd21b9345f"
+      }
+    ]
+  }
+]

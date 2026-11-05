@@ -16,6 +16,13 @@ Preserve the browser game's performance with every gameplay or HUD change.
   filters and repeated rendering of hidden inventory panels.
 - Run relevant deterministic gameplay tests and the browser regression suites.
   Review narrow-phone and landscape screenshots for new HUD controls.
+- After sprite changes, run `node tools/check-assets.cjs` and
+  `node tools/check-sprites.cjs` to detect retired references, undersized art,
+  missing transparency, and duplicate files or decoded pixels. Remove superseded
+  assets after updating every active reference; retain purposeful mobile variants.
+- For sprite revisions, set `PERF_MONSTERS=1 PERF_EVENTS=1 PERF_HUNT=1` for both
+  baseline and final benchmarks. This also measures larger enemies from all six
+  regions and the colossal final boss, with attacks active.
 - Preserve player saves, character items and campaign checkpoints unless the user
   explicitly asks to reset them. Publish authorized changes through the existing
   GitHub Pages workflow and verify the public runtime.

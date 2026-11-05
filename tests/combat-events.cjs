@@ -1,6 +1,6 @@
 /* Native focus/touch regressions and both rare-event cards. */
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
-const {chromium}=require('playwright');
+const {chromium}=require('playwright'),sharp=require('sharp');
 const root=path.resolve(__dirname,'..');
 const server=http.createServer((req,res)=>{
   const file=path.resolve(root,'.'+decodeURIComponent(req.url.split('?')[0]==='/'?'/index.html':req.url.split('?')[0]));
@@ -8,6 +8,9 @@ const server=http.createServer((req,res)=>{
   fs.readFile(file,(error,bytes)=>{res.writeHead(error?404:200,{'Content-Type':({'.html':'text/html','.js':'application/javascript','.css':'text/css','.webp':'image/webp'})[path.extname(file)]||'application/octet-stream'});res.end(error?'':bytes);});
 });
 (async()=>{
+  const {data,info}=await sharp(path.join(root,'assets/events/infernal-reliquary.webp')).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+  for(const [x,y] of [[0,0],[info.width-1,0],[0,info.height-1],[info.width-1,info.height-1]])assert.equal(data[(y*info.width+x)*4+3],0,'Frame exterior must be transparent, without a black rectangle');
+  assert.ok(data[(Math.floor(info.height/2)*info.width+Math.floor(info.width/2))*4+3]>240,'Keep the dark interior panel');
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox','--no-zygote','--use-gl=angle','--use-angle=swiftshader','--disable-vulkan','--disable-features=Vulkan']});
   const errors=[],shots=process.env.HUD_SCREENSHOTS;
@@ -61,6 +64,7 @@ const server=http.createServer((req,res)=>{
             const box=n=>n.getBoundingClientRect().toJSON();return {card:box(el),arena:box(document.getElementById('battlefield')),children:[...el.querySelectorAll('.event-ribbon,.event-title,.event-instruction,.event-progress-track,.event-clock')].map(n=>({box:box(n),scroll:n.scrollWidth,client:n.clientWidth})),src:el.querySelector('img').getAttribute('src')};
           });
           assert.ok(card.src.endsWith(type==='chest'?'cursed-chest.webp':'treasure-goblin.webp'));
+          assert.equal(await p.locator('#eventOverlay').evaluate(el=>getComputedStyle(el).backgroundColor),'rgba(0, 0, 0, 0)','No opaque box behind the ornate frame');
           assert.ok(card.card.x>=card.arena.x && card.card.right<=card.arena.right && card.card.y>=card.arena.y && card.card.bottom<=card.arena.bottom,`${w}x${h} event outside arena`);
           for(const child of card.children){assert.ok(child.box.x>=card.card.x && child.box.right<=card.card.right+1 && child.box.bottom<=card.card.bottom,`${w}x${h} clipped event caption`);assert.ok(child.scroll<=child.client+1,`${w} overflowing event text`);}
           const before=await p.evaluate(()=>({mob:window.__combatTest.game.state.mob.hp,event:window.__combatTest.game.state.event.hp}));
