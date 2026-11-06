@@ -1,0 +1,25 @@
+/* Reward presentation never owns the counter values. */
+.reward-flight-layer{position:fixed;inset:0;z-index:75;pointer-events:none;overflow:hidden;contain:strict}
+.reward-flight{position:absolute;display:block;width:1.1rem;height:1.15rem;pointer-events:none;will-change:transform,opacity}
+.reward-flight[hidden]{display:none}
+.reward-flight>span{display:block;width:100%;height:100%;background-repeat:no-repeat;image-rendering:pixelated}
+.reward-shards>span{font:700 1.25rem/1 Georgia,serif;color:#dfb3ff;text-shadow:0 .0625rem #130e1b}
+.depth-ground-details{position:absolute;inset:70% 0 0;pointer-events:none;user-select:none}
+.depth-ground-details>i{position:absolute;left:var(--detail-x);bottom:var(--detail-y);pointer-events:none}
+.depth-puddle{width:12%;height:5%;border-radius:50%;opacity:var(--ground-wet);background:radial-gradient(ellipse,rgb(var(--ground-detail-color)/.65),#05060999 55%,transparent 72%);box-shadow:0 -.0625rem rgb(var(--scene-light)/.12)}
+.depth-puddle:nth-child(2){width:8%;height:3.5%}
+.depth-stain{width:9%;height:5%;opacity:.2;border-radius:47% 65% 32% 58%;background:radial-gradient(ellipse,#070508c9,transparent 72%)}
+.depth-pebble{width:.48rem;height:.23rem;background:linear-gradient(#766453,#231f22);clip-path:polygon(12% 18%,64% 0,100% 58%,84% 100%,0 84%);opacity:.45}
+.depth-pebble:nth-child(even){width:.7rem;height:.31rem}
+.depth-bloom{position:absolute;width:clamp(3rem,6vw,7rem);height:clamp(2rem,4vw,5rem);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(ellipse,rgb(var(--scene-light)/.5),rgb(var(--scene-light)/.12) 35%,transparent 72%)}
+.app-frame .battlefield :is(.hero-ground-shadow,.mob-shadow)[data-contact=fitted]{left:var(--contact-left);right:auto;width:var(--contact-width);bottom:var(--contact-bottom);height:var(--contact-height);opacity:var(--contact-opacity);transform:none!important;pointer-events:none}
+.scene-layer-image[data-scene-mask=ground]{mask-image:linear-gradient(transparent 0 52%,#000 79% 100%);-webkit-mask-image:linear-gradient(transparent 0 52%,#000 79% 100%)}
+#battlefield[data-parallax-active=true] .scene-plane:is([data-scene-layer=distant],[data-scene-layer=middle],[data-scene-layer=ground],[data-scene-layer=mist],[data-scene-layer=foreground]){animation:scene-depth-idle var(--scene-idle-ms,22000ms) ease-in-out infinite!important}
+@keyframes scene-depth-idle{0%,100%{translate:calc(var(--scene-idle-x,.16%) * var(--scene-parallax-speed)) calc(var(--scene-idle-y,.045%) * var(--scene-parallax-speed))}50%{translate:calc(var(--scene-idle-x,.16%) * var(--scene-parallax-speed) * -1) calc(var(--scene-idle-y,.045%) * var(--scene-parallax-speed) * -1)}}
+#battlefield[data-parallax-active=false] .scene-plane{animation:none!important;translate:none!important}
+.scene-atmo-front{position:absolute;inset:0;z-index:6;pointer-events:none;user-select:none;isolation:isolate}
+.atmo-fog-front{inset:82% -2% -2%;background:radial-gradient(ellipse at 20% 100%,rgb(var(--atmo-fog-color)/.04),transparent 70%),radial-gradient(ellipse at 84% 80%,rgb(var(--atmo-fog-color)/.035),transparent 76%)}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-fog-front{animation-duration:var(--atmo-front-fog-ms)!important;animation-direction:alternate-reverse!important}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-particles-front .atmo-particle:not([hidden]){animation-duration:var(--atmo-front-particle-ms)!important}
+html.hw-lite :is(.depth-bloom,.depth-ground-details){display:none}
+@media(prefers-reduced-motion:reduce){#battlefield .scene-plane{animation:none!important;translate:none!important}.reward-flight-layer{display:none}}

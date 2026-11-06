@@ -3,7 +3,7 @@
   'use strict';
   const ATMOSPHERE_CONFIG = {
     maxParticles:8, particleSteps:120, fogSteps:40, lightSteps:20,
-    fogTravelRem:.45, particleTravelRem:16, particleSideRem:1.5,
+    fogTravelRem:.45, particleTravelRem:16, particleSideRem:1.5,frontParticles:1,frontFogRatio:.78,frontParticleRatio:.82,
     regions:[
       {name:'Campos de Cinza',fogColor:'139 128 113',fogBack:.06,fogGround:.09,fogMs:42000,lightColor:'142 85 48',lightMin:.68,lightMax:.88,lightMs:8000,particle:{type:'ash',count:5,color:'183 163 138',sizeRem:.12,opacity:.32,durationMs:24000,rise:false}},
       {name:'Bosque Profanado',fogColor:'112 139 123',fogBack:.08,fogGround:.10,fogMs:48000,lightColor:'66 104 74',lightMin:.60,lightMax:.80,lightMs:10000,particle:{type:'leaf',count:4,color:'140 115 72',sizeRem:.24,opacity:.32,durationMs:30000,rise:false}},
@@ -21,6 +21,8 @@
   for(const node of [back,ground,field])node.setAttribute('aria-hidden','true');
   arena.querySelector('[data-scene-layer=middle]').append(back);
   arena.querySelector('[data-scene-layer=mist]').append(ground,field);
+  const front=document.createElement('div'),frontFog=document.createElement('div'),frontField=document.createElement('div');
+  front.className='scene-atmo-front';front.setAttribute('aria-hidden','true');frontFog.className='atmo-fog atmo-fog-front';frontField.className='atmo-particles atmo-particles-front';front.append(frontFog,frontField);arena.append(front);
   const particles=Array.from({length:ATMOSPHERE_CONFIG.maxParticles},()=>{const node=document.createElement('i');node.className='atmo-particle';field.append(node);return node;});
   let lastZone=-1;
   function lifecycle(){
@@ -33,12 +35,14 @@
     if(!c)return;
     if(force||zone!==lastZone){
       lastZone=zone;const p=c.particle;
-      const values={'atmo-fog-travel':(c.fogTravelRem??ATMOSPHERE_CONFIG.fogTravelRem)+'rem','atmo-fog-color':c.fogColor,'atmo-fog-back':c.fogBack,'atmo-fog-ground':c.fogGround,'atmo-fog-ms':c.fogMs+'ms','scene-light':c.lightColor,'atmo-light-min':c.lightMin,'atmo-light-max':c.lightMax,'atmo-light-ms':c.lightMs+'ms','atmo-color':p.color,'atmo-particle-opacity':p.opacity,'atmo-particle-ms':p.durationMs+'ms','atmo-particle-steps':ATMOSPHERE_CONFIG.particleSteps,'atmo-fade-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.15),'atmo-core-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.70),'atmo-fog-steps':ATMOSPHERE_CONFIG.fogSteps,'atmo-light-steps':ATMOSPHERE_CONFIG.lightSteps};
+      const values={'atmo-front-particle-ms':(p.durationMs*ATMOSPHERE_CONFIG.frontParticleRatio)+'ms','atmo-front-fog-ms':(c.fogMs*ATMOSPHERE_CONFIG.frontFogRatio)+'ms','atmo-fog-travel':(c.fogTravelRem??ATMOSPHERE_CONFIG.fogTravelRem)+'rem','atmo-fog-color':c.fogColor,'atmo-fog-back':c.fogBack,'atmo-fog-ground':c.fogGround,'atmo-fog-ms':c.fogMs+'ms','scene-light':c.lightColor,'atmo-light-min':c.lightMin,'atmo-light-max':c.lightMax,'atmo-light-ms':c.lightMs+'ms','atmo-color':p.color,'atmo-particle-opacity':p.opacity,'atmo-particle-ms':p.durationMs+'ms','atmo-particle-steps':ATMOSPHERE_CONFIG.particleSteps,'atmo-fade-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.15),'atmo-core-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.70),'atmo-fog-steps':ATMOSPHERE_CONFIG.fogSteps,'atmo-light-steps':ATMOSPHERE_CONFIG.lightSteps};
       for(const [key,value]of Object.entries(values))arena.style.setProperty('--'+key,String(value));
-      field.dataset.type=p.type;
+      field.dataset.type=p.type;frontField.dataset.type=p.type;
       const count=Math.min(particles.length,Math.max(0,Math.floor(Number(p.count)||0)));
       arena.dataset.ambientParticleCount=String(count);
+      const frontCount=Math.min(count,Math.max(0,Math.min(2,c.frontParticles??ATMOSPHERE_CONFIG.frontParticles)));
       particles.forEach((node,i)=>{
+        const parent=i<frontCount?frontField:field;if(node.parentElement!==parent)parent.append(node);
         node.hidden=i>=count;
         node.style.left=((i*19+zone*13+7)%96)+'%';node.style.top=p.rise?'78%':'12%';
         node.style.width=node.style.height=p.sizeRem+'rem';

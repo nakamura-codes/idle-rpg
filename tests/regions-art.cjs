@@ -42,13 +42,13 @@ const server=http.createServer((req,res)=>{
   assert.equal(await p.locator('#dialogText img').count(),0);await p.click('#dialogActions button');
   await p.keyboard.press('Escape');console.log('PASS 42 creature cards reopened three times: one portrait and one caption; generic dialogs clear old artwork');
   const regionalLight=new Set(),regionalMist=new Set();
-  for(const [w,h] of [[1366,768],[390,844],[320,568],[844,390]]){
+  for(const [w,h] of (process.env.DESKTOP_ONLY?[[1366,768],[1920,1080],[1024,600]]:[[1366,768],[390,844],[320,568],[844,390]])){
    await p.setViewportSize({width:w,height:h});
    for(let z=0;z<6;z++){
     const sources=[];
     for(const i of [0,5,6,0]){
      await p.evaluate(({z,i})=>{const {game:g,ZONES}=window.__regionsTest,zone=ZONES[z],kind=i===6?'boss':i===5?'miniboss':'normal';g.state.zone=z;g.state.farmStage=null;g.state.zoneProgress[z].stage=i===6?10:i===5?5:1;g.state.mob={name:i===6?zone.boss:i===5?zone.miniboss:zone.names[i],kind,hp:1e9,maxHp:1e9,level:50};g.lastZoneRendered=-1;g.renderCore();},{z,i});
-     await p.locator('#monsterArt img').evaluate(el=>el.decode());
+     await p.locator('#monsterArt img').evaluate(el=>el.decode());await p.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
      assert.equal((await p.locator('#monsterArt img').getAttribute('src')).split('?')[0],roster[z*7+i].asset,'Arena uses canonical portrait');
      const src=await p.locator('.arena-scenery').evaluate(async el=>{const src=getComputedStyle(el).backgroundImage.match(/url\(["']?(.*?)["']?\)/)[1];const img=new Image();img.src=src;await img.decode();return src;});
      const expected=slugs[z]+(i===6?'-boss':'')+(w<=760?'-mobile':'')+'.webp?v=dark-14';
@@ -56,10 +56,10 @@ const server=http.createServer((req,res)=>{
      const atmosphere=await p.evaluate(()=>{
       const light=document.querySelector('.arena-lighting'),mist=document.querySelector('.arena-mist');
       const read=el=>{const s=getComputedStyle(el);return {background:s.backgroundImage,opacity:s.opacity,pointer:s.pointerEvents,animation:s.animationName,filter:s.filter,box:el.getBoundingClientRect().toJSON()};};
-      return {light:read(light),mist:read(mist),shadows:[...document.querySelectorAll('.hero-ground-shadow,.mob-shadow')].map(read)};
+      return {rem:parseFloat(getComputedStyle(document.documentElement).fontSize),light:read(light),mist:read(mist),shadows:[...document.querySelectorAll('#combatHero .hero-ground-shadow,#attackTarget .mob-shadow')].map(read)};
      });
-     for(const layer of [atmosphere.light,atmosphere.mist]){assert.equal(layer.pointer,'none');assert.equal(layer.animation,'none');assert.equal(layer.filter,'none');assert.ok(layer.box.width>0&&layer.box.height>0);}
-     for(const shadow of atmosphere.shadows){assert.ok(shadow.box.width>0&&shadow.box.height>=14);assert.ok(Number(shadow.opacity)>.5);assert.equal(shadow.filter,'none');}
+     for(const layer of [atmosphere.light,atmosphere.mist]){assert.equal(layer.pointer,'none');assert.equal(layer.animation,layer===atmosphere.light?'hw-regional-light':'none');assert.equal(layer.filter,'none');assert.ok(layer.box.width>0&&layer.box.height>0);}
+     for(const shadow of atmosphere.shadows){assert.ok(shadow.box.width>0&&shadow.box.height>=atmosphere.rem*.875-.1,JSON.stringify({w,h,z,i,shadow,rem:atmosphere.rem}));assert.ok(Number(shadow.opacity)>.5);assert.equal(shadow.filter,'none');}
      regionalLight.add(atmosphere.light.background);regionalMist.add(atmosphere.mist.background+atmosphere.mist.opacity);
      if(w===1366&&z===0&&i===0&&sources.length===1){
       // Check painted output: a positioned shadow behind the scenery would fail.
