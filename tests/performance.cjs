@@ -6,7 +6,7 @@ const server=http.createServer((req,res)=>{const file=path.join(root,decodeURICo
 try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobile-6x',width:390,height:844,cpu:6}].filter(t=>!process.env.PERF_DEVICE||t.name===process.env.PERF_DEVICE)){
  const p=await browser.newPage({viewport:{width:test.width,height:test.height}});const cdp=await p.context().newCDPSession(p);await cdp.send('Emulation.setCPUThrottlingRate',{rate:test.cpu});await cdp.send('Performance.enable');
  await p.addInitScript(()=>{window.__mutations=0;new MutationObserver(r=>window.__mutations+=r.length).observe(document,{subtree:true,attributes:true,characterData:true,childList:true});});
- if(process.env.PERF_EVENTS||process.env.PERF_MONSTERS||process.env.PERF_FEEDBACK||process.env.PERF_IMPACT||process.env.PERF_IDLE||process.env.PERF_ORB||process.env.PERF_HEALTH_TRAIL)await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__perfGame=new Game();window.__perfZones=ZONES;')}));
+ if(process.env.PERF_ATMOSPHERE||process.env.PERF_TRANSITIONS||process.env.PERF_EVENTS||process.env.PERF_MONSTERS||process.env.PERF_FEEDBACK||process.env.PERF_IMPACT||process.env.PERF_IDLE||process.env.PERF_ORB||process.env.PERF_HEALTH_TRAIL)await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__perfGame=new Game();window.__perfZones=ZONES;')}));
  await p.goto('http://127.0.0.1:'+server.address().port);await p.waitForTimeout(1000);
  async function sample(scene){
  if(process.env.PERF_SCENES&&!process.env.PERF_SCENES.split(',').includes(scene))return;
@@ -62,6 +62,19 @@ try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobil
    await p.evaluate(()=>clearInterval(window.__healthSweep));
   }
   await p.evaluate(snapshot=>{const g=window.__perfGame;g.state=JSON.parse(snapshot);g.lastZoneRendered=-1;g.lastFrameAt=Date.now();g.renderCore();g.startLoop();},snapshot);
+ }
+ if(process.env.PERF_ATMOSPHERE){
+  const saved=await p.evaluate(()=>{const g=window.__perfGame;g.stopLoop();return JSON.stringify(g.state);});
+  for(let zone=0;zone<6;zone++){
+   await p.evaluate(zone=>{const g=window.__perfGame,z=window.__perfZones[zone];g.state.zone=zone;g.state.farmStage=null;g.state.zoneProgress[zone].stage=1;g.state.mob={name:z.names[0],kind:'normal',hp:1e12,maxHp:1e12,level:50};g.lastZoneRendered=-1;g.renderCore();},zone);
+   await p.locator('#monsterArt img').evaluate(img=>img.decode());await p.waitForTimeout(200);await sample('atmosphere-region-'+zone);
+  }
+  await p.evaluate(saved=>{const g=window.__perfGame;g.cancelEncounterFX?.();g.state=JSON.parse(saved);g.lastZoneRendered=-1;g.lastFrameAt=Date.now();g.renderCore();g.startLoop();},saved);
+ }
+ if(process.env.PERF_TRANSITIONS){
+  const saved=await p.evaluate(()=>{const g=window.__perfGame;g.stopLoop();g.cancelEncounterFX?.();const saved=JSON.stringify(g.state);g.state.farmStage=null;g.state.zone=5;g.state.zoneProgress[5].cleared=false;g.state.zoneProgress[5].stage=4;g.state.zoneProgress[5].kills=9;g.state.mob={name:window.__perfZones[5].names[0],kind:'normal',hp:1,maxHp:1,level:42};g.state.deadUntil=0;g.state.heroHp=g.bonuses().maxHp;let n=0;window.__transitionSweep=setInterval(()=>{g.damageMob(1e6,true,++n%2===0);},130);g.lastZoneRendered=-1;g.renderCore();return saved;});
+  await sample('encounter-burst');
+  await p.evaluate(saved=>{clearInterval(window.__transitionSweep);const g=window.__perfGame;g.cancelEncounterFX?.();g.state=JSON.parse(saved);g.lastZoneRendered=-1;g.lastFrameAt=Date.now();g.renderCore();g.startLoop();},saved);
  }
  await p.click('[data-open-panel="upgrades"]');await sample('codex-idle');await p.keyboard.press('Escape');if(process.env.PERF_HUNT){await p.click('[data-open-panel="zones"]');await p.selectOption('#farmStageSelect','1');await p.click('[data-start-hunt]');await p.keyboard.press('Escape');await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('attackTarget').click(),200));await sample('hunt-attacks');await p.evaluate(()=>clearInterval(window.__auto));}if(process.env.PERF_MONSTERS){
   const snapshot=await p.evaluate(()=>JSON.stringify(window.__perfGame.state));

@@ -1,0 +1,40 @@
+/* Atmosphere stays below characters and HUD in the Step 0 slots. */
+.atmo-fog,.atmo-particles{position:absolute;pointer-events:none;user-select:none;display:none}
+.atmo-fog-back{inset:32% -2% 27%;background:radial-gradient(ellipse at 18% 60%,rgb(var(--atmo-fog-color)/var(--atmo-fog-back)),transparent 70%),radial-gradient(ellipse at 82% 70%,rgb(var(--atmo-fog-color)/var(--atmo-fog-back)),transparent 72%)}
+.atmo-fog-ground{inset:68% -2% 0;background:radial-gradient(ellipse at 25% 74%,rgb(var(--atmo-fog-color)/var(--atmo-fog-ground)),transparent 73%),radial-gradient(ellipse at 78% 84%,rgb(var(--atmo-fog-color)/var(--atmo-fog-ground)),transparent 75%)}
+.atmo-particles{inset:0;overflow:hidden}
+.atmo-particle{position:absolute;display:block;background:rgb(var(--atmo-color));border-radius:50%;opacity:0;pointer-events:none}
+.atmo-particles[data-type=leaf] .atmo-particle{border-radius:0;clip-path:polygon(0 45%,75% 0,100% 70%,30% 100%)}
+.atmo-particles[data-type=soul] .atmo-particle{border-radius:0;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.atmo-particles[data-type=snow] .atmo-particle{border-radius:0}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-fog,html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-particles{display:block}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-fog,html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused])[data-scene-has-mist] [data-scene-layer=mist]>.scene-assets{animation:hw-fog-drift var(--atmo-fog-ms) steps(var(--atmo-fog-steps),end) infinite alternate!important}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-fog-ground{animation-direction:alternate-reverse!important}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .arena-lighting{animation:hw-regional-light var(--atmo-light-ms) steps(var(--atmo-light-steps),end) infinite!important}
+html.hw-game-active #battlefield:is([data-atmosphere=active],[data-atmosphere=paused]) .atmo-particle:not([hidden]){animation:hw-mote-drift var(--atmo-particle-ms) steps(var(--atmo-particle-steps),end) var(--mote-delay,0ms) infinite!important}
+html.hw-game-active #battlefield[data-atmosphere=paused] .atmo-fog,html.hw-game-active #battlefield[data-atmosphere=paused] .arena-lighting,html.hw-game-active #battlefield[data-atmosphere=paused] .atmo-particle:not([hidden]),html.hw-game-active #battlefield[data-atmosphere=paused][data-scene-has-mist] [data-scene-layer=mist]>.scene-assets{animation-play-state:paused!important}
+#battlefield[data-atmosphere=static] :is(.atmo-fog,.atmo-particles){display:none!important}
+@keyframes hw-fog-drift{from{transform:translateX(-.45rem)}to{transform:translateX(.45rem)}}
+@keyframes hw-regional-light{0%,100%{opacity:var(--atmo-light-min)}50%{opacity:var(--atmo-light-max)}}
+@keyframes hw-mote-drift{0%{opacity:0;transform:translate(0,0);animation-timing-function:steps(var(--atmo-fade-steps),end)}15%{opacity:var(--atmo-particle-opacity);transform:translate(calc(var(--mote-dx) * .15),calc(var(--mote-dy) * .15));animation-timing-function:steps(var(--atmo-core-steps),end)}85%{opacity:var(--atmo-particle-opacity);transform:translate(calc(var(--mote-dx) * .85),calc(var(--mote-dy) * .85));animation-timing-function:steps(var(--atmo-fade-steps),end)}100%{opacity:0;transform:translate(var(--mote-dx),var(--mote-dy))}}
+/* The only sprite motion added here is a two-pixel entry; no scale/rotation. */
+.encounter-death{position:absolute;pointer-events:none;z-index:10}
+.encounter-death img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;image-rendering:pixelated!important}
+.encounter-death .mob-shadow{z-index:-1}
+.battlefield.encounter-hold .attack-target{opacity:0!important}
+.battlefield.encounter-hold .mob-info .hp-track{visibility:hidden}
+.encounter-intro,.encounter-curtain,.expedition-receipt{position:absolute;z-index:15;left:clamp(1rem,8%,7rem);top:32%;width:min(35%,25rem);color:#f3dfbf;background:#110e10ed;border:1px solid #8a6745;box-shadow:inset 0 0 0 .18rem #1c1615;padding:.8rem 1rem;text-align:center;pointer-events:none;text-shadow:0 .0625rem .125rem #000}
+.encounter-intro small,.encounter-curtain small,.expedition-receipt small{display:block;color:#c5ab87;font:700 .75rem/1.4 Georgia,serif;letter-spacing:.05em}
+.encounter-intro strong,.encounter-curtain strong,.expedition-receipt strong{display:block;margin:.25rem 0;font:700 clamp(1rem,1.8vw,1.5rem)/1.2 var(--hud-title-font,Georgia),serif}
+.encounter-intro span,.expedition-receipt p{font:.8125rem/1.4 Georgia,serif;margin:.3rem 0}
+.encounter-curtain{top:38%;background:linear-gradient(90deg,#100d0df5,#241817ed,#100d0df5)}
+.expedition-receipt{top:30%;width:min(38%,28rem);pointer-events:auto}
+.expedition-receipt button{margin-top:.5rem;padding:.4rem 1rem;min-height:2rem;background:#251a16;color:#ffe6b7;border:1px solid #9b754c;font:700 .8125rem/1.3 Georgia,serif;cursor:pointer}
+.expedition-receipt button:focus-visible{outline:2px solid #e6bd7c;outline-offset:2px}
+html.hw-game-active .battlefield:is(.miniboss-fight,.boss-fight) .monster-aura{display:block!important;inset:0;filter:none!important;opacity:.5;z-index:0;background:radial-gradient(ellipse 45% 9% at 50% 94%,#a98a4d66,transparent 80%),radial-gradient(ellipse 38% 50% at 50% 60%,#b4833814,transparent 75%);border:0;animation:none!important}
+html.hw-game-active .battlefield.miniboss-fight .monster-aura{background:radial-gradient(ellipse 42% 8% at 50% 94%,#77a89470,transparent 80%),radial-gradient(ellipse 40% 50% at 50% 60%,#75a98b18,transparent 75%)}
+html.hw-lite .battlefield .monster-aura,html[data-screen-effects=off] .battlefield .monster-aura{display:none!important}
+@media(max-width:999px),(max-height:599px){.encounter-intro,.encounter-curtain{display:none!important}.expedition-receipt{left:5%;top:32%;width:90%}}
+@media(prefers-reduced-motion:reduce){.atmo-fog,.atmo-particles{display:none!important}.arena-lighting{animation:none!important}.scene-assets{animation:none!important;transform:none!important}}
+
+.phase-transition-veil{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:0;background:linear-gradient(90deg,#100b16a6,#100b1644,#100b16a6)}
