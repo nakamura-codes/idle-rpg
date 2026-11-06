@@ -4,7 +4,7 @@ Análise do print enviado em 05/11/2026. A imagem já tem arquitetura gótica fo
 
 ## Prioridade por impacto / esforço
 
-Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2, nº 3, nº 4 e nº 5. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
+Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2, nº 3, nº 4, nº 5 e nº 6. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
 
 | Nº | Melhoria | Impacto | Esforço | Resultado e limite de custo |
 |---|---|---:|---:|---|
@@ -13,7 +13,7 @@ Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação
 | 3 | Peso de golpe e reação ao dano | 5 | 3 | Recuo curto do inimigo, faísca no ponto de impacto e ataque com antecipação. Shake de 2–3 px e hit-stop visual de 40–60 ms só em críticos, com intervalo mínimo. Nunca pausar relógio de combate/recompensas. |
 | 4 | Idle discreto com peso nos pés | 3 | 2 | Respiração e balanço de 1–2 px no sprite interno; animações lentas e desencontradas. Não deformar espada/rosto nem mover a sombra junto com o torso. |
 | 5 | Fontes pequenas e contraste | 3 | 2 | Recursos/fase/atalhos a 11 px, HP do inimigo a 12 px e do herói a 16–20 px; rodapé reorganizado e títulos góticos preservados. Etapa atual restrita ao computador. |
-| 6 | Orbe de vida com reação | 3 | 2 | Já acompanha HP: acrescentar apenas brilho de borda/pulso baixo e desacelerado em vida baixa, sem ondulação por filtro. Sem duplicar aviso já existente. |
+| 6 | Orbe de vida com reação | 3 | 2 | Brilho carmesim na borda interna, pulso lento de 2,6 s abaixo de 26% HP. Substitui o piscar com filtro da barra; modo leve e movimento reduzido usam indicação estática. |
 | 7 | Atmosfera regional em movimento | 4 | 3 | Aproveitar camadas atuais: uma névoa translúcida movendo por transform e luz variando levemente por opacity. Brasas só nas regiões de fogo; poeira/esporos nas outras. Máximo de 6–10 partículas decorativas recicladas; modo leve estático. |
 | 8 | Entrada de elite, morte e transição de fase | 4 | 3 | Intro única de 500–700 ms, aura atrás de miniboss, morte breve com fade e assentamento, transição de fase curta. Encadear sem bloquear cliques nem criar tempo artificial de farm. Não reapresentar intro a cada tick. |
 | 9 | Ouro/almas/fragmentos indo ao HUD | 4 | 4 | Uma partícula representativa por recurso ganho, agregando rajadas; saldo real sobe imediatamente. Medir origem/destino só no evento/resize. Limite de 6 voos e cancelamento ao trocar de perfil. |
@@ -146,6 +146,30 @@ Arquivos e trechos:
 Verificação geométrica: 1920×1080, 1536×864, 1366×768, 1280×720, 1024×768 e 1024×600. Testes incluem nomes extensos, valores até 1e250, molduras sem fundo vermelho e cartões de baú/goblin. As suítes existentes verificam combate, preferências, painéis, inventário, caça e escala dos seis chefões. Otimização e QA de telefone seguem adiados por orientação do usuário.
 
 A comparação passou nas 13 cenas dentro da tolerância de 3 FPS / 5 ms de p95: **58–60 FPS** finais, contra 60 FPS de baseline. O códex ficou em 60→59 FPS e a caça em 60→58; as outras onze cenas em 60→60. O p95 final ficou em **16,7–16,8 ms** neste ambiente headless. Os números não são uma garantia para todo computador. A auditoria verificou 95 assets, 89 imagens raster e 42 monstros, sem arquivos órfãos ou duplicatas por bytes/pixels. Métricas completas em `docs/performance-hud-readable.json`.
+
+## Nº 6 — pulso discreto do orbe em vida baixa (computador)
+
+O preenchimento continua usando o HP real e a transição de transform já existente, sem mudança no cálculo de vida. A classe `.low-health` já era atualizada pelo jogo abaixo de 26% de HP e removida durante a derrota; o efeito usa esse estado existente.
+
+- Uma camada `::before` na borda interna do recipiente cria um brilho carmesim, atrás da moldura. O centro transparente e o preenchimento preservam a leitura da quantidade de vida.
+- Abaixo de 26%, uma única animação de **opacity** varia entre 0,18 e 0,72 em **2,6 s**. Não há escala, deslocamento, blur ou filtro animado. A sombra interna e o gradiente são estáticos.
+- O antigo pulso de brightness da barra fina foi desligado no desktop. O valor numérico de HP permanece legível; não existe um segundo alerta animado.
+- Menu e derrota removem o pulso. Aba oculta e painel de relíquias aberto pausam a animação. Ela retoma ao voltar; não é recriada a cada render de HP.
+- Modo leve e `prefers-reduced-motion: reduce` conservam um brilho estático a 0,45. O modo leve também desliga a transição de preenchimento do orbe, seguindo a preferência de movimento.
+- As novas regras exigem largura de 1000 px e altura de 600 px. As regras existentes de celular ficam preservadas, conforme a prioridade atual do usuário.
+- Nenhuma imagem, dependência, nó de DOM, timer, loop, observador ou leitura de layout em produção foi acrescentada. `game.js`, saves, recompensas e mecânicas de combate permanecem iguais. Há um canal CSS de alerta em vida baixa, substituindo o canal anterior da barra.
+
+| Arquivo | Trecho alterado |
+|---|---|
+| `game-hud.css` | Bloco final `/* One slow warning on the orb */`, pseudo-elemento, estados de pausa/modo leve, keyframes `hw-orb-warning` e preferência de movimento reduzido. |
+| `index.html` | Cache atualizado para `game-hud.css?v=6`; os scripts permanecem iguais. |
+| `tests/life-orb.cjs` | Limite real de 26%, recuperação, preenchimento e ARIA corretos, um único pulso, reuso, ausência de mutações por ciclo, pausa/retomada, modos de movimento, derrota/reanimação e três ciclos de perfil. Capturas opcionais via `HUD_SCREENSHOTS`. |
+| `tests/performance.cjs` | Flag apenas de teste `PERF_ORB=1`: fixture parada a 20% de HP, sem ataques ou regeneração. Compara a barra antiga e o novo brilho usando a mesma cena; `PERF_SCENES=orb-low-health` permite medir só esse caso. |
+| `docs/performance-life-orb.json` | Baseline e resultado final das 13 cenas regulares e da medição adicional de vida baixa, com limites do teste. |
+
+O teste do orbe cobre 1366×768, 1920×1080 e 1024×600, incluindo modo focado. As medições de layout e o acesso às animações existem apenas nos testes. Otimização e QA de telefone continuam adiados.
+
+A comparação passou em todas as cenas: **60→60 FPS** nas 13 cenas regulares e **60→60 FPS** na fixture de vida baixa. O p95 final foi de **16,7–16,8 ms** na rodada regular e **16,7 ms** com o pulso ativo. São amostras headless, sem garantia para todo computador. Auditoria: 95 assets, 89 imagens raster e 42 monstros, sem duplicatas por bytes/pixels. Dados completos em `docs/performance-life-orb.json`.
 
 ## Prompts de imagem — estilo fixo
 
