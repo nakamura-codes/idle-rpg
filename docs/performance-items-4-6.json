@@ -1,0 +1,2595 @@
+{
+  "baseCommit": "9da75a969d0cc6cbc4f68744282d78f112dfa843",
+  "device": "desktop 1366x768, Chromium headless with ANGLE SwiftShader, same environment before/after",
+  "mobileQA": "Deferred by user to round 5; no 380px testing in this change",
+  "fpsSummary": {
+    "scenes": 16,
+    "beforeRange": [
+      60,
+      60
+    ],
+    "afterRange": [
+      60,
+      60
+    ],
+    "maxP95Before": 16.80000000000291,
+    "maxP95After": 16.799999999999272,
+    "tolerance": {
+      "fps": 3,
+      "p95ms": 5
+    },
+    "passed": true
+  },
+  "before": [
+    {
+      "device": "desktop",
+      "scene": "menu",
+      "repeat": 1,
+      "frames": 302,
+      "elapsed": 5013.000000000558,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 0,
+      "taskMs": 58,
+      "scriptMs": 11
+    },
+    {
+      "device": "desktop",
+      "scene": "battle-idle",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5000.6,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 226,
+      "fps": 60,
+      "layout": 8,
+      "style": 327,
+      "taskMs": 263,
+      "scriptMs": 49
+    },
+    {
+      "device": "desktop",
+      "scene": "battle-attacks",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5007,
+      "p95": 16.799999999999272,
+      "slow": 0,
+      "mutations": 832,
+      "fps": 60,
+      "layout": 59,
+      "style": 357,
+      "taskMs": 514,
+      "scriptMs": 98
+    },
+    {
+      "device": "desktop",
+      "scene": "event-chest",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5006.200000000372,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 401,
+      "fps": 60,
+      "layout": 81,
+      "style": 352,
+      "taskMs": 452,
+      "scriptMs": 62
+    },
+    {
+      "device": "desktop",
+      "scene": "event-goblin",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5016.4000000000015,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 397,
+      "fps": 60,
+      "layout": 80,
+      "style": 353,
+      "taskMs": 410,
+      "scriptMs": 58
+    },
+    {
+      "device": "desktop",
+      "scene": "combat-feedback",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5002.50000000056,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 424,
+      "fps": 60,
+      "layout": 52,
+      "style": 328,
+      "taskMs": 424,
+      "scriptMs": 28
+    },
+    {
+      "device": "desktop",
+      "scene": "combat-impact",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5002.500000000189,
+      "p95": 16.799999999999272,
+      "slow": 0,
+      "mutations": 466,
+      "fps": 60,
+      "layout": 58,
+      "style": 333,
+      "taskMs": 551,
+      "scriptMs": 63
+    },
+    {
+      "device": "desktop",
+      "scene": "idle-common",
+      "repeat": 1,
+      "frames": 302,
+      "elapsed": 5016.300000000003,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 302,
+      "taskMs": 184,
+      "scriptMs": 12
+    },
+    {
+      "device": "desktop",
+      "scene": "idle-miniboss",
+      "repeat": 1,
+      "frames": 302,
+      "elapsed": 5016.600000000559,
+      "p95": 16.700000000004366,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 302,
+      "taskMs": 159,
+      "scriptMs": 14
+    },
+    {
+      "device": "desktop",
+      "scene": "idle-colossal",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5015.300000000185,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 7,
+      "fps": 60,
+      "layout": 1,
+      "style": 304,
+      "taskMs": 174,
+      "scriptMs": 12
+    },
+    {
+      "device": "desktop",
+      "scene": "orb-low-health",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5000.200000000557,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 2,
+      "fps": 60,
+      "layout": 2,
+      "style": 302,
+      "taskMs": 174,
+      "scriptMs": 12
+    },
+    {
+      "device": "desktop",
+      "scene": "health-trail-single",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5010.000000000189,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 184,
+      "fps": 60,
+      "layout": 9,
+      "style": 311,
+      "taskMs": 245,
+      "scriptMs": 36
+    },
+    {
+      "device": "desktop",
+      "scene": "health-trail-burst",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5013.399999999994,
+      "p95": 16.79999999998836,
+      "slow": 0,
+      "mutations": 384,
+      "fps": 60,
+      "layout": 21,
+      "style": 325,
+      "taskMs": 255,
+      "scriptMs": 42
+    },
+    {
+      "device": "desktop",
+      "scene": "codex-idle",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5010.100000000006,
+      "p95": 16.79999999998836,
+      "slow": 0,
+      "mutations": 266,
+      "fps": 60,
+      "layout": 9,
+      "style": 325,
+      "taskMs": 339,
+      "scriptMs": 48
+    },
+    {
+      "device": "desktop",
+      "scene": "hunt-attacks",
+      "repeat": 1,
+      "frames": 300,
+      "elapsed": 5001.400000000562,
+      "p95": 16.80000000000291,
+      "slow": 0,
+      "mutations": 747,
+      "fps": 60,
+      "layout": 62,
+      "style": 356,
+      "taskMs": 573,
+      "scriptMs": 104
+    },
+    {
+      "device": "desktop",
+      "scene": "menu-return",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5001.4000000003725,
+      "p95": 16.80000000000291,
+      "slow": 0,
+      "mutations": 5,
+      "fps": 60,
+      "layout": 2,
+      "style": 2,
+      "taskMs": 61,
+      "scriptMs": 10
+    }
+  ],
+  "after": [
+    {
+      "device": "desktop",
+      "scene": "menu",
+      "repeat": 1,
+      "frames": 302,
+      "elapsed": 5001.4,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 0,
+      "taskMs": 60,
+      "scriptMs": 13
+    },
+    {
+      "device": "desktop",
+      "scene": "battle-idle",
+      "repeat": 1,
+      "frames": 302,
+      "elapsed": 5016.4,
+      "p95": 16.799999999999272,
+      "slow": 0,
+      "mutations": 227,
+      "fps": 60,
+      "layout": 11,
+      "style": 327,
+      "taskMs": 223,
+      "scriptMs": 46
+    },
+    {
+      "device": "desktop",
+      "scene": "battle-attacks",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5008.599999999256,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 847,
+      "fps": 60,
+      "layout": 55,
+      "style": 357,
+      "taskMs": 467,
+      "scriptMs": 102
+    },
+    {
+      "device": "desktop",
+      "scene": "event-chest",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5003.799999999628,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 400,
+      "fps": 60,
+      "layout": 83,
+      "style": 352,
+      "taskMs": 423,
+      "scriptMs": 63
+    },
+    {
+      "device": "desktop",
+      "scene": "event-goblin",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5011.299999999628,
+      "p95": 16.700000000000728,
+      "slow": 0,
+      "mutations": 394,
+      "fps": 60,
+      "layout": 80,
+      "style": 351,
+      "taskMs": 405,
+      "scriptMs": 51
+    },
+    {
+      "device": "desktop",
+      "scene": "combat-feedback",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5006.399999999627,
+      "p95": 16.799999999999272,
+      "slow": 0,
+      "mutations": 425,
+      "fps": 60,
+      "layout": 53,
+      "style": 328,
+      "taskMs": 412,
+      "scriptMs": 28
+    },
+    {
+      "device": "desktop",
+      "scene": "combat-impact",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5007.800000000374,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 470,
+      "fps": 60,
+      "layout": 59,
+      "style": 332,
+      "taskMs": 671,
+      "scriptMs": 72
+    },
+    {
+      "device": "desktop",
+      "scene": "idle-common",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5007.9000000003725,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 301,
+      "taskMs": 136,
+      "scriptMs": 13
+    },
+    {
+      "device": "desktop",
+      "scene": "idle-miniboss",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5011.699999999997,
+      "p95": 16.700000000004366,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 302,
+      "taskMs": 173,
+      "scriptMs": 11
+    },
+    {
+      "device": "desktop",
+      "scene": "idle-colossal",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5002.499999999258,
+      "p95": 16.700000000004366,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 302,
+      "taskMs": 117,
+      "scriptMs": 12
+    },
+    {
+      "device": "desktop",
+      "scene": "orb-low-health",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5014.499999999629,
+      "p95": 16.700000000004366,
+      "slow": 0,
+      "mutations": 0,
+      "fps": 60,
+      "layout": 0,
+      "style": 301,
+      "taskMs": 149,
+      "scriptMs": 14
+    },
+    {
+      "device": "desktop",
+      "scene": "health-trail-single",
+      "repeat": 1,
+      "frames": 300,
+      "elapsed": 5000,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 184,
+      "fps": 60,
+      "layout": 9,
+      "style": 310,
+      "taskMs": 257,
+      "scriptMs": 34
+    },
+    {
+      "device": "desktop",
+      "scene": "health-trail-burst",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5002.5,
+      "p95": 16.799999999995634,
+      "slow": 0,
+      "mutations": 384,
+      "fps": 60,
+      "layout": 21,
+      "style": 323,
+      "taskMs": 321,
+      "scriptMs": 65
+    },
+    {
+      "device": "desktop",
+      "scene": "codex-idle",
+      "repeat": 1,
+      "frames": 300,
+      "elapsed": 5016.200000000375,
+      "p95": 16.79999999998836,
+      "slow": 1,
+      "mutations": 263,
+      "fps": 60,
+      "layout": 11,
+      "style": 325,
+      "taskMs": 440,
+      "scriptMs": 71
+    },
+    {
+      "device": "desktop",
+      "scene": "hunt-attacks",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5011.899999999994,
+      "p95": 16.70000000001164,
+      "slow": 0,
+      "mutations": 786,
+      "fps": 60,
+      "layout": 57,
+      "style": 349,
+      "taskMs": 659,
+      "scriptMs": 142
+    },
+    {
+      "device": "desktop",
+      "scene": "menu-return",
+      "repeat": 1,
+      "frames": 301,
+      "elapsed": 5015.4999999988795,
+      "p95": 16.70000000001164,
+      "slow": 0,
+      "mutations": 1,
+      "fps": 60,
+      "layout": 1,
+      "style": 1,
+      "taskMs": 88,
+      "scriptMs": 13
+    }
+  ],
+  "cpuSoak": {
+    "secondsPerArm": 600,
+    "cpuUnit": "percent of one CPU core, aggregate Chromium process tree",
+    "hz": 100,
+    "arms": [
+      {
+        "arm": "fixed",
+        "meanCPU": 5.519305824954879,
+        "firstWindowCPU": 5.388467089576274,
+        "lastWindowCPU": 5.233743543093329,
+        "firstNodes": 1237,
+        "lastNodes": 1140,
+        "rows": [
+          {
+            "elapsedSec": 10.010179174,
+            "cpuPercent": 5.795103763770331,
+            "processes": 5,
+            "nodes": 1237,
+            "heap": 3256572,
+            "taskSeconds": 0.003848
+          },
+          {
+            "elapsedSec": 20.013123085,
+            "cpuPercent": 5.298440186365251,
+            "processes": 5,
+            "nodes": 1237,
+            "heap": 3259700,
+            "taskSeconds": 0.007427
+          },
+          {
+            "elapsedSec": 30.015892735,
+            "cpuPercent": 5.898366358961389,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2540928,
+            "taskSeconds": 0.023024
+          },
+          {
+            "elapsedSec": 40.022600132,
+            "cpuPercent": 4.896715578461918,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2544096,
+            "taskSeconds": 0.026275
+          },
+          {
+            "elapsedSec": 50.032554092,
+            "cpuPercent": 5.894133003584764,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2547356,
+            "taskSeconds": 0.029275
+          },
+          {
+            "elapsedSec": 60.035988599,
+            "cpuPercent": 5.498111669698366,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2550508,
+            "taskSeconds": 0.033018
+          },
+          {
+            "elapsedSec": 70.04283707,
+            "cpuPercent": 6.095825291726851,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2553636,
+            "taskSeconds": 0.037394
+          },
+          {
+            "elapsedSec": 80.050819963,
+            "cpuPercent": 5.095931972033202,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2556944,
+            "taskSeconds": 0.040668
+          },
+          {
+            "elapsedSec": 90.05979952300001,
+            "cpuPercent": 4.895603963047754,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2560204,
+            "taskSeconds": 0.044765
+          },
+          {
+            "elapsedSec": 100.063021683,
+            "cpuPercent": 5.098357227727515,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2563348,
+            "taskSeconds": 0.048462
+          },
+          {
+            "elapsedSec": 110.06926041100002,
+            "cpuPercent": 5.496570838960293,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2566524,
+            "taskSeconds": 0.052145
+          },
+          {
+            "elapsedSec": 120.072569547,
+            "cpuPercent": 4.698445220577657,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2569652,
+            "taskSeconds": 0.055298
+          },
+          {
+            "elapsedSec": 130.080437805,
+            "cpuPercent": 4.896147584759703,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2572780,
+            "taskSeconds": 0.058606
+          },
+          {
+            "elapsedSec": 140.091117664,
+            "cpuPercent": 5.39423902877604,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2575908,
+            "taskSeconds": 0.062947
+          },
+          {
+            "elapsedSec": 150.09499064599999,
+            "cpuPercent": 5.597831969754212,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2579036,
+            "taskSeconds": 0.066334
+          },
+          {
+            "elapsedSec": 160.101389586,
+            "cpuPercent": 5.096738627532668,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2582164,
+            "taskSeconds": 0.070347
+          },
+          {
+            "elapsedSec": 170.105592725,
+            "cpuPercent": 5.397731258523583,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2585292,
+            "taskSeconds": 0.07391
+          },
+          {
+            "elapsedSec": 180.11342113199998,
+            "cpuPercent": 5.2958541897989635,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2588420,
+            "taskSeconds": 0.077235
+          },
+          {
+            "elapsedSec": 190.12134749799998,
+            "cpuPercent": 5.695485549698538,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2591548,
+            "taskSeconds": 0.082221
+          },
+          {
+            "elapsedSec": 200.127242039,
+            "cpuPercent": 5.896524269593529,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2594676,
+            "taskSeconds": 0.085523
+          },
+          {
+            "elapsedSec": 210.13394404299999,
+            "cpuPercent": 5.3963833417258265,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2597852,
+            "taskSeconds": 0.08966
+          },
+          {
+            "elapsedSec": 220.147445085,
+            "cpuPercent": 5.592449610292862,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2600980,
+            "taskSeconds": 0.093171
+          },
+          {
+            "elapsedSec": 230.160518086,
+            "cpuPercent": 6.29177476222416,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2604108,
+            "taskSeconds": 0.096544
+          },
+          {
+            "elapsedSec": 240.168919653,
+            "cpuPercent": 6.194795401138609,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2607236,
+            "taskSeconds": 0.100646
+          },
+          {
+            "elapsedSec": 250.183802717,
+            "cpuPercent": 4.7928667457479595,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2610364,
+            "taskSeconds": 0.103775
+          },
+          {
+            "elapsedSec": 260.196383704,
+            "cpuPercent": 5.293340455254575,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2613492,
+            "taskSeconds": 0.107444
+          },
+          {
+            "elapsedSec": 270.204052325,
+            "cpuPercent": 5.39586211784502,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2616620,
+            "taskSeconds": 0.110557
+          },
+          {
+            "elapsedSec": 280.207997104,
+            "cpuPercent": 5.49783122708298,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2619748,
+            "taskSeconds": 0.114045
+          },
+          {
+            "elapsedSec": 290.22076215600003,
+            "cpuPercent": 6.192095757566567,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2622876,
+            "taskSeconds": 0.117072
+          },
+          {
+            "elapsedSec": 300.230810918,
+            "cpuPercent": 7.292671767706225,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2626004,
+            "taskSeconds": 0.123056
+          },
+          {
+            "elapsedSec": 310.245331055,
+            "cpuPercent": 6.191010567838644,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2629132,
+            "taskSeconds": 0.128649
+          },
+          {
+            "elapsedSec": 320.25811788900006,
+            "cpuPercent": 5.79259310735066,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2632308,
+            "taskSeconds": 0.13224
+          },
+          {
+            "elapsedSec": 330.26566237800006,
+            "cpuPercent": 5.5957782712386255,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2635436,
+            "taskSeconds": 0.136016
+          },
+          {
+            "elapsedSec": 340.278240093,
+            "cpuPercent": 5.293342185059903,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2638564,
+            "taskSeconds": 0.141142
+          },
+          {
+            "elapsedSec": 350.29052779100004,
+            "cpuPercent": 6.192390976977679,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2641692,
+            "taskSeconds": 0.145249
+          },
+          {
+            "elapsedSec": 360.299249113,
+            "cpuPercent": 6.0946846292859735,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2644820,
+            "taskSeconds": 0.151094
+          },
+          {
+            "elapsedSec": 370.31210183900004,
+            "cpuPercent": 5.093453523746549,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2647948,
+            "taskSeconds": 0.154175
+          },
+          {
+            "elapsedSec": 380.325197547,
+            "cpuPercent": 5.392937566436768,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2651076,
+            "taskSeconds": 0.158086
+          },
+          {
+            "elapsedSec": 390.332747503,
+            "cpuPercent": 5.296001542138091,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2654204,
+            "taskSeconds": 0.162586
+          },
+          {
+            "elapsedSec": 400.345138158,
+            "cpuPercent": 4.794059845840086,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2657332,
+            "taskSeconds": 0.165745
+          },
+          {
+            "elapsedSec": 410.357328886,
+            "cpuPercent": 4.894033816492026,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2660460,
+            "taskSeconds": 0.169003
+          },
+          {
+            "elapsedSec": 420.36432372,
+            "cpuPercent": 4.896574927121615,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2663588,
+            "taskSeconds": 0.171861
+          },
+          {
+            "elapsedSec": 430.37924356100007,
+            "cpuPercent": 7.388975765642379,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2666764,
+            "taskSeconds": 0.178196
+          },
+          {
+            "elapsedSec": 440.392996265,
+            "cpuPercent": 6.890523666760615,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2669892,
+            "taskSeconds": 0.181993
+          },
+          {
+            "elapsedSec": 450.402177056,
+            "cpuPercent": 6.394129683175175,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2673020,
+            "taskSeconds": 0.185188
+          },
+          {
+            "elapsedSec": 460.41491303,
+            "cpuPercent": 5.692749728746644,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2676148,
+            "taskSeconds": 0.188218
+          },
+          {
+            "elapsedSec": 470.428522429,
+            "cpuPercent": 5.492525003570888,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2679276,
+            "taskSeconds": 0.191121
+          },
+          {
+            "elapsedSec": 480.437484507,
+            "cpuPercent": 5.0954334328131266,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2682404,
+            "taskSeconds": 0.194992
+          },
+          {
+            "elapsedSec": 490.450047021,
+            "cpuPercent": 5.293350221373714,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2685532,
+            "taskSeconds": 0.198334
+          },
+          {
+            "elapsedSec": 500.46441565800006,
+            "cpuPercent": 6.091247707281677,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2688660,
+            "taskSeconds": 0.201665
+          },
+          {
+            "elapsedSec": 510.47274602000005,
+            "cpuPercent": 5.095755051575715,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2691788,
+            "taskSeconds": 0.205061
+          },
+          {
+            "elapsedSec": 520.4847635320001,
+            "cpuPercent": 4.993998456362244,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2694916,
+            "taskSeconds": 0.20812
+          },
+          {
+            "elapsedSec": 530.4969204749999,
+            "cpuPercent": 4.494536018181588,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2698092,
+            "taskSeconds": 0.215223
+          },
+          {
+            "elapsedSec": 540.5040021359999,
+            "cpuPercent": 4.496815507699478,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2701220,
+            "taskSeconds": 0.217967
+          },
+          {
+            "elapsedSec": 550.517021602,
+            "cpuPercent": 5.792458528313405,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2704348,
+            "taskSeconds": 0.221096
+          },
+          {
+            "elapsedSec": 560.5293856339999,
+            "cpuPercent": 6.092467253991297,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2707476,
+            "taskSeconds": 0.224197
+          },
+          {
+            "elapsedSec": 570.5368876,
+            "cpuPercent": 5.096176865442511,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2710604,
+            "taskSeconds": 0.22767
+          },
+          {
+            "elapsedSec": 580.549313379,
+            "cpuPercent": 5.293422510173536,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2713732,
+            "taskSeconds": 0.230587
+          },
+          {
+            "elapsedSec": 590.562553594,
+            "cpuPercent": 5.1931241919177324,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2716860,
+            "taskSeconds": 0.234546
+          },
+          {
+            "elapsedSec": 600.0050943079999,
+            "cpuPercent": 4.87157020480706,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2719988,
+            "taskSeconds": 0.238294
+          }
+        ]
+      },
+      {
+        "arm": "pulse",
+        "firstDOMNodes": 605,
+        "lastDOMNodes": 605,
+        "animationTiming": "steps(12)",
+        "meanCPU": 8.004569377240722,
+        "firstWindowCPU": 7.82894833394576,
+        "lastWindowCPU": 7.880191126073204,
+        "firstNodes": 1235,
+        "lastNodes": 1138,
+        "rows": [
+          {
+            "elapsedSec": 10.000709931000001,
+            "cpuPercent": 6.700129003613823,
+            "processes": 5,
+            "nodes": 1235,
+            "heap": 3519388,
+            "taskSeconds": 0.008775
+          },
+          {
+            "elapsedSec": 20.003405480999998,
+            "cpuPercent": 6.69819446819013,
+            "processes": 5,
+            "nodes": 1235,
+            "heap": 3522528,
+            "taskSeconds": 0.014046
+          },
+          {
+            "elapsedSec": 30.009358383000002,
+            "cpuPercent": 7.095775954113118,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2557720,
+            "taskSeconds": 0.033742
+          },
+          {
+            "elapsedSec": 40.01748280300001,
+            "cpuPercent": 8.193343383714648,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2560900,
+            "taskSeconds": 0.038663
+          },
+          {
+            "elapsedSec": 50.029397934,
+            "cpuPercent": 7.091550324888589,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2564172,
+            "taskSeconds": 0.04325
+          },
+          {
+            "elapsedSec": 60.03337539300001,
+            "cpuPercent": 7.796898815463428,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2567336,
+            "taskSeconds": 0.04966
+          },
+          {
+            "elapsedSec": 70.036773462,
+            "cpuPercent": 6.697724067147695,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2570476,
+            "taskSeconds": 0.054771
+          },
+          {
+            "elapsedSec": 80.04457132200001,
+            "cpuPercent": 7.793922408420823,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2573796,
+            "taskSeconds": 0.059635
+          },
+          {
+            "elapsedSec": 90.047405595,
+            "cpuPercent": 7.597846562862872,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2577068,
+            "taskSeconds": 0.064481
+          },
+          {
+            "elapsedSec": 100.050200107,
+            "cpuPercent": 8.497625328404833,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2580224,
+            "taskSeconds": 0.069726
+          },
+          {
+            "elapsedSec": 110.05619542400001,
+            "cpuPercent": 10.193888440733508,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2583412,
+            "taskSeconds": 0.076749
+          },
+          {
+            "elapsedSec": 120.06612063,
+            "cpuPercent": 9.590481249795664,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2586552,
+            "taskSeconds": 0.083947
+          },
+          {
+            "elapsedSec": 130.07818398999999,
+            "cpuPercent": 8.789397033939679,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2589692,
+            "taskSeconds": 0.090384
+          },
+          {
+            "elapsedSec": 140.08390439099998,
+            "cpuPercent": 7.695597809459518,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2592832,
+            "taskSeconds": 0.096361
+          },
+          {
+            "elapsedSec": 150.08924777700003,
+            "cpuPercent": 8.795300331534248,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2595972,
+            "taskSeconds": 0.104934
+          },
+          {
+            "elapsedSec": 160.09778242500002,
+            "cpuPercent": 7.4936044723577195,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2599112,
+            "taskSeconds": 0.11071
+          },
+          {
+            "elapsedSec": 170.107818106,
+            "cpuPercent": 7.991979504313633,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2602252,
+            "taskSeconds": 0.115296
+          },
+          {
+            "elapsedSec": 180.119447491,
+            "cpuPercent": 9.289197234901431,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2605392,
+            "taskSeconds": 0.120901
+          },
+          {
+            "elapsedSec": 190.12494613200002,
+            "cpuPercent": 9.494779161801484,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2608532,
+            "taskSeconds": 0.127173
+          },
+          {
+            "elapsedSec": 200.131080647,
+            "cpuPercent": 8.394850166573054,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2611672,
+            "taskSeconds": 0.133935
+          },
+          {
+            "elapsedSec": 210.139650702,
+            "cpuPercent": 7.393663589638518,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2614860,
+            "taskSeconds": 0.13944
+          },
+          {
+            "elapsedSec": 220.153613907,
+            "cpuPercent": 6.490936572200051,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2618000,
+            "taskSeconds": 0.143903
+          },
+          {
+            "elapsedSec": 230.165790222,
+            "cpuPercent": 6.991486945263595,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2621140,
+            "taskSeconds": 0.148287
+          },
+          {
+            "elapsedSec": 240.17481596300001,
+            "cpuPercent": 8.492335038345875,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2624280,
+            "taskSeconds": 0.153962
+          },
+          {
+            "elapsedSec": 250.18795089,
+            "cpuPercent": 7.190555258159456,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2627420,
+            "taskSeconds": 0.159424
+          },
+          {
+            "elapsedSec": 260.201330529,
+            "cpuPercent": 6.990646766988102,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2630560,
+            "taskSeconds": 0.163882
+          },
+          {
+            "elapsedSec": 270.211103061,
+            "cpuPercent": 7.892287237042303,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2633700,
+            "taskSeconds": 0.169635
+          },
+          {
+            "elapsedSec": 280.225242824,
+            "cpuPercent": 8.48799817175069,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2636840,
+            "taskSeconds": 0.17521
+          },
+          {
+            "elapsedSec": 290.238733664,
+            "cpuPercent": 8.288817688677302,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2639980,
+            "taskSeconds": 0.179526
+          },
+          {
+            "elapsedSec": 300.24884088799996,
+            "cpuPercent": 7.59232626577509,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2643120,
+            "taskSeconds": 0.184795
+          },
+          {
+            "elapsedSec": 310.264227689,
+            "cpuPercent": 7.788016733633457,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2646260,
+            "taskSeconds": 0.190196
+          },
+          {
+            "elapsedSec": 320.278008617,
+            "cpuPercent": 7.6894032886915635,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2649448,
+            "taskSeconds": 0.195233
+          },
+          {
+            "elapsedSec": 330.286247831,
+            "cpuPercent": 8.393084757855988,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2652588,
+            "taskSeconds": 0.201794
+          },
+          {
+            "elapsedSec": 340.300147349,
+            "cpuPercent": 7.489589831132984,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2655728,
+            "taskSeconds": 0.206628
+          },
+          {
+            "elapsedSec": 350.31410502299997,
+            "cpuPercent": 8.488152513435514,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2658868,
+            "taskSeconds": 0.21531
+          },
+          {
+            "elapsedSec": 360.3249956,
+            "cpuPercent": 8.590644292685054,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2662008,
+            "taskSeconds": 0.223397
+          },
+          {
+            "elapsedSec": 370.338617616,
+            "cpuPercent": 6.990477560282632,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2665148,
+            "taskSeconds": 0.228827
+          },
+          {
+            "elapsedSec": 380.351382259,
+            "cpuPercent": 6.591586075694017,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2668288,
+            "taskSeconds": 0.233886
+          },
+          {
+            "elapsedSec": 390.362732169,
+            "cpuPercent": 7.391610588506505,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2671428,
+            "taskSeconds": 0.238129
+          },
+          {
+            "elapsedSec": 400.376461847,
+            "cpuPercent": 7.989031317248248,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2674568,
+            "taskSeconds": 0.244015
+          },
+          {
+            "elapsedSec": 410.389221387,
+            "cpuPercent": 7.290697405482685,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2677708,
+            "taskSeconds": 0.250947
+          },
+          {
+            "elapsedSec": 420.40034590700003,
+            "cpuPercent": 9.689221206490386,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2680848,
+            "taskSeconds": 0.259284
+          },
+          {
+            "elapsedSec": 430.414107623,
+            "cpuPercent": 9.986257196455963,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2684036,
+            "taskSeconds": 0.266131
+          },
+          {
+            "elapsedSec": 440.429905308,
+            "cpuPercent": 10.383596321614402,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2687176,
+            "taskSeconds": 0.273729
+          },
+          {
+            "elapsedSec": 450.44188404600004,
+            "cpuPercent": 8.789471322586792,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2690316,
+            "taskSeconds": 0.281596
+          },
+          {
+            "elapsedSec": 460.456739464,
+            "cpuPercent": 7.488874963207211,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2693456,
+            "taskSeconds": 0.286669
+          },
+          {
+            "elapsedSec": 470.47027546799995,
+            "cpuPercent": 8.288780303665451,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2696596,
+            "taskSeconds": 0.293269
+          },
+          {
+            "elapsedSec": 480.481513155,
+            "cpuPercent": 8.690234186825162,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2699736,
+            "taskSeconds": 0.299509
+          },
+          {
+            "elapsedSec": 490.495284515,
+            "cpuPercent": 6.990373305267866,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2702876,
+            "taskSeconds": 0.306884
+          },
+          {
+            "elapsedSec": 500.508903008,
+            "cpuPercent": 8.18884802305201,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2706016,
+            "taskSeconds": 0.311889
+          },
+          {
+            "elapsedSec": 510.51807988999997,
+            "cpuPercent": 7.293307018210411,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2709156,
+            "taskSeconds": 0.317382
+          },
+          {
+            "elapsedSec": 520.5302888560001,
+            "cpuPercent": 6.891586085978976,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2712296,
+            "taskSeconds": 0.322245
+          },
+          {
+            "elapsedSec": 530.5434939539999,
+            "cpuPercent": 8.488790468995639,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2715484,
+            "taskSeconds": 0.328129
+          },
+          {
+            "elapsedSec": 540.553449332,
+            "cpuPercent": 8.891148525557355,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2718624,
+            "taskSeconds": 0.334699
+          },
+          {
+            "elapsedSec": 550.566288249,
+            "cpuPercent": 7.98974203651419,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2721764,
+            "taskSeconds": 0.340059
+          },
+          {
+            "elapsedSec": 560.5786976720001,
+            "cpuPercent": 7.9900847658334415,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2724904,
+            "taskSeconds": 0.34478
+          },
+          {
+            "elapsedSec": 570.5894660069999,
+            "cpuPercent": 7.791609733619981,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2728044,
+            "taskSeconds": 0.351041
+          },
+          {
+            "elapsedSec": 580.603769324,
+            "cpuPercent": 8.288145203181651,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2731184,
+            "taskSeconds": 0.357155
+          },
+          {
+            "elapsedSec": 590.617488987,
+            "cpuPercent": 8.088902298642296,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2734324,
+            "taskSeconds": 0.362393
+          },
+          {
+            "elapsedSec": 600.005010513,
+            "cpuPercent": 7.6697560480246425,
+            "processes": 5,
+            "nodes": 1138,
+            "heap": 2737464,
+            "taskSeconds": 0.366828
+          }
+        ]
+      }
+    ],
+    "deltaMeanCPU": 2.4852635522858435,
+    "pulseDrift": 0.05124279212744387,
+    "noNodeGrowth": true,
+    "controlReuse": "The 600-second fixed-glow control is reused from the first soak. The only subsequent production change was opacity timing (ease-in-out to 12 steps per half-cycle) and its FX_CONFIG value; the fixed arm disables both pulse animations, so this change cannot affect the control."
+  },
+  "initialContinuousPulseSoak": {
+    "secondsPerArm": 600,
+    "cpuUnit": "percent of one CPU core, aggregate Chromium process tree",
+    "hz": 100,
+    "arms": [
+      {
+        "arm": "fixed",
+        "meanCPU": 5.519305824954879,
+        "firstWindowCPU": 5.388467089576274,
+        "lastWindowCPU": 5.233743543093329,
+        "firstNodes": 1237,
+        "lastNodes": 1140,
+        "rows": [
+          {
+            "elapsedSec": 10.010179174,
+            "cpuPercent": 5.795103763770331,
+            "processes": 5,
+            "nodes": 1237,
+            "heap": 3256572,
+            "taskSeconds": 0.003848
+          },
+          {
+            "elapsedSec": 20.013123085,
+            "cpuPercent": 5.298440186365251,
+            "processes": 5,
+            "nodes": 1237,
+            "heap": 3259700,
+            "taskSeconds": 0.007427
+          },
+          {
+            "elapsedSec": 30.015892735,
+            "cpuPercent": 5.898366358961389,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2540928,
+            "taskSeconds": 0.023024
+          },
+          {
+            "elapsedSec": 40.022600132,
+            "cpuPercent": 4.896715578461918,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2544096,
+            "taskSeconds": 0.026275
+          },
+          {
+            "elapsedSec": 50.032554092,
+            "cpuPercent": 5.894133003584764,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2547356,
+            "taskSeconds": 0.029275
+          },
+          {
+            "elapsedSec": 60.035988599,
+            "cpuPercent": 5.498111669698366,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2550508,
+            "taskSeconds": 0.033018
+          },
+          {
+            "elapsedSec": 70.04283707,
+            "cpuPercent": 6.095825291726851,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2553636,
+            "taskSeconds": 0.037394
+          },
+          {
+            "elapsedSec": 80.050819963,
+            "cpuPercent": 5.095931972033202,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2556944,
+            "taskSeconds": 0.040668
+          },
+          {
+            "elapsedSec": 90.05979952300001,
+            "cpuPercent": 4.895603963047754,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2560204,
+            "taskSeconds": 0.044765
+          },
+          {
+            "elapsedSec": 100.063021683,
+            "cpuPercent": 5.098357227727515,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2563348,
+            "taskSeconds": 0.048462
+          },
+          {
+            "elapsedSec": 110.06926041100002,
+            "cpuPercent": 5.496570838960293,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2566524,
+            "taskSeconds": 0.052145
+          },
+          {
+            "elapsedSec": 120.072569547,
+            "cpuPercent": 4.698445220577657,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2569652,
+            "taskSeconds": 0.055298
+          },
+          {
+            "elapsedSec": 130.080437805,
+            "cpuPercent": 4.896147584759703,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2572780,
+            "taskSeconds": 0.058606
+          },
+          {
+            "elapsedSec": 140.091117664,
+            "cpuPercent": 5.39423902877604,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2575908,
+            "taskSeconds": 0.062947
+          },
+          {
+            "elapsedSec": 150.09499064599999,
+            "cpuPercent": 5.597831969754212,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2579036,
+            "taskSeconds": 0.066334
+          },
+          {
+            "elapsedSec": 160.101389586,
+            "cpuPercent": 5.096738627532668,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2582164,
+            "taskSeconds": 0.070347
+          },
+          {
+            "elapsedSec": 170.105592725,
+            "cpuPercent": 5.397731258523583,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2585292,
+            "taskSeconds": 0.07391
+          },
+          {
+            "elapsedSec": 180.11342113199998,
+            "cpuPercent": 5.2958541897989635,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2588420,
+            "taskSeconds": 0.077235
+          },
+          {
+            "elapsedSec": 190.12134749799998,
+            "cpuPercent": 5.695485549698538,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2591548,
+            "taskSeconds": 0.082221
+          },
+          {
+            "elapsedSec": 200.127242039,
+            "cpuPercent": 5.896524269593529,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2594676,
+            "taskSeconds": 0.085523
+          },
+          {
+            "elapsedSec": 210.13394404299999,
+            "cpuPercent": 5.3963833417258265,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2597852,
+            "taskSeconds": 0.08966
+          },
+          {
+            "elapsedSec": 220.147445085,
+            "cpuPercent": 5.592449610292862,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2600980,
+            "taskSeconds": 0.093171
+          },
+          {
+            "elapsedSec": 230.160518086,
+            "cpuPercent": 6.29177476222416,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2604108,
+            "taskSeconds": 0.096544
+          },
+          {
+            "elapsedSec": 240.168919653,
+            "cpuPercent": 6.194795401138609,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2607236,
+            "taskSeconds": 0.100646
+          },
+          {
+            "elapsedSec": 250.183802717,
+            "cpuPercent": 4.7928667457479595,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2610364,
+            "taskSeconds": 0.103775
+          },
+          {
+            "elapsedSec": 260.196383704,
+            "cpuPercent": 5.293340455254575,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2613492,
+            "taskSeconds": 0.107444
+          },
+          {
+            "elapsedSec": 270.204052325,
+            "cpuPercent": 5.39586211784502,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2616620,
+            "taskSeconds": 0.110557
+          },
+          {
+            "elapsedSec": 280.207997104,
+            "cpuPercent": 5.49783122708298,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2619748,
+            "taskSeconds": 0.114045
+          },
+          {
+            "elapsedSec": 290.22076215600003,
+            "cpuPercent": 6.192095757566567,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2622876,
+            "taskSeconds": 0.117072
+          },
+          {
+            "elapsedSec": 300.230810918,
+            "cpuPercent": 7.292671767706225,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2626004,
+            "taskSeconds": 0.123056
+          },
+          {
+            "elapsedSec": 310.245331055,
+            "cpuPercent": 6.191010567838644,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2629132,
+            "taskSeconds": 0.128649
+          },
+          {
+            "elapsedSec": 320.25811788900006,
+            "cpuPercent": 5.79259310735066,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2632308,
+            "taskSeconds": 0.13224
+          },
+          {
+            "elapsedSec": 330.26566237800006,
+            "cpuPercent": 5.5957782712386255,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2635436,
+            "taskSeconds": 0.136016
+          },
+          {
+            "elapsedSec": 340.278240093,
+            "cpuPercent": 5.293342185059903,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2638564,
+            "taskSeconds": 0.141142
+          },
+          {
+            "elapsedSec": 350.29052779100004,
+            "cpuPercent": 6.192390976977679,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2641692,
+            "taskSeconds": 0.145249
+          },
+          {
+            "elapsedSec": 360.299249113,
+            "cpuPercent": 6.0946846292859735,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2644820,
+            "taskSeconds": 0.151094
+          },
+          {
+            "elapsedSec": 370.31210183900004,
+            "cpuPercent": 5.093453523746549,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2647948,
+            "taskSeconds": 0.154175
+          },
+          {
+            "elapsedSec": 380.325197547,
+            "cpuPercent": 5.392937566436768,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2651076,
+            "taskSeconds": 0.158086
+          },
+          {
+            "elapsedSec": 390.332747503,
+            "cpuPercent": 5.296001542138091,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2654204,
+            "taskSeconds": 0.162586
+          },
+          {
+            "elapsedSec": 400.345138158,
+            "cpuPercent": 4.794059845840086,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2657332,
+            "taskSeconds": 0.165745
+          },
+          {
+            "elapsedSec": 410.357328886,
+            "cpuPercent": 4.894033816492026,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2660460,
+            "taskSeconds": 0.169003
+          },
+          {
+            "elapsedSec": 420.36432372,
+            "cpuPercent": 4.896574927121615,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2663588,
+            "taskSeconds": 0.171861
+          },
+          {
+            "elapsedSec": 430.37924356100007,
+            "cpuPercent": 7.388975765642379,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2666764,
+            "taskSeconds": 0.178196
+          },
+          {
+            "elapsedSec": 440.392996265,
+            "cpuPercent": 6.890523666760615,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2669892,
+            "taskSeconds": 0.181993
+          },
+          {
+            "elapsedSec": 450.402177056,
+            "cpuPercent": 6.394129683175175,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2673020,
+            "taskSeconds": 0.185188
+          },
+          {
+            "elapsedSec": 460.41491303,
+            "cpuPercent": 5.692749728746644,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2676148,
+            "taskSeconds": 0.188218
+          },
+          {
+            "elapsedSec": 470.428522429,
+            "cpuPercent": 5.492525003570888,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2679276,
+            "taskSeconds": 0.191121
+          },
+          {
+            "elapsedSec": 480.437484507,
+            "cpuPercent": 5.0954334328131266,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2682404,
+            "taskSeconds": 0.194992
+          },
+          {
+            "elapsedSec": 490.450047021,
+            "cpuPercent": 5.293350221373714,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2685532,
+            "taskSeconds": 0.198334
+          },
+          {
+            "elapsedSec": 500.46441565800006,
+            "cpuPercent": 6.091247707281677,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2688660,
+            "taskSeconds": 0.201665
+          },
+          {
+            "elapsedSec": 510.47274602000005,
+            "cpuPercent": 5.095755051575715,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2691788,
+            "taskSeconds": 0.205061
+          },
+          {
+            "elapsedSec": 520.4847635320001,
+            "cpuPercent": 4.993998456362244,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2694916,
+            "taskSeconds": 0.20812
+          },
+          {
+            "elapsedSec": 530.4969204749999,
+            "cpuPercent": 4.494536018181588,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2698092,
+            "taskSeconds": 0.215223
+          },
+          {
+            "elapsedSec": 540.5040021359999,
+            "cpuPercent": 4.496815507699478,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2701220,
+            "taskSeconds": 0.217967
+          },
+          {
+            "elapsedSec": 550.517021602,
+            "cpuPercent": 5.792458528313405,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2704348,
+            "taskSeconds": 0.221096
+          },
+          {
+            "elapsedSec": 560.5293856339999,
+            "cpuPercent": 6.092467253991297,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2707476,
+            "taskSeconds": 0.224197
+          },
+          {
+            "elapsedSec": 570.5368876,
+            "cpuPercent": 5.096176865442511,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2710604,
+            "taskSeconds": 0.22767
+          },
+          {
+            "elapsedSec": 580.549313379,
+            "cpuPercent": 5.293422510173536,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2713732,
+            "taskSeconds": 0.230587
+          },
+          {
+            "elapsedSec": 590.562553594,
+            "cpuPercent": 5.1931241919177324,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2716860,
+            "taskSeconds": 0.234546
+          },
+          {
+            "elapsedSec": 600.0050943079999,
+            "cpuPercent": 4.87157020480706,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2719988,
+            "taskSeconds": 0.238294
+          }
+        ]
+      },
+      {
+        "arm": "pulse",
+        "meanCPU": 13.474742537953116,
+        "firstWindowCPU": 12.148670446036382,
+        "lastWindowCPU": 15.938691809508342,
+        "firstNodes": 1234,
+        "lastNodes": 1137,
+        "rows": [
+          {
+            "elapsedSec": 10.007612653999939,
+            "cpuPercent": 10.991905022538113,
+            "processes": 5,
+            "nodes": 1234,
+            "heap": 3315608,
+            "taskSeconds": 0.010248
+          },
+          {
+            "elapsedSec": 20.01312246699992,
+            "cpuPercent": 12.59306145862657,
+            "processes": 5,
+            "nodes": 1234,
+            "heap": 3318740,
+            "taskSeconds": 0.020169
+          },
+          {
+            "elapsedSec": 30.020699645999937,
+            "cpuPercent": 11.091595699398987,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2525112,
+            "taskSeconds": 0.040387
+          },
+          {
+            "elapsedSec": 40.03468653999991,
+            "cpuPercent": 14.080306025213815,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2528284,
+            "taskSeconds": 0.050519
+          },
+          {
+            "elapsedSec": 50.037618694999956,
+            "cpuPercent": 12.59630656767155,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2531548,
+            "taskSeconds": 0.060602
+          },
+          {
+            "elapsedSec": 60.04523783499992,
+            "cpuPercent": 12.890178792315677,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2534704,
+            "taskSeconds": 0.072747
+          },
+          {
+            "elapsedSec": 70.05808876700002,
+            "cpuPercent": 12.084470329354039,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2537836,
+            "taskSeconds": 0.086605
+          },
+          {
+            "elapsedSec": 80.061558861,
+            "cpuPercent": 10.59632297632179,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2541148,
+            "taskSeconds": 0.095779
+          },
+          {
+            "elapsedSec": 90.06952796099999,
+            "cpuPercent": 11.89052432226236,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2544412,
+            "taskSeconds": 0.106332
+          },
+          {
+            "elapsedSec": 100.08285128199996,
+            "cpuPercent": 11.984033287763275,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2547560,
+            "taskSeconds": 0.118726
+          },
+          {
+            "elapsedSec": 110.08614453199995,
+            "cpuPercent": 11.796115244347169,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2550740,
+            "taskSeconds": 0.127926
+          },
+          {
+            "elapsedSec": 120.09431360399991,
+            "cpuPercent": 13.18922562662324,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2553872,
+            "taskSeconds": 0.137638
+          },
+          {
+            "elapsedSec": 130.10361530199995,
+            "cpuPercent": 12.688197821569883,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2557004,
+            "taskSeconds": 0.147777
+          },
+          {
+            "elapsedSec": 140.107747571,
+            "cpuPercent": 11.495249853538235,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2560136,
+            "taskSeconds": 0.157616
+          },
+          {
+            "elapsedSec": 150.11162687199993,
+            "cpuPercent": 11.295618089744972,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2563268,
+            "taskSeconds": 0.167135
+          },
+          {
+            "elapsedSec": 160.11762659,
+            "cpuPercent": 13.19208512094415,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2566400,
+            "taskSeconds": 0.177001
+          },
+          {
+            "elapsedSec": 170.12110704499995,
+            "cpuPercent": 11.795894492003638,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2569532,
+            "taskSeconds": 0.18675
+          },
+          {
+            "elapsedSec": 180.12897062299993,
+            "cpuPercent": 11.091278286807212,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2572664,
+            "taskSeconds": 0.19525
+          },
+          {
+            "elapsedSec": 190.13771414399997,
+            "cpuPercent": 13.08855599358101,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2575796,
+            "taskSeconds": 0.204395
+          },
+          {
+            "elapsedSec": 200.140901999,
+            "cpuPercent": 11.596303266664956,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2578928,
+            "taskSeconds": 0.213579
+          },
+          {
+            "elapsedSec": 210.14774197199998,
+            "cpuPercent": 11.692002701720435,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2582108,
+            "taskSeconds": 0.223325
+          },
+          {
+            "elapsedSec": 220.15763148799994,
+            "cpuPercent": 11.78834190041631,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2585240,
+            "taskSeconds": 0.232845
+          },
+          {
+            "elapsedSec": 230.16298730199995,
+            "cpuPercent": 11.993576463526646,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2588372,
+            "taskSeconds": 0.243829
+          },
+          {
+            "elapsedSec": 240.16762504800002,
+            "cpuPercent": 11.294761776374974,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2591504,
+            "taskSeconds": 0.252949
+          },
+          {
+            "elapsedSec": 250.18071851699997,
+            "cpuPercent": 12.28391609254442,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2594636,
+            "taskSeconds": 0.262377
+          },
+          {
+            "elapsedSec": 260.183627796,
+            "cpuPercent": 12.09648079624454,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2597768,
+            "taskSeconds": 0.272473
+          },
+          {
+            "elapsedSec": 270.19217579,
+            "cpuPercent": 11.789921981763914,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2600900,
+            "taskSeconds": 0.28212
+          },
+          {
+            "elapsedSec": 280.2056923049999,
+            "cpuPercent": 12.083667093248021,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2604032,
+            "taskSeconds": 0.293168
+          },
+          {
+            "elapsedSec": 290.209070757,
+            "cpuPercent": 11.895980999919775,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2607164,
+            "taskSeconds": 0.305453
+          },
+          {
+            "elapsedSec": 300.21655397699993,
+            "cpuPercent": 11.991026850805026,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2610296,
+            "taskSeconds": 0.314742
+          },
+          {
+            "elapsedSec": 310.229238948,
+            "cpuPercent": 12.883657118307944,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2613428,
+            "taskSeconds": 0.324685
+          },
+          {
+            "elapsedSec": 320.233407916,
+            "cpuPercent": 12.694707617017551,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2616608,
+            "taskSeconds": 0.337499
+          },
+          {
+            "elapsedSec": 330.2435514989999,
+            "cpuPercent": 13.386421372373716,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2619740,
+            "taskSeconds": 0.350361
+          },
+          {
+            "elapsedSec": 340.25650691100003,
+            "cpuPercent": 13.083050369224905,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2622872,
+            "taskSeconds": 0.360482
+          },
+          {
+            "elapsedSec": 350.26060776299994,
+            "cpuPercent": 13.194589094292422,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2626004,
+            "taskSeconds": 0.37369
+          },
+          {
+            "elapsedSec": 360.269617151,
+            "cpuPercent": 16.7848778522896,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2629136,
+            "taskSeconds": 0.388054
+          },
+          {
+            "elapsedSec": 370.28419613099993,
+            "cpuPercent": 15.57728990020908,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2632268,
+            "taskSeconds": 0.400031
+          },
+          {
+            "elapsedSec": 380.2902103759999,
+            "cpuPercent": 15.69056331080613,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2635400,
+            "taskSeconds": 0.413446
+          },
+          {
+            "elapsedSec": 390.297596684,
+            "cpuPercent": 15.488559672777935,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2638532,
+            "taskSeconds": 0.425179
+          },
+          {
+            "elapsedSec": 400.311638987,
+            "cpuPercent": 14.180087890926904,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2641664,
+            "taskSeconds": 0.43653
+          },
+          {
+            "elapsedSec": 410.315612915,
+            "cpuPercent": 15.094001752380473,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2644796,
+            "taskSeconds": 0.446746
+          },
+          {
+            "elapsedSec": 420.3248246289999,
+            "cpuPercent": 16.7845385631135,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2647928,
+            "taskSeconds": 0.461281
+          },
+          {
+            "elapsedSec": 430.337694468,
+            "cpuPercent": 15.080591521509264,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2651108,
+            "taskSeconds": 0.476142
+          },
+          {
+            "elapsedSec": 440.344407932,
+            "cpuPercent": 15.48960111205594,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2654240,
+            "taskSeconds": 0.48731
+          },
+          {
+            "elapsedSec": 450.35163898599984,
+            "cpuPercent": 13.190461905767634,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2657372,
+            "taskSeconds": 0.498067
+          },
+          {
+            "elapsedSec": 460.3548885329999,
+            "cpuPercent": 13.095744476282375,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2660504,
+            "taskSeconds": 0.50888
+          },
+          {
+            "elapsedSec": 470.35899271799997,
+            "cpuPercent": 12.394912898440515,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2663636,
+            "taskSeconds": 0.519425
+          },
+          {
+            "elapsedSec": 480.36745134099993,
+            "cpuPercent": 12.189689201455826,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2666768,
+            "taskSeconds": 0.529512
+          },
+          {
+            "elapsedSec": 490.3798594799999,
+            "cpuPercent": 14.581906567642445,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2669900,
+            "taskSeconds": 0.540642
+          },
+          {
+            "elapsedSec": 500.383713585,
+            "cpuPercent": 16.493643176736185,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2673032,
+            "taskSeconds": 0.555102
+          },
+          {
+            "elapsedSec": 510.391729636,
+            "cpuPercent": 16.586704013470637,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2676164,
+            "taskSeconds": 0.569827
+          },
+          {
+            "elapsedSec": 520.4051013879999,
+            "cpuPercent": 16.77756545555654,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2679296,
+            "taskSeconds": 0.582954
+          },
+          {
+            "elapsedSec": 530.409019507,
+            "cpuPercent": 14.59428178672395,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2682476,
+            "taskSeconds": 0.596777
+          },
+          {
+            "elapsedSec": 540.4195749579999,
+            "cpuPercent": 18.58038756295206,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2685608,
+            "taskSeconds": 0.612186
+          },
+          {
+            "elapsedSec": 550.4360277189999,
+            "cpuPercent": 19.567805557187267,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2688740,
+            "taskSeconds": 0.634978
+          },
+          {
+            "elapsedSec": 560.443117356,
+            "cpuPercent": 16.98795615574819,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2691872,
+            "taskSeconds": 0.649881
+          },
+          {
+            "elapsedSec": 570.452674991,
+            "cpuPercent": 14.586059177029789,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2695004,
+            "taskSeconds": 0.661142
+          },
+          {
+            "elapsedSec": 580.468444862,
+            "cpuPercent": 16.074650483550485,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2698136,
+            "taskSeconds": 0.673591
+          },
+          {
+            "elapsedSec": 590.47296071,
+            "cpuPercent": 12.794222323670724,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2701268,
+            "taskSeconds": 0.683766
+          },
+          {
+            "elapsedSec": 600.00436781,
+            "cpuPercent": 13.63911945383181,
+            "processes": 5,
+            "nodes": 1137,
+            "heap": 2704400,
+            "taskSeconds": 0.694788
+          }
+        ]
+      }
+    ],
+    "deltaMeanCPU": 7.955436712998237,
+    "pulseDrift": 3.7900213634719595,
+    "nodesStable": false,
+    "limit": "Headless process-tree CPU samples; compare measured deltas and drift, not hardware-wide perceptibility. No game simulation, regeneration or damage during either arm; actor idles remain identical."
+  },
+  "stepsProbe": {
+    "secondsPerArm": 60,
+    "cpuUnit": "percent of one CPU core, aggregate Chromium process tree",
+    "hz": 100,
+    "arms": [
+      {
+        "arm": "pulse",
+        "meanCPU": 7.783980165364937,
+        "firstWindowCPU": 7.783980165364937,
+        "lastWindowCPU": 7.783980165364937,
+        "firstNodes": 1237,
+        "lastNodes": 1140,
+        "rows": [
+          {
+            "elapsedSec": 10.005199254999999,
+            "cpuPercent": 8.396116809409435,
+            "processes": 5,
+            "nodes": 1237,
+            "heap": 3341108,
+            "taskSeconds": 0.007443
+          },
+          {
+            "elapsedSec": 20.010381669,
+            "cpuPercent": 8.995338243315311,
+            "processes": 5,
+            "nodes": 1237,
+            "heap": 3344248,
+            "taskSeconds": 0.01292
+          },
+          {
+            "elapsedSec": 30.016149932,
+            "cpuPercent": 8.095330400517794,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2541624,
+            "taskSeconds": 0.0327
+          },
+          {
+            "elapsedSec": 40.024198944000005,
+            "cpuPercent": 6.294933200712825,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2544804,
+            "taskSeconds": 0.037309
+          },
+          {
+            "elapsedSec": 50.033326411000004,
+            "cpuPercent": 6.4940725567043085,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2548076,
+            "taskSeconds": 0.041593
+          },
+          {
+            "elapsedSec": 59.999997646999994,
+            "cpuPercent": 8.428089781529946,
+            "processes": 5,
+            "nodes": 1140,
+            "heap": 2551240,
+            "taskSeconds": 0.047707
+          }
+        ]
+      }
+    ],
+    "pulseDrift": 0,
+    "noNodeGrowth": true,
+    "limit": "Headless process-tree CPU samples; compare measured deltas and drift, not hardware-wide perceptibility. No game simulation, regeneration or damage during either arm; actor idles remain identical."
+  },
+  "scopeAudit": {
+    "existingMethodsChanged": [
+      "constructor",
+      "renderCore"
+    ],
+    "newMethods": [
+      "configureAtmosphereFX",
+      "prepareIdle",
+      "renderVitalityMood"
+    ],
+    "unchangedMethods": 96,
+    "items1to3ConfigAndCssUntouched": true
+  },
+  "validation": [
+    "combat-idle (all 42 enemies and desktop extremes)",
+    "life-orb (thresholds, hysteresis, same-render stop, three colors, potion availability, preferences/visibility/profiles)",
+    "hud-readable (6 desktop resolutions 1024x600–1920x1080, giant values, focus and events; unchanged root font)",
+    "hud-browser",
+    "combat-numbers",
+    "combat-impact",
+    "enemy-health-trail",
+    "combat-events",
+    "gameplay-inventory",
+    "boss-scale",
+    "balance",
+    "check-assets (95 assets)",
+    "check-sprites (42 unique monsters, 89 rasters, no byte/pixel duplicates)"
+  ],
+  "limitations": [
+    "Short headless FPS samples do not guarantee hardware-wide performance.",
+    "CPU uses actual /proc Chromium browser/renderer/GPU process-tree samples, percent of ONE CPU core, not whole-machine usage.",
+    "CPU arms isolate the orb/potion pulse at 25% HP with identical actor idles; game timers/regeneration/damage stopped, fresh browser per arm, 5-second warmup. Fixed arm uses test-only CSS. No concurrent browser tests.",
+    "CPU drift compares first and last 120 seconds. A fixed cost for animation is separate from progressive growth. Human perceptibility still needs desktop hardware validation.",
+    "Visual appearance and subtlety need user review on the target monitor; phone testing remains deferred."
+  ]
+}

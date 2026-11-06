@@ -4,25 +4,24 @@
   -webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;
 }
 .battlefield img{-webkit-user-drag:none}
-/* Grounded, compositor-only idle lives outside the sprite's attack transform. */
-.battlefield .actor-idle{
-  --idle-cycle:6.4s;--idle-scale:1.005;--idle-lean:.12deg;
-  display:block;position:relative;z-index:1;width:100%;height:100%;
-  transform-origin:50% 100%;pointer-events:none;
-}
-.battlefield .hero-idle{--idle-cycle:5.2s;--idle-scale:1.0065;--idle-lean:.15deg;--idle-delay:-.9s}
-.battlefield.miniboss-fight .attack-target .actor-idle{--idle-cycle:7.2s;--idle-scale:1.004;--idle-lean:.09deg}
-.battlefield.boss-fight .attack-target .actor-idle{--idle-cycle:8.4s;--idle-scale:1.0025;--idle-lean:.07deg}
-html.hw-game-active .battlefield .actor-idle{
-  animation:hw-idle-breathe var(--idle-cycle) ease-in-out var(--idle-delay,0s) infinite!important;
-}
-@keyframes hw-idle-breathe{
-  0%,100%{transform:skewX(calc(0deg - var(--idle-lean))) scaleY(1)}
-  50%{transform:skewX(var(--idle-lean)) scaleY(var(--idle-scale))}
-}
-html.hw-game-active .battlefield .actor-idle.actor-active,html.hw-game-active[data-combat-idle-paused] .battlefield .actor-idle{animation-play-state:paused!important}
-html.hw-game-active.hw-lite .battlefield .actor-idle,html.hw-game-active .battlefield .combat-hero.defeated .actor-idle,html:not(.hw-game-active) .actor-idle{animation:none!important;transform:none!important}
-@media(prefers-reduced-motion:reduce){html.hw-game-active .battlefield .actor-idle{animation:none!important;transform:none!important}}
+/* Fixed feet and contact shadows; only the clipped upper sprite moves. */
+.battlefield .actor-idle{--idle-cycle:var(--enemy-idle-ms);--idle-lift:var(--enemy-idle-px);--idle-steps:var(--enemy-idle-steps);display:block;position:relative;z-index:1;width:100%;height:100%;pointer-events:none}
+.battlefield .hero-idle{--idle-cycle:var(--hero-idle-ms);--idle-lift:var(--hero-idle-px);--idle-steps:var(--hero-idle-steps);--idle-delay:var(--hero-idle-phase)}
+.battlefield.miniboss-fight .enemy-idle{--idle-cycle:var(--miniboss-idle-ms);--idle-lift:var(--miniboss-idle-px);--idle-steps:var(--miniboss-idle-steps)}
+.battlefield.boss-fight .enemy-idle{--idle-cycle:var(--boss-idle-ms);--idle-lift:var(--boss-idle-px);--idle-steps:var(--boss-idle-steps)}
+.battlefield .actor-idle>img,.battlefield .idle-motion,.battlefield .idle-feet{image-rendering:pixelated!important}
+.battlefield .idle-top,.battlefield .idle-motion,.battlefield .idle-feet{position:absolute;inset:0;pointer-events:none}
+.battlefield .idle-top{clip-path:inset(0 0 12% 0);visibility:hidden}
+.battlefield .idle-feet{clip-path:inset(87% 0 0 0);visibility:hidden}
+.battlefield .idle-motion,.battlefield .idle-feet{background:var(--idle-sprite) center bottom/contain no-repeat}
+html.hw-game-active .idle-ready:not(.actor-active)>img{opacity:0}
+html.hw-game-active .idle-ready:not(.actor-active)>.idle-top,html.hw-game-active .idle-ready:not(.actor-active)>.idle-feet{visibility:visible}
+html.hw-game-active .idle-ready .idle-motion{animation:hw-idle-breathe var(--idle-cycle) steps(var(--idle-steps),end) var(--idle-delay,0s) infinite!important}
+@keyframes hw-idle-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--idle-lift))}}
+html.hw-game-active .actor-active .idle-motion,html.hw-game-active[data-combat-idle-paused] .idle-ready .idle-motion{animation-play-state:paused!important}
+html.hw-lite .idle-top,html.hw-lite .idle-feet,html:not(.hw-game-active) .idle-top,html:not(.hw-game-active) .idle-feet,.combat-hero.defeated .idle-top,.combat-hero.defeated .idle-feet{display:none!important}
+html.hw-lite .actor-idle>img,.combat-hero.defeated .actor-idle>img{opacity:1!important}
+@media(prefers-reduced-motion:reduce){.battlefield .idle-top,.battlefield .idle-feet{display:none!important}.battlefield .actor-idle>img{opacity:1!important}}
 /* Only scenery shakes; actor motion stays on sprites, outside the stable HUD. */
 .arena-camera{position:absolute;inset:-3px;z-index:0;pointer-events:none}
 .app-frame .battlefield .duel-slash{
