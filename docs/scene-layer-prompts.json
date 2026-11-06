@@ -1,0 +1,36 @@
+{
+  "generator": "image_gen built-in; no CLI/API key",
+  "styleBlock": "Somber dark fantasy, ruined gothic courtyard, charcoal stone, desaturated ash-gray and restrained ember-red light, matching the existing Campos de Cinza camera and materials; no text, UI or characters; actual alpha on overlays.",
+  "reference": "assets/backgrounds/fast/campos-de-cinza.webp",
+  "integrationDimensions": [
+    1280,
+    720
+  ],
+  "originalGeneratedDimensions": [
+    1672,
+    941
+  ],
+  "processing": "Only resize to the exact reference dimensions and lossless PNG compression; no painted elements extracted or synthesized in code.",
+  "scope": "Campos de Cinza common enemies/miniboss, desktop. Other regions and every main boss keep their existing whole background.",
+  "validationOrder": [
+    "mist generated separately",
+    "mist composited over the original reference and inspected",
+    "foreground generated separately",
+    "both composited over the original reference and inspected",
+    "in-game desktop composition inspected"
+  ],
+  "assets": [
+    {
+      "asset": "assets/backgrounds/layers/campos-de-cinza-mist.png",
+      "type": "mist",
+      "opacity": 0.28,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent PNG game environment layer, low ground mist only, for HELLWARD Campos de Cinza. The supplied 1280x720 image is ONLY the style, exact camera, horizon and framing reference. Output a single full-canvas 16:9 1280x720 PNG with actual alpha transparency. Do NOT reproduce the reference scene, architecture, ground, stones, sky, eclipse, fire or characters. Draw ONLY a thin, subtle, desaturated warm ash-gray ground fog: wispy horizontal bands around the distant ground/horizon at y=310–410 of 720, sparse thinner tendrils reaching y=500 at left/right, mostly transparent everywhere. Transparent above y=280 and below y=540, center clear for gameplay. Somber dark fantasy painterly texture matching reference, dark warm-gray smoke, no white glow, no dense opaque cloud. The fog itself must be softly translucent and feather into zero alpha, with no rectangular boundary or opaque background. Preserve full reference canvas and horizon perspective. No text, no borders, no UI, no separate panels. This is ONE mist overlay, not multiple layers or a finished background. The current complete background will be placed behind this PNG, so all non-fog pixels must be fully transparent."
+    },
+    {
+      "asset": "assets/backgrounds/layers/campos-de-cinza-foreground.png",
+      "type": "foreground",
+      "opacity": 0.72,
+      "prompt": "Use case: stylized-concept. Asset type: ONE foreground edge overlay PNG for a dark fantasy battle environment. Supplied image is ONLY a reference for the exact 1280x720 16:9 framing, lighting, perspective and painterly material style; do not reproduce it. Generate ONE separate full-canvas transparent 1280x720 PNG. Almost the entire canvas must be fully transparent. Place only two narrowly cropped extremely near-camera ruined dark-stone pillar fragments at the extreme bottom left and bottom right edges: confined to x=0..45 and x=1235..1280 of the 1280 canvas, growing slightly inward only in the bottommost 25 pixels. A thin short broken black iron chain clings to the rightmost edge of one fragment. Height of the fragments only the bottom quarter of the canvas, y=540..720. Perspective matches the broad flat ash stone courtyard in the reference. Ominous charcoal basalt, weathered gothic carving, tiny restrained warm ash-red edge reflections, solid material and dark volume, no bright highlights. Entire top 75% of the image and central 92% width fully transparent, open for the battle and HUD. No background, no scene, no sky, no fog, no floor surface, no characters, no objects in the center, no frame across the screen, no text. Real alpha transparency around every stone edge; no black rectangle or fake checkerboard. Return ONLY this one foreground overlay layer."
+    }
+  ]
+}

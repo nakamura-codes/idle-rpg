@@ -1,0 +1,16 @@
+/* Static scene slots. Existing whole regional background is always underneath. */
+.scene-plane,.scene-assets{position:absolute;inset:0;pointer-events:none}
+.scene-plane{animation:none!important;transform:none;transition:none;isolation:isolate}
+.scene-assets{z-index:1}
+.scene-layer-image{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center center;pointer-events:none;user-select:none;animation:none!important;transition:none;transform:none;-webkit-user-drag:none}
+.arena-camera>[data-scene-layer=distant]{z-index:0}
+.arena-camera>[data-scene-layer=middle]{z-index:1}
+.arena-camera>[data-scene-layer=ground]{z-index:2}
+.arena-camera>[data-scene-layer=mist]{z-index:3}
+#battlefield>.scene-characters{z-index:4}
+.scene-characters>.attack-target{pointer-events:auto}
+#battlefield>.scene-foreground{z-index:8;inset:-3px}
+#battlefield>.scene-effects{z-index:20}
+#battlefield>.mob-info,#battlefield>.event-overlay,#battlefield>.hero-respawn{z-index:40!important}
+#battlefield[data-scene-has-mist] .arena-mist{visibility:hidden}
+/* No motion here: depth/speed fields are reserved for the later parallax item. */

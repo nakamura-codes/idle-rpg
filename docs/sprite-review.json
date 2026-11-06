@@ -1280,6 +1280,24 @@
       ],
       "decision": "created",
       "reason": "Continuous dark fantasy frame around the complete player command dock"
+    },
+    {
+      "asset": "assets/backgrounds/layers/campos-de-cinza-mist.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Camada PNG transparente estática de Campos de Cinza; gerada individualmente e alinhada ao cenário original no Passo 0"
+    },
+    {
+      "asset": "assets/backgrounds/layers/campos-de-cinza-foreground.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "decision": "created",
+      "reason": "Camada PNG transparente estática de Campos de Cinza; gerada individualmente e alinhada ao cenário original no Passo 0"
     }
   ],
   "assetPolicy": "Uma imagem canônica por monstro; imagens mobile e atlas compartilhados mantidos por uso ativo",
