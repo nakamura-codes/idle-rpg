@@ -18,6 +18,7 @@
   <script src="game.js?v=27" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=7">
   <script src="game-hud.js?v=7" defer></script>
+  <script src="scene-layers.js?v=1" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="gameplay.css?v=3">
   <link rel="stylesheet" href="hud-legibility.css?v=3">
@@ -26,6 +27,7 @@
   <link rel="stylesheet" href="combat-events.css?v=9">
   <link rel="stylesheet" href="region-atmosphere.css?v=1">
   <link rel="stylesheet" href="boss-command-hud.css?v=1">
+  <link rel="stylesheet" href="scene-layers.css?v=1">
 </head>
 <body>
   <div class="ambient-grain" aria-hidden="true"></div>
@@ -54,18 +56,28 @@
           <div class="battle-top"><div><div class="eyebrow gold-eyebrow">✦ &nbsp; EXPEDIÇÃO ATUAL &nbsp; ✦</div><h1 id="zoneName">Campos de Cinza</h1><p id="zoneSubtitle">Onde os primeiros condenados despertam.</p></div><div class="zone-crest" id="zoneCrest" aria-hidden="true">I</div></div>
           <div class="stage-strip" aria-label="Progressão da região"><div class="stage-caption"><strong id="stageNumber">FASE 1 / 10</strong><span id="stageKills">0 / 10 INIMIGOS</span></div><div class="stage-progress-track" id="stageProgressTrack" role="progressbar" aria-label="Inimigos da fase" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="stageProgressFill"></span></div><div class="stage-pips" id="stagePips"><span data-stage="1" class="active" title="Fase 1">1</span><span data-stage="2" title="Fase 2">2</span><span data-stage="3" title="Fase 3">3</span><span data-stage="4" title="Fase 4">4</span><span data-stage="5" class="miniboss-pip" title="Fase 5 · Miniboss">5</span><span data-stage="6" title="Fase 6">6</span><span data-stage="7" title="Fase 7">7</span><span data-stage="8" title="Fase 8">8</span><span data-stage="9" title="Fase 9">9</span><span data-stage="10" class="boss-pip" title="Fase 10 · Chefão">10</span></div></div>
           <div class="battlefield zone-0" id="battlefield">
-            <div class="arena-camera" id="arenaCamera" aria-hidden="true"><div class="arena-scenery"></div><div class="arena-lighting"></div><div class="arena-mist"></div></div>
-            <div class="camera-state" id="cameraState" aria-hidden="true">COMBATE • 2D</div>
+            <div class="arena-camera" id="arenaCamera" aria-hidden="true">
+              <div class="scene-plane" data-scene-layer="distant"><div class="arena-scenery"></div><div class="scene-assets"></div></div>
+              <div class="scene-plane" data-scene-layer="middle"><div class="scene-assets"></div></div>
+              <div class="scene-plane" data-scene-layer="ground"><div class="scene-assets"></div><div class="arena-lighting"></div></div>
+              <div class="scene-plane" data-scene-layer="mist"><div class="arena-mist"></div><div class="scene-assets"></div></div>
+            </div>
+            <div class="scene-plane scene-characters" data-scene-layer="characters">
             <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><span class="actor-idle hero-idle"><img src="assets/hero/fast/errante.webp?v=2" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"></span><span class="hero-ground-name" id="combatHeroName">Aventureiro</span></div>
+            <button id="attackTarget" class="attack-target" type="button" aria-label="Atacar inimigo"><span class="monster-aura"></span><span class="mob-shadow"></span><span class="monster-art" id="monsterArt" aria-hidden="true"></span><span class="target-hint">✥ CLIQUE PARA ATACAR ✥</span></button>
+            </div>
+            <div class="scene-plane scene-foreground" data-scene-layer="foreground" aria-hidden="true"><div class="scene-assets"></div></div>
+            <div class="scene-plane scene-effects" data-scene-layer="effects" aria-hidden="true">
             <span class="duel-slash" id="duelSlash" aria-hidden="true"></span><span id="targetFlash" class="target-flash" aria-hidden="true"></span><span id="finisherArt" class="finisher-art" hidden aria-hidden="true"><img alt=""><i class="target-flash"></i></span>
-            <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-damage-layer" id="heroDamageLayer" aria-hidden="true"></div>
+            <div class="damage-layer" id="damageLayer" aria-hidden="true"></div>
+            </div>
+            <div class="camera-state" id="cameraState" aria-hidden="true">COMBATE • 2D</div>
+            <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-respawn" id="heroRespawn" hidden><strong>☠ VOCÊ FOI DERROTADO</strong><span>Retornando em <b id="heroRespawnTime">8s</b></span><small>O inimigo recuperou a vida. Seus itens e fases foram preservados.</small></div>
             <div class="mob-info"><div class="mob-name-row"><span class="mob-icon">☠</span><strong id="mobName">Condenado</strong><span class="mob-rank" id="mobLevel">Nv. 1</span></div><div class="progress-bar hp-track" id="mobHealthProgress" role="progressbar" aria-label="Vida do inimigo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div class="hp-damage-trail" id="mobHPDamageTrail" aria-hidden="true"></div><div class="progress-fill hp-fill" id="mobHPFill" aria-hidden="true"></div><span class="hp-numbers" id="mobHPText">30 / 30</span></div></div>
-            <button id="attackTarget" class="attack-target" type="button" aria-label="Atacar inimigo"><span class="monster-aura"></span><span class="mob-shadow"></span><span class="monster-art" id="monsterArt" aria-hidden="true"></span><span class="target-hint">✥ CLIQUE PARA ATACAR ✥</span></button>
 
             <div class="event-overlay" id="eventOverlay" hidden><div class="event-ribbon">✦ EVENTO RARO ✦</div><button class="event-button" id="eventTarget" type="button"><span class="event-illustration" id="eventArt" aria-hidden="true">♜</span><span class="event-title" id="eventTitle">Goblin do Tesouro</span><span class="event-instruction">SAQUEAR</span><div class="event-progress-track"><span id="eventHPFill"></span></div><span class="event-clock">⏳ <b id="eventTime">10.0s</b></span></button></div>
-            <div class="damage-layer" id="damageLayer" aria-hidden="true"></div>
             <div class="battle-corner tl"></div><div class="battle-corner tr"></div><div class="battle-corner bl"></div><div class="battle-corner br"></div>
           </div>
             <div class="battle-bottom"><span class="battle-instruction">⚔ &nbsp; INIMIGOS CONTRA-ATACAM · EVOLUA DEFESA E USE POÇÕES</span><span class="battle-kill-count" id="zoneKillsLabel">0 ABATES NESTA ZONA</span></div>
