@@ -1,0 +1,574 @@
+{
+  "baselineCommit": "d52a8fc412400e4c2a67e071364a95f4d087e70d",
+  "feature": "Desktop HUD typography and contrast, visual roadmap item 5",
+  "environment": {
+    "renderer": "Headless Chromium / SwiftShader",
+    "viewport": [
+      1366,
+      768
+    ],
+    "cpuThrottle": 1,
+    "sampleMs": 5000,
+    "flags": [
+      "PERF_DEVICE=desktop",
+      "PERF_HUNT=1",
+      "PERF_EVENTS=1",
+      "PERF_FEEDBACK=1",
+      "PERF_IMPACT=1",
+      "PERF_IDLE=1"
+    ]
+  },
+  "comparison": {
+    "passed": true,
+    "flags": [],
+    "before": [
+      {
+        "device": "desktop",
+        "scene": "menu",
+        "repeat": 1,
+        "frames": 302,
+        "elapsed": 5003.099999999814,
+        "p95": 16.700000000000728,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 0,
+        "taskMs": 52,
+        "scriptMs": 13
+      },
+      {
+        "device": "desktop",
+        "scene": "battle-idle",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5005.899999999627,
+        "p95": 16.799999999999272,
+        "slow": 0,
+        "mutations": 210,
+        "fps": 60,
+        "layout": 8,
+        "style": 327,
+        "taskMs": 211,
+        "scriptMs": 40
+      },
+      {
+        "device": "desktop",
+        "scene": "battle-attacks",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5010.299999999999,
+        "p95": 16.700000000000728,
+        "slow": 0,
+        "mutations": 685,
+        "fps": 60,
+        "layout": 58,
+        "style": 377,
+        "taskMs": 439,
+        "scriptMs": 92
+      },
+      {
+        "device": "desktop",
+        "scene": "event-chest",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5011.5999999999985,
+        "p95": 16.700000000000728,
+        "slow": 0,
+        "mutations": 351,
+        "fps": 60,
+        "layout": 78,
+        "style": 375,
+        "taskMs": 407,
+        "scriptMs": 55
+      },
+      {
+        "device": "desktop",
+        "scene": "event-goblin",
+        "repeat": 1,
+        "frames": 299,
+        "elapsed": 5009.799999999999,
+        "p95": 16.799999999999272,
+        "slow": 1,
+        "mutations": 353,
+        "fps": 60,
+        "layout": 79,
+        "style": 377,
+        "taskMs": 444,
+        "scriptMs": 55
+      },
+      {
+        "device": "desktop",
+        "scene": "combat-feedback",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5006.700000000001,
+        "p95": 16.700000000000728,
+        "slow": 0,
+        "mutations": 202,
+        "fps": 60,
+        "layout": 31,
+        "style": 331,
+        "taskMs": 347,
+        "scriptMs": 18
+      },
+      {
+        "device": "desktop",
+        "scene": "combat-impact",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5006.799999999625,
+        "p95": 16.799999999995634,
+        "slow": 0,
+        "mutations": 455,
+        "fps": 60,
+        "layout": 43,
+        "style": 337,
+        "taskMs": 407,
+        "scriptMs": 57
+      },
+      {
+        "device": "desktop",
+        "scene": "idle-common",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5008.299999999719,
+        "p95": 16.799999999995634,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 301,
+        "taskMs": 170,
+        "scriptMs": 12
+      },
+      {
+        "device": "desktop",
+        "scene": "idle-miniboss",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5001.799999999719,
+        "p95": 16.700000000004366,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 301,
+        "taskMs": 216,
+        "scriptMs": 12
+      },
+      {
+        "device": "desktop",
+        "scene": "idle-colossal",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5010.4000000000015,
+        "p95": 16.799999999995634,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 301,
+        "taskMs": 160,
+        "scriptMs": 12
+      },
+      {
+        "device": "desktop",
+        "scene": "codex-idle",
+        "repeat": 1,
+        "frames": 300,
+        "elapsed": 5009.299999999625,
+        "p95": 16.700000000004366,
+        "slow": 1,
+        "mutations": 253,
+        "fps": 60,
+        "layout": 11,
+        "style": 327,
+        "taskMs": 326,
+        "scriptMs": 45
+      },
+      {
+        "device": "desktop",
+        "scene": "hunt-attacks",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5008.299999999814,
+        "p95": 16.700000000004366,
+        "slow": 0,
+        "mutations": 648,
+        "fps": 60,
+        "layout": 58,
+        "style": 378,
+        "taskMs": 458,
+        "scriptMs": 91
+      },
+      {
+        "device": "desktop",
+        "scene": "menu-return",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5003.300000000003,
+        "p95": 16.70000000001164,
+        "slow": 0,
+        "mutations": 5,
+        "fps": 60,
+        "layout": 2,
+        "style": 2,
+        "taskMs": 69,
+        "scriptMs": 11
+      }
+    ],
+    "after": [
+      {
+        "device": "desktop",
+        "scene": "menu",
+        "repeat": 1,
+        "frames": 302,
+        "elapsed": 5010.000000000186,
+        "p95": 16.799999999999272,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 0,
+        "taskMs": 51,
+        "scriptMs": 12
+      },
+      {
+        "device": "desktop",
+        "scene": "battle-idle",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5006,
+        "p95": 16.700000000000728,
+        "slow": 0,
+        "mutations": 210,
+        "fps": 60,
+        "layout": 8,
+        "style": 328,
+        "taskMs": 219,
+        "scriptMs": 42
+      },
+      {
+        "device": "desktop",
+        "scene": "battle-attacks",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5004.499999999629,
+        "p95": 16.799999999999272,
+        "slow": 0,
+        "mutations": 674,
+        "fps": 60,
+        "layout": 58,
+        "style": 377,
+        "taskMs": 397,
+        "scriptMs": 86
+      },
+      {
+        "device": "desktop",
+        "scene": "event-chest",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5003.799999999999,
+        "p95": 16.799999999999272,
+        "slow": 0,
+        "mutations": 352,
+        "fps": 60,
+        "layout": 80,
+        "style": 378,
+        "taskMs": 374,
+        "scriptMs": 51
+      },
+      {
+        "device": "desktop",
+        "scene": "event-goblin",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5005.300000000374,
+        "p95": 16.799999999999272,
+        "slow": 0,
+        "mutations": 352,
+        "fps": 60,
+        "layout": 81,
+        "style": 380,
+        "taskMs": 374,
+        "scriptMs": 49
+      },
+      {
+        "device": "desktop",
+        "scene": "combat-feedback",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5005.0000000001855,
+        "p95": 16.700000000000728,
+        "slow": 0,
+        "mutations": 202,
+        "fps": 60,
+        "layout": 31,
+        "style": 331,
+        "taskMs": 353,
+        "scriptMs": 18
+      },
+      {
+        "device": "desktop",
+        "scene": "combat-impact",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5003.799999999625,
+        "p95": 16.700000000004366,
+        "slow": 0,
+        "mutations": 455,
+        "fps": 60,
+        "layout": 40,
+        "style": 334,
+        "taskMs": 464,
+        "scriptMs": 74
+      },
+      {
+        "device": "desktop",
+        "scene": "idle-common",
+        "repeat": 1,
+        "frames": 299,
+        "elapsed": 5014.199999999815,
+        "p95": 16.700000000004366,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 299,
+        "taskMs": 200,
+        "scriptMs": 14
+      },
+      {
+        "device": "desktop",
+        "scene": "idle-miniboss",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5003.5,
+        "p95": 16.700000000004366,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 301,
+        "taskMs": 216,
+        "scriptMs": 11
+      },
+      {
+        "device": "desktop",
+        "scene": "idle-colossal",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5002.199999999815,
+        "p95": 16.799999999995634,
+        "slow": 0,
+        "mutations": 0,
+        "fps": 60,
+        "layout": 0,
+        "style": 302,
+        "taskMs": 141,
+        "scriptMs": 10
+      },
+      {
+        "device": "desktop",
+        "scene": "codex-idle",
+        "repeat": 1,
+        "frames": 297,
+        "elapsed": 5006.300000000185,
+        "p95": 16.700000000004366,
+        "slow": 1,
+        "mutations": 243,
+        "fps": 59,
+        "layout": 9,
+        "style": 326,
+        "taskMs": 316,
+        "scriptMs": 44
+      },
+      {
+        "device": "desktop",
+        "scene": "hunt-attacks",
+        "repeat": 1,
+        "frames": 289,
+        "elapsed": 5004.899999999812,
+        "p95": 16.700000000004366,
+        "slow": 1,
+        "mutations": 643,
+        "fps": 58,
+        "layout": 57,
+        "style": 365,
+        "taskMs": 418,
+        "scriptMs": 87
+      },
+      {
+        "device": "desktop",
+        "scene": "menu-return",
+        "repeat": 1,
+        "frames": 301,
+        "elapsed": 5001.300000000367,
+        "p95": 16.799999999995634,
+        "slow": 0,
+        "mutations": 5,
+        "fps": 60,
+        "layout": 2,
+        "style": 2,
+        "taskMs": 88,
+        "scriptMs": 16
+      }
+    ]
+  },
+  "fontMinimumsPx": {
+    ".resource-pill small": {
+      "before": 7,
+      "after": 11
+    },
+    ".profile-copy small": {
+      "before": 8,
+      "after": 10
+    },
+    ".stage-caption strong": {
+      "before": 7,
+      "after": 11
+    },
+    ".stage-caption>span": {
+      "before": 7,
+      "after": 11
+    },
+    ".stage-pips span": {
+      "before": 8,
+      "after": 11
+    },
+    ".battle-top .eyebrow": {
+      "before": 7,
+      "after": 11
+    },
+    ".mob-rank": {
+      "before": 7,
+      "after": 11
+    },
+    "#mobHPText": {
+      "before": 8,
+      "after": 12
+    },
+    ".hero-level-line>span:last-child": {
+      "before": 6,
+      "after": 10
+    },
+    ".hero-health-line>span": {
+      "before": 7,
+      "after": 10
+    },
+    "#heroHPText": {
+      "before": 11,
+      "after": 16
+    },
+    ".hero-health-footer>span:first-child": {
+      "before": 5,
+      "after": 10
+    },
+    "#heroRegeneration": {
+      "before": 6,
+      "after": 11
+    },
+    "#xpLabel": {
+      "before": 6,
+      "after": 11
+    },
+    ".relic-caption>small": {
+      "before": 8,
+      "after": 11
+    },
+    ".relic-caption kbd": {
+      "before": 9,
+      "after": 11
+    },
+    ".hud-secondary kbd": {
+      "before": 9,
+      "after": 11
+    },
+    ".quick-potion>span:last-child": {
+      "before": 5,
+      "after": 11
+    },
+    ".target-hint": {
+      "before": 8,
+      "after": 11
+    },
+    "#zoneKillsLabel": {
+      "before": 7,
+      "after": 11
+    }
+  },
+  "runtimeCost": {
+    "newJS": false,
+    "newAssets": 0,
+    "newDependencies": 0,
+    "newAnimations": 0,
+    "newTimers": 0,
+    "newLoops": 0,
+    "newObservers": 0,
+    "layoutReads": 0,
+    "saveFormatChanged": false
+  },
+  "validation": {
+    "passed": [
+      "hud-readable",
+      "hud-browser DESKTOP_ONLY=1",
+      "combat-events DESKTOP_ONLY=1",
+      "gameplay-inventory DESKTOP_ONLY=1",
+      "combat-numbers DESKTOP_ONLY=1",
+      "enemy-health-trail DESKTOP_ONLY=1",
+      "combat-impact",
+      "combat-idle",
+      "boss-scale DESKTOP_ONLY=1",
+      "balance",
+      "asset audit",
+      "sprite/pixel-duplicate audit"
+    ],
+    "readabilityViewports": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1536,
+        864
+      ],
+      [
+        1366,
+        768
+      ],
+      [
+        1280,
+        720
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        1024,
+        600
+      ]
+    ],
+    "readabilityCases": "Normal, miniboss, colossal and focused HUD with 1e250 values/long player name at all six viewports; chest and goblin cards at each size.",
+    "checked": [
+      "Font minima, visible labels and keyboard hints",
+      "Full HP/XP/regeneration/resource values without clipping",
+      "Controls and status text inside viewport/footer",
+      "Event line bounds and no header overlap",
+      "Existing gothic title font and ornate frame without exterior red rectangle",
+      "Six boss alpha silhouettes at 1920x1080, 1366x768 and 1024x600; final boss >=3.4x hero height",
+      "Unchanged combat, save, preferences and panel functionality"
+    ],
+    "assets": 95,
+    "rasterImages": 89,
+    "uniqueMonsters": 42,
+    "duplicates": 0
+  },
+  "limits": [
+    "Desktop-only validation per user; mobile optimization and QA remain deferred.",
+    "Measured 60 FPS before and 58–60 FPS after: codex-idle 60→59, hunt-attacks 60→58, remaining eleven scenes 60→60. All remain within the 3 FPS / 5 ms p95 tolerance; these are headless samples, not a hardware-wide guarantee.",
+    "No physical desktop measurement or hours-long soak was performed.",
+    "Test hooks and geometric measurements exist only in tests, not in the shipped runtime."
+  ]
+}
