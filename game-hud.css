@@ -43,30 +43,25 @@ html[data-theme] .hud-backdrop .management{background:linear-gradient(125deg,#25
 @media(min-width:761px) and (min-height:601px){html[data-focus=battle] .app-frame{grid-template-rows:42px 0 minmax(0,1fr) 125px}html[data-focus=battle] .topbar{height:42px}html[data-focus=battle] .relic-nav{height:125px}html[data-focus=battle] .relic-button{height:110px}html[data-focus=battle] .relic-button img{height:66px;width:66px}html[data-focus=battle] .life-medallion{height:112px;width:112px}html[data-focus=battle] .errant-vitals{grid-template-columns:112px minmax(0,1fr) 40px;height:125px}}
 @media(prefers-reduced-motion:reduce){.life-orb-liquid>span,.errant-vitals .hero-health-track span{transition:none}}
 
-/* One slow warning on the orb, using the existing <26% HP state. Desktop first. */
+/* Constant normal rim plus hysteretic warning states, independent of HP text. */
 @media(min-width:1000px) and (min-height:600px){
-  .hud-dock .life-orb-liquid::before{
-    content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;
-    pointer-events:none;opacity:0;
-    background:radial-gradient(ellipse at center,transparent 54%,#d74b568c 82%,#ffb08eaa);
-    box-shadow:inset 0 0 0 2px #ed80626b,inset 0 0 12px #d5464ba6;
-  }
-  html.hw-game-active .hud-dock .low-health .life-orb-liquid::before{
-    opacity:.45;animation:hw-orb-warning 2.6s ease-in-out infinite;
-  }
-  /* The orb replaces the old brightness-filter pulse on the thin HP track. */
+  #errantVitals{--orb-color:var(--orb-normal-color);--orb-min:var(--orb-normal-opacity);--orb-max:var(--orb-normal-opacity);--orb-cycle:var(--orb-low-ms)}
+  #errantVitals[data-vitality=low]{--orb-color:var(--orb-low-color);--orb-min:var(--orb-low-min);--orb-max:var(--orb-low-max)}
+  #errantVitals[data-vitality=critical]{--orb-color:var(--orb-critical-color);--orb-min:var(--orb-critical-min);--orb-max:var(--orb-critical-max);--orb-cycle:var(--orb-critical-ms)}
+  .hud-dock .life-orb-liquid::before,.hud-dock #quickPotion::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;opacity:var(--orb-normal-opacity);background:radial-gradient(ellipse at center,transparent 55%,rgb(var(--orb-color)/.55) 85%,rgb(var(--orb-color)/.8));box-shadow:inset 0 0 .65rem rgb(var(--orb-color)/.6)}
+  .hud-dock #quickPotion::before{opacity:0;z-index:0;background:transparent;box-shadow:inset 0 0 .65rem rgb(var(--orb-color)/.6),0 0 .3rem rgb(var(--orb-color)/.3)}
+  html.hw-game-active #errantVitals:is([data-vitality=low],[data-vitality=critical]) .life-orb-liquid::before,html.hw-game-active #quickPotion:is([data-life-cue=low],[data-life-cue=critical])::before{animation:hw-orb-warning var(--orb-cycle) steps(var(--orb-pulse-steps),end) infinite;will-change:opacity}
+  #errantVitals[data-vitality=dead] .life-orb-liquid::before{opacity:0}
   html .hud-dock .hero-health-track span.critical{animation:none;filter:none}
-  html.hw-game-active[data-combat-idle-paused] .hud-dock .life-orb-liquid::before,
-  html.hw-game-active .app-frame[inert] .hud-dock .life-orb-liquid::before{animation-play-state:paused}
-  html.hw-lite .hud-dock .life-orb-liquid::before{animation:none!important}
+  html.hw-game-active[data-combat-idle-paused] #errantVitals .life-orb-liquid::before,html.hw-game-active[data-combat-idle-paused] #quickPotion::before,html.hw-game-active .app-frame[inert] #errantVitals .life-orb-liquid::before,html.hw-game-active .app-frame[inert] #quickPotion::before{animation-play-state:paused!important}
+  html.hw-lite #errantVitals .life-orb-liquid::before,html.hw-lite #quickPotion::before{animation:none!important;will-change:auto}
+  html.hw-lite #errantVitals:is([data-vitality=low],[data-vitality=critical]) .life-orb-liquid::before,html.hw-lite #quickPotion:is([data-life-cue=low],[data-life-cue=critical])::before{opacity:var(--orb-max)}
   html.hw-lite .hud-dock .life-orb-liquid>span{transition:none}
 }
-@keyframes hw-orb-warning{
-  0%,100%{opacity:.18}
-  50%{opacity:.72}
-}
+@keyframes hw-orb-warning{0%,100%{opacity:var(--orb-min)}50%{opacity:var(--orb-max)}}
 @media(min-width:1000px) and (min-height:600px) and (prefers-reduced-motion:reduce){
-  .hud-dock .life-orb-liquid::before{animation:none!important}
+  #errantVitals .life-orb-liquid::before,#quickPotion::before{animation:none!important;will-change:auto}
+  #errantVitals:is([data-vitality=low],[data-vitality=critical]) .life-orb-liquid::before,#quickPotion:is([data-life-cue=low],[data-life-cue=critical])::before{opacity:var(--orb-max)}
 }
 
 /* Regional boss arenas reuse the existing boss-fight state; no runtime loop. */

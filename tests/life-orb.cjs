@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
         const style = getComputedStyle(liquid, '::before');
         return {
           name:style.animationName, playState:style.animationPlayState, opacity:parseFloat(style.opacity),
-          duration:style.animationDuration, filter:style.filter, pointerEvents:style.pointerEvents,
+          duration:style.animationDuration, easing:style.animationTimingFunction, filter:style.filter, pointerEvents:style.pointerEvents,
           count:liquid.getAnimations({subtree:true}).filter(a => a.animationName === 'hw-orb-warning').length,
           fill:new DOMMatrix(getComputedStyle(document.getElementById('lifeOrbFill')).transform).d,
           aria:Number(document.getElementById('heroHealthProgress').getAttribute('aria-valuenow')),
@@ -60,12 +60,13 @@ const server = http.createServer((req, res) => {
     if (shots) fs.mkdirSync(shots, {recursive:true});
     for (const [width, height] of [[1366,768],[1920,1080],[1024,600]]) {
       await page.setViewportSize({width,height});
-      for (const ratio of [1,.5,.26,.259,.2,.01,.4,1]) {
+      for (const ratio of [1,.5,.30,.31,.329,.33,.25,.15,.17,.18,.25,.34,1]) {
         await hp(ratio);
         const value = await inspect();
-        const low = ratio < .26;
+        const state=await page.locator('#errantVitals').getAttribute('data-vitality');
+        const low = state==='low'||state==='critical';
         assert.equal(value.name, low ? 'hw-orb-warning' : 'none', `${width}: threshold at ${ratio}`);
-        assert.equal(value.count, low ? 1 : 0, 'Exactly one warning');
+        assert.equal(value.count, low ? 1 : 0, 'Exactly one warning');if(low)assert.ok(value.easing.startsWith('steps(12'),'Bounded opacity updates');
         assert.ok(Math.abs(value.fill - ratio) < .002, `Orb must show actual HP: ${JSON.stringify(value)}`);
         assert.equal(value.aria, Math.round(ratio * 100));
         assert.equal(value.bar, 'none', 'No simultaneous pulse on the HP track');
@@ -83,25 +84,37 @@ const server = http.createServer((req, res) => {
       });
       assert.ok(steady.unchanged && steady.reused, 'Repeated renders preserve state and the running pulse');
       assert.deepEqual(steady.box, steady.after);
-      assert.equal(steady.timing.duration, 2600);
+      assert.equal(steady.timing.duration, 1800);
       assert.ok(steady.frames.every(f => 'opacity' in f && !('filter' in f) && !('transform' in f)));
       await page.evaluate(() => document.documentElement.dataset.focus = 'battle');
       assert.equal((await inspect()).count, 1, 'Focused HUD keeps one warning');
       await page.evaluate(() => document.documentElement.dataset.focus = 'balanced');
       console.log(`PASS ${width}x${height}: actual HP, threshold, recovery, single opacity pulse and reused animation`);
     }
+    const states=[];
+    for(const ratio of [1,.3,.31,.329,.33,.15,.17,.179,.18,.32,.33]){await hp(ratio);states.push(await page.locator('#errantVitals').getAttribute('data-vitality'));}
+    assert.deepEqual(states,['normal','low','low','low','normal','critical','critical','critical','low','low','normal']);
+    await page.evaluate(()=>{const {g}=window.__orbTest,p=window.HELLWARD_ITEMS.find(i=>i.id.includes('pocao'));g.state.inventory.push({id:'orb-potion',kind:'potion',catalogId:p.id,name:p.nome,qty:3,createdAt:Date.now()});g.potionRenderKey='';g.renderCore();});
+    await hp(.25);assert.equal(await page.locator('#quickPotion').getAttribute('data-life-cue'),'low');
+    await hp(.14);assert.equal(await page.locator('#quickPotion').getAttribute('data-life-cue'),'critical');assert.equal((await inspect()).duration,'1.2s');
+    await hp(.34);assert.equal((await inspect()).count,0);assert.equal(await page.locator('#quickPotion').getAttribute('data-life-cue'),'none');assert.ok((await inspect()).opacity>0);
+    const colors=await page.evaluate(()=>{const {g}=window.__orbTest;return [1,.25,.14].map(r=>{g.state.heroHp=g.bonuses().maxHp*r;g.renderCore();return getComputedStyle(document.getElementById('errantVitals')).getPropertyValue('--orb-color').trim();});});
+    assert.equal(new Set(colors).size,3,'Normal, low and critical use distinct glow colors');
+    const immediate=await page.evaluate(()=>{const {g}=window.__orbTest;g.state.heroHp=g.bonuses().maxHp*.33;g.renderCore();return [getComputedStyle(document.querySelector('.life-orb-liquid'),'::before').animationName,document.getElementById('quickPotion').getAttribute('data-life-cue')];});
+    assert.deepEqual(immediate,['none','none'],'Healing to exit threshold stops both cues in the same render');
+    await page.evaluate(()=>{const {g}=window.__orbTest;g.state.inventory=g.state.inventory.filter(i=>i.kind!=='potion');g.potionRenderKey='';g.renderCore();});await hp(.25);assert.equal(await page.locator('#quickPotion').getAttribute('data-life-cue'),'none');
     await page.setViewportSize({width:1366,height:768});
     await hp(1);
     if (shots) await page.locator('.life-medallion').screenshot({path:path.join(shots,'orb-full.png')});
     await hp(.2);
-    for (const [label, time] of [['dim',0],['bright',1300]]) {
+    for (const [label, time] of [['dim',0],['bright',900]]) {
       const value = await page.evaluate(time => {
         const liquid = document.querySelector('.life-orb-liquid');
         const animation = liquid.getAnimations({subtree:true}).find(a => a.animationName === 'hw-orb-warning');
         animation.pause(); animation.currentTime = time;
         return {opacity:Number(getComputedStyle(liquid, '::before').opacity), box:liquid.getBoundingClientRect().toJSON()};
       }, time);
-      assert.ok(Math.abs(value.opacity - (time ? .72 : .18)) < .01);
+      assert.ok(Math.abs(value.opacity - (time ? .55 : .2)) < .01);
       if (shots) await page.locator('.life-medallion').screenshot({path:path.join(shots,`orb-low-${label}.png`)});
     }
     // Resume naturally before lifecycle checks; seeking above is only a visual test.

@@ -4,6 +4,8 @@
   'use strict';
 
   const FX_CONFIG = {
+    idle: {heroMs:2400,enemyMs:2600,minibossMs:2800,bossMs:2900,heroPx:1,enemyPx:2,minibossPx:1,bossPx:1,heroPhaseMs:700,phaseSpreadMs:1200},
+    orb: {lowEnter:.30,lowExit:.33,criticalEnter:.15,criticalExit:.18,lowMs:1800,criticalMs:1200,pulseSteps:12,normalOpacity:.14,lowMin:.2,lowMax:.55,criticalMin:.3,criticalMax:.8,normalColor:'196 107 114',lowColor:'219 161 90',criticalColor:'250 92 88'},
     numbers: {durationMs:760, enemyLimit:8, heroLimit:5, normalRem:1.44, criticalRem:1.88, heroRem:1.38, jitterRem:.75, riseRem:2, pop:1.18},
     impact: {heroBackPx:3,heroForwardPx:10,heroMs:220,criticalHeroMs:250,enemyPx:3,criticalEnemyPx:5,enemyMs:180,criticalEnemyMs:240,contactMs:66,criticalContactMs:75,slashRem:4.5,criticalSlashRem:6,enemyAttackPx:8,heroHurtPx:5,enemyAttackMs:220,heroHurtMs:260,gapMs:110, criticalGapMs:700, holdMs:50, flashMs:80, finalFlashMs:160, finalMs:300, shakePx:3, shakeMs:140, sparkLimit:12, sparks:4, criticalSparks:7, finalSparks:12, sparkMs:300, sparkTravelRem:2.5},
     healthTrail: {
@@ -401,6 +403,9 @@
       this.numberPool={enemy:[],hero:[]};
       this.combatNumberAnchors = {};
       this.combatVisuals = new Map();
+      this.configureAtmosphereFX();
+      this.prepareIdle($('combatHero').querySelector('.actor-idle'),$('combatHero').querySelector('img'));
+      this.vitalityState='normal';this.vitalityOwner=null;
       this.sparkCursor=0;
       this.sparkNodes=Array.from({length:FX_CONFIG.impact.sparkLimit},()=>{const n=document.createElement('i');n.className='combat-spark';n.setAttribute('aria-hidden','true');$('battlefield').append(n);return n;});
       document.addEventListener('hellward:screen-effects',()=>this.clearCombatVisuals());
@@ -439,6 +444,35 @@
         if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
       });
       setInterval(()=>this.save(),SAVE_INTERVAL);
+    }
+    configureAtmosphereFX() {
+      const root=document.documentElement,i=FX_CONFIG.idle,o=FX_CONFIG.orb;
+      const values={'hero-idle-ms':i.heroMs+'ms','enemy-idle-ms':i.enemyMs+'ms','miniboss-idle-ms':i.minibossMs+'ms','boss-idle-ms':i.bossMs+'ms','hero-idle-px':-i.heroPx+'px','enemy-idle-px':-i.enemyPx+'px','miniboss-idle-px':-i.minibossPx+'px','boss-idle-px':-i.bossPx+'px','hero-idle-steps':i.heroPx,'enemy-idle-steps':i.enemyPx,'miniboss-idle-steps':i.minibossPx,'boss-idle-steps':i.bossPx,'hero-idle-phase':-i.heroPhaseMs+'ms','orb-pulse-steps':o.pulseSteps,'orb-low-ms':o.lowMs+'ms','orb-critical-ms':o.criticalMs+'ms','orb-normal-opacity':o.normalOpacity,'orb-low-min':o.lowMin,'orb-low-max':o.lowMax,'orb-critical-min':o.criticalMin,'orb-critical-max':o.criticalMax,'orb-normal-color':o.normalColor,'orb-low-color':o.lowColor,'orb-critical-color':o.criticalColor};
+      for(const [name,value]of Object.entries(values))root.style.setProperty('--'+name,String(value));
+    }
+    prepareIdle(idle,image) {
+      if(idle.querySelector('.idle-top'))return;
+      idle.style.setProperty('--idle-sprite',`url(${JSON.stringify(image.getAttribute('src'))})`);
+      const top=document.createElement('span'),motion=document.createElement('span'),feet=document.createElement('span');
+      top.className='idle-top';motion.className='idle-motion';feet.className='idle-feet';
+      top.append(motion);idle.append(top,feet);
+      const ready=()=>image.decode().then(()=>idle.classList.add('idle-ready')).catch(()=>{});
+      if(image.complete&&image.naturalWidth)ready();else image.addEventListener('load',ready,{once:true});
+    }
+    renderVitalityMood(hp,maxHp) {
+      const o=FX_CONFIG.orb,ratio=Math.max(0,Math.min(1,hp/Math.max(1,maxHp)));
+      let mood=this.vitalityOwner===this.state?this.vitalityState:'normal';
+      if(this.state.deadUntil)mood='dead';
+      else if(mood==='critical'){
+        if(ratio>=o.criticalExit)mood=ratio>=o.lowExit?'normal':'low';
+      }else if(mood==='low'){
+        if(ratio<=o.criticalEnter)mood='critical';else if(ratio>=o.lowExit)mood='normal';
+      }else mood=ratio<=o.criticalEnter?'critical':ratio<=o.lowEnter?'low':'normal';
+      this.vitalityOwner=this.state;this.vitalityState=mood;
+      attr('errantVitals','data-vitality',mood);
+      const warning=mood==='low'||mood==='critical';
+      $('errantVitals').classList.toggle('low-health',warning);
+      attr('quickPotion','data-life-cue',warning&&!$('quickPotion').disabled?mood:'none');
     }
     testStorage() {
       try {localStorage.setItem('cinzas_probe','1');localStorage.removeItem('cinzas_probe');return true;}
@@ -1529,11 +1563,11 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       fill('lifeOrbFill',hp/b.maxHp*100,'Y');
       fill('arenaHPFill',Math.max(0,Math.min(100,hp/b.maxHp*100)));
       $('heroHPFill').classList.toggle('critical',hp/b.maxHp<.26);
-      $('errantVitals').classList.toggle('low-health',hp/b.maxHp<.26 && !s.deadUntil);
       attr('heroHealthProgress','aria-valuenow',String(Math.round(100*hp/b.maxHp)));
       attr('heroHealthProgress','aria-valuetext',`${fmt(Math.ceil(hp))} de ${fmt(b.maxHp)} pontos de vida`);
       const potionKey=`${s.inventory.length}|${s.inventory.filter(x=>x.kind==='potion').map(x=>x.id+':'+x.qty).join(',')}|${deadForPotion(s,b)}`;
       if(this.potionRenderKey!==potionKey){this.potionRenderKey=potionKey;this.renderQuickPotion();}
+      this.renderVitalityMood(hp,b.maxHp);
       const regenText=`+${fmt(b.regen,1)}/s`,naturalRegenText=`+${fmt(b.regenNatural,1)}/s`;
       text('heroRegeneration',regenText);
       attr('heroRegeneration','title',`Recuperação atual: ${regenText}. Natural: ${naturalRegenText}.${s.mob.kind==='normal'?'':' A presença de elites limita a cura passiva.'}`);
@@ -1583,9 +1617,10 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         portrait.decoding = 'async';
         const idle=document.createElement('span');
         idle.className='actor-idle enemy-idle';
-        idle.style.setProperty('--idle-delay',(-((visualIndex*.43+s.zone*.71)%4)).toFixed(2)+'s');
+        idle.style.setProperty('--idle-delay',(-((visualIndex*.43+s.zone*.71)%(FX_CONFIG.idle.phaseSpreadMs/1000))).toFixed(2)+'s');
         portrait.addEventListener('load',()=>this.cacheCombatNumberAnchors(),{once:true});
         idle.append(portrait);
+        this.prepareIdle(idle,portrait);
         artNode.replaceChildren(idle);
       }
       text('mobLevel',bossKind==='boss'?'☠ CHEFÃO':bossKind==='miniboss'?'✦ MINIBOSS':`Nv. ${fmt(s.mob.level)}`);
