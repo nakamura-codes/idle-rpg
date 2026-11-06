@@ -11,7 +11,7 @@ async function alpha(file){const {data,info}=await sharp(path.join(root,file)).e
   await p.route('**/game.js?*',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__bossTest={game:new Game(),ZONES};')}));
   await p.goto('http://127.0.0.1:'+server.address().port);await p.click('[data-menu="new"]');await p.fill('#newProfileName','Nakamura');await p.click('#createProfileForm button');await p.waitForFunction(()=>document.getElementById('authScreen').hidden);
   await p.evaluate(()=>{const g=window.__bossTest.game;g.stopLoop();g.state.level=47;g.state.heroHp=g.bonuses().maxHp;});
-  for(const [w,h] of [[1920,1080],[1366,768],[1024,600],[390,844],[320,568],[844,390],[667,375]]){
+  for(const [w,h] of [[1920,1080],[1366,768],[1024,600],[390,844],[320,568],[844,390],[667,375]].filter(([w,h])=>!process.env.DESKTOP_ONLY||(w>=1000&&h>=600))){
    await p.setViewportSize({width:w,height:h});
    for(let zone=0;zone<6;zone++){
     await p.evaluate(zone=>{const {game:g,ZONES}=window.__bossTest;g.state.zone=zone;g.state.deadUntil=0;g.state.zoneProgress[zone].stage=10;g.state.mob={name:ZONES[zone].boss,kind:'boss',level:50,hp:100,maxHp:100};g.lastZoneRendered=-1;g.renderCore();},zone);

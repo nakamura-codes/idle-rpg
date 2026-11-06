@@ -4,7 +4,7 @@ Análise do print enviado em 05/11/2026. A imagem já tem arquitetura gótica fo
 
 ## Prioridade por impacto / esforço
 
-Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2, nº 3 e nº 4. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
+Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2, nº 3, nº 4 e nº 5. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
 
 | Nº | Melhoria | Impacto | Esforço | Resultado e limite de custo |
 |---|---|---:|---:|---|
@@ -12,7 +12,7 @@ Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação
 | 2 | Números de dano, crítico e cura mais legíveis | 4 | 2 | Elevar contraste, diferenciar tamanho/cor/símbolo; preservar limites de 8 números no inimigo e 5 no herói. Ancorar ao alvo, sem confundir com eventos. |
 | 3 | Peso de golpe e reação ao dano | 5 | 3 | Recuo curto do inimigo, faísca no ponto de impacto e ataque com antecipação. Shake de 2–3 px e hit-stop visual de 40–60 ms só em críticos, com intervalo mínimo. Nunca pausar relógio de combate/recompensas. |
 | 4 | Idle discreto com peso nos pés | 3 | 2 | Respiração e balanço de 1–2 px no sprite interno; animações lentas e desencontradas. Não deformar espada/rosto nem mover a sombra junto com o torso. |
-| 5 | Fontes pequenas e contraste | 3 | 2 | Dar espaço a fase, recursos e legendas; corpo simples nas informações pequenas, gótico nos títulos. No celular priorizar HP e fase em vez de encolher tudo. |
+| 5 | Fontes pequenas e contraste | 3 | 2 | Recursos/fase/atalhos a 11 px, HP do inimigo a 12 px e do herói a 16–20 px; rodapé reorganizado e títulos góticos preservados. Etapa atual restrita ao computador. |
 | 6 | Orbe de vida com reação | 3 | 2 | Já acompanha HP: acrescentar apenas brilho de borda/pulso baixo e desacelerado em vida baixa, sem ondulação por filtro. Sem duplicar aviso já existente. |
 | 7 | Atmosfera regional em movimento | 4 | 3 | Aproveitar camadas atuais: uma névoa translúcida movendo por transform e luz variando levemente por opacity. Brasas só nas regiões de fogo; poeira/esporos nas outras. Máximo de 6–10 partículas decorativas recicladas; modo leve estático. |
 | 8 | Entrada de elite, morte e transição de fase | 4 | 3 | Intro única de 500–700 ms, aura atrás de miniboss, morte breve com fade e assentamento, transição de fase curta. Encadear sem bloquear cliques nem criar tempo artificial de farm. Não reapresentar intro a cada tick. |
@@ -111,6 +111,41 @@ Arquivos: `game.js` (wrapper do inimigo e pausa/limpeza nos canais de ataque), `
 `tests/combat-idle.cjs` verifica os 42 inimigos em 1366×768 e quatro casos extremos em 1920×1080 e 1024×600: linha dos pés, sombra fixa, amplitude, ritmos distintos, estado do jogo preservado, reutilização de nós/animação, pausa/retomada, cancelamento, ausência de trabalho do observador por frame, preferências, visibilidade, derrota e três ciclos de perfil. O teste geométrico usa seek controlado; os testes de ciclo de vida usam outra página sem manipulação manual das animações.
 
 Resultados completos: `docs/performance-combat-idle.json`. A comparação passou nas 13 cenas, com 59–60 FPS finais e 60 FPS nos três casos de repouso. São medidas do ambiente de teste, sem garantia para todo computador. A flag de teste `PERF_IDLE=1` mede comuns, miniboss e Imperador colossal parados, com a simulação igualmente suspensa antes/depois. Otimização/QA de celular continuam adiados por orientação do usuário.
+
+## Nº 5 — fontes e contraste da HUD (computador)
+
+As informações operacionais usam Arial/sans-serif e tons claros de osso sobre as placas escuras existentes. O gótico permanece nos títulos de região e painéis. As regras novas começam em 1000 px de largura e 600 px de altura; as regras de celular não foram alteradas.
+
+| Informação | Menor tamanho visível antes, nos seis testes | Agora |
+|---|---:|---:|
+| Recursos e fase | 7 px | 11 px |
+| HP do inimigo | 8 px | 12 px |
+| HP do herói | 11 px | 16–20 px |
+| Regeneração / XP | 6 px | 11–12 px / 11 px |
+| Legendas das relíquias | 8 px | 11 px |
+| Atalhos visíveis | 9 px, alguns ocultos em janela baixa | 11 px |
+| Ação da poção | 5 px | 11 px |
+
+- Nome e nível do herói compartilham uma linha; HP pode ocupar a próxima linha quando o valor é longo. Regeneração e XP têm linhas próprias, sem reticências nos valores.
+- O rodapé reserva mais largura para os dados do herói. Ícones das relíquias ficam um pouco menores para dar espaço às legendas e às teclas. A poção vazia continua desabilitada, mas sua legenda permanece legível.
+- Janelas de 600–680 px de altura usam rodapé de 112 px, orbe de 94 px e imagens de relíquias de 44 px. O modo focado também acomoda valores em notação científica e nomes longos sem ultrapassar a tela.
+- HP do inimigo ganha faixa de 16 px e texto com números alinhados. O cabeçalho sem margem extra mantém espaço acima da silhueta do chefão. A moldura continua sem o retângulo vermelho exterior.
+- Cartões dos eventos reservam espaço para título de duas linhas e instrução. A fita não quebra em duas linhas; em janela baixa/estreita o cartão mede 128 px de largura.
+- Nenhuma alteração em `game.js`, atributos, dano, loot, saves ou escala dos chefões. Nenhuma imagem, biblioteca, animação, timer, observador ou leitura de layout em produção foi acrescentada.
+
+Arquivos e trechos:
+
+| Arquivo | Alteração |
+|---|---|
+| `hud-legibility.css` | Bloco final `/* Desktop reading sizes: keep the painted frames and large gothic headings. */`, regras de recursos/fase/HP, `.hud-dock`, `.relic-caption`, `.hud-secondary` e eventos; duas media queries compactas para janelas baixas. |
+| `index.html` | Cache `hud-legibility.css?v=2`; os scripts permanecem iguais. |
+| `tests/hud-readable.cjs` | Medidas de fonte, texto completo, limites dos controles e dos eventos em seis resoluções; comum, miniboss, colossal e modo focado com valores altos. Capturas opcionais por `HUD_SCREENSHOTS`; comparação tipográfica por `READABILITY_REPORT` e `READABILITY_BASELINE=1`. |
+| `tests/boss-scale.cjs` | Filtro opcional `DESKTOP_ONLY=1`, mantendo a rodada completa como padrão. |
+| `docs/performance-hud-readable.json` | Baseline, resultado final das 13 cenas e limites da medição. |
+
+Verificação geométrica: 1920×1080, 1536×864, 1366×768, 1280×720, 1024×768 e 1024×600. Testes incluem nomes extensos, valores até 1e250, molduras sem fundo vermelho e cartões de baú/goblin. As suítes existentes verificam combate, preferências, painéis, inventário, caça e escala dos seis chefões. Otimização e QA de telefone seguem adiados por orientação do usuário.
+
+A comparação passou nas 13 cenas dentro da tolerância de 3 FPS / 5 ms de p95: **58–60 FPS** finais, contra 60 FPS de baseline. O códex ficou em 60→59 FPS e a caça em 60→58; as outras onze cenas em 60→60. O p95 final ficou em **16,7–16,8 ms** neste ambiente headless. Os números não são uma garantia para todo computador. A auditoria verificou 95 assets, 89 imagens raster e 42 monstros, sem arquivos órfãos ou duplicatas por bytes/pixels. Métricas completas em `docs/performance-hud-readable.json`.
 
 ## Prompts de imagem — estilo fixo
 
@@ -514,4 +549,4 @@ Antes de gerar os três drops, prefira reutilizar os ícones atuais se a leitura
 
 ## Limites para as próximas melhorias
 
-Sem biblioteca adicional, filtros animados de blur/drop-shadow, leituras de layout por frame ou observador por partícula. Animar transform/opacity e parar tudo ao sair do combate ou ocultar a página. Respeitar modo leve e movimento reduzido. Recompensas, danos, saves e timer de 100 ms permanecem independentes dos efeitos. Rodar benchmark isolado antes/depois de cada etapa, mais checagem de assets e celular em retrato/paisagem.
+Sem biblioteca adicional, filtros animados de blur/drop-shadow, leituras de layout por frame ou observador por partícula. Animar transform/opacity e parar tudo ao sair do combate ou ocultar a página. Respeitar modo leve e movimento reduzido. Recompensas, danos, saves e timer de 100 ms permanecem independentes dos efeitos. Rodar benchmark isolado antes/depois de cada etapa e checagem de assets. Nesta etapa validar computador; retomar QA de celular em retrato/paisagem quando o usuário solicitar.
