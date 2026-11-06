@@ -2,6 +2,10 @@
 
 Preserve the browser game's performance with every gameplay or HUD change.
 
+Current user priority: desktop first. Use `DESKTOP_ONLY=1` for browser suites
+and `PERF_DEVICE=desktop` for benchmarks. Mobile optimization and phone QA are
+deferred until the user resumes that work; preserve existing responsive styles.
+
 - Before editing runtime code, capture a same-environment baseline with
   `node tests/performance.cjs <before.json>` using `CHROMIUM_PATH` when needed.
 - After functional/browser checks finish, run the benchmark in isolation with

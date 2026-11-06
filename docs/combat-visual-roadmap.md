@@ -4,7 +4,7 @@ Análise do print enviado em 05/11/2026. A imagem já tem arquitetura gótica fo
 
 ## Prioridade por impacto / esforço
 
-Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1 e nº 2. As demais continuam como próximas etapas.
+Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2 e nº 3. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
 
 | Nº | Melhoria | Impacto | Esforço | Resultado e limite de custo |
 |---|---|---:|---:|---|
@@ -80,6 +80,22 @@ Arquivos e trechos:
 | `tests/performance.cjs` | Flag apenas de teste `PERF_FEEDBACK=1`: mistura contínua de dano normal, crítico, dano recebido e cura a cada 200 ms. Antes e depois usam exatamente a mesma instrumentação. |
 
 Resultados e limitações de FPS: `docs/performance-combat-numbers.json`. A cena específica de feedback ficou em **60→60 FPS no desktop e 58→60 FPS no mobile CPU6**, dentro das tolerâncias de FPS/p95. O comparativo amplo **não passou** em 8 cenas; houve pausas longas e oscilações também em menus. Uma tentativa incompleta foi preservada. Não há garantia de desempenho em celular físico ou em sessões de horas. A medição anterior da nº 1 permanece preservada em seu próprio relatório.
+
+## Nº 3 — peso e reação dos golpes (computador)
+
+- O herói antecipa o ataque com 3 px para trás e avança 10 px; o inimigo recua 3 px no golpe comum ou 5 px no crítico. Contra-ataques movem o inimigo 8 px e o herói 5 px, somente no sprite; sombras de contato permanecem no chão.
+- No crítico destacado, as poses do herói e do inimigo seguram por **50 ms**, por keyframes. A simulação, o relógio, danos, recompensas e saves continuam imediatos; não há timers de retomada.
+- O único `#duelSlash` já existente desenha o golpe em CSS transparente: 140 ms no comum e 170 ms no crítico, começando no contato da arma (66/75 ms). Usa as coordenadas armazenadas pela etapa nº 2, sem medir layout por golpe.
+- `#arenaCamera` reúne só cenário, iluminação e névoa. O crítico destacado provoca tremor de até **2 px por 140 ms**. HUD, nome, HP, números e eventos ficam fora dessa câmera.
+- Intervalos de apresentação: 110 ms entre golpes e 700 ms entre tremores/retenções críticas. Os cliques continuam causando dano, mesmo quando o efeito visual é limitado.
+- Orçamento fixo: quatro animações transitórias (`hero`, `enemy`, `impact`, `camera`). Novo golpe substitui o canal anterior. Fim/cancelamento, troca de perfil/menu, derrota, ocultação e movimento reduzido limpam as referências. Modo leve/movimento reduzido omitem os efeitos.
+- Removidas as duas leituras de `offsetWidth` em `enemyStrike()`. Sem novos nós por golpe, loops, bibliotecas, imagens ou filtros animados.
+
+Trechos: `game.js` (`combatMotionEnabled`, `animateCombat`, `clearCombatVisuals`, `playCombatImpact`, `playEnemyAttack`, integração em `damageMob`/`enemyStrike` e limpeza); `combat-events.css` (`.arena-camera`, `.duel-slash` e preferências de movimento); `index.html` (câmera só do fundo, caches `game.js?v=23` e `combat-events.css?v=5`).
+
+`tests/combat-impact.cjs` valida comum, miniboss e Imperador em **1920×1080, 1366×768 e 1024×600**: retenção exata, HUD imóvel, dano/agendamento imediatos, ausência de leituras de layout, intervalos, rajadas, limpeza e preferências. As suítes existentes aceitam `DESKTOP_ONLY=1`; sem essa flag, continuam completas. `PERF_DEVICE=desktop PERF_IMPACT=1` mede ataques críticos e contra-ataques com instrumentação idêntica antes/depois. O fixture de balanceamento substitui somente os novos métodos cosméticos por funções vazias.
+
+Resultados e limites estão em `docs/performance-combat-impact.json`. A nova comparação após recuperação do ambiente passou: as dez cenas finais, incluindo críticos/contra-ataques, mediram **60 FPS** no desktop, dentro das tolerâncias de FPS/p95. Isso não representa garantia em todo computador. Foram repetidos após recuperar a cópia local do ambiente. Otimização/QA de celular ficam adiados por orientação do usuário; os estilos responsivos existentes foram preservados.
 
 ## Prompts de imagem — estilo fixo
 

@@ -9,7 +9,7 @@ vm.createContext(context);
 for(const file of ['item-catalog.js','game-art.js'])vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  globalThis.api={Game,newState,normalizeSave,freshMob,enemyBaseDamage,enemyHitDamage,enemyAttackInterval,combatRegeneration,unlockedZone,RARE_DROP_LIMIT};'),context);
 const api=context.api;
-function game(){const g=Object.create(api.Game.prototype);g.state=api.newState('Balance');g.tab='upgrades';for(const key of ['renderCore','renderPanel','renderEverything','renderEvent','save','toast','addLog','floatHeroNumber'])g[key]=()=>{};g.state.lastEventAt=Date.now()+1e10;return g;}
+function game(){const g=Object.create(api.Game.prototype);g.state=api.newState('Balance');g.tab='upgrades';for(const key of ['renderCore','renderPanel','renderEverything','renderEvent','save','toast','addLog','floatHeroNumber','playEnemyAttack','playCombatImpact','clearCombatVisuals'])g[key]=()=>{};g.state.lastEventAt=Date.now()+1e10;return g;}
 const originalRandom=math.random;
 // Bosses have meaningful minimum hits even against old overpowered armor.
 const damage=[];
