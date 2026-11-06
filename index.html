@@ -18,7 +18,7 @@
   <script src="game.js?v=28" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=7">
   <script src="game-hud.js?v=7" defer></script>
-  <script src="scene-layers.js?v=1" defer></script>
+  <script src="scene-layers.js?v=2" defer></script>
   <script src="world-atmosphere.js?v=1" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="gameplay.css?v=3">
@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="combat-events.css?v=9">
   <link rel="stylesheet" href="region-atmosphere.css?v=1">
   <link rel="stylesheet" href="boss-command-hud.css?v=1">
-  <link rel="stylesheet" href="scene-layers.css?v=1">
+  <link rel="stylesheet" href="scene-layers.css?v=2">
   <link rel="stylesheet" href="world-fx.css?v=1">
 </head>
 <body>
@@ -138,7 +138,7 @@
       <div id="codexJourney"><section class="panel journey-panel"><div class="panel-heading compact"><span class="eyebrow">REGISTRO DA JORNADA</span><span class="heading-glyph">✤</span></div><div class="journey-row"><span>Inimigos abatidos</span><strong id="runKills">0</strong></div><div class="journey-row"><span>Ouro conquistado</span><strong id="runGold">0</strong></div><div class="journey-row"><span>Renascimentos</span><strong id="rebirths">0</strong></div><div class="journey-row"><span>Zona atual</span><strong id="currentZoneShort">I</strong></div></section></div>
       <section id="hudSettings" class="hud-settings" hidden>
         <section class="settings-card"><h3>Som do abismo</h3><p>Ajuste o volume das trilhas do menu e da batalha.</p><div id="hudAudioControls"></div></section>
-        <section class="settings-card"><h3>Aparência</h3><label class="screen-effects-control"><input id="screenEffects" type="checkbox" checked> Efeitos de tela (flash e shake)</label><p>Escolha o tema e compare a fonte dos títulos.</p><button id="themeToggle" type="button" class="settings-action" aria-pressed="true" aria-label="Alternar modo escuro">☾ Escuro</button><label class="font-control" for="hudTitleFont">Fonte dos títulos<select id="hudTitleFont" class="dark-select"><option value="dornen">Dornen · teste</option><option value="classic">Clássica</option></select></label><p class="font-note">Dornen nos títulos; descrições e números mantêm a fonte de leitura.</p></section>
+        <section class="settings-card"><h3>Aparência</h3><label class="screen-effects-control"><input id="screenEffects" type="checkbox" checked> Efeitos de tela (flash, shake e parallax)</label><p>Escolha o tema e compare a fonte dos títulos.</p><button id="themeToggle" type="button" class="settings-action" aria-pressed="true" aria-label="Alternar modo escuro">☾ Escuro</button><label class="font-control" for="hudTitleFont">Fonte dos títulos<select id="hudTitleFont" class="dark-select"><option value="dornen">Dornen · teste</option><option value="classic">Clássica</option></select></label><p class="font-note">Dornen nos títulos; descrições e números mantêm a fonte de leitura.</p></section>
         <section class="settings-card"><h3>Progresso da jornada</h3><p>O progresso é salvo automaticamente neste navegador. Exporte um backup para guardar uma cópia ou transferir sua jornada.</p><div class="footer-buttons"><button type="button" id="exportSave">↓ Exportar save</button><button type="button" id="importSave">↑ Importar save</button></div></section>
         <section class="settings-card"><h3>Atalhos do aventureiro</h3><dl class="shortcut-list"><div><dt>Livro Negro</dt><dd>C</dd></div><div><dt>Mochila</dt><dd>I</dd></div><div><dt>Ascensão</dt><dd>A</dd></div><div><dt>Regiões</dt><dd>M</dd></div><div><dt>Crônicas</dt><dd>J</dd></div><div><dt>Poção de vida</dt><dd>Q</dd></div><div><dt>Atacar</dt><dd>Espaço</dd></div><div><dt>Fechar painel</dt><dd>Esc</dd></div></dl></section>
       </section>

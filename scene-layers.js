@@ -1,12 +1,16 @@
-/* Scene preparation only: no parallax, animation loop or gameplay state. */
+/* Scene layers and a desktop parallax trial limited to Campos de Cinza. */
 (() => {
   'use strict';
-  const region = (slug, name, overlays = []) => {
+  const FX_CONFIG = {
+    parallax: {enabled:true, regions:[0], horizontalPercent:1.8, verticalPercent:.9,
+      overscanPercent:4, transitionSeconds:.55, middleSpeed:.65, groundSpeed:.8}
+  };
+  const region = (slug, name, overlays = [], speed = .1) => {
     const base = `assets/backgrounds/fast/${slug}`;
     return {name, layers: [
       {slot:'distant', src:base+'.webp?v=dark-14', bossSrc:base+'-boss.webp?v=dark-14',
         mobileSrc:base+'-mobile.webp?v=dark-14', bossMobileSrc:base+'-boss-mobile.webp?v=dark-14',
-        depth:0, parallaxSpeed:.1, blur:0, opacity:1},
+        depth:0, parallaxSpeed:speed, blur:0, opacity:1},
       ...overlays
     ]};
   };
@@ -15,9 +19,9 @@
     order:['distant','middle','ground','mist','characters','foreground','effects'],
     regions:[
       region('campos-de-cinza','Campos de Cinza',[
-        {slot:'mist',src:'assets/backgrounds/layers/campos-de-cinza-mist.png',depth:.5,parallaxSpeed:.2,blur:0,opacity:.28,desktopOnly:true,commonOnly:true},
-        {slot:'foreground',src:'assets/backgrounds/layers/campos-de-cinza-foreground.png',depth:.9,parallaxSpeed:.6,blur:0,opacity:.72,desktopOnly:true,commonOnly:true}
-      ]),
+        {slot:'mist',src:'assets/backgrounds/layers/campos-de-cinza-mist.png',depth:.5,parallaxSpeed:1.3,blur:0,opacity:.28,desktopOnly:true,commonOnly:true},
+        {slot:'foreground',src:'assets/backgrounds/layers/campos-de-cinza-foreground.png',depth:.9,parallaxSpeed:1.6,blur:0,opacity:.72,desktopOnly:true,commonOnly:true}
+      ], .45),
       region('bosque-profanado','Bosque Profanado'),
       region('criptas-afogadas','Criptas Afogadas'),
       region('fortaleza-de-ferro','Fortaleza de Ferro'),
@@ -25,8 +29,9 @@
       region('trono-do-crepusculo','Trono do Crepúsculo')
     ]
   };
-  // Public configuration is independent of saves; speeds/depth are metadata only.
+  // Public configuration is independent of saves; only region 0 enables pointer parallax.
   window.HELLWARD_SCENE_CONFIG = SCENE_CONFIG;
+  window.HELLWARD_PARALLAX_CONFIG = FX_CONFIG.parallax;
   const arena = document.getElementById('battlefield');
   const small = matchMedia('(max-width:760px)');
   const slots = new Map(SCENE_CONFIG.order.map(slot => [slot, arena.querySelector(`[data-scene-layer="${slot}"]`)]));
@@ -75,6 +80,7 @@
     const key = `${zone}:${boss}:${small.matches}`;
     if(!force && key===lastKey)return;
     lastKey=key;const token=++generation;
+    parallax.configure(zone);
     clearImages();arena.dataset.sceneMode='loading';delete arena.dataset.sceneFailure;
     const config=SCENE_CONFIG.regions[zone];
     if(!config){fallback(token,'missing-region');return;}
@@ -103,6 +109,65 @@
       if(selected.some(layer=>layer.slot==='mist'))arena.dataset.sceneHasMist='true';
     } catch(error) {fallback(token,error.message);}
   }
+  function createParallax() {
+    const c=FX_CONFIG.parallax,root=document.documentElement,frame=document.getElementById('appFrame');
+    const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+    const desktop=matchMedia('(hover:hover) and (pointer:fine) and (min-width:48rem)');
+    const planes=[...slots].filter(([slot])=>!['characters','effects'].includes(slot));
+    let zone=-1,bounds=null,pending=0,x=0,y=0;
+    arena.style.setProperty('--scene-parallax-overscan',c.overscanPercent+'%');
+    arena.style.setProperty('--scene-parallax-duration',c.transitionSeconds+'s');
+    function enabled(){
+      return c.enabled&&c.regions.includes(zone)&&desktop.matches&&!reduced.matches&&
+        document.visibilityState==='visible'&&!frame.inert&&root.classList.contains('hw-game-active')&&
+        !root.classList.contains('hw-lite')&&root.dataset.screenEffects!=='off';
+    }
+    function center(){
+      if(pending)cancelAnimationFrame(pending);
+      pending=0;x=0;y=0;
+      arena.style.removeProperty('--scene-parallax-x');arena.style.removeProperty('--scene-parallax-y');
+    }
+    // Bounds are read on entry/resize/lifecycle changes, never in the frame callback.
+    function measure(){if(enabled())bounds=arena.getBoundingClientRect();}
+    function sync(){
+      const wasActive=arena.dataset.parallaxActive==='true',active=enabled();
+      if(wasActive!==active||!arena.hasAttribute('data-parallax-active'))arena.dataset.parallaxActive=String(active);
+      if(!active){center();bounds=null;}else if(!wasActive)measure();
+    }
+    arena.addEventListener('pointerenter',measure,{passive:true});
+    arena.addEventListener('pointermove',event=>{
+      if(event.pointerType!=='mouse'||!enabled()||!bounds?.width||!bounds?.height)return;
+      x=Math.max(-1,Math.min(1,(event.clientX-bounds.left)/bounds.width*2-1));
+      y=Math.max(-1,Math.min(1,(event.clientY-bounds.top)/bounds.height*2-1));
+      if(pending)return;
+      pending=requestAnimationFrame(()=>{
+        pending=0;if(!enabled()){sync();return;}
+        arena.style.setProperty('--scene-parallax-x',(-x*c.horizontalPercent).toFixed(3)+'%');
+        arena.style.setProperty('--scene-parallax-y',(-y*c.verticalPercent).toFixed(3)+'%');
+      });
+    },{passive:true});
+    arena.addEventListener('pointerleave',center,{passive:true});
+    window.addEventListener('resize',()=>{center();sync();measure();},{passive:true});
+    window.addEventListener('blur',center);
+    window.addEventListener('pagehide',()=>{arena.dataset.parallaxActive='false';center();});
+    document.addEventListener('visibilitychange',sync);
+    document.addEventListener('hellward:screen-effects',sync);
+    document.addEventListener('hellward:scenechange',sync);
+    reduced.addEventListener('change',sync);desktop.addEventListener('change',sync);
+    new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['class','data-screen-effects']});
+    new MutationObserver(sync).observe(frame,{attributes:true,attributeFilter:['inert']});
+    return {configure(value){
+      zone=value;center();bounds=null;
+      const layers=SCENE_CONFIG.regions[zone]?.layers||[];
+      for(const [slot,node]of planes){
+        const speed=layers.find(layer=>layer.slot===slot)?.parallaxSpeed??
+          (slot==='middle'?c.middleSpeed:slot==='ground'?c.groundSpeed:0);
+        node.style.setProperty('--scene-parallax-speed',String(speed));
+      }
+      sync();measure();
+    }};
+  }
+  const parallax=createParallax();
   new MutationObserver(() => refresh()).observe(arena,{attributes:true,attributeFilter:['class']});
   small.addEventListener('change',()=>refresh());
   document.addEventListener('hellward:scene-layers-refresh',()=>refresh(true));

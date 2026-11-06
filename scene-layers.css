@@ -13,4 +13,12 @@
 #battlefield>.scene-effects{z-index:20}
 #battlefield>.mob-info,#battlefield>.event-overlay,#battlefield>.hero-respawn{z-index:40!important}
 #battlefield[data-scene-has-mist] .arena-mist{visibility:hidden}
-/* No motion here: depth/speed fields are reserved for the later parallax item. */
+/* Pointer parallax only moves scenery planes; camera shake and ambient child
+   animations keep their existing transforms. Relative overscan prevents gaps. */
+#battlefield[data-parallax-active=true] .scene-plane:is([data-scene-layer=distant],[data-scene-layer=middle],[data-scene-layer=ground],[data-scene-layer=mist],[data-scene-layer=foreground]){
+ inset:calc(0% - var(--scene-parallax-overscan));
+ transform:translate(calc(var(--scene-parallax-x,0%) * var(--scene-parallax-speed,0)),calc(var(--scene-parallax-y,0%) * var(--scene-parallax-speed,0)));
+ transition:transform var(--scene-parallax-duration) ease-out;will-change:transform;
+}
+#battlefield[data-parallax-active=false] .scene-plane{transform:none;transition:none;will-change:auto}
+@media(prefers-reduced-motion:reduce){#battlefield .scene-plane{transform:none!important;transition:none!important;will-change:auto!important}}
