@@ -64,9 +64,9 @@ html.hw-game-active.hw-lite .battlefield .actor-idle,html.hw-game-active .battle
   font-family:Georgia,serif;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;
   letter-spacing:0;white-space:nowrap;color:#fff0d1;
   text-shadow:-1px -1px #100b0c,1px -1px #100b0c,-1px 1px #100b0c,1px 1px #100b0c,0 2px 2px #000;
-  animation:hw-number-rise 760ms ease-out both!important;
+  animation:none!important;transform:translateX(-50%);
 }
-.app-frame .combat-number.crit{color:#ffd18a;font-weight:900}
+.app-frame .combat-number.crit{color:#ff974f;font-weight:900}
 .app-frame .combat-number.hero-hit{color:#ffafa3}
 .app-frame .combat-number.healing{color:#c3e6b3}
 .app-frame .combat-number.event-hit,.app-frame .combat-number.reward{color:#e8c889}
@@ -81,10 +81,10 @@ html.hw-game-active.hw-lite .battlefield .actor-idle,html.hw-game-active .battle
   10%,55%{opacity:1}
   100%{opacity:0;transform:translate(-50%,-32px)}
 }
-.hw-lite .app-frame .battlefield .combat-number{animation:hw-number-still 540ms linear both!important}
+.hw-lite .app-frame .battlefield .combat-number{animation:none!important}
 @keyframes hw-number-still{0%,75%{opacity:1;transform:translateX(-50%)}100%{opacity:0;transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){
-  .app-frame .battlefield .combat-number{animation:hw-number-still 540ms linear both!important}
+  .app-frame .battlefield .combat-number{animation:none!important}
 }
 /* Q can trigger :focus-visible on the last clicked target. Keep the keyboard
    cue on its short caption instead of outlining the monster's entire box. */
@@ -154,3 +154,15 @@ html.hw-game-active.hw-lite .battlefield .actor-idle,html.hw-game-active .battle
   .app-frame .event-instruction{font-size:8px;line-height:10px;letter-spacing:0;white-space:nowrap}
   .app-frame .event-clock{font-size:10px;line-height:14px}
 }
+
+/* Bounded decorative layers always remain below HP (17) and damage text (20/24). */
+.target-flash,.finisher-art,.combat-spark{position:absolute;pointer-events:none;opacity:0;z-index:12}
+.target-flash{background:#ffdfce;mask-image:var(--hit-mask);mask-size:contain;mask-position:center bottom;mask-repeat:no-repeat}
+.finisher-art{z-index:10}
+.finisher-art>img,.finisher-art>.target-flash{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom}
+.combat-spark{width:.18rem;height:.18rem;background:#f5bb75}
+.screen-effects-control{display:flex;align-items:center;gap:.6rem;margin:1rem 0;font: .875rem/1.5 Arial,sans-serif}
+html[data-screen-effects=off] .target-flash,html[data-screen-effects=off] .finisher-art,html[data-screen-effects=off] .combat-spark{display:none}
+@media(prefers-reduced-motion:reduce){.target-flash,.finisher-art,.combat-spark{display:none}}
+
+.finisher-art>img{image-rendering:pixelated}

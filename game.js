@@ -4,6 +4,8 @@
   'use strict';
 
   const FX_CONFIG = {
+    numbers: {durationMs:760, enemyLimit:8, heroLimit:5, normalRem:1.44, criticalRem:1.88, heroRem:1.38, jitterRem:.75, riseRem:2, pop:1.18},
+    impact: {heroBackPx:3,heroForwardPx:10,heroMs:220,criticalHeroMs:250,enemyPx:3,criticalEnemyPx:5,enemyMs:180,criticalEnemyMs:240,contactMs:66,criticalContactMs:75,slashRem:4.5,criticalSlashRem:6,enemyAttackPx:8,heroHurtPx:5,enemyAttackMs:220,heroHurtMs:260,gapMs:110, criticalGapMs:700, holdMs:50, flashMs:80, finalFlashMs:160, finalMs:300, shakePx:3, shakeMs:140, sparkLimit:12, sparks:4, criticalSparks:7, finalSparks:12, sparkMs:300, sparkTravelRem:2.5},
     healthTrail: {
       enabled: true,
       delayMs: 500,
@@ -11,6 +13,8 @@
       easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)'
     }
   };
+
+  const MONSTER_INK_BOUNDS = {"assets/monsters/condenado-errante.webp":[0.0599,0.02083,0.9401,0.97917],"assets/monsters/guerreiro-esqueletico.webp":[0.04297,0.02083,0.95573,0.97917],"assets/monsters/sentinela-caida.webp":[0.04688,0.02083,0.95182,0.97917],"assets/monsters/arqueiro-macabro.webp":[0.08203,0.02083,0.91536,0.97917],"assets/monsters/zumbi-errante.webp":[0.03776,0.02083,0.96094,0.97917],"assets/monsters/espadachim-corrompido.webp":[0.02051,0.04688,0.97852,0.97949],"assets/monsters/cavaleiro-decapitado.webp":[0.01097,0.01729,0.98903,0.98936],"assets/monsters/lobo-sombrio.webp":[0.0332,0.33008,0.96875,0.96875],"assets/monsters/ratazana-pestilenta.webp":[0.03516,0.49414,0.96875,0.96875],"assets/monsters/lobo-da-praga.webp":[0.02148,0.12109,0.97852,0.97852],"assets/monsters/entorpecido-de-musgo.webp":[0.02539,0.02051,0.97461,0.97852],"assets/monsters/goblin-selvagem.webp":[0.02148,0.02148,0.97656,0.97852],"assets/monsters/rei-das-ratazanas.webp":[0.02474,0.34245,0.97917,0.97917],"assets/monsters/hidra-profanada.webp":[0.01064,0.01822,0.98936,0.98178],"assets/monsters/espectro-da-cripta.webp":[0.02344,0.02083,0.97656,0.97917],"assets/monsters/alma-enregelada.webp":[0.02539,0.02148,0.97461,0.97852],"assets/monsters/lamento-submerso.webp":[0.02344,0.02083,0.97526,0.97917],"assets/monsters/afogado-sem-rosto.webp":[0.04297,0.02083,0.95573,0.97917],"assets/monsters/sacerdote-esquecido.webp":[0.07552,0.02083,0.92448,0.97917],"assets/monsters/bruxa-das-criptas.webp":[0.03809,0.02051,0.96191,0.97949],"assets/monsters/rei-lich.webp":[0.01122,0.01064,0.98878,0.98936],"assets/monsters/golem-ferrugem.webp":[0.02051,0.05273,0.97852,0.97949],"assets/monsters/carcereiro-runico.webp":[0.02441,0.02051,0.97559,0.97949],"assets/monsters/guardiao-de-basalto.webp":[0.03418,0.02051,0.96484,0.97949],"assets/monsters/orc-carniceiro.webp":[0.02539,0.02051,0.97461,0.97949],"assets/monsters/construto-enferrujado.webp":[0.02246,0.02051,0.97656,0.97949],"assets/monsters/ogro-do-ferro.webp":[0.02051,0.10742,0.97949,0.97949],"assets/monsters/cavaleiro-do-abismo.webp":[0.01064,0.0128,0.98936,0.9872],"assets/monsters/arauto-das-chamas.webp":[0.09375,0.02051,0.90527,0.97949],"assets/monsters/demonio-carmesim.webp":[0.02637,0.02051,0.97266,0.97949],"assets/monsters/flagelo-abissal.webp":[0.02148,0.02051,0.97852,0.97949],"assets/monsters/sucubo-das-cinzas.webp":[0.02344,0.02474,0.97526,0.97917],"assets/monsters/sombra-incandescente.webp":[0.02734,0.02051,0.97266,0.97949],"assets/monsters/devorador-morbido.webp":[0.02148,0.0791,0.97949,0.97949],"assets/monsters/dragao-das-fendas.webp":[0.01064,0.01584,0.98936,0.98416],"assets/monsters/lich-imortal.webp":[0.02441,0.02051,0.97461,0.97949],"assets/monsters/rei-das-sombras.webp":[0.02051,0.02637,0.97949,0.97949],"assets/monsters/devorador-de-estrelas.webp":[0.02344,0.02051,0.97656,0.97949],"assets/monsters/sacerdote-do-vazio.webp":[0.06445,0.02148,0.93457,0.97949],"assets/monsters/arauto-do-eclipse.webp":[0.03516,0.02148,0.96387,0.97949],"assets/monsters/medusa-do-eclipse.webp":[0.03223,0.02051,0.9668,0.97949],"assets/monsters/imperador-do-crepusculo.webp":[0.01065,0.00821,0.98935,0.99179]};
 
   const SAVE_VERSION = 3;
   // New campaign. V7 does not load old saves or old JSON backups.
@@ -394,8 +398,12 @@
       this.heroHealthTrail = null;
       this.combatNumbers = {enemy:new Map(),hero:new Map()};
       this.combatNumberSequence = {enemy:0,hero:0};
+      this.numberPool={enemy:[],hero:[]};
       this.combatNumberAnchors = {};
       this.combatVisuals = new Map();
+      this.sparkCursor=0;
+      this.sparkNodes=Array.from({length:FX_CONFIG.impact.sparkLimit},()=>{const n=document.createElement('i');n.className='combat-spark';n.setAttribute('aria-hidden','true');$('battlefield').append(n);return n;});
+      document.addEventListener('hellward:screen-effects',()=>this.clearCombatVisuals());
       this.lastCombatImpactAt = -Infinity;
       this.lastCriticalImpactAt = -Infinity;
       document.documentElement.toggleAttribute('data-combat-idle-paused',document.hidden);
@@ -814,7 +822,7 @@
       this.renderCore();
     }
     combatMotionEnabled() {
-      return this.state && !document.hidden && $('authScreen').hidden && !this.reducedCombatMotion.matches && !document.documentElement.classList.contains('hw-lite');
+      return this.state && !document.hidden && $('authScreen').hidden && !this.reducedCombatMotion.matches && !document.documentElement.classList.contains('hw-lite') && document.documentElement.dataset.screenEffects!=='off';
     }
     animateCombat(channel,node,frames,options) {
       if(!node)return;
@@ -823,7 +831,7 @@
       idle?.classList.add('actor-active');
       const animation=node.animate(frames,{easing:'linear',...options});
       this.combatVisuals.set(channel,animation);
-      const done=()=>{if(this.combatVisuals.get(channel)===animation){this.combatVisuals.delete(channel);idle?.classList.remove('actor-active');}};
+      const done=()=>{if(this.combatVisuals.get(channel)===animation){this.combatVisuals.delete(channel);idle?.classList.remove('actor-active');if(channel==='finisher')node.hidden=true;animation.cancel();}};
       animation.finished.then(done,done);
       return animation;
     }
@@ -833,34 +841,57 @@
         animation.cancel();
       }
       this.combatVisuals.clear();
+      $('finisherArt').hidden=true;
       this.lastCombatImpactAt=this.lastCriticalImpactAt=-Infinity;
     }
-    playCombatImpact(critical=false) {
+    playCombatImpact(critical=false,amount=0,maxHp=1) {
       if(!this.combatMotionEnabled()){this.clearCombatVisuals();return;}
-      const t=performance.now();
-      if(t-this.lastCombatImpactAt<110)return;
+      const c=FX_CONFIG.impact,t=performance.now();
+      if(t-this.lastCombatImpactAt<FX_CONFIG.impact.gapMs)return;
       this.lastCombatImpactAt=t;
-      const strong=critical && t-this.lastCriticalImpactAt>=700;
+      const strong=critical && t-this.lastCriticalImpactAt>=FX_CONFIG.impact.criticalGapMs;
       if(strong)this.lastCriticalImpactAt=t;
-      const heroFrames=[{transform:'translateX(0)'},{transform:'translateX(-3px)',offset:.12},{transform:'translateX(10px)',offset:.3}];
-      if(strong)heroFrames.push({transform:'translateX(10px)',offset:.5,easing:'ease-out'});
+      const heroFrames=[{transform:'translateX(0)'},{transform:`translateX(${-c.heroBackPx}px)`,offset:.12},{transform:`translateX(${c.heroForwardPx}px)`,offset:.3}];
+      if(strong)heroFrames.push({transform:`translateX(${c.heroForwardPx}px)`,offset:.3+c.holdMs/c.criticalHeroMs,easing:'ease-out'});
       heroFrames.push({transform:'translateX(0)'});
-      this.animateCombat('hero',$('combatHero').querySelector('img'),heroFrames,{duration:strong?250:220});
-      const delay=strong?75:66;
-      const enemyFrames=strong?[{transform:'translateX(5px)'},{transform:'translateX(5px)',offset:50/240,easing:'ease-out'},{transform:'translateX(0)'}]:[{transform:'translateX(0)'},{transform:'translateX(3px)',offset:.22,easing:'ease-out'},{transform:'translateX(0)'}];
-      this.animateCombat('enemy',$('monsterArt').querySelector('img'),enemyFrames,{duration:strong?240:180,delay});
-      const a=this.combatNumberAnchors.enemy,{width,height}=this.arenaSize,slash=$('duelSlash'),size=strong?96:72;
+      this.animateCombat('hero',$('combatHero').querySelector('img'),heroFrames,{duration:strong?c.criticalHeroMs:c.heroMs});
+      const delay=strong?c.criticalContactMs:c.contactMs;
+      const enemyFrames=strong?[{transform:`translateX(${c.criticalEnemyPx}px)`},{transform:`translateX(${c.criticalEnemyPx}px)`,offset:c.holdMs/c.criticalEnemyMs,easing:'ease-out'},{transform:'translateX(0)'}]:[{transform:'translateX(0)'},{transform:`translateX(${c.enemyPx}px)`,offset:.22,easing:'ease-out'},{transform:'translateX(0)'}];
+      this.animateCombat('enemy',$('monsterArt').querySelector('img'),enemyFrames,{duration:strong?c.criticalEnemyMs:c.enemyMs,delay});
+      const a=this.combatNumberAnchors.enemy,{width,height}=this.arenaSize,slash=$('duelSlash'),size=(strong?c.criticalSlashRem:c.slashRem)*(this.uiRem||16);
       const x=Math.max(76,Math.min(width-76,a?.width?a.x+a.width/2:width*.75));
       const y=Math.max(76,Math.min(height-76,a?.height?a.y+a.height*.42:height*.5));
       for(const [key,value] of Object.entries({left:x+'px',top:y+'px',width:size+'px',height:size+'px'}))if(slash.style[key]!==value)slash.style[key]=value;
       slash.classList.toggle('impact-critical',strong);
       this.animateCombat('impact',slash,[{opacity:0,transform:'translate(-50%,-50%) rotate(-12deg) scale(.65)'},{opacity:1,transform:'translate(-50%,-50%) rotate(-8deg) scale(1)',offset:.2},{opacity:0,transform:'translate(-50%,-50%) rotate(-5deg) scale(1.08)'}],{duration:strong?170:140,delay});
-      if(strong)this.animateCombat('camera',$('arenaCamera'),[{transform:'translateX(0)'},{transform:'translateX(-2px)',offset:.2},{transform:'translateX(2px)',offset:.4},{transform:'translateX(-1px)',offset:.65},{transform:'translateX(0)'}],{duration:140,delay});
+      this.playHitDecorations(false,strong);
+      const shake=Math.min(FX_CONFIG.impact.shakePx,FX_CONFIG.impact.shakePx*Math.min(1,amount/Math.max(1,maxHp))*(strong?2:.1)+(strong?1:0));
+      if(shake>.05)this.animateCombat('camera',$('arenaCamera'),[{transform:'translateX(0)'},{transform:`translateX(${-shake}px)`,offset:.2},{transform:`translateX(${shake}px)`,offset:.4},{transform:'translateX(-1px)',offset:.65},{transform:'translateX(0)'}],{duration:FX_CONFIG.impact.shakeMs,delay});
+    }
+    playHitDecorations(final=false,strong=false) {
+      if(!this.combatMotionEnabled())return;
+      const c=FX_CONFIG.impact,a=this.combatNumberAnchors.enemy;if(!a?.width)return;
+      const img=$('monsterArt').querySelector('img');if(!img)return;
+      const node=final?$('finisherArt'):$('targetFlash');
+      for(const [k,v]of Object.entries({left:a.x+'px',top:a.y+'px',width:a.width+'px',height:a.height+'px'}))node.style[k]=v;
+      const src=img.getAttribute('src');node.style.setProperty('--hit-mask',`url(${JSON.stringify(src)})`);
+      if(final){node.querySelector('img').src=src;node.hidden=false;this.animateCombat('finisher',node,[{opacity:1,transform:'translateX(0)'},{opacity:1,transform:'translateX(0)',offset:c.holdMs/c.finalMs},{opacity:0,transform:'translateX(3px)'}],{duration:c.finalMs,fill:'both'});}
+      const flash=final?node.querySelector('i'):node;
+      this.animateCombat('flash',flash,[{opacity:.9},{opacity:0}],{duration:final?c.finalFlashMs:c.flashMs,fill:'both'});
+      if(final)this.animateCombat('camera',$('arenaCamera'),[{transform:'translateX(0)'},{transform:`translateX(${-c.shakePx}px)`,offset:.25},{transform:`translateX(${c.shakePx}px)`,offset:.5},{transform:'translateX(0)'}],{duration:c.shakeMs});
+      const count=final?c.finalSparks:strong?c.criticalSparks:c.sparks;
+      for(let i=0;i<Math.min(count,c.sparkLimit);i++){
+        const index=this.sparkCursor++%this.sparkNodes.length,n=this.sparkNodes[index],angle=Math.random()*Math.PI*2;
+        const travel=(.5+Math.random())*c.sparkTravelRem*(this.uiRem||16);
+        n.style.left=(a.x+a.width*.5)+'px';n.style.top=(a.y+a.height*.42)+'px';
+        this.animateCombat('spark'+index,n,[{opacity:1,transform:'translate(0,0)'},{opacity:0,transform:`translate(${Math.round(Math.cos(angle)*travel)}px,${Math.round(Math.sin(angle)*travel)}px)`}],{duration:c.sparkMs,fill:'both'});
+      }
     }
     playEnemyAttack() {
       if(!this.combatMotionEnabled()){this.clearCombatVisuals();return;}
-      this.animateCombat('enemy',$('monsterArt').querySelector('img'),[{transform:'translateX(0)'},{transform:'translateX(-8px)',offset:.28,easing:'ease-out'},{transform:'translateX(0)'}],{duration:220});
-      this.animateCombat('hero',$('combatHero').querySelector('img'),[{transform:'translateX(0)'},{transform:'translateX(-5px)',offset:.18,easing:'ease-out'},{transform:'translateX(0)'}],{duration:260});
+      const c=FX_CONFIG.impact;
+      this.animateCombat('enemy',$('monsterArt').querySelector('img'),[{transform:'translateX(0)'},{transform:`translateX(${-c.enemyAttackPx}px)`,offset:.28,easing:'ease-out'},{transform:'translateX(0)'}],{duration:c.enemyAttackMs});
+      this.animateCombat('hero',$('combatHero').querySelector('img'),[{transform:'translateX(0)'},{transform:`translateX(${-c.heroHurtPx}px)`,offset:.18,easing:'ease-out'},{transform:'translateX(0)'}],{duration:c.heroHurtMs});
     }
     floatNumber(label,style='') {
       this.spawnCombatNumber(label,style,false);
@@ -869,18 +900,24 @@
       const arena=$('battlefield').getBoundingClientRect();
       if(!arena.width || !arena.height)return;
       this.arenaSize={width:arena.width,height:arena.height};
+      this.uiRem=parseFloat(getComputedStyle(document.documentElement).fontSize)||16;
       const box=id=>{
         const b=$(id).getBoundingClientRect();
         return {x:b.left-arena.left,y:b.top-arena.top,width:b.width,height:b.height};
       };
       this.combatNumberAnchors={enemy:box('attackTarget'),hero:box('combatHero'),event:box('eventArt'),eventCard:$('eventOverlay').hidden?null:box('eventOverlay')};
+      const img=$('monsterArt').querySelector('img'),a=this.combatNumberAnchors.enemy;
+      const ink=img&&MONSTER_INK_BOUNDS[img.getAttribute('src').split('?')[0]];
+      if(ink&&img.naturalWidth){const scale=Math.min(a.width/img.naturalWidth,a.height/img.naturalHeight),w=img.naturalWidth*scale,h=img.naturalHeight*scale;
+        this.combatNumberAnchors.ink={x:a.x+(a.width-w)/2+ink[0]*w,right:a.x+(a.width-w)/2+ink[2]*w};}
       for(const group of Object.values(this.combatNumbers))for(const [node,meta] of group)this.positionCombatNumber(node,meta);
     }
     positionCombatNumber(node,meta) {
       const {width,height}=this.arenaSize;
       const a=this.combatNumberAnchors[meta.kind];
       const small=width<=760,crit=meta.style==='crit';
-      const desired=crit?(small?24:30):meta.hero?(small?18:22):(small?19:23);
+      const cfg=FX_CONFIG.numbers,rem=this.uiRem||16;
+      const desired=(crit?cfg.criticalRem:meta.hero?cfg.heroRem:cfg.normalRem)*rem;
       const budget=Math.min(width-24,meta.hero?Math.max(108,width*.28):width*.45,260);
       const size=Math.min(desired,budget/Math.max(1,node.textContent.length*.68));
       const half=Math.max(node.textContent.length*size*.34,meta.caption.length*5/2)+7;
@@ -890,37 +927,49 @@
       const laneGap=meta.kind==='event'?6:small?40:48;
       // Reserve travel/caption space before splitting lanes, even on short actors.
       if(a?.height && meta.kind==='enemy')y=Math.max(a.y+50+laneGap,y);
-      x+=meta.lane*(small?9:14);
+      x+=meta.jitter;
+      if(meta.kind==='enemy'){const edge=this.combatNumberAnchors.ink?.x??a?.x??width*.6;const room=Math.max(48,edge-20);const fitted=Math.min(size,room/Math.max(1,node.textContent.length*.68));node.style.fontSize=(fitted/rem)+'rem';const span=Math.max(node.textContent.length*fitted*.34,meta.caption.length*5/2)+7;x=Math.max(span+8,edge-span-16-Math.abs(meta.jitter));}
+
       y+=meta.lane*laneGap;
       y=Math.max(58,Math.min(height-Math.ceil(size*1.1)-8,y));
       const card=this.combatNumberAnchors.eventCard;
       if(meta.hero && card && x-half<card.x+card.width+8 && x+half>card.x && y+20>card.y && y-54<card.y+card.height)x=card.x+card.width+half+12;
       x=Math.max(half+8,Math.min(width-half-8,x));
-      node.style.fontSize=`${size}px`;node.style.left=`${x}px`;node.style.top=`${y}px`;
+      if(meta.kind!=='enemy')node.style.fontSize=(size/rem)+'rem';node.style.left=`${x}px`;node.style.top=`${y}px`;
     }
     spawnCombatNumber(label,style,hero) {
       if(document.hidden || !$('authScreen').hidden)return;
       const key=hero?'hero':'enemy',group=this.combatNumbers[key];
-      while(group.size>=(hero?5:8))this.removeCombatNumber(group.keys().next().value,group);
-      const node=document.createElement('span');
+      const cfg=FX_CONFIG.numbers;
+      while(group.size>=(hero?cfg.heroLimit:cfg.enemyLimit))this.removeCombatNumber(group.keys().next().value,group);
+      const node=this.numberPool[key].pop()||document.createElement('span');
       const caption=style==='crit'?'CRÍTICO':style==='healing'?'CURA':'';
       node.className=`combat-number ${hero?'hero-damage-number':'float-damage'} ${style}`;
       let value=String(label);
       if(style==='crit')value=value.replace(/^CRÍTICO!?\s*/u,'');
       if(style==='healing')value=value.replace(/\s*♥\s*$/u,'');
       node.textContent=value;
-      if(caption)node.dataset.caption=caption;
+      if(caption)node.dataset.caption=caption;else delete node.dataset.caption;
       const kind=hero?'hero':style==='event-hit'?'event':style==='reward'?'reward':'enemy';
-      const meta={hero,kind,style,caption,lane:this.combatNumberSequence[key]++%3-1,timer:0};
+      const meta={hero,kind,style,caption,lane:this.combatNumberSequence[key]++%3-1,jitter:(Math.random()*2-1)*cfg.jitterRem*(this.uiRem||16),timer:0,animation:null};
       this.positionCombatNumber(node,meta);
       $(hero?'heroDamageLayer':'damageLayer').append(node);
       group.set(node,meta);
-      meta.timer=setTimeout(()=>this.removeCombatNumber(node,group),900);
+      const reduced=this.reducedCombatMotion.matches||document.documentElement.classList.contains('hw-lite');
+      const rise=cfg.riseRem*(this.uiRem||16),duration=Math.max(600,Math.min(900,cfg.durationMs));
+      const frames=reduced?[{opacity:1},{opacity:1,offset:.75},{opacity:0}]:[
+        {opacity:0,transform:`translate(-50%,0) scale(${style==='crit'?.85:1})`},
+        {opacity:1,transform:`translate(-50%,-${rise*.1}px) scale(${style==='crit'?cfg.pop:1})`,offset:.15},
+        {opacity:1,transform:`translate(-50%,-${rise*.4}px) scale(1)`,offset:.55},
+        {opacity:0,transform:`translate(-50%,-${rise}px) scale(1)`}];
+      meta.animation=node.animate(frames,{duration,easing:'ease-out',fill:'both'});
+      meta.animation.finished.then(()=>{if(group.get(node)===meta)this.removeCombatNumber(node,group);},()=>{});
     }
     removeCombatNumber(node,group) {
       const meta=group.get(node);
-      if(meta)clearTimeout(meta.timer);
-      group.delete(node);node.remove();
+      if(!meta)return;
+      clearTimeout(meta.timer);meta.animation?.cancel();
+      group.delete(node);node.remove();this.numberPool[meta.hero?'hero':'enemy'].push(node);
     }
     clearCombatNumbers() {
       for(const group of Object.values(this.combatNumbers))for(const node of group.keys())this.removeCombatNumber(node,group);
@@ -929,7 +978,7 @@
     damageMob(amount,fromClick,critical) {
       const s=this.state;
       if(!s || s.deadUntil || amount<=0)return;
-      if(fromClick){this.floatNumber(`${critical?'CRÍTICO! ':''}−${fmt(amount)}`,critical?'crit':'');this.playCombatImpact(critical);}
+      if(fromClick){this.floatNumber(`${critical?'CRÍTICO! ':''}−${fmt(amount)}`,critical?'crit':'');this.playCombatImpact(critical,amount,s.mob.maxHp);}
       let remaining=amount;
       let chain=0;
       while(remaining>0 && chain++<12){
@@ -946,6 +995,7 @@
       const defeated=s.mob;
       const kind=defeated.kind||'normal';
       const name=defeated.name;
+      if(kind==='boss')this.playHitDecorations(true,true);
       const multiplier=kind==='boss'?18:kind==='miniboss'?7:1;
       const gold=Math.floor(multiply(multiply(rewardGold(s),multiplier),this.bonuses().gold));
       const xp=Math.floor(multiply(rewardXp(s),kind==='boss'?14:kind==='miniboss'?6:1));
@@ -1534,6 +1584,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         const idle=document.createElement('span');
         idle.className='actor-idle enemy-idle';
         idle.style.setProperty('--idle-delay',(-((visualIndex*.43+s.zone*.71)%4)).toFixed(2)+'s');
+        portrait.addEventListener('load',()=>this.cacheCombatNumberAnchors(),{once:true});
         idle.append(portrait);
         artNode.replaceChildren(idle);
       }

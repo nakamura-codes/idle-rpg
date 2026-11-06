@@ -15,15 +15,15 @@
   <script src="menu.js?v=3" defer></script>
   <script src="item-catalog.js?v=7.1" defer></script>
   <script src="game-art.js?v=3" defer></script>
-  <script src="game.js?v=25" defer></script>
+  <script src="game.js?v=26" defer></script>
   <link rel="stylesheet" href="game-hud.css?v=6">
-  <script src="game-hud.js?v=6" defer></script>
+  <script src="game-hud.js?v=7" defer></script>
   <link rel="preload" href="assets/fonts/dornen-ui.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="gameplay.css?v=3">
   <link rel="stylesheet" href="hud-legibility.css?v=2">
   <link rel="stylesheet" href="content-art.css?v=1">
   <link rel="stylesheet" href="hunt.css?v=1">
-  <link rel="stylesheet" href="combat-events.css?v=7">
+  <link rel="stylesheet" href="combat-events.css?v=8">
   <link rel="stylesheet" href="region-atmosphere.css?v=1">
   <link rel="stylesheet" href="boss-command-hud.css?v=1">
 </head>
@@ -57,7 +57,7 @@
             <div class="arena-camera" id="arenaCamera" aria-hidden="true"><div class="arena-scenery"></div><div class="arena-lighting"></div><div class="arena-mist"></div></div>
             <div class="camera-state" id="cameraState" aria-hidden="true">COMBATE • 2D</div>
             <div class="combat-hero" id="combatHero" aria-hidden="true"><span class="hero-ground-shadow"></span><span class="actor-idle hero-idle"><img src="assets/hero/fast/errante.webp?v=2" alt="" class="combat-hero-sprite" width="176" height="242" draggable="false"></span><span class="hero-ground-name" id="combatHeroName">Aventureiro</span></div>
-            <span class="duel-slash" id="duelSlash" aria-hidden="true"></span>
+            <span class="duel-slash" id="duelSlash" aria-hidden="true"></span><span id="targetFlash" class="target-flash" aria-hidden="true"></span><span id="finisherArt" class="finisher-art" hidden aria-hidden="true"><img alt=""><i class="target-flash"></i></span>
             <div class="hero-arena-hp" aria-hidden="true"><span>♥ ERRANTE</span><div><i id="arenaHPFill"></i></div></div>
             <div class="hero-damage-layer" id="heroDamageLayer" aria-hidden="true"></div>
             <div class="hero-respawn" id="heroRespawn" hidden><strong>☠ VOCÊ FOI DERROTADO</strong><span>Retornando em <b id="heroRespawnTime">8s</b></span><small>O inimigo recuperou a vida. Seus itens e fases foram preservados.</small></div>
@@ -124,7 +124,7 @@
       <div id="codexJourney"><section class="panel journey-panel"><div class="panel-heading compact"><span class="eyebrow">REGISTRO DA JORNADA</span><span class="heading-glyph">✤</span></div><div class="journey-row"><span>Inimigos abatidos</span><strong id="runKills">0</strong></div><div class="journey-row"><span>Ouro conquistado</span><strong id="runGold">0</strong></div><div class="journey-row"><span>Renascimentos</span><strong id="rebirths">0</strong></div><div class="journey-row"><span>Zona atual</span><strong id="currentZoneShort">I</strong></div></section></div>
       <section id="hudSettings" class="hud-settings" hidden>
         <section class="settings-card"><h3>Som do abismo</h3><p>Ajuste o volume das trilhas do menu e da batalha.</p><div id="hudAudioControls"></div></section>
-        <section class="settings-card"><h3>Aparência</h3><p>Escolha o tema e compare a fonte dos títulos.</p><button id="themeToggle" type="button" class="settings-action" aria-pressed="true" aria-label="Alternar modo escuro">☾ Escuro</button><label class="font-control" for="hudTitleFont">Fonte dos títulos<select id="hudTitleFont" class="dark-select"><option value="dornen">Dornen · teste</option><option value="classic">Clássica</option></select></label><p class="font-note">Dornen nos títulos; descrições e números mantêm a fonte de leitura.</p></section>
+        <section class="settings-card"><h3>Aparência</h3><label class="screen-effects-control"><input id="screenEffects" type="checkbox" checked> Efeitos de tela (flash e shake)</label><p>Escolha o tema e compare a fonte dos títulos.</p><button id="themeToggle" type="button" class="settings-action" aria-pressed="true" aria-label="Alternar modo escuro">☾ Escuro</button><label class="font-control" for="hudTitleFont">Fonte dos títulos<select id="hudTitleFont" class="dark-select"><option value="dornen">Dornen · teste</option><option value="classic">Clássica</option></select></label><p class="font-note">Dornen nos títulos; descrições e números mantêm a fonte de leitura.</p></section>
         <section class="settings-card"><h3>Progresso da jornada</h3><p>O progresso é salvo automaticamente neste navegador. Exporte um backup para guardar uma cópia ou transferir sua jornada.</p><div class="footer-buttons"><button type="button" id="exportSave">↓ Exportar save</button><button type="button" id="importSave">↑ Importar save</button></div></section>
         <section class="settings-card"><h3>Atalhos do aventureiro</h3><dl class="shortcut-list"><div><dt>Livro Negro</dt><dd>C</dd></div><div><dt>Mochila</dt><dd>I</dd></div><div><dt>Ascensão</dt><dd>A</dd></div><div><dt>Regiões</dt><dd>M</dd></div><div><dt>Crônicas</dt><dd>J</dd></div><div><dt>Poção de vida</dt><dd>Q</dd></div><div><dt>Atacar</dt><dd>Espaço</dd></div><div><dt>Fechar painel</dt><dd>Esc</dd></div></dl></section>
       </section>
