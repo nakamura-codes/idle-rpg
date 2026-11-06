@@ -15,6 +15,14 @@
   try {savedFont=localStorage.getItem('hellward_hud_title_font') || savedFont;} catch {}
   setTitleFont(savedFont);
   $('hudTitleFont').addEventListener('change',e=>setTitleFont(e.target.value));
+  function setScreenEffects(enabled){
+    root.dataset.screenEffects=enabled?'on':'off';$('screenEffects').checked=enabled;
+    try{localStorage.setItem('hellward_screen_effects',enabled?'on':'off');}catch{}
+    document.dispatchEvent(new Event('hellward:screen-effects'));
+  }
+  let effects=true;try{effects=localStorage.getItem('hellward_screen_effects')!=='off';}catch{}
+  setScreenEffects(effects);
+  $('screenEffects').addEventListener('change',e=>setScreenEffects(e.target.checked));
   const labels = {
     upgrades:['CRÔNICAS DO ERRANTE','Livro Negro'],
     inventory:['RELIQUIÁRIO DO VIAJANTE','Mochila'],
