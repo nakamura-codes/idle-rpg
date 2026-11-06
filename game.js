@@ -537,6 +537,7 @@
     presentPhaseChange(from) {
       const s=this.state;if(!s||!this.encounterMotionEnabled())return;
       if(from.zone===s.zone&&from.stage===combatStage(s)&&(from.cleared||!progressAt(s).cleared))return;
+      document.dispatchEvent(new CustomEvent('hellward:scene-impact',{detail:{phase:true}}));
       this.phaseVeil.hidden=false;this.animateEncounter('veil',this.phaseVeil,[{opacity:0},{opacity:1,offset:.35},{opacity:0}],FX_CONFIG.encounter.curtainMs,()=>{this.phaseVeil.hidden=true;});
       if(this.pendingExpeditionReceipt||s.mob.kind!=='normal')return;
       const node=this.phaseCurtain;node.querySelector('small').textContent=ZONES[s.zone].name;node.querySelector('strong').textContent=`FASE ${combatStage(s)} / 10`;node.hidden=false;
@@ -998,6 +999,7 @@
       if(t-this.lastCombatImpactAt<FX_CONFIG.impact.gapMs)return;
       this.lastCombatImpactAt=t;
       const strong=critical && t-this.lastCriticalImpactAt>=FX_CONFIG.impact.criticalGapMs;
+      document.dispatchEvent(new CustomEvent('hellward:scene-impact',{detail:{critical:strong}}));
       if(strong)this.lastCriticalImpactAt=t;
       const heroFrames=[{transform:'translateX(0)'},{transform:`translateX(${-c.heroBackPx}px)`,offset:.12},{transform:`translateX(${c.heroForwardPx}px)`,offset:.3}];
       if(strong)heroFrames.push({transform:`translateX(${c.heroForwardPx}px)`,offset:.3+c.holdMs/c.criticalHeroMs,easing:'ease-out'});
@@ -1666,6 +1668,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       $('attributeBadge').hidden = points === 0;
       $('attributeBadge').parentElement.setAttribute('aria-label', `Livro Negro: status e pontos (C). ${fmt(points)} pontos disponíveis`);
       text('fragmentValue',`${s.shards} / 10`);
+      window.HELLWARD_REWARD_FX?.sync(s,this.combatNumberAnchors,this.arenaSize);
       text('profileName',s.name);
       text('playerHeroName',s.name);
       attr('playerHeroName','title',s.name);

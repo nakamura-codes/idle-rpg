@@ -1298,6 +1298,97 @@
       ],
       "decision": "created",
       "reason": "Camada PNG transparente estática de Campos de Cinza; gerada individualmente e alinhada ao cenário original no Passo 0"
+    },
+    {
+      "asset": "assets/backgrounds/depth/campos-de-cinza-far.webp",
+      "source": "assets/backgrounds/fast/campos-de-cinza.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/campos-de-cinza-boss-far.webp",
+      "source": "assets/backgrounds/fast/campos-de-cinza-boss.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/bosque-profanado-far.webp",
+      "source": "assets/backgrounds/fast/bosque-profanado.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/bosque-profanado-boss-far.webp",
+      "source": "assets/backgrounds/fast/bosque-profanado-boss.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/criptas-afogadas-far.webp",
+      "source": "assets/backgrounds/fast/criptas-afogadas.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/criptas-afogadas-boss-far.webp",
+      "source": "assets/backgrounds/fast/criptas-afogadas-boss.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/fortaleza-de-ferro-far.webp",
+      "source": "assets/backgrounds/fast/fortaleza-de-ferro.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/fortaleza-de-ferro-boss-far.webp",
+      "source": "assets/backgrounds/fast/fortaleza-de-ferro-boss.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/fendas-infernais-far.webp",
+      "source": "assets/backgrounds/fast/fendas-infernais.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/fendas-infernais-boss-far.webp",
+      "source": "assets/backgrounds/fast/fendas-infernais-boss.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/trono-do-crepusculo-far.webp",
+      "source": "assets/backgrounds/fast/trono-do-crepusculo.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/trono-do-crepusculo-boss-far.webp",
+      "source": "assets/backgrounds/fast/trono-do-crepusculo-boss.webp",
+      "bakedBlur": 1.2,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
+    },
+    {
+      "asset": "assets/backgrounds/depth/campos-de-cinza-foreground-soft.webp",
+      "source": "assets/backgrounds/layers/campos-de-cinza-foreground.png",
+      "bakedBlur": 1.1,
+      "action": "derived-depth-export",
+      "method": "local Sharp blur baked before runtime"
     }
   ],
   "assetPolicy": "Uma imagem canônica por monstro; imagens mobile e atlas compartilhados mantidos por uso ativo",
