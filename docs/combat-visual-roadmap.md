@@ -8,7 +8,7 @@ Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação
 
 | Nº | Melhoria | Impacto | Esforço | Resultado e limite de custo |
 |---|---|---:|---:|---|
-| 1 | Vida do inimigo com dano atrasado | 4 | 1 | Vermelho imediato, eco âmbar de 90 + 420 ms. Uma animação de transform, sem loop novo. |
+| 1 | HP do inimigo e do herói com dano atrasado | 4 | 1 | HP imediato, espera reiniciável de 500 ms e descida de 420 ms. Novo inimigo/fase reinicia o eco cheio, sem descida. |
 | 2 | Números de dano, crítico e cura mais legíveis | 4 | 2 | Elevar contraste, diferenciar tamanho/cor/símbolo; preservar limites de 8 números no inimigo e 5 no herói. Ancorar ao alvo, sem confundir com eventos. |
 | 3 | Peso de golpe e reação ao dano | 5 | 3 | Recuo curto do inimigo, faísca no ponto de impacto e ataque com antecipação. Shake de 2–3 px e hit-stop visual de 40–60 ms só em críticos, com intervalo mínimo. Nunca pausar relógio de combate/recompensas. |
 | 4 | Idle discreto com peso nos pés | 3 | 2 | Respiração e balanço de 1–2 px no sprite interno; animações lentas e desencontradas. Não deformar espada/rosto nem mover a sombra junto com o torso. |
@@ -20,6 +20,8 @@ Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação
 | 10 | Profundidade por parallax e chão | 4 | 5 | Duas camadas extras de cenário alinhadas, movimento de poucos px e foreground baixo. Corrigir perspectiva, detritos e contato das sombras antes de mudar escala do herói. Não deslizar a imagem inteira nem o HUD. Desativar parallax no celular/modo leve se necessário. |
 
 ## Nº 1 — alteração exata
+
+**Revisão aprovada:** a implementação atual inclui inimigo e herói, espera reiniciável de 500 ms, HP principal imediato e reinício cheio do eco ao trocar inimigo/fase. Trechos completos, comportamento de cura e testes em [item-1-health-trail.md](item-1-health-trail.md). A descrição e as métricas iniciais abaixo são preservadas como histórico da primeira entrega.
 
 ### `index.html`
 

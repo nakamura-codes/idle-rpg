@@ -3,6 +3,15 @@
 (() => {
   'use strict';
 
+  const FX_CONFIG = {
+    healthTrail: {
+      enabled: true,
+      delayMs: 500,
+      durationMs: 420,
+      easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)'
+    }
+  };
+
   const SAVE_VERSION = 3;
   // New campaign. V7 does not load old saves or old JSON backups.
   const RESET_MARKER = 'hellward_v7_fresh_start';
@@ -382,6 +391,7 @@
       this.lastZoneRendered = -1;
       this.lastEventRendered = '';
       this.enemyHealthTrail = null;
+      this.heroHealthTrail = null;
       this.combatNumbers = {enemy:new Map(),hero:new Map()};
       this.combatNumberSequence = {enemy:0,hero:0};
       this.combatNumberAnchors = {};
@@ -392,6 +402,7 @@
       this.reducedCombatMotion = matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedCombatMotion.addEventListener('change',()=>{
         this.resetEnemyHealthTrail();
+        this.resetHeroHealthTrail();
         this.clearCombatNumbers();
         this.clearCombatVisuals();
         if(this.state)this.renderEnemyHealth();
@@ -414,6 +425,7 @@
       document.addEventListener('visibilitychange',()=>{
         document.documentElement.toggleAttribute('data-combat-idle-paused',document.hidden);
         this.resetEnemyHealthTrail();
+        this.resetHeroHealthTrail();
         this.clearCombatNumbers();
         this.clearCombatVisuals();
         if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
@@ -462,6 +474,7 @@
     showAuth() {
       this.stopLoop();
       this.resetEnemyHealthTrail();
+      this.resetHeroHealthTrail();
       this.clearCombatNumbers();
       this.clearCombatVisuals();
       const profiles=this.getProfiles().sort((a,b)=>b.lastPlayed-a.lastPlayed);
@@ -502,6 +515,8 @@
       }
     }
     activate(profile,state) {
+      this.resetEnemyHealthTrail();
+      this.resetHeroHealthTrail();
       this.clearCombatNumbers();
       this.clearCombatVisuals();
       this.state=state;
@@ -1366,30 +1381,69 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       this.lastZoneRendered=s.zone;
     }
     resetEnemyHealthTrail() {
-      const trail=$('mobHPDamageTrail');
-      if(trail.style.transition!=='none')trail.style.transition='none';
+      this.enemyHealthTrail?.animation?.cancel();
       this.enemyHealthTrail=null;
     }
+    resetHeroHealthTrail() {
+      this.heroHealthTrail?.animation?.cancel();
+      this.heroHealthTrail=null;
+    }
+    updateHealthTrail(key,id,ratio,resetTo=null) {
+      const previous=this[key],node=$(id),config=FX_CONFIG.healthTrail;
+      const motion=config.enabled && !document.hidden && !this.reducedCombatMotion.matches && !document.documentElement.classList.contains('hw-lite');
+      if(!motion || !previous || resetTo!==null || ratio>previous.ratio){
+        previous?.animation?.cancel();
+        fill(id,(motion && resetTo!==null?resetTo:ratio)*100);
+        return this[key]={ratio,animation:null,delay:0,duration:0};
+      }
+      if(previous.ratio===ratio)return previous;
+      let delay=config.delayMs;
+      let from=node.style.transform || `scaleX(${previous.ratio})`;
+      const old=previous.animation;
+      if(old){
+        if(old.playState!=='finished' && old.playState!=='idle'){
+          // Hits in the waiting phase restart its delay; an ongoing fall stays smooth.
+          const time=old.currentTime??0;
+          if(time<previous.delay)from=previous.from;
+          else if(time<previous.delay+previous.duration){
+            // Freeze only an interrupted fall, once per hit; no geometry reads.
+            old.commitStyles();
+            from=node.style.transform;
+            delay=0;
+          }
+        }
+        old.cancel();
+      }
+      fill(id,ratio*100);
+      const animation=node.animate([{transform:from},{transform:`scaleX(${ratio})`}],{
+        delay,duration:config.durationMs,easing:config.easing,fill:'both'
+      });
+      const next=this[key]={ratio,animation,delay,duration:config.durationMs,from};
+      animation.finished.then(()=>{
+        if(this[key]?.animation===animation){
+          this[key].animation=null;
+          animation.cancel();
+        }
+      },()=>{});
+      return next;
+    }
     renderEnemyHealth() {
-      const mob=this.state.mob,previous=this.enemyHealthTrail;
+      const s=this.state,mob=s.mob,previous=this.enemyHealthTrail,stage=combatStage(s);
       const ratio=Math.max(0,Math.min(1,mob.hp/Math.max(1,mob.maxHp)));
       fill('mobHPFill',ratio*100);
       attr('mobHealthProgress','aria-label',`Vida de ${mob.name}`);
       attr('mobHealthProgress','aria-valuenow',String(Math.round(ratio*100)));
       attr('mobHealthProgress','aria-valuetext',`${fmt(Math.ceil(mob.hp))} de ${fmt(mob.maxHp)} pontos de vida`);
-      const motion=!document.hidden && !this.reducedCombatMotion.matches && !document.documentElement.classList.contains('hw-lite');
-      const sameEnemy=previous?.mob===mob && previous.maxHp===mob.maxHp;
-      const trail=$('mobHPDamageTrail');
-      if(!motion && trail.style.transition!=='none')trail.style.transition='none';
-      if(sameEnemy && previous.ratio===ratio)return;
-      const t=performance.now(),damage=motion && sameEnemy && ratio<previous.ratio;
-      // CSS retargets from its current visual value; no animation timing/layout reads.
-      // Only the first hit pauses. A continued stream cannot postpone the echo forever.
-      const delay=previous && t<previous.until?0:90;
-      const transition=damage?`transform 420ms cubic-bezier(0.2, 0.7, 0.3, 1) ${delay}ms`:'none';
-      if(trail.style.transition!==transition)trail.style.transition=transition;
-      fill('mobHPDamageTrail',ratio*100);
-      this.enemyHealthTrail={mob,maxHp:mob.maxHp,ratio,until:damage?t+420+delay:0};
+      const changed=previous && (previous.mob!==mob || previous.maxHp!==mob.maxHp || previous.zone!==s.zone || previous.stage!==stage);
+      const trail=this.updateHealthTrail('enemyHealthTrail','mobHPDamageTrail',ratio,changed?1:null);
+      Object.assign(trail,{mob,maxHp:mob.maxHp,zone:s.zone,stage});
+    }
+    renderHeroHealth(hp,maxHp) {
+      const ratio=Math.max(0,Math.min(1,hp/Math.max(1,maxHp))),previous=this.heroHealthTrail;
+      fill('heroHPFill',ratio*100);
+      const changed=previous && (previous.state!==this.state || previous.maxHp!==maxHp);
+      const trail=this.updateHealthTrail('heroHealthTrail','heroHPDamageTrail',ratio,changed?ratio:null);
+      Object.assign(trail,{state:this.state,maxHp});
     }
     renderCore() {
       const s=this.state;
@@ -1421,7 +1475,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       text('luckStat',fmtPercent(b.luck));
       const hp=Math.min(s.heroHp,b.maxHp);
       text('heroHPText',`${fmt(Math.ceil(hp))} / ${fmt(b.maxHp)} HP`);
-      fill('heroHPFill',Math.max(0,Math.min(100,hp/b.maxHp*100)));
+      this.renderHeroHealth(hp,b.maxHp);
       fill('lifeOrbFill',hp/b.maxHp*100,'Y');
       fill('arenaHPFill',Math.max(0,Math.min(100,hp/b.maxHp*100)));
       $('heroHPFill').classList.toggle('critical',hp/b.maxHp<.26);
