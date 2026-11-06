@@ -1,21 +1,37 @@
-/* Scene layers and a desktop parallax trial limited to Campos de Cinza. */
+/* Shared scene layers and configurable desktop parallax for every region. */
 (() => {
   'use strict';
   const FX_CONFIG = {
-    parallax: {enabled:true, regions:[0], horizontalPercent:1.8, verticalPercent:.9,
+    parallax: {enabled:true, regions:null, horizontalPercent:1.8, verticalPercent:.9,
       overscanPercent:4, transitionSeconds:.55, middleSpeed:.65, groundSpeed:.8}
   };
-  const region = (slug, name, overlays = [], speed = .1) => {
+  // id/file are the public fields. slot/src remain compatible aliases so existing
+  // configuration edits and integrations keep working without a save migration.
+  function sceneLayer(spec) {
+    const {slot,src,id=slot,file=src,...rest}=spec;
+    const layer={id,file,...rest};
+    Object.defineProperties(layer,{
+      slot:{enumerable:true,get(){return this.id;},set(value){this.id=value;}},
+      src:{enumerable:true,get(){return this.file;},set(value){this.file=value;}}
+    });
+    return layer;
+  }
+  const region = (slug, name, overlays = [], speed = .45) => {
     const base = `assets/backgrounds/fast/${slug}`;
-    return {name, layers: [
+    const layers = [
       {slot:'distant', src:base+'.webp?v=dark-14', bossSrc:base+'-boss.webp?v=dark-14',
         mobileSrc:base+'-mobile.webp?v=dark-14', bossMobileSrc:base+'-boss-mobile.webp?v=dark-14',
         depth:0, parallaxSpeed:speed, blur:0, opacity:1},
       ...overlays
-    ]};
+    ];
+    const reserved=[['middle',.25,.65],['ground',.4,.8],['mist',.5,1.3],['foreground',.9,1.6]];
+    for(const [slot,depth,parallaxSpeed]of reserved){
+      if(!layers.some(layer=>(layer.id??layer.slot)===slot))layers.push({slot,src:null,depth,parallaxSpeed,blur:0,opacity:1});
+    }
+    return {name,layers:layers.map(sceneLayer)};
   };
   const SCENE_CONFIG = {
-    loadTimeoutMs:6000, cacheLimit:32, maxBlurRem:.125,
+    loadTimeoutMs:6000, cacheLimit:32,
     order:['distant','middle','ground','mist','characters','foreground','effects'],
     regions:[
       region('campos-de-cinza','Campos de Cinza',[
@@ -29,7 +45,10 @@
       region('trono-do-crepusculo','Trono do Crepúsculo')
     ]
   };
-  // Public configuration is independent of saves; only region 0 enables pointer parallax.
+  // Both names reference the same regional entries; no existing integration is renamed.
+  const SCENE_LAYERS=SCENE_CONFIG.regions;
+  window.SCENE_LAYERS=SCENE_LAYERS;
+  // Public configuration is independent of saves. null regions enables all configured entries.
   window.HELLWARD_SCENE_CONFIG = SCENE_CONFIG;
   window.HELLWARD_PARALLAX_CONFIG = FX_CONFIG.parallax;
   const arena = document.getElementById('battlefield');
@@ -84,7 +103,8 @@
     clearImages();arena.dataset.sceneMode='loading';delete arena.dataset.sceneFailure;
     const config=SCENE_CONFIG.regions[zone];
     if(!config){fallback(token,'missing-region');return;}
-    const layers=config.layers.filter(layer => (!layer.desktopOnly || !small.matches) && (!layer.commonOnly || !boss));
+    const layers=config.layers.filter(layer => layer.src && (!layer.desktopOnly || !small.matches) && (!layer.commonOnly || !boss))
+      .sort((a,b)=>a.depth-b.depth);
     if(!layers.length){fallback(token,'empty-config');return;}
     const selected=layers.map(layer => ({...layer,src:small.matches ? (boss ? layer.bossMobileSrc || layer.mobileSrc || layer.bossSrc || layer.src : layer.mobileSrc || layer.src) : boss ? layer.bossSrc || layer.src : layer.src}));
     try {
@@ -98,8 +118,7 @@
         image.className='scene-layer-image';image.alt='';image.draggable=false;image.decoding='async';
         image.dataset.depth=String(layer.depth);image.dataset.parallaxSpeed=String(layer.parallaxSpeed);image.dataset.blur=String(layer.blur);
         image.style.opacity=String(bounded(layer.opacity,0,1,1));
-        const blur=bounded(layer.blur,0,SCENE_CONFIG.maxBlurRem,0);
-        if(blur)image.style.setProperty('filter',`blur(${blur}rem)`,'important');
+        // blur describes the exported artwork; never apply a real-time CSS blur.
         image.addEventListener('error',()=>fallback(token,'image-render-error'),{once:true});
         image.src=layer.src;
         slots.get(layer.slot).querySelector(':scope>.scene-assets').append(image);
@@ -118,7 +137,7 @@
     arena.style.setProperty('--scene-parallax-overscan',c.overscanPercent+'%');
     arena.style.setProperty('--scene-parallax-duration',c.transitionSeconds+'s');
     function enabled(){
-      return c.enabled&&c.regions.includes(zone)&&desktop.matches&&!reduced.matches&&
+      return c.enabled&&(c.regions===null?Boolean(SCENE_LAYERS[zone]):c.regions.includes(zone))&&desktop.matches&&!reduced.matches&&
         document.visibilityState==='visible'&&!frame.inert&&root.classList.contains('hw-game-active')&&
         !root.classList.contains('hw-lite')&&root.dataset.screenEffects!=='off';
     }
