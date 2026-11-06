@@ -16,7 +16,7 @@ const server=http.createServer((req,res)=>{
   const errors=[],shots=process.env.HUD_SCREENSHOTS;
   if(shots)fs.mkdirSync(shots,{recursive:true});
   try{
-    for(const mobile of [false,true]){
+    for(const mobile of (process.env.DESKTOP_ONLY?[false]:[false,true])){
       const p=await browser.newPage({viewport:mobile?{width:320,height:568}:{width:1366,height:768},hasTouch:mobile,isMobile:mobile});
       p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
       await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__combatTest={game:new Game(),freshMob};')}));

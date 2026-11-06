@@ -11,7 +11,7 @@ const server=http.createServer((req,res)=>{
  const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox','--no-zygote','--use-gl=angle','--use-angle=swiftshader','--disable-vulkan','--disable-features=Vulkan']});
  const errors=[];
  try{
-  for(const [width,height] of [[1366,768],[320,568],[390,844],[844,390]]){
+  for(const [width,height] of [[1366,768],[320,568],[390,844],[844,390]].filter(([w,h])=>!process.env.DESKTOP_ONLY || (w>=1000 && h>=600))){
    const p=await browser.newPage({viewport:{width,height}});p.on('pageerror',e=>errors.push(e.message));
    await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__healthTest={g:new Game(),freshMob,ZONES};')}));
    await p.goto('http://127.0.0.1:'+server.address().port);

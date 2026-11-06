@@ -40,7 +40,7 @@ const server = http.createServer((req,res) => {
     const shots = process.env.HUD_SCREENSHOTS;
     if(shots)fs.mkdirSync(shots,{recursive:true});
     async function capture(name) {if(shots)await p.screenshot({path:path.join(shots,name+'.png')});}
-    for (const [w,h] of [[1366,768],[1920,1080],[1920,852],[1536,864],[1280,720],[1024,768],[1024,600],[390,844],[375,667],[360,640],[320,568],[844,390],[667,375]]) {
+    for (const [w,h] of [[1366,768],[1920,1080],[1920,852],[1536,864],[1280,720],[1024,768],[1024,600],[390,844],[375,667],[360,640],[320,568],[844,390],[667,375]].filter(([w,h])=>!process.env.DESKTOP_ONLY || (w>=1000 && h>=600))) {
       await p.setViewportSize({width:w,height:h});
       await p.waitForTimeout(80);
       const layout = await p.evaluate(() => {
@@ -242,7 +242,7 @@ const server = http.createServer((req,res) => {
     // Reload/import above resumes combat; freeze the art fixture so a live enemy
     // cannot turn the hero into the rotated defeat pose during these bounds checks.
     await p.evaluate(()=>{const g=window.__hudTest.game;g.stopLoop();g.state.deadUntil=0;g.state.heroHp=g.bonuses().maxHp;g.renderCore();});
-    for(const [w,h] of [[1366,768],[320,568],[844,390]]) {
+    for(const [w,h] of [[1366,768],[320,568],[844,390]].filter(([w,h])=>!process.env.DESKTOP_ONLY || (w>=1000 && h>=600))) {
       await p.setViewportSize({width:w,height:h});
       for(let zone=0;zone<6;zone++) {
         for(const index of [0,1,2,3,4,5,6]) {
@@ -268,7 +268,7 @@ const server = http.createServer((req,res) => {
     }
     console.log('PASS potion hotkey, settings audio/theme and all six regions with regular/miniboss/boss framing');
     // Rare events, critical damage and the defeat notice also stay within the arena.
-    for(const [w,h] of [[1366,768],[320,568],[844,390]]) {
+    for(const [w,h] of [[1366,768],[320,568],[844,390]].filter(([w,h])=>!process.env.DESKTOP_ONLY || (w>=1000 && h>=600))) {
       await p.setViewportSize({width:w,height:h});
       await p.evaluate(()=>{const g=window.__hudTest.game;g.state.deadUntil=0;g.state.heroHp=50;g.state.event=null;g.spawnEvent();g.floatNumber('CRÍTICO! −1e250','crit');g.floatHeroNumber('−1e250');});
       await p.waitForTimeout(180);

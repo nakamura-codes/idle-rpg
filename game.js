@@ -385,10 +385,14 @@
       this.combatNumbers = {enemy:new Map(),hero:new Map()};
       this.combatNumberSequence = {enemy:0,hero:0};
       this.combatNumberAnchors = {};
+      this.combatVisuals = new Map();
+      this.lastCombatImpactAt = -Infinity;
+      this.lastCriticalImpactAt = -Infinity;
       this.reducedCombatMotion = matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedCombatMotion.addEventListener('change',()=>{
         this.resetEnemyHealthTrail();
         this.clearCombatNumbers();
+        this.clearCombatVisuals();
         if(this.state)this.renderEnemyHealth();
       });
       this.startedLoop = false;
@@ -409,6 +413,7 @@
       document.addEventListener('visibilitychange',()=>{
         this.resetEnemyHealthTrail();
         this.clearCombatNumbers();
+        this.clearCombatVisuals();
         if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
       });
       setInterval(()=>this.save(),SAVE_INTERVAL);
@@ -456,6 +461,7 @@
       this.stopLoop();
       this.resetEnemyHealthTrail();
       this.clearCombatNumbers();
+      this.clearCombatVisuals();
       const profiles=this.getProfiles().sort((a,b)=>b.lastPlayed-a.lastPlayed);
       const list=$('profileList');
       list.replaceChildren();
@@ -495,6 +501,7 @@
     }
     activate(profile,state) {
       this.clearCombatNumbers();
+      this.clearCombatVisuals();
       this.state=state;
       this.huntSelection=null;
       this.profileId=profile.id;
@@ -738,9 +745,7 @@
       const mitigated=enemyHitDamage(s,b.defense);
       s.heroHp=Math.max(0,s.heroHp-mitigated);
       s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
-      const target=$('attackTarget'),hero=$('combatHero');
-      target.classList.remove('enemy-strike');void target.offsetWidth;target.classList.add('enemy-strike');
-      hero.classList.remove('hero-hurt');void hero.offsetWidth;hero.classList.add('hero-hurt');
+      this.playEnemyAttack();
       this.floatHeroNumber(`−${fmt(mitigated)}`);
       if(s.heroHp<=0)this.killHero();
     }
@@ -752,6 +757,7 @@
       if(s.deadUntil)return;
       s.heroHp=0;
       s.deadUntil=now()+8000;
+      this.clearCombatVisuals();
       s.event=null;
       s.mob=freshMob(s);
       s.nextEventAt=now()+this.nextEventDelay();
@@ -789,10 +795,50 @@
       const hit=multiply(b.click,critical?b.critDamage:1);
       this.damageMob(hit,true,critical);
       this.renderCore();
-      if(!document.documentElement.classList.contains('hw-lite')) {
-        this.hitAnimation?.cancel();
-        this.hitAnimation=$('combatHero').querySelector('img').animate([{transform:'translateX(0)'},{transform:'translateX(7px)',offset:.35},{transform:'translateX(0)'}],{duration:190});
-      }
+    }
+    combatMotionEnabled() {
+      return this.state && !document.hidden && $('authScreen').hidden && !this.reducedCombatMotion.matches && !document.documentElement.classList.contains('hw-lite');
+    }
+    animateCombat(channel,node,frames,options) {
+      if(!node)return;
+      this.combatVisuals.get(channel)?.cancel();
+      const animation=node.animate(frames,{easing:'linear',...options});
+      this.combatVisuals.set(channel,animation);
+      const done=()=>{if(this.combatVisuals.get(channel)===animation)this.combatVisuals.delete(channel);};
+      animation.finished.then(done,done);
+      return animation;
+    }
+    clearCombatVisuals() {
+      for(const animation of this.combatVisuals.values())animation.cancel();
+      this.combatVisuals.clear();
+      this.lastCombatImpactAt=this.lastCriticalImpactAt=-Infinity;
+    }
+    playCombatImpact(critical=false) {
+      if(!this.combatMotionEnabled()){this.clearCombatVisuals();return;}
+      const t=performance.now();
+      if(t-this.lastCombatImpactAt<110)return;
+      this.lastCombatImpactAt=t;
+      const strong=critical && t-this.lastCriticalImpactAt>=700;
+      if(strong)this.lastCriticalImpactAt=t;
+      const heroFrames=[{transform:'translateX(0)'},{transform:'translateX(-3px)',offset:.12},{transform:'translateX(10px)',offset:.3}];
+      if(strong)heroFrames.push({transform:'translateX(10px)',offset:.5,easing:'ease-out'});
+      heroFrames.push({transform:'translateX(0)'});
+      this.animateCombat('hero',$('combatHero').querySelector('img'),heroFrames,{duration:strong?250:220});
+      const delay=strong?75:66;
+      const enemyFrames=strong?[{transform:'translateX(5px)'},{transform:'translateX(5px)',offset:50/240,easing:'ease-out'},{transform:'translateX(0)'}]:[{transform:'translateX(0)'},{transform:'translateX(3px)',offset:.22,easing:'ease-out'},{transform:'translateX(0)'}];
+      this.animateCombat('enemy',$('monsterArt').querySelector('img'),enemyFrames,{duration:strong?240:180,delay});
+      const a=this.combatNumberAnchors.enemy,{width,height}=this.arenaSize,slash=$('duelSlash'),size=strong?96:72;
+      const x=Math.max(76,Math.min(width-76,a?.width?a.x+a.width/2:width*.75));
+      const y=Math.max(76,Math.min(height-76,a?.height?a.y+a.height*.42:height*.5));
+      for(const [key,value] of Object.entries({left:x+'px',top:y+'px',width:size+'px',height:size+'px'}))if(slash.style[key]!==value)slash.style[key]=value;
+      slash.classList.toggle('impact-critical',strong);
+      this.animateCombat('impact',slash,[{opacity:0,transform:'translate(-50%,-50%) rotate(-12deg) scale(.65)'},{opacity:1,transform:'translate(-50%,-50%) rotate(-8deg) scale(1)',offset:.2},{opacity:0,transform:'translate(-50%,-50%) rotate(-5deg) scale(1.08)'}],{duration:strong?170:140,delay});
+      if(strong)this.animateCombat('camera',$('arenaCamera'),[{transform:'translateX(0)'},{transform:'translateX(-2px)',offset:.2},{transform:'translateX(2px)',offset:.4},{transform:'translateX(-1px)',offset:.65},{transform:'translateX(0)'}],{duration:140,delay});
+    }
+    playEnemyAttack() {
+      if(!this.combatMotionEnabled()){this.clearCombatVisuals();return;}
+      this.animateCombat('enemy',$('monsterArt').querySelector('img'),[{transform:'translateX(0)'},{transform:'translateX(-8px)',offset:.28,easing:'ease-out'},{transform:'translateX(0)'}],{duration:220});
+      this.animateCombat('hero',$('combatHero').querySelector('img'),[{transform:'translateX(0)'},{transform:'translateX(-5px)',offset:.18,easing:'ease-out'},{transform:'translateX(0)'}],{duration:260});
     }
     floatNumber(label,style='') {
       this.spawnCombatNumber(label,style,false);
@@ -861,7 +907,7 @@
     damageMob(amount,fromClick,critical) {
       const s=this.state;
       if(!s || s.deadUntil || amount<=0)return;
-      if(fromClick)this.floatNumber(`${critical?'CRÍTICO! ':''}−${fmt(amount)}`,critical?'crit':'');
+      if(fromClick){this.floatNumber(`${critical?'CRÍTICO! ':''}−${fmt(amount)}`,critical?'crit':'');this.playCombatImpact(critical);}
       let remaining=amount;
       let chain=0;
       while(remaining>0 && chain++<12){
@@ -1414,6 +1460,8 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const artNode = $('monsterArt');
       if(artNode.dataset.family!==MONSTER_FAMILIES[s.zone][visualIndex])artNode.dataset.family=MONSTER_FAMILIES[s.zone][visualIndex];
       if (artNode.dataset.sprite !== sprite) {
+        this.combatVisuals.get('enemy')?.cancel();
+        this.combatVisuals.delete('enemy');
         artNode.dataset.sprite = sprite;
         const portrait = document.createElement('img');
         portrait.src = sprite;

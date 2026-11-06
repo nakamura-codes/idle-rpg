@@ -4,6 +4,26 @@
   -webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;
 }
 .battlefield img{-webkit-user-drag:none}
+/* Only scenery shakes; actor motion stays on sprites, outside the stable HUD. */
+.arena-camera{position:absolute;inset:-3px;z-index:0;pointer-events:none}
+.app-frame .battlefield .duel-slash{
+  --impact-core:#f4e2c4;position:absolute;z-index:12;width:72px;height:72px;
+  left:75%;top:50%;border:0;border-radius:0;opacity:0;transform:none;
+  background:linear-gradient(135deg,transparent 45%,#9d81624d 47%,var(--impact-core) 50%,#a7764e80 52%,transparent 55%);
+  box-shadow:none;pointer-events:none;
+}
+.duel-slash::before,.duel-slash::after{
+  content:'';position:absolute;inset:16%;
+  background:linear-gradient(45deg,transparent 45%,var(--impact-core) 50%,transparent 55%);
+}
+.duel-slash::after{inset:29%;transform:rotate(22deg)}
+.app-frame .duel-slash.impact-critical{--impact-core:#ffdb96}
+.hw-lite .duel-slash{display:none!important}
+.hw-lite .arena-camera,.hw-lite .battlefield .combat-hero-sprite,.hw-lite .battlefield .monster-art img{transform:none!important}
+@media(prefers-reduced-motion:reduce){
+  .duel-slash{display:none!important}
+  .arena-camera,.battlefield .combat-hero-sprite,.battlefield .monster-art img{transform:none!important}
+}
 /* One compositor-only damage echo, behind current HP and its readable label. */
 .battlefield .hp-track{position:relative;isolation:isolate}
 .battlefield .hp-damage-trail{

@@ -120,8 +120,9 @@ const server = http.createServer((req,res) => {
     const shots=process.env.HUD_SCREENSHOTS;if(shots)fs.mkdirSync(shots,{recursive:true});
     const capture=async name=>{if(shots){await p.evaluate(()=>document.activeElement?.blur());await p.screenshot({path:path.join(shots,name+'.png')});}};
     await capture('offline-desktop');
-    await p.setViewportSize({width:320,height:568});await capture('offline-mobile');
-    const bounds=await p.locator('#dialogBackdrop .dialog').boundingBox();assert.ok(bounds.x>=0&&bounds.y>=0&&bounds.x+bounds.width<=320&&bounds.y+bounds.height<=568);
+    const offlineViewport=process.env.DESKTOP_ONLY?{width:1366,height:768}:{width:320,height:568};
+    await p.setViewportSize(offlineViewport);await capture(process.env.DESKTOP_ONLY?'offline-desktop-resumed':'offline-mobile');
+    const bounds=await p.locator('#dialogBackdrop .dialog').boundingBox();assert.ok(bounds.x>=0&&bounds.y>=0&&bounds.x+bounds.width<=offlineViewport.width&&bounds.y+bounds.height<=offlineViewport.height);
     await p.getByRole('button',{name:'RETOMAR A CAÇADA',exact:true}).click();
     await p.evaluate(()=>window.__hudTest.game.stepClock=()=>{});
     assert.equal(await p.evaluate(()=>window.__hudTest.game.state.equipment.weapon),chosenWeapon);
@@ -144,7 +145,7 @@ const server = http.createServer((req,res) => {
     assert.equal(await p.evaluate(()=>window.__hudTest.game.state.farmStage),null);await p.keyboard.press('Escape');
     console.log('PASS hunt controls, repeated kills, saved hunt/loot fields and pending-miniboss restoration');
     // Capture all gameplay panels at desktop and narrow mobile sizes.
-    for(const [w,h] of [[1366,768],[390,844],[320,568],[844,390]]){
+    for(const [w,h] of [[1366,768],[390,844],[320,568],[844,390]].filter(([w,h])=>!process.env.DESKTOP_ONLY || (w>=1000 && h>=600))){
       await p.setViewportSize({width:w,height:h});
       for(const name of ['upgrades','inventory','zones','ascension','chronicle','settings']){
         await p.click(`[data-open-panel="${name}"]`);
@@ -163,6 +164,6 @@ const server = http.createServer((req,res) => {
       }
       await capture(`battle-${w}x${h}`);
     }
-    assert.deepEqual(errors,[]);console.log('PASS six detailed gameplay panels at four viewports; no JavaScript/asset errors');
+    assert.deepEqual(errors,[]);console.log('PASS six detailed gameplay panels at selected viewports; no JavaScript/asset errors');
   } finally {await browser.close();}
 })().then(()=>server.close()).catch(error=>{console.error(error);server.close();process.exitCode=1;});

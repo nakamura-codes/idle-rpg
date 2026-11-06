@@ -11,7 +11,7 @@ const server=http.createServer((req,res)=>{const file=path.join(root,decodeURICo
   await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__numbersTest={g:new Game(),ZONES};')}));
   await p.goto('http://127.0.0.1:'+server.address().port);await p.click('[data-menu="new"]');await p.fill('#newProfileName','Feedback visual');await p.click('#createProfileForm button');
   await p.evaluate(()=>{const {g}=window.__numbersTest;g.stopLoop();g.stepClock=()=>{};});
-  for(const [width,height] of [[1366,768],[320,568],[390,844],[667,375],[844,390]]){
+  for(const [width,height] of [[1366,768],[320,568],[390,844],[667,375],[844,390]].filter(([w,h])=>!process.env.DESKTOP_ONLY || (w>=1000 && h>=600))){
    await p.setViewportSize({width,height});
    for(const [zone,kind] of [[0,'normal'],[5,'miniboss'],[5,'boss']]){
     await p.evaluate(({zone,kind})=>{const {g,ZONES}=window.__numbersTest;g.clearCombatNumbers();g.state.zone=zone;g.state.event=null;g.state.zoneProgress[zone].stage=kind==='boss'?10:kind==='miniboss'?5:1;g.state.deadUntil=0;g.state.heroHp=g.bonuses().maxHp;g.state.mob={name:kind==='boss'?ZONES[zone].boss:kind==='miniboss'?ZONES[zone].miniboss:ZONES[zone].names[0],kind,hp:10000,maxHp:10000,level:42};g.lastZoneRendered=-1;g.renderCore();},{zone,kind});
