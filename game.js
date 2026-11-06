@@ -4,7 +4,7 @@
   'use strict';
 
   const FX_CONFIG = {
-    encounter: {deathMs:180,bossDeathMs:300,introMs:1250,entryMs:260,entryPx:2,curtainMs:340,receiptMs:6500,titles:[['Guardião das cinzas','Soberano dos condenados'],['Predador do bosque','Terror das raízes profanadas'],['Oráculo das águas mortas','Rei da cripta afogada'],['Carrasco do ferro','Senhor da fortaleza maldita'],['Devorador das brasas','Soberano das fendas'],['Guardiã do eclipse','O último soberano']]},
+    encounter: {deathMs:180,bossDeathMs:300,introMs:1250,entryMs:260,entryPx:2,curtainMs:340,receiptMs:6500,receiptFadeMs:160,fadeSteps:12,entrySteps:2,auras:{elite:{color:'121 150 190',core:.40,halo:.08,opacity:.46},miniboss:{color:'119 168 148',core:.44,halo:.094,opacity:.5},boss:{color:'169 138 77',core:.40,halo:.078,opacity:.5}},titles:[['Guardião das cinzas','Soberano dos condenados'],['Predador do bosque','Terror das raízes profanadas'],['Oráculo das águas mortas','Rei da cripta afogada'],['Carrasco do ferro','Senhor da fortaleza maldita'],['Devorador das brasas','Soberano das fendas'],['Guardiã do eclipse','O último soberano']]},
     idle: {heroMs:2400,enemyMs:2600,minibossMs:2800,bossMs:2900,heroPx:1,enemyPx:2,minibossPx:1,bossPx:1,heroPhaseMs:700,phaseSpreadMs:1200},
     orb: {lowEnter:.30,lowExit:.33,criticalEnter:.15,criticalExit:.18,lowMs:1800,criticalMs:1200,pulseSteps:12,normalOpacity:.14,lowMin:.2,lowMax:.55,criticalMin:.3,criticalMax:.8,normalColor:'196 107 114',lowColor:'219 161 90',criticalColor:'250 92 88'},
     numbers: {durationMs:760, enemyLimit:8, heroLimit:5, normalRem:1.44, criticalRem:1.88, heroRem:1.38, jitterRem:.75, riseRem:2, pop:1.18},
@@ -476,7 +476,7 @@
     }
     animateEncounter(key,node,frames,duration,done=()=>{}) {
       this.stopEncounterAnimation(key);
-      const animation=node.animate(frames,{duration,easing:key==='entry'?'steps(2,end)':'steps(12,end)',fill:'both'});
+      const animation=node.animate(frames,{duration,easing:`steps(${key==='entry'?FX_CONFIG.encounter.entrySteps:FX_CONFIG.encounter.fadeSteps},end)`,fill:'both'});
       this.encounterAnimations.set(key,animation);
       animation.finished.then(()=>{if(this.encounterAnimations.get(key)!==animation)return;this.encounterAnimations.delete(key);animation.cancel();done();},()=>{});
     }
@@ -529,7 +529,7 @@
       const c=FX_CONFIG.encounter,banner=this.encounterIntro;
       banner.querySelector('small').textContent=`${s.mob.kind==='boss'?'CHEFÃO':'ELITE'} · FASE ${combatStage(s)}/10`;
       banner.querySelector('strong').textContent=s.mob.name;
-      banner.querySelector('span').textContent=c.titles[s.zone][s.mob.kind==='boss'?1:0];banner.hidden=false;
+      banner.querySelector('span').textContent=c.titles[s.zone]?.[s.mob.kind==='boss'?1:0]||ZONES[s.zone].subtitle;banner.hidden=false;
       this.animateEncounter('intro',banner,[{opacity:0},{opacity:1,offset:.1},{opacity:1,offset:.83},{opacity:0}],c.introMs,()=>{banner.hidden=true;});
       const idle=$('monsterArt').querySelector('.actor-idle');
       if(idle)this.animateEncounter('entry',idle,[{opacity:.4,transform:`translateX(${c.entryPx}px)`},{opacity:1,transform:'translateX(0)'}],c.entryMs);
@@ -551,7 +551,7 @@
       const rows=node.querySelectorAll('p');rows[0].textContent=`+${fmt(receipt.gold)} ouro · +${fmt(receipt.xp)} XP · ${receipt.trophy}`;
       rows[1].textContent=receipt.final?'As seis regiões foram conquistadas. Sua jornada continua.':`Próxima região: ${ZONES[this.state.zone].name} · FASE ${combatStage(this.state)}/10`;
       node.hidden=false;
-      if(this.encounterMotionEnabled())this.animateEncounter('receipt',node,[{opacity:0},{opacity:1}],160);
+      if(this.encounterMotionEnabled())this.animateEncounter('receipt',node,[{opacity:0},{opacity:1}],FX_CONFIG.encounter.receiptFadeMs);
       this.receiptTimer=setTimeout(()=>this.closeExpeditionReceipt(),FX_CONFIG.encounter.receiptMs);
     }
     configureAtmosphereFX() {
@@ -1751,6 +1751,12 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       }
       text('mobLevel',bossKind==='boss'?'☠ CHEFÃO':bossKind==='miniboss'?'✦ MINIBOSS':`Nv. ${fmt(s.mob.level)}`);
       const arena = $('battlefield');
+      if(arena.dataset.encounterKind!==bossKind){
+        arena.dataset.encounterKind=bossKind;
+        const aura=FX_CONFIG.encounter.auras[bossKind];
+        if(aura)for(const [key,value]of Object.entries(aura))arena.style.setProperty('--encounter-aura-'+key,String(value));
+      }
+      arena.classList.toggle('elite-fight',bossKind==='elite');
       arena.classList.toggle('boss-fight',bossKind==='boss');
       arena.classList.toggle('miniboss-fight',bossKind==='miniboss');
       arena.classList.toggle('final-boss-fight',bossKind==='boss' && s.zone===ZONES.length-1);
