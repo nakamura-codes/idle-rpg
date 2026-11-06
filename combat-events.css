@@ -4,6 +4,25 @@
   -webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;
 }
 .battlefield img{-webkit-user-drag:none}
+/* Grounded, compositor-only idle lives outside the sprite's attack transform. */
+.battlefield .actor-idle{
+  --idle-cycle:6.4s;--idle-scale:1.005;--idle-lean:.12deg;
+  display:block;position:relative;z-index:1;width:100%;height:100%;
+  transform-origin:50% 100%;pointer-events:none;
+}
+.battlefield .hero-idle{--idle-cycle:5.2s;--idle-scale:1.0065;--idle-lean:.15deg;--idle-delay:-.9s}
+.battlefield.miniboss-fight .attack-target .actor-idle{--idle-cycle:7.2s;--idle-scale:1.004;--idle-lean:.09deg}
+.battlefield.boss-fight .attack-target .actor-idle{--idle-cycle:8.4s;--idle-scale:1.0025;--idle-lean:.07deg}
+html.hw-game-active .battlefield .actor-idle{
+  animation:hw-idle-breathe var(--idle-cycle) ease-in-out var(--idle-delay,0s) infinite!important;
+}
+@keyframes hw-idle-breathe{
+  0%,100%{transform:skewX(calc(0deg - var(--idle-lean))) scaleY(1)}
+  50%{transform:skewX(var(--idle-lean)) scaleY(var(--idle-scale))}
+}
+html.hw-game-active .battlefield .actor-idle.actor-active,html.hw-game-active[data-combat-idle-paused] .battlefield .actor-idle{animation-play-state:paused!important}
+html.hw-game-active.hw-lite .battlefield .actor-idle,html.hw-game-active .battlefield .combat-hero.defeated .actor-idle,html:not(.hw-game-active) .actor-idle{animation:none!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){html.hw-game-active .battlefield .actor-idle{animation:none!important;transform:none!important}}
 /* Only scenery shakes; actor motion stays on sprites, outside the stable HUD. */
 .arena-camera{position:absolute;inset:-3px;z-index:0;pointer-events:none}
 .app-frame .battlefield .duel-slash{

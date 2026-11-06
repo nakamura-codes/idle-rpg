@@ -4,7 +4,7 @@ Análise do print enviado em 05/11/2026. A imagem já tem arquitetura gótica fo
 
 ## Prioridade por impacto / esforço
 
-Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2 e nº 3. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
+Escala de impacto 1–5; esforço relativo 1–5. Estimativas de implementação e QA, não de geração de toda a arte. Implementadas: nº 1, nº 2, nº 3 e nº 4. Prioridade atual do usuário: computador; otimização e QA de celular ficam para depois. As demais continuam como próximas etapas.
 
 | Nº | Melhoria | Impacto | Esforço | Resultado e limite de custo |
 |---|---|---:|---:|---|
@@ -96,6 +96,21 @@ Trechos: `game.js` (`combatMotionEnabled`, `animateCombat`, `clearCombatVisuals`
 `tests/combat-impact.cjs` valida comum, miniboss e Imperador em **1920×1080, 1366×768 e 1024×600**: retenção exata, HUD imóvel, dano/agendamento imediatos, ausência de leituras de layout, intervalos, rajadas, limpeza e preferências. As suítes existentes aceitam `DESKTOP_ONLY=1`; sem essa flag, continuam completas. `PERF_DEVICE=desktop PERF_IMPACT=1` mede ataques críticos e contra-ataques com instrumentação idêntica antes/depois. O fixture de balanceamento substitui somente os novos métodos cosméticos por funções vazias.
 
 Resultados e limites estão em `docs/performance-combat-impact.json`. A nova comparação após recuperação do ambiente passou: as dez cenas finais, incluindo críticos/contra-ataques, mediram **60 FPS** no desktop, dentro das tolerâncias de FPS/p95. Isso não representa garantia em todo computador. Foram repetidos após recuperar a cópia local do ambiente. Otimização/QA de celular ficam adiados por orientação do usuário; os estilos responsivos existentes foram preservados.
+
+## Nº 4 — idle discreto, com pés e sombras apoiados (computador)
+
+- Herói e inimigo recebem um único wrapper `.actor-idle` em torno da imagem. A sombra permanece fora dele; o ataque continua animando somente a imagem interna. O pé fica como origem da transformação (`50% 100%`).
+- Respiração por escala vertical de 1,0065 no herói; 1,005 nos comuns; 1,004 em minibosses; 1,0025 em chefões. Balanço horizontal por inclinação de 0,15°, 0,12°, 0,09° e 0,07°, respectivamente. A variação é de poucos pixels, sem flutuação dos pés nem deformação grande da armadura.
+- Ritmos distintos: herói 5,2 s; inimigo comum 6,4 s; miniboss 7,2 s; boss 8,4 s. O inimigo usa uma defasagem determinística por região e sprite, evitando movimento sincronizado e sorteios a cada render.
+- O início do ataque/recuo marca o wrapper como `.actor-active` e pausa o idle no ponto atual. Fim ou cancelamento retoma a mesma fase. A retenção de 50 ms dos críticos da nº 3 continua preservada.
+- Menu, modo leve, movimento reduzido e derrota do herói desligam a animação correspondente. A visibilidade da página usa o atributo `data-combat-idle-paused`, atualizado somente na mudança de visibilidade, para pausar abas ocultas.
+- Orçamento: duas animações CSS contínuas enquanto o combate está visível, além dos quatro canais transitórios já existentes. Nenhum timer, loop, observador, leitura de layout por golpe/frame, asset ou biblioteca adicional. Wrapper/imagem/fase não são recriados em renders repetidos do mesmo sprite.
+
+Arquivos: `game.js` (wrapper do inimigo e pausa/limpeza nos canais de ataque), `index.html` (wrapper do herói e caches `game.js?v=24` / `combat-events.css?v=6`), `combat-events.css` (keyframes e estados). As regras são restritas aos dois atores da arena; retratos, bestiário e HUD continuam estáticos.
+
+`tests/combat-idle.cjs` verifica os 42 inimigos em 1366×768 e quatro casos extremos em 1920×1080 e 1024×600: linha dos pés, sombra fixa, amplitude, ritmos distintos, estado do jogo preservado, reutilização de nós/animação, pausa/retomada, cancelamento, ausência de trabalho do observador por frame, preferências, visibilidade, derrota e três ciclos de perfil. O teste geométrico usa seek controlado; os testes de ciclo de vida usam outra página sem manipulação manual das animações.
+
+Resultados completos: `docs/performance-combat-idle.json`. A comparação passou nas 13 cenas, com 59–60 FPS finais e 60 FPS nos três casos de repouso. São medidas do ambiente de teste, sem garantia para todo computador. A flag de teste `PERF_IDLE=1` mede comuns, miniboss e Imperador colossal parados, com a simulação igualmente suspensa antes/depois. Otimização/QA de celular continuam adiados por orientação do usuário.
 
 ## Prompts de imagem — estilo fixo
 
