@@ -3,6 +3,7 @@
   'use strict';
   const ATMOSPHERE_CONFIG = {
     maxParticles:8, particleSteps:120, fogSteps:40, lightSteps:20,
+    fogTravelRem:.45, particleTravelRem:16, particleSideRem:1.5,
     regions:[
       {name:'Campos de Cinza',fogColor:'139 128 113',fogBack:.06,fogGround:.09,fogMs:42000,lightColor:'142 85 48',lightMin:.68,lightMax:.88,lightMs:8000,particle:{type:'ash',count:5,color:'183 163 138',sizeRem:.12,opacity:.32,durationMs:24000,rise:false}},
       {name:'Bosque Profanado',fogColor:'112 139 123',fogBack:.08,fogGround:.10,fogMs:48000,lightColor:'66 104 74',lightMin:.60,lightMax:.80,lightMs:10000,particle:{type:'leaf',count:4,color:'140 115 72',sizeRem:.24,opacity:.32,durationMs:30000,rise:false}},
@@ -27,32 +28,34 @@
     const mode=!enabled?'static':document.hidden||frame.inert?'paused':'active';
     if(arena.dataset.atmosphere!==mode)arena.dataset.atmosphere=mode;
   }
-  function configure(){
+  function configure(force=false){
     const zone=Number(arena.className.match(/\bzone-(\d+)\b/)?.[1]||0),c=ATMOSPHERE_CONFIG.regions[zone];
     if(!c)return;
-    if(zone!==lastZone){
+    if(force||zone!==lastZone){
       lastZone=zone;const p=c.particle;
-      const values={'atmo-fog-color':c.fogColor,'atmo-fog-back':c.fogBack,'atmo-fog-ground':c.fogGround,'atmo-fog-ms':c.fogMs+'ms','scene-light':c.lightColor,'atmo-light-min':c.lightMin,'atmo-light-max':c.lightMax,'atmo-light-ms':c.lightMs+'ms','atmo-color':p.color,'atmo-particle-opacity':p.opacity,'atmo-particle-ms':p.durationMs+'ms','atmo-particle-steps':ATMOSPHERE_CONFIG.particleSteps,'atmo-fade-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.15),'atmo-core-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.70),'atmo-fog-steps':ATMOSPHERE_CONFIG.fogSteps,'atmo-light-steps':ATMOSPHERE_CONFIG.lightSteps};
+      const values={'atmo-fog-travel':(c.fogTravelRem??ATMOSPHERE_CONFIG.fogTravelRem)+'rem','atmo-fog-color':c.fogColor,'atmo-fog-back':c.fogBack,'atmo-fog-ground':c.fogGround,'atmo-fog-ms':c.fogMs+'ms','scene-light':c.lightColor,'atmo-light-min':c.lightMin,'atmo-light-max':c.lightMax,'atmo-light-ms':c.lightMs+'ms','atmo-color':p.color,'atmo-particle-opacity':p.opacity,'atmo-particle-ms':p.durationMs+'ms','atmo-particle-steps':ATMOSPHERE_CONFIG.particleSteps,'atmo-fade-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.15),'atmo-core-steps':Math.round(ATMOSPHERE_CONFIG.particleSteps*.70),'atmo-fog-steps':ATMOSPHERE_CONFIG.fogSteps,'atmo-light-steps':ATMOSPHERE_CONFIG.lightSteps};
       for(const [key,value]of Object.entries(values))arena.style.setProperty('--'+key,String(value));
       field.dataset.type=p.type;
-      const count=Math.min(ATMOSPHERE_CONFIG.maxParticles,Math.max(0,p.count));
+      const count=Math.min(particles.length,Math.max(0,Math.floor(Number(p.count)||0)));
       arena.dataset.ambientParticleCount=String(count);
       particles.forEach((node,i)=>{
         node.hidden=i>=count;
         node.style.left=((i*19+zone*13+7)%96)+'%';node.style.top=p.rise?'78%':'12%';
         node.style.width=node.style.height=p.sizeRem+'rem';
-        node.style.setProperty('--mote-dx',((i%3-1)*1.5)+'rem');node.style.setProperty('--mote-dy',p.rise?'-16rem':'16rem');
+        node.style.setProperty('--mote-dx',((i%3-1)*(p.sideRem??ATMOSPHERE_CONFIG.particleSideRem))+'rem');node.style.setProperty('--mote-dy',((p.rise?-1:1)*(p.travelRem??ATMOSPHERE_CONFIG.particleTravelRem))+'rem');
         // Phase offsets are whole timing steps so sparse particles update together.
         node.style.setProperty('--mote-delay',-(i*17%ATMOSPHERE_CONFIG.particleSteps)*p.durationMs/ATMOSPHERE_CONFIG.particleSteps+'ms');
       });
     }
     lifecycle();
   }
-  new MutationObserver(configure).observe(arena,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(()=>configure()).observe(arena,{attributes:true,attributeFilter:['class']});
   new MutationObserver(lifecycle).observe(root,{attributes:true,attributeFilter:['class','data-screen-effects','data-combat-idle-paused']});
   new MutationObserver(lifecycle).observe(frame,{attributes:true,attributeFilter:['inert']});
   for(const media of [desktop,reduced])media.addEventListener('change',lifecycle);
   document.addEventListener('visibilitychange',lifecycle);
+  document.addEventListener('hellward:atmosphere-refresh',()=>configure(true));
+  window.addEventListener('pageshow',lifecycle);
   window.addEventListener('pagehide',()=>{arena.dataset.atmosphere='paused';});
   configure();
 })();
