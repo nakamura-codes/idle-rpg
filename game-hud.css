@@ -43,6 +43,32 @@ html[data-theme] .hud-backdrop .management{background:linear-gradient(125deg,#25
 @media(min-width:761px) and (min-height:601px){html[data-focus=battle] .app-frame{grid-template-rows:42px 0 minmax(0,1fr) 125px}html[data-focus=battle] .topbar{height:42px}html[data-focus=battle] .relic-nav{height:125px}html[data-focus=battle] .relic-button{height:110px}html[data-focus=battle] .relic-button img{height:66px;width:66px}html[data-focus=battle] .life-medallion{height:112px;width:112px}html[data-focus=battle] .errant-vitals{grid-template-columns:112px minmax(0,1fr) 40px;height:125px}}
 @media(prefers-reduced-motion:reduce){.life-orb-liquid>span,.errant-vitals .hero-health-track span{transition:none}}
 
+/* One slow warning on the orb, using the existing <26% HP state. Desktop first. */
+@media(min-width:1000px) and (min-height:600px){
+  .hud-dock .life-orb-liquid::before{
+    content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;
+    pointer-events:none;opacity:0;
+    background:radial-gradient(ellipse at center,transparent 54%,#d74b568c 82%,#ffb08eaa);
+    box-shadow:inset 0 0 0 2px #ed80626b,inset 0 0 12px #d5464ba6;
+  }
+  html.hw-game-active .hud-dock .low-health .life-orb-liquid::before{
+    opacity:.45;animation:hw-orb-warning 2.6s ease-in-out infinite;
+  }
+  /* The orb replaces the old brightness-filter pulse on the thin HP track. */
+  html .hud-dock .hero-health-track span.critical{animation:none;filter:none}
+  html.hw-game-active[data-combat-idle-paused] .hud-dock .life-orb-liquid::before,
+  html.hw-game-active .app-frame[inert] .hud-dock .life-orb-liquid::before{animation-play-state:paused}
+  html.hw-lite .hud-dock .life-orb-liquid::before{animation:none!important}
+  html.hw-lite .hud-dock .life-orb-liquid>span{transition:none}
+}
+@keyframes hw-orb-warning{
+  0%,100%{opacity:.18}
+  50%{opacity:.72}
+}
+@media(min-width:1000px) and (min-height:600px) and (prefers-reduced-motion:reduce){
+  .hud-dock .life-orb-liquid::before{animation:none!important}
+}
+
 /* Regional boss arenas reuse the existing boss-fight state; no runtime loop. */
 .zone-0.boss-fight{--landscape:url('assets/backgrounds/fast/campos-de-cinza-boss.webp?v=dark-14')}
 .zone-1.boss-fight{--landscape:url('assets/backgrounds/fast/bosque-profanado-boss.webp?v=dark-14')}

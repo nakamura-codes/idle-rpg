@@ -6,7 +6,7 @@ const server=http.createServer((req,res)=>{const file=path.join(root,decodeURICo
 try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobile-6x',width:390,height:844,cpu:6}].filter(t=>!process.env.PERF_DEVICE||t.name===process.env.PERF_DEVICE)){
  const p=await browser.newPage({viewport:{width:test.width,height:test.height}});const cdp=await p.context().newCDPSession(p);await cdp.send('Emulation.setCPUThrottlingRate',{rate:test.cpu});await cdp.send('Performance.enable');
  await p.addInitScript(()=>{window.__mutations=0;new MutationObserver(r=>window.__mutations+=r.length).observe(document,{subtree:true,attributes:true,characterData:true,childList:true});});
- if(process.env.PERF_EVENTS||process.env.PERF_MONSTERS||process.env.PERF_FEEDBACK||process.env.PERF_IMPACT||process.env.PERF_IDLE)await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__perfGame=new Game();window.__perfZones=ZONES;')}));
+ if(process.env.PERF_EVENTS||process.env.PERF_MONSTERS||process.env.PERF_FEEDBACK||process.env.PERF_IMPACT||process.env.PERF_IDLE||process.env.PERF_ORB)await p.route('**/game.js?*',route=>route.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__perfGame=new Game();window.__perfZones=ZONES;')}));
  await p.goto('http://127.0.0.1:'+server.address().port);await p.waitForTimeout(1000);
  async function sample(scene){
  if(process.env.PERF_SCENES&&!process.env.PERF_SCENES.split(',').includes(scene))return;
@@ -46,6 +46,12 @@ try{for(const test of [{name:'desktop',width:1366,height:768,cpu:1},{name:'mobil
    await sample('idle-'+label);
   }
   await p.evaluate(snapshot=>{const g=window.__perfGame;g.state=JSON.parse(snapshot);g.lastZoneRendered=-1;g.lastFrameAt=Date.now();g.renderCore();g.startLoop();},idleState);
+ }
+ if(process.env.PERF_ORB){
+  // Fixed 20% HP: compare the original bar warning against the orb rim pulse.
+  await p.evaluate(()=>{const g=window.__perfGame;g.stopLoop();g.clearCombatVisuals();g.clearCombatNumbers();window.__orbPerfState=JSON.stringify(g.state);g.state.deadUntil=0;g.state.event=null;g.state.heroHp=g.bonuses().maxHp*.2;g.renderCore();});
+  await p.waitForTimeout(250);await sample('orb-low-health');
+  await p.evaluate(()=>{const g=window.__perfGame;g.state=JSON.parse(window.__orbPerfState);g.lastFrameAt=Date.now();g.renderCore();g.startLoop();});
  }
  await p.click('[data-open-panel="upgrades"]');await sample('codex-idle');await p.keyboard.press('Escape');if(process.env.PERF_HUNT){await p.click('[data-open-panel="zones"]');await p.selectOption('#farmStageSelect','1');await p.click('[data-start-hunt]');await p.keyboard.press('Escape');await p.evaluate(()=>window.__auto=setInterval(()=>document.getElementById('attackTarget').click(),200));await sample('hunt-attacks');await p.evaluate(()=>clearInterval(window.__auto));}if(process.env.PERF_MONSTERS){
   const snapshot=await p.evaluate(()=>JSON.stringify(window.__perfGame.state));
