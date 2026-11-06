@@ -388,6 +388,7 @@
       this.combatVisuals = new Map();
       this.lastCombatImpactAt = -Infinity;
       this.lastCriticalImpactAt = -Infinity;
+      document.documentElement.toggleAttribute('data-combat-idle-paused',document.hidden);
       this.reducedCombatMotion = matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedCombatMotion.addEventListener('change',()=>{
         this.resetEnemyHealthTrail();
@@ -411,6 +412,7 @@
       window.addEventListener('pagehide',()=>this.save());
       window.addEventListener('beforeunload',()=>this.save());
       document.addEventListener('visibilitychange',()=>{
+        document.documentElement.toggleAttribute('data-combat-idle-paused',document.hidden);
         this.resetEnemyHealthTrail();
         this.clearCombatNumbers();
         this.clearCombatVisuals();
@@ -802,14 +804,19 @@
     animateCombat(channel,node,frames,options) {
       if(!node)return;
       this.combatVisuals.get(channel)?.cancel();
+      const idle=node.closest('.actor-idle');
+      idle?.classList.add('actor-active');
       const animation=node.animate(frames,{easing:'linear',...options});
       this.combatVisuals.set(channel,animation);
-      const done=()=>{if(this.combatVisuals.get(channel)===animation)this.combatVisuals.delete(channel);};
+      const done=()=>{if(this.combatVisuals.get(channel)===animation){this.combatVisuals.delete(channel);idle?.classList.remove('actor-active');}};
       animation.finished.then(done,done);
       return animation;
     }
     clearCombatVisuals() {
-      for(const animation of this.combatVisuals.values())animation.cancel();
+      for(const animation of this.combatVisuals.values()){
+        animation.effect?.target?.closest('.actor-idle')?.classList.remove('actor-active');
+        animation.cancel();
+      }
       this.combatVisuals.clear();
       this.lastCombatImpactAt=this.lastCriticalImpactAt=-Infinity;
     }
@@ -1470,7 +1477,11 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
         portrait.alt = '';
         portrait.draggable = false;
         portrait.decoding = 'async';
-        artNode.replaceChildren(portrait);
+        const idle=document.createElement('span');
+        idle.className='actor-idle enemy-idle';
+        idle.style.setProperty('--idle-delay',(-((visualIndex*.43+s.zone*.71)%4)).toFixed(2)+'s');
+        idle.append(portrait);
+        artNode.replaceChildren(idle);
       }
       text('mobLevel',bossKind==='boss'?'☠ CHEFÃO':bossKind==='miniboss'?'✦ MINIBOSS':`Nv. ${fmt(s.mob.level)}`);
       const arena = $('battlefield');
