@@ -4,6 +4,7 @@
   'use strict';
 
   const FX_CONFIG = {
+    encounter: {deathMs:180,bossDeathMs:300,introMs:1250,entryMs:260,entryPx:2,curtainMs:340,receiptMs:6500,titles:[['Guardião das cinzas','Soberano dos condenados'],['Predador do bosque','Terror das raízes profanadas'],['Oráculo das águas mortas','Rei da cripta afogada'],['Carrasco do ferro','Senhor da fortaleza maldita'],['Devorador das brasas','Soberano das fendas'],['Guardiã do eclipse','O último soberano']]},
     idle: {heroMs:2400,enemyMs:2600,minibossMs:2800,bossMs:2900,heroPx:1,enemyPx:2,minibossPx:1,bossPx:1,heroPhaseMs:700,phaseSpreadMs:1200},
     orb: {lowEnter:.30,lowExit:.33,criticalEnter:.15,criticalExit:.18,lowMs:1800,criticalMs:1200,pulseSteps:12,normalOpacity:.14,lowMin:.2,lowMax:.55,criticalMin:.3,criticalMax:.8,normalColor:'196 107 114',lowColor:'219 161 90',criticalColor:'250 92 88'},
     numbers: {durationMs:760, enemyLimit:8, heroLimit:5, normalRem:1.44, criticalRem:1.88, heroRem:1.38, jitterRem:.75, riseRem:2, pop:1.18},
@@ -408,7 +409,7 @@
       this.vitalityState='normal';this.vitalityOwner=null;
       this.sparkCursor=0;
       this.sparkNodes=Array.from({length:FX_CONFIG.impact.sparkLimit},()=>{const n=document.createElement('i');n.className='combat-spark';n.setAttribute('aria-hidden','true');$('battlefield').append(n);return n;});
-      document.addEventListener('hellward:screen-effects',()=>this.clearCombatVisuals());
+      document.addEventListener('hellward:screen-effects',()=>{this.clearCombatVisuals();this.cancelEncounterFX();if(this.state)this.renderCore();});
       this.lastCombatImpactAt = -Infinity;
       this.lastCriticalImpactAt = -Infinity;
       document.documentElement.toggleAttribute('data-combat-idle-paused',document.hidden);
@@ -418,8 +419,10 @@
         this.resetHeroHealthTrail();
         this.clearCombatNumbers();
         this.clearCombatVisuals();
-        if(this.state)this.renderEnemyHealth();
+        this.cancelEncounterFX();
+        if(this.state)this.renderCore();
       });
+      this.setupEncounterFX();
       this.startedLoop = false;
       this.loopTimer = 0;
       this.arenaSize = {width:800,height:400};
@@ -436,6 +439,7 @@
       window.addEventListener('pagehide',()=>this.save());
       window.addEventListener('beforeunload',()=>this.save());
       document.addEventListener('visibilitychange',()=>{
+        this.cancelEncounterFX();
         document.documentElement.toggleAttribute('data-combat-idle-paused',document.hidden);
         this.resetEnemyHealthTrail();
         this.resetHeroHealthTrail();
@@ -444,6 +448,111 @@
         if (this.state) {this.stepClock();this.save();if(document.hidden)this.stopLoop();else{this.renderCore();this.startLoop();}}
       });
       setInterval(()=>this.save(),SAVE_INTERVAL);
+    }
+    setupEncounterFX() {
+      this.encounterAnimations=new Map();this.encounterHold=null;this.encounterSeenMob=null;this.encounterSeenState=null;
+      this.encounterTimer=0;this.receiptTimer=0;this.pendingExpeditionReceipt=null;
+      const node=(tag,cls)=>{const n=document.createElement(tag);n.className=cls;n.hidden=true;return n;};
+      this.deathGhost=node('div','encounter-death');this.deathGhost.setAttribute('aria-hidden','true');
+      this.deathGhost.innerHTML='<span class="mob-shadow"></span><img alt="" draggable="false">';
+      $('battlefield').querySelector('[data-scene-layer=characters]').append(this.deathGhost);
+      this.encounterIntro=node('div','encounter-intro');this.encounterIntro.setAttribute('role','status');this.encounterIntro.innerHTML='<small></small><strong></strong><span></span>';
+      this.phaseVeil=node('div','phase-transition-veil');this.phaseVeil.setAttribute('aria-hidden','true');$('arenaCamera').append(this.phaseVeil);
+      this.phaseCurtain=node('div','encounter-curtain');this.phaseCurtain.setAttribute('role','status');this.phaseCurtain.innerHTML='<small></small><strong></strong>';
+      this.expeditionReceipt=node('section','expedition-receipt');this.expeditionReceipt.setAttribute('role','status');this.expeditionReceipt.innerHTML='<small></small><strong></strong><p></p><p></p><button type="button">CONTINUAR</button>';
+      this.expeditionReceipt.querySelector('button').addEventListener('click',()=>this.closeExpeditionReceipt());
+      this.expeditionReceipt.querySelector('button').addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter')e.stopPropagation();});
+      $('battlefield').append(this.encounterIntro,this.phaseCurtain,this.expeditionReceipt);
+      const pause=()=>{if($('appFrame').inert||document.documentElement.classList.contains('hw-lite')){const held=Boolean(this.encounterHold);this.cancelEncounterFX();if(held&&this.state)this.renderCore();}};
+      new MutationObserver(pause).observe($('appFrame'),{attributes:true,attributeFilter:['inert']});
+      new MutationObserver(pause).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+    }
+    encounterMotionEnabled() {
+      return Boolean(this.encounterAnimations) && this.combatMotionEnabled() && $('hudBackdrop').hidden && $('dialogBackdrop').hidden && matchMedia('(min-width:1000px) and (min-height:600px)').matches;
+    }
+    stopEncounterAnimation(key) {
+      const animation=this.encounterAnimations?.get(key);if(!animation)return;
+      this.encounterAnimations.delete(key);animation.cancel();
+    }
+    animateEncounter(key,node,frames,duration,done=()=>{}) {
+      this.stopEncounterAnimation(key);
+      const animation=node.animate(frames,{duration,easing:key==='entry'?'steps(2,end)':'steps(12,end)',fill:'both'});
+      this.encounterAnimations.set(key,animation);
+      animation.finished.then(()=>{if(this.encounterAnimations.get(key)!==animation)return;this.encounterAnimations.delete(key);animation.cancel();done();},()=>{});
+    }
+    closeExpeditionReceipt() {
+      if(!this.encounterAnimations)return;
+      clearTimeout(this.receiptTimer);this.receiptTimer=0;
+      if(this.expeditionReceipt&&!this.expeditionReceipt.hidden)this.expeditionReceipt.hidden=true;
+      this.stopEncounterAnimation('receipt');
+    }
+    cancelEncounterFX(forget=false) {
+      if(!this.encounterAnimations)return;
+      clearTimeout(this.encounterTimer);this.encounterTimer=0;this.encounterHold=null;
+      if(this.encounterAnimations)for(const key of [...this.encounterAnimations.keys()])this.stopEncounterAnimation(key);
+      for(const node of [this.deathGhost,this.encounterIntro,this.phaseCurtain,this.phaseVeil])if(node)node.hidden=true;
+      $('attackTarget').classList.remove('encounter-hidden');$('battlefield').classList.remove('encounter-hold');
+      this.closeExpeditionReceipt();this.pendingExpeditionReceipt=null;
+      if(forget){this.encounterSeenMob=null;this.encounterSeenState=null;}
+    }
+    beginEncounterDeath(defeated,from,visible) {
+      if(this.encounterHold || !visible || !this.encounterMotionEnabled())return;
+      const a=this.combatNumberAnchors.enemy,img=$('monsterArt').querySelector('img');
+      if(!a?.width || !img?.naturalWidth)return;
+      this.stopEncounterAnimation('entry');this.stopEncounterAnimation('intro');this.encounterIntro.hidden=true;
+      this.stopEncounterAnimation('curtain');this.stopEncounterAnimation('veil');this.phaseCurtain.hidden=true;this.phaseVeil.hidden=true;
+      const record={owner:this.state,targetMob:defeated,from};this.encounterHold=record;
+      $('battlefield').classList.add('encounter-hold');text('mobLevel','DERROTADO');
+      const duration=defeated.kind==='boss'?Math.max(FX_CONFIG.encounter.bossDeathMs,FX_CONFIG.impact.finalMs):FX_CONFIG.encounter.deathMs;
+      if(defeated.kind!=='boss'){
+        const ghost=this.deathGhost,{width,height}=this.arenaSize;
+        ghost.querySelector('img').src=img.getAttribute('src');
+        for(const [key,value]of Object.entries({left:a.x/width*100+'%',top:a.y/height*100+'%',width:a.width/width*100+'%',height:a.height/height*100+'%'}))ghost.style[key]=value;
+        ghost.hidden=false;this.animateEncounter('death',ghost,[{opacity:1},{opacity:0}],duration);
+      }
+      // Only presentation is delayed. State/rewards and overflow damage stay synchronous.
+      this.encounterTimer=setTimeout(()=>{
+        if(this.encounterHold!==record)return;
+        this.encounterTimer=0;this.encounterHold=null;this.deathGhost.hidden=true;this.stopEncounterAnimation('death');
+        $('battlefield').classList.remove('encounter-hold');
+        if(this.state!==record.owner || document.hidden){this.cancelEncounterFX();return;}
+        this.renderCore();this.presentPhaseChange(record.from);this.presentExpeditionReceipt();
+      },duration);
+    }
+    renderEncounterFX() {
+      const s=this.state;if(!s)return;
+      if(this.encounterSeenState!==s){this.encounterSeenState=s;this.encounterSeenMob=null;}
+      if(this.encounterSeenMob===s.mob)return;
+      this.stopEncounterAnimation('entry');this.stopEncounterAnimation('intro');this.encounterIntro.hidden=true;
+      this.encounterSeenMob=s.mob;
+      if(!['boss','miniboss','elite'].includes(s.mob.kind)||s.deadUntil||!this.encounterMotionEnabled())return;
+      const c=FX_CONFIG.encounter,banner=this.encounterIntro;
+      banner.querySelector('small').textContent=`${s.mob.kind==='boss'?'CHEFÃO':'ELITE'} · FASE ${combatStage(s)}/10`;
+      banner.querySelector('strong').textContent=s.mob.name;
+      banner.querySelector('span').textContent=c.titles[s.zone][s.mob.kind==='boss'?1:0];banner.hidden=false;
+      this.animateEncounter('intro',banner,[{opacity:0},{opacity:1,offset:.1},{opacity:1,offset:.83},{opacity:0}],c.introMs,()=>{banner.hidden=true;});
+      const idle=$('monsterArt').querySelector('.actor-idle');
+      if(idle)this.animateEncounter('entry',idle,[{opacity:.4,transform:`translateX(${c.entryPx}px)`},{opacity:1,transform:'translateX(0)'}],c.entryMs);
+    }
+    presentPhaseChange(from) {
+      const s=this.state;if(!s||!this.encounterMotionEnabled())return;
+      if(from.zone===s.zone&&from.stage===combatStage(s)&&(from.cleared||!progressAt(s).cleared))return;
+      this.phaseVeil.hidden=false;this.animateEncounter('veil',this.phaseVeil,[{opacity:0},{opacity:1,offset:.35},{opacity:0}],FX_CONFIG.encounter.curtainMs,()=>{this.phaseVeil.hidden=true;});
+      if(this.pendingExpeditionReceipt||s.mob.kind!=='normal')return;
+      const node=this.phaseCurtain;node.querySelector('small').textContent=ZONES[s.zone].name;node.querySelector('strong').textContent=`FASE ${combatStage(s)} / 10`;node.hidden=false;
+      this.animateEncounter('curtain',node,[{opacity:0},{opacity:1,offset:.2},{opacity:1,offset:.65},{opacity:0}],FX_CONFIG.encounter.curtainMs,()=>{node.hidden=true;});
+    }
+    presentExpeditionReceipt() {
+      const receipt=this.pendingExpeditionReceipt;this.pendingExpeditionReceipt=null;
+      if(!this.encounterAnimations||!receipt||receipt.owner!==this.state||document.hidden||!$('authScreen').hidden)return;
+      this.closeExpeditionReceipt();this.stopEncounterAnimation('intro');this.stopEncounterAnimation('curtain');this.encounterIntro.hidden=true;this.phaseCurtain.hidden=true;const node=this.expeditionReceipt;
+      node.querySelector('small').textContent=receipt.final?'EXPEDIÇÃO CONCLUÍDA':'REGIÃO CONCLUÍDA';
+      node.querySelector('strong').textContent=ZONES[receipt.zone].name;
+      const rows=node.querySelectorAll('p');rows[0].textContent=`+${fmt(receipt.gold)} ouro · +${fmt(receipt.xp)} XP · ${receipt.trophy}`;
+      rows[1].textContent=receipt.final?'As seis regiões foram conquistadas. Sua jornada continua.':`Próxima região: ${ZONES[this.state.zone].name} · FASE ${combatStage(this.state)}/10`;
+      node.hidden=false;
+      if(this.encounterMotionEnabled())this.animateEncounter('receipt',node,[{opacity:0},{opacity:1}],160);
+      this.receiptTimer=setTimeout(()=>this.closeExpeditionReceipt(),FX_CONFIG.encounter.receiptMs);
     }
     configureAtmosphereFX() {
       const root=document.documentElement,i=FX_CONFIG.idle,o=FX_CONFIG.orb;
@@ -514,6 +623,7 @@
       if (profile) {profile.name=this.state.name;profile.lastPlayed=now();this.storeProfiles(profiles);}
     }
     showAuth() {
+      this.cancelEncounterFX(true);
       this.stopLoop();
       this.resetEnemyHealthTrail();
       this.resetHeroHealthTrail();
@@ -557,6 +667,7 @@
       }
     }
     activate(profile,state) {
+      this.cancelEncounterFX(true);
       this.resetEnemyHealthTrail();
       this.resetHeroHealthTrail();
       this.clearCombatNumbers();
@@ -812,6 +923,7 @@
       this.spawnCombatNumber(label,heal?'healing':'hero-hit',true);
     }
     killHero() {
+      this.cancelEncounterFX(true);
       const s=this.state;
       if(s.deadUntil)return;
       s.heroHp=0;
@@ -848,6 +960,8 @@
       this.loopTimer=setTimeout(()=>this.loop(),100);
     }
     attack() {
+      this.closeExpeditionReceipt();
+      this.stopEncounterAnimation('entry');
       if(this.state?.deadUntil)return;
       if(!this.state || !$('dialogBackdrop').hidden || !$('hudBackdrop').hidden)return;
       const b=this.bonuses(),critical=Math.random()<b.crit;
@@ -1012,7 +1126,7 @@
     damageMob(amount,fromClick,critical) {
       const s=this.state;
       if(!s || s.deadUntil || amount<=0)return;
-      if(fromClick){this.floatNumber(`${critical?'CRÍTICO! ':''}−${fmt(amount)}`,critical?'crit':'');this.playCombatImpact(critical,amount,s.mob.maxHp);}
+      if(fromClick && !this.encounterHold){this.floatNumber(`${critical?'CRÍTICO! ':''}−${fmt(amount)}`,critical?'crit':'');this.playCombatImpact(critical,amount,s.mob.maxHp);}
       let remaining=amount;
       let chain=0;
       while(remaining>0 && chain++<12){
@@ -1029,7 +1143,10 @@
       const defeated=s.mob;
       const kind=defeated.kind||'normal';
       const name=defeated.name;
-      if(kind==='boss')this.playHitDecorations(true,true);
+      const from={zone:s.zone,stage:combatStage(s),cleared:progressAt(s).cleared,gold:s.gold};
+      const visible=this.encounterSeenMob===defeated && !this.encounterHold;
+      if(kind==='boss' && visible)this.playHitDecorations(true,true);
+      this.beginEncounterDeath(defeated,from,visible);
       const multiplier=kind==='boss'?18:kind==='miniboss'?7:1;
       const gold=Math.floor(multiply(multiply(rewardGold(s),multiplier),this.bonuses().gold));
       const xp=Math.floor(multiply(rewardXp(s),kind==='boss'?14:kind==='miniboss'?6:1));
@@ -1048,7 +1165,8 @@
       }else if(kind==='boss'){
         progress.bossDefeated=true;progress.cleared=true;progress.stage=10;progress.kills=10;
         this.dropMaterial(5);
-        this.awardEquipment(weightedPick(['raro','epico','lendario'],[90,9,1]),3);
+        const trophy=this.awardEquipment(weightedPick(['raro','epico','lendario'],[90,9,1]),3);
+        if(!from.cleared)this.pendingExpeditionReceipt={owner:s,zone:from.zone,gold:Math.max(0,s.gold-from.gold),xp,trophy:trophy?.name||'Tesouro convertido conforme a Mochila',final:from.zone===ZONES.length-1};
         this.addLog(`CHEFÃO ${name} DERROTADO! ${ZONES[s.zone].name} foi conquistada! +${fmt(gold)} ouro e +${fmt(xp)} XP.`,'◆','epic');
         this.toast(`CHEFÃO DERROTADO! ${s.zone===ZONES.length-1?'Todas as regiões conquistadas!':'Nova região liberada!'}`,'epic');
         travelNext=s.zone<ZONES.length-1;
@@ -1084,7 +1202,10 @@
       }
       s.mob=freshMob(s,defeated.name);
       s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
+      if(this.encounterHold)this.encounterHold.targetMob=s.mob;
       this.renderCore();
+      if(!this.encounterHold){this.presentPhaseChange(from);this.presentExpeditionReceipt();}
+      if(kind==='boss' && !from.cleared)this.save();
       if(!$('hudBackdrop').hidden && (this.tab==='inventory'||this.tab==='zones'))this.renderPanel();
     }
     nextEventDelay() {return Math.floor(randEventDelay()/(1+this.state.skills.r3*.14));}
@@ -1404,6 +1525,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       ],'◆');
     }
     performAscension(gain) {
+      this.cancelEncounterFX(true);
       const s=this.state;
       s.souls=add(s.souls,gain);
       s.level=1;s.xp=0;s.gold=0;s.zone=0;s.zoneKills=Array(ZONES.length).fill(0);s.zoneProgress=ZONES.map(freshProgress);
@@ -1422,6 +1544,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const index=validZone(z);
       if(!unlockedZone(this.state,index)){this.toast(`Região bloqueada. Derrote o chefão da área anterior para entrar.`);return;}
       if(index===this.state.zone)return;
+      this.cancelEncounterFX(true);
       this.state.zone=index;
       this.state.farmStage=null;this.state.farmKills=0;
       this.huntSelection=null;
@@ -1436,6 +1559,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
     setHuntMode(stage) {
       const s=this.state;if(!s)return;
       if(stage!==null && (!Number.isInteger(stage)||stage<1||stage>progressAt(s).stage))return;
+      this.cancelEncounterFX(true);
       s.farmStage=stage;s.farmKills=0;s.mob=freshMob(s);
       this.huntSelection=stage;
       s.nextEnemyAttackAt=now()+enemyAttackInterval(s.mob);
@@ -1533,7 +1657,8 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       const s=this.state;
       if(!s)return;
       const b=this.bonuses();
-      this.renderScene();
+      if(this.encounterHold && (this.encounterHold.owner!==s || this.encounterHold.targetMob!==s.mob || s.deadUntil || !this.encounterMotionEnabled()))this.cancelEncounterFX();
+      if(!this.encounterHold)this.renderScene();
       text('goldValue',fmt(s.gold));
       text('prestigeValue',fmt(s.souls));
       const points = attributePoints(s);
@@ -1588,6 +1713,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       text('rebirths',fmt(s.rebirths));
       text('runStatus',`JORNADA ${this.roman(Math.min(30,s.rebirths+1))}`);
       text('currentZoneShort',ZONES[s.zone].rune);
+      if(this.encounterHold){this.renderEnemyHealth();text('mobHPText',`${fmt(Math.ceil(s.mob.hp))} / ${fmt(s.mob.maxHp)}`);this.renderEvent();return;}
       const phase=progressAt(s),bossKind=s.mob.kind;
       text('mobName',s.mob.name);
       prop('mobName','title',s.mob.name);
@@ -1653,6 +1779,7 @@ Itens equipados e poções serão preservados. A venda não pode ser desfeita.`,
       text('inventoryCount',s.inventory.length);
       this.renderMilestone();
       this.renderEvent();
+      this.renderEncounterFX();
     }
     roman(n) {
       const pairs=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];

@@ -3,6 +3,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const {chromium}=require('playwright'),sharp=require('sharp');
 const root=path.resolve(__dirname,'..'),shots=process.env.HUD_SCREENSHOTS;
 const original=execFileSync('git',['show','1373015d3e1b90d9d282513f308a3468033140e5:index.html'],{cwd:root,encoding:'utf8'});
+const originalGame=execFileSync('git',['show','1373015d3e1b90d9d282513f308a3468033140e5:game.js'],{cwd:root,encoding:'utf8'});
 const server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+decodeURIComponent(req.url.split('?')[0]==='/'?'/index.html':req.url.split('?')[0]));if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(file,(e,b)=>{res.writeHead(e?404:200,{'Content-Type':({'.html':'text/html','.js':'application/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.woff':'font/woff'})[path.extname(file)]||'application/octet-stream'});res.end(e?'':b);});});
 (async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox','--no-zygote','--use-gl=angle','--use-angle=swiftshader','--disable-vulkan','--disable-features=Vulkan']});
@@ -10,7 +11,7 @@ const server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+deco
  async function open(mode){
   const p=await browser.newPage({viewport:{width:1366,height:768}});p.on('pageerror',e=>errors.push(e.message));
   if(mode==='baseline')await p.route('**/',r=>r.fulfill({contentType:'text/html',body:original}));
-  await p.route('**/game.js?*',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'game.js'),'utf8').replace('  new Game();','  window.__sceneTest={g:new Game(),ZONES};')}));
+  await p.route('**/game.js?*',r=>r.fulfill({contentType:'application/javascript',body:(mode==='baseline'?originalGame:fs.readFileSync(path.join(root,'game.js'),'utf8')).replace('  new Game();','  window.__sceneTest={g:new Game(),ZONES};')}));
   if(mode==='missing')await p.route('**/campos-de-cinza-foreground.png',r=>r.fulfill({status:404,body:''}));
   if(mode==='mismatch'){const pixel=await sharp({create:{width:8,height:8,channels:4,background:'#fff'}}).png().toBuffer();await p.route('**/campos-de-cinza-mist.png',r=>r.fulfill({contentType:'image/png',body:pixel}));}
   if(mode==='empty')await p.route('**/scene-layers.js?*',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'scene-layers.js'),'utf8').replace('// Public configuration',"SCENE_CONFIG.regions[0].layers=[];\n  // Public configuration")}));
